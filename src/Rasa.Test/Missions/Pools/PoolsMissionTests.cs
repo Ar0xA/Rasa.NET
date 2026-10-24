@@ -1,12 +1,173 @@
-using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Rasa.Test.Missions.Pools
 {
-    /// <summary>The Valverde Pools missions (PoolsMissionDataV1, revision pools_1_16_5). None yet.</summary>
+    using Rasa.Services.Preloader.Missions.Plateau;
+    using Rasa.Services.Preloader.Missions.Pools;
+    using Rasa.Structures;
+    using Rasa.Structures.World;
+    using Rasa.Test.Missions.Wilderness;
+
+    /// <summary>
+    /// The Valverde Pools missions (PoolsMissionDataV1, revision pools_1_16_5): the Snake Pit's Building Materials (1314)
+    /// and Medicinal Measures (1066), with Supply Chief Riggins and Dr. Hester (Pools_snake_pit). Amee Corman's Retreads to
+    /// Retreads (1751) is on the Plateau's revision (PlateauMissionTests): it follows Weapons Trafficking.
+    /// </summary>
+    [TestClass]
+    [DoNotParallelize]
     public class PoolsMissionTests
     {
-        internal static readonly uint[] MissionIds = Array.Empty<uint>();
+        /// <summary>The Pools missions the World migrations enable, for the tests that pin the enabled set.</summary>
+        internal static readonly uint[] MissionIds =
+        {
+            PoolsBuildingMaterialsV1.MissionId, PoolsMedicinalMeasuresV1.MissionId
+        };
 
-        internal const int Indicators = 0;
+        /// <summary>Medicinal Measures' one, on the Mawflower field; Building Materials has none (its creatures are all over the Pools).</summary>
+        internal const int Indicators = 1;
+
+        private const string Before = "20270401000000_Plateau_retreads_to_retreads";
+        private const string SnakePit = "20270402000000_Pools_snake_pit";
+
+        [TestMethod]
+        public void TheMissionsAreEnabledOperationalAndGivenByTheirNpcs()
+        {
+            var expected = new (uint Mission, uint? Giver, uint? Receiver, uint Level)[]
+            {
+                (PoolsBuildingMaterialsV1.MissionId, PoolsSnakePitNpcsV1.Riggins, PoolsSnakePitNpcsV1.Riggins, 33),
+                (PoolsMedicinalMeasuresV1.MissionId, PoolsSnakePitNpcsV1.Hester, PoolsSnakePitNpcsV1.Hester, 35)
+            };
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var enabled = harness.World.MissionContentDefinitionEntries.AsNoTracking()
+                .Where(entry => entry.Enabled && entry.ContentRevision == PoolsMissionDataV1.Revision).ToArray();
+            CollectionAssert.AreEquivalent(MissionIds, enabled.Select(entry => entry.MissionId).ToArray());
+            foreach (var (mission, giver, receiver, level) in expected)
+            {
+                var entry = enabled.Single(row => row.MissionId == mission);
+                Assert.AreEqual<uint?>(giver, entry.GiverId, $"{mission} giver");
+                Assert.AreEqual<uint?>(receiver, entry.ReceiverId, $"{mission} receiver");
+                Assert.AreEqual<uint?>(level, entry.Level, $"{mission} level");
+                Assert.AreEqual<uint?>(PoolsMissionDataV1.CategoryId, entry.CategoryId);
+            }
+            // Riggins and Hester stand at the Snake Pit, on Valverde Pools, with their names, level and packages.
+            foreach (var (npc, name, package) in new (uint, uint, uint)[] { (650200, 9385, 650200), (650201, 8865, 1129) })
+            {
+                Assert.AreEqual(1304U, harness.World.SpawnPoolEntries.AsNoTracking().Single(row => row.Id == npc).MapContextId, $"{npc} map");
+                var creature = harness.World.CreatureEntries.AsNoTracking().Single(row => row.Id == npc);
+                Assert.AreEqual((name, 40U), (creature.NameId, creature.Level), $"{npc} name and level");
+                Assert.AreEqual(package, harness.World.NpcPackageEntries.AsNoTracking().Single(row => row.Id == npc).PackageId, $"{npc} package");
+            }
+
+            Assert.IsFalse(harness.Manager.LoadMissions().BlocksReadiness);
+            foreach (var id in MissionIds)
+                Assert.IsTrue(harness.Manager.LoadedMissions[id].IsOperational,
+                    $"{id}: {harness.Manager.LoadedMissions[id].OperationalDiagnostic}");
+        }
+
+        /// <summary>
+        /// The client's own texts: the ids are written out here from the client tables (missionconversation,
+        /// missionobjective), not taken from the data classes, so a wrong id in those fails.
+        /// </summary>
+        [TestMethod]
+        public void TitlesAndObjectivesUseTheClientsTexts()
+        {
+            var expected = new (uint Mission, uint Title, (uint Objective, uint Name, uint Body, uint? Counter)[] Objectives)[]
+            {
+                (1314, 10666, new (uint, uint, uint, uint?)[] { (1, 10671, 10672, null), (2, 10673, 10674, null), (3, 10675, 10676, null) }),
+                (1066, 6005, new (uint, uint, uint, uint?)[] { (1, 6019, 7644, null), (2, 6019, 7644, null) })
+            };
+            using var harness = WildernessRuntimeTestHarness.Create();
+            foreach (var (mission, title, objectives) in expected)
+            {
+                Assert.AreEqual(title, harness.World.MissionContentDefinitionEntries.AsNoTracking()
+                    .Single(entry => entry.MissionId == mission && entry.ContentRevision == PoolsMissionDataV1.Revision)
+                    .ClientNameTextId, $"{mission} title");
+                var actual = harness.World.MissionObjectiveDefinitionEntries.AsNoTracking()
+                    .Where(entry => entry.MissionId == mission && entry.ContentRevision == PoolsMissionDataV1.Revision).ToArray();
+                CollectionAssert.AreEquivalent(objectives.Select(row => row.Objective).ToArray(),
+                    actual.Select(row => row.ObjectiveId).ToArray(), $"{mission} objectives");
+                foreach (var (objective, name, body, counter) in objectives)
+                {
+                    var row = actual.Single(entry => entry.ObjectiveId == objective);
+                    Assert.AreEqual(name, row.ClientNameTextId, $"{mission}.{objective} name");
+                    Assert.AreEqual(body, row.ClientBodyTextId, $"{mission}.{objective} body");
+                    Assert.AreEqual(counter, row.ClientCounter0TextId, $"{mission}.{objective} counter0");
+                    Assert.IsNull(row.ClientCounter1TextId, $"{mission}.{objective} counter1");
+                    Assert.IsNull(row.ClientCounter2TextId, $"{mission}.{objective} counter2");
+                }
+            }
+        }
+
+        /// <summary>Building Materials and Medicinal Measures have no requirement (TaRapedia).</summary>
+        [TestMethod]
+        public void TheSnakePitsFirstMissionsHaveNoRequirement()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var prerequisites = harness.World.MissionPrerequisiteEntries.AsNoTracking()
+                .Where(entry => entry.ContentRevision == PoolsMissionDataV1.Revision).ToArray();
+            Assert.HasCount(0, prerequisites);
+        }
+
+        /// <summary>The missions' sources and how far each is trusted: the client 1.0, TaRapedia 0.5, the reconstruction 0.3.</summary>
+        [TestMethod]
+        public void TheSourcesAreTrustedAsFarAsTheyGo()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var evidence = harness.World.MissionEvidenceEntries.AsNoTracking()
+                .Where(entry => entry.ContentRevision == PoolsMissionDataV1.Revision).ToArray();
+            foreach (var (mission, confidences) in new (uint, (MissionEvidenceSourceKind, double)[])[]
+            {
+                (1314, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
+                    (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
+                (1066, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
+                    (MissionEvidenceSourceKind.Reconstruction, 0.3) })
+            })
+                CollectionAssert.AreEqual(confidences, evidence.Where(entry => entry.MissionId == mission)
+                    .OrderBy(entry => entry.EvidenceId).Select(entry => (entry.SourceKind, entry.Confidence)).ToArray(),
+                    $"{mission} evidence");
+        }
+
+        [TestMethod]
+        public void IndicatorsCarryNoOtherMissionsClientName()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var indicators = harness.World.MissionIndicatorEntries.AsNoTracking()
+                .Where(entry => entry.ContentRevision == PoolsMissionDataV1.Revision).ToArray();
+            Assert.HasCount(Indicators, indicators);
+            foreach (var row in indicators)
+                Assert.IsTrue(row.IndicatorId > MissionIndicator.UnnamedFrom,
+                    $"mission {row.MissionId} objective {row.ObjectiveId} indicator {row.IndicatorId}");
+        }
+
+        /// <summary>Pools_snake_pit takes out its missions and Riggins and Hester; Retreads to Retreads stays.</summary>
+        [TestMethod]
+        public void TheSnakePitRollsBackWithItsMigration()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var world = harness.World;
+            bool Has(uint mission) => world.MissionContentDefinitionEntries.AsNoTracking()
+                .Any(entry => entry.MissionId == mission && entry.ContentRevision == PoolsMissionDataV1.Revision);
+            int Rows(string table) => world.Database.SqlQueryRaw<int>(
+                $"SELECT COUNT(*) AS Value FROM {table} WHERE id IN ({PoolsSnakePitNpcsV1.Riggins}, {PoolsSnakePitNpcsV1.Hester})").AsEnumerable().Single();
+
+            Assert.IsTrue(Has(PoolsBuildingMaterialsV1.MissionId) && Has(PoolsMedicinalMeasuresV1.MissionId));
+            Assert.AreEqual((2, 2, 2, 12), (Rows("creature"), Rows("spawnpool"), Rows("npc_package"), Rows("creature_appearance")));
+
+            world.GetService<IMigrator>().Migrate(Before);
+            Assert.IsFalse(world.MissionContentDefinitionEntries.Any(entry => entry.ContentRevision == PoolsMissionDataV1.Revision));
+            Assert.IsFalse(world.MissionRewardItemEntries.Any(entry => entry.ContentRevision == PoolsMissionDataV1.Revision));
+            Assert.IsFalse(world.MissionEvidenceEntries.Any(entry => entry.ContentRevision == PoolsMissionDataV1.Revision));
+            Assert.IsFalse(world.MissionScenarioEntries.Any(entry => entry.ContentRevision == PoolsMissionDataV1.Revision));
+            Assert.AreEqual((0, 0, 0, 0), (Rows("creature"), Rows("spawnpool"), Rows("npc_package"), Rows("creature_appearance")));
+            Assert.IsTrue(world.MissionContentDefinitionEntries.Any(entry => entry.MissionId == PlateauRetreadsToRetreadsV1.MissionId &&
+                entry.ContentRevision == PlateauMissionDataV1.Revision));
+
+            world.GetService<IMigrator>().Migrate(SnakePit);
+            Assert.IsTrue(Has(PoolsBuildingMaterialsV1.MissionId) && Has(PoolsMedicinalMeasuresV1.MissionId));
+        }
     }
 }
