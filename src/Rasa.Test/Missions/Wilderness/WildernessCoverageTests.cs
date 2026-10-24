@@ -23,9 +23,9 @@ namespace Rasa.Test.Missions.Wilderness
                 enabled.Where(entry => entry.ContentRevision == WildernessMissionCases.ContentRevision)
                     .Select(entry => entry.MissionId).ToArray());
             // And the battlefields' missions: their Targets of Opportunity (TargetsOfOpportunitySeed),
-            // fourteen, the fifteenth being the Wilderness missions' own 1449; and the Plateau ones.
+            // fourteen, the fifteenth being the Wilderness missions' own 1449; and the Plateau and Valverde Pools ones.
             var battlefields = Rasa.Services.Preloader.TargetsOfOpportunitySeed.Zones.Select(zone => zone.MissionId)
-                .Concat(Plateau.PlateauMissionTests.MissionIds).ToArray();
+                .Concat(Plateau.PlateauMissionTests.MissionIds).Concat(Pools.PoolsMissionTests.MissionIds).ToArray();
             CollectionAssert.AreEquivalent(expected.Concat(WildernessMissionCases.ProtectedBootcampMissionIds)
                     .Concat(battlefields).ToArray(),
                 enabled.Select(entry => entry.MissionId).ToArray());

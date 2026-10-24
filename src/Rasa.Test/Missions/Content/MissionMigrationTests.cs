@@ -93,9 +93,10 @@ namespace Rasa.Test.Missions.Content
         {
             using var harness = BootcampRuntimeTestHarness.Create(useWorldContent: true);
             // Bootcamp's five, the Wilderness outdoor release, and the battlefields' Targets of
-            // Opportunity and Plateau missions.
+            // Opportunity, Plateau and Valverde Pools missions.
             var targets = Rasa.Services.Preloader.TargetsOfOpportunitySeed.Zones.Select(zone => zone.MissionId)
-                .Concat(Rasa.Test.Missions.Plateau.PlateauMissionTests.MissionIds).ToArray();
+                .Concat(Rasa.Test.Missions.Plateau.PlateauMissionTests.MissionIds)
+                .Concat(Rasa.Test.Missions.Pools.PoolsMissionTests.MissionIds).ToArray();
             var expected = WildernessMissionCases.ProtectedBootcampMissionIds.Concat(
                 WildernessMissionCases.All.Where(entry => entry.Disposition == WildernessDisposition.OutdoorRelease)
                     .Select(entry => entry.MissionId)).ToArray();
