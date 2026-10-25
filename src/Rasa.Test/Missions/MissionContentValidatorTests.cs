@@ -85,6 +85,25 @@ namespace Rasa.Test.Missions
             Assert.AreEqual(count == 3, mission.Dialogue.Single().Choices.ContainsKey(3));
         }
 
+        /// <summary>
+        /// A choice may keep its objective open (a menu's page) only when it does nothing that must happen once: its
+        /// transition with CompleteObjective and the like is the "nonterminal" row above.
+        /// </summary>
+        [TestMethod]
+        public void DialogueValidationAcceptsAStayOpenChoiceWithNoOneTimeAction()
+        {
+            var fixture = MissionContentFixture.CreateValid();
+            fixture.Transitions[0].ToState = (byte)MissionObjectiveState.Incomplete;
+            fixture.Actions.RemoveAll(action => action.TransitionId == fixture.Transitions[0].TransitionId);
+            var original = new MissionContentLoader().Load(fixture.CreateRepository()).Definitions[321].Mission;
+            var topic = new MissionDialogueTopicDefinition(10, 77, 11, MissionDialogueKind.Choice,
+                choices: new Dictionary<int, uint> { [1] = 20, [2] = 20 });
+
+            var mission = original.WithDialogue(new[] { topic });
+
+            Assert.IsTrue(mission.IsOperational, mission.OperationalDiagnostic);
+        }
+
         [TestMethod]
         public void TypedDialogueMetadataRoundTripsWithoutChangingHistoricalSceneShapes()
         {

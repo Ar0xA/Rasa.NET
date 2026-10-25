@@ -165,6 +165,16 @@ namespace Rasa.Services.Preloader.Missions.Pools
                 ("from_state", (byte)MissionObjectiveState.Incomplete), ("to_state", (byte)MissionObjectiveState.Completed),
                 ("comment", $"Objective {objective} transition {transition}"));
 
+        /// <summary>
+        /// A way for <paramref name="objective"/> to <paramref name="toState"/>: Failed, or Incomplete for a dialogue choice
+        /// that only does its actions and leaves the objective open (a menu's page, PoolsSpyNetworkingV1).
+        /// </summary>
+        public void Transition(uint objective, uint transition, uint sequence, MissionObjectiveState toState) =>
+            Insert("mission_objective_transition",
+                ("objective_id", objective), ("transition_id", transition), ("sequence", sequence),
+                ("from_state", (byte)MissionObjectiveState.Incomplete), ("to_state", (byte)toState),
+                ("comment", $"Objective {objective} transition {transition} to {toState}"));
+
         /// <summary>Completes <paramref name="objective"/> once objective <paramref name="related"/> reaches <paramref name="state"/>.</summary>
         public void ObjectiveState(uint objective, uint related, MissionObjectiveState state) =>
             Trigger(objective, MissionTriggerKind.ObjectiveState, ("related_objective_id", related), ("related_state", (byte)state));
