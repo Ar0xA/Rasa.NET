@@ -24,7 +24,9 @@ namespace Rasa.Test.Missions.Pools
     /// (1330), with McKormic, Venma, Buckley and Rickert at the Retread Camp (Pools_retread_chain); the supply chain, The
     /// Supply Master (1322), Eastern Listening Post (1323), Smash and Grab (1324) and Spoils of War (1326), with Nakrinx's
     /// patrol and Lieutenant Chester's package (Pools_supply_chain); the spy chain, Spy Networking (1331), Poison Control
-    /// (1368) and Taking the Poison (1590), with Corporal Sheen's package and her stand-in (Pools_spy_chain). Amee
+    /// (1368) and Taking the Poison (1590), with Corporal Sheen's package and her stand-in (Pools_spy_chain); the Lamna
+    /// Armory's Bane Battle Plans (896), Operation Overlord (898) and Blow Them All Up (903), with its givers, key bosses
+    /// and Overlord (Pools_lamna_armory). Amee
     /// Corman's Retreads to
     /// Retreads (1751) is on the Plateau's revision (PlateauMissionTests): it follows Weapons Trafficking.
     /// </summary>
@@ -42,7 +44,8 @@ namespace Rasa.Test.Missions.Pools
             PoolsTestingThePoolsV1.MissionId, PoolsOneMansTrashV1.MissionId, PoolsRetreadPlanningV1.MissionId,
             PoolsRetreadPlanningPartTwoV1.MissionId, PoolsSupplyMasterV1.MissionId, PoolsEasternListeningPostV1.MissionId,
             PoolsSmashAndGrabV1.MissionId, PoolsSpoilsOfWarV1.MissionId, PoolsSpyNetworkingV1.MissionId,
-            PoolsPoisonControlV1.MissionId, PoolsTakingThePoisonV1.MissionId
+            PoolsPoisonControlV1.MissionId, PoolsTakingThePoisonV1.MissionId, PoolsBaneBattlePlansV1.MissionId,
+            PoolsOperationOverlordV1.MissionId, PoolsBlowThemAllUpV1.MissionId
         };
 
         /// <summary>
@@ -54,7 +57,7 @@ namespace Rasa.Test.Missions.Pools
         /// four (the camp three times, the Hermit); Part II's one (Amee); The Supply Master's two (the beat's start, Riggins);
         /// Eastern Listening Post's one (the crate); Smash and Grab's six (the three stores, the three servers); Spoils of
         /// War's one (Snake); Spy Networking's one (the console); Poison Control's and Taking the Poison's three each (the
-        /// canister consoles). Building Materials, Death Patrol and More Clips and
+        /// canister consoles). The Lamna Armory's three have none (instance). Building Materials, Death Patrol and More Clips and
         /// Tags have none (their creatures and bodies are all over the Pools).
         /// </summary>
         internal const int Indicators = 56;
@@ -67,6 +70,7 @@ namespace Rasa.Test.Missions.Pools
         private const string RetreadChain = "20270406000000_Pools_retread_chain";
         private const string SupplyChain = "20270407000000_Pools_supply_chain";
         private const string SpyChain = "20270408000000_Pools_spy_chain";
+        private const string LamnaArmory = "20270409000000_Pools_lamna_armory";
 
         [TestMethod]
         public void TheMissionsAreEnabledOperationalAndGivenByTheirNpcs()
@@ -95,7 +99,10 @@ namespace Rasa.Test.Missions.Pools
                 (PoolsSpoilsOfWarV1.MissionId, 510198, PlateauSnakePitV1.Snake, 35),
                 (PoolsSpyNetworkingV1.MissionId, 510195, null, 32),
                 (PoolsPoisonControlV1.MissionId, 510195, 510195, 32),
-                (PoolsTakingThePoisonV1.MissionId, 510197, 510197, 33)
+                (PoolsTakingThePoisonV1.MissionId, 510197, 510197, 33),
+                (PoolsBaneBattlePlansV1.MissionId, PoolsLamnaArmoryNpcsV1.Arimoro, PoolsLamnaArmoryNpcsV1.Arimoro, 35),
+                (PoolsOperationOverlordV1.MissionId, PoolsLamnaArmoryNpcsV1.Bromfield, PoolsLamnaArmoryNpcsV1.Bromfield, 35),
+                (PoolsBlowThemAllUpV1.MissionId, PoolsLamnaArmoryNpcsV1.Herring, PoolsLamnaArmoryNpcsV1.Herring, 35)
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var enabled = harness.World.MissionContentDefinitionEntries.AsNoTracking()
@@ -143,6 +150,20 @@ namespace Rasa.Test.Missions.Pools
             Assert.AreEqual((sheen.NameId, sheen.ClassId, sheen.Level), (standIn.NameId, standIn.ClassId, standIn.Level), "Sheen's stand-in");
             Assert.AreEqual(1524U, harness.World.NpcPackageEntries.AsNoTracking().Single(row => row.Id == 650212).PackageId);
             Assert.IsFalse(harness.World.SpawnPoolEntries.AsNoTracking().Any(row => row.Id == 650212), "only her mission's scene sets her down");
+            // The Lamna Armory: the givers and the key bosses in pools on its map; Vanduahl and his Kael in no pool.
+            foreach (var (id, name) in new[]
+                {
+                    (PoolsLamnaArmoryNpcsV1.Arimoro, PoolsLamnaArmoryNpcsV1.ArimoroName), (PoolsLamnaArmoryNpcsV1.Bromfield, PoolsLamnaArmoryNpcsV1.BromfieldName),
+                    (PoolsLamnaArmoryNpcsV1.Herring, PoolsLamnaArmoryNpcsV1.HerringName), (PoolsLamnaArmoryNpcsV1.Gaite, PoolsLamnaArmoryNpcsV1.GaiteName),
+                    (PoolsLamnaArmoryNpcsV1.Kwel, PoolsLamnaArmoryNpcsV1.KwelName), (PoolsLamnaArmoryNpcsV1.Fearce, PoolsLamnaArmoryNpcsV1.FearceName),
+                })
+            {
+                Assert.AreEqual(name, harness.World.CreatureEntries.AsNoTracking().Single(row => row.Id == id).NameId, $"{id}");
+                Assert.AreEqual(PoolsLamnaArmoryNpcsV1.MapContextId,
+                    harness.World.SpawnPoolEntries.AsNoTracking().Single(row => row.Id == id).MapContextId, $"{id} in the Armory");
+            }
+            foreach (var id in new[] { PoolsLamnaArmoryNpcsV1.Vanduahl, PoolsLamnaArmoryNpcsV1.Kael })
+                Assert.IsFalse(harness.World.SpawnPoolEntries.AsNoTracking().Any(row => row.Id == id), $"{id}: only the switch sets him down");
 
             Assert.IsFalse(harness.Manager.LoadMissions().BlocksReadiness);
             foreach (var id in MissionIds)
@@ -206,7 +227,17 @@ namespace Rasa.Test.Missions.Pools
                 (1326, 10832, new (uint, uint, uint, uint?)[] { (1, 10837, 10838, null) }),
                 (1331, 10907, new (uint, uint, uint, uint?)[] { (25, 11615, 11616, 11617) }),
                 (1368, 11283, new (uint, uint, uint, uint?)[] { (1, 15000, 15001, null), (3, 15014, 15015, null), (5, 15026, 15027, null) }),
-                (1590, 15038, new (uint, uint, uint, uint?)[] { (1, 15043, 15044, null), (3, 15055, 15056, null), (5, 15067, 15068, null) })
+                (1590, 15038, new (uint, uint, uint, uint?)[] { (1, 15043, 15044, null), (3, 15055, 15056, null), (5, 15067, 15068, null) }),
+                (896, 4716, new (uint, uint, uint, uint?)[]
+                {
+                    (2, 4720, 7339, null), (3, 5961, 7340, null), (4, 5962, 7341, null), (5, 5963, 7342, null), (6, 5963, 7342, null)
+                }),
+                (898, 4743, new (uint, uint, uint, uint?)[]
+                {
+                    (2, 6049, 7334, null), (3, 6050, 7335, null), (4, 6051, 7336, null), (5, 6052, 7337, null),
+                    (6, 6052, 7337, null), (7, 6052, 7337, null), (8, 6052, 7337, null), (9, 6052, 7337, null)
+                }),
+                (903, 4782, new (uint, uint, uint, uint?)[] { (1, 4786, 7344, 4787) })
             };
             // 937's objective 1 shows its second count too: counter 1 "Bane Equipment Locker Destroyed".
             var secondCounters = new Dictionary<(uint, uint), uint> { [(937, 1)] = 5058 };
@@ -251,7 +282,7 @@ namespace Rasa.Test.Missions.Pools
                 .Where(entry => entry.ContentRevision == PoolsMissionDataV1.Revision).ToArray();
             Assert.HasCount(18, prerequisites);
             Assert.IsTrue(prerequisites.All(entry => entry.Kind == MissionPrerequisiteKind.MissionCompleted));
-            foreach (var mission in new uint[] { 1314, 1066, 1315, 1308, 1025, 932 })
+            foreach (var mission in new uint[] { 1314, 1066, 1315, 1308, 1025, 932, 896, 898, 903 })
                 Assert.IsFalse(prerequisites.Any(entry => entry.MissionId == mission), $"{mission}");
             CollectionAssert.AreEquivalent(new uint?[] { 1315 },
                 prerequisites.Where(entry => entry.MissionId == 1321).Select(entry => entry.RequiredMissionId).ToArray());
@@ -324,6 +355,12 @@ namespace Rasa.Test.Missions.Pools
                 (1368, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
                     (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
                 (1590, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
+                    (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
+                (896, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
+                    (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
+                (898, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
+                    (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
+                (903, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
                     (MissionEvidenceSourceKind.Reconstruction, 0.3) })
             })
                 CollectionAssert.AreEqual(confidences, evidence.Where(entry => entry.MissionId == mission)
@@ -341,6 +378,45 @@ namespace Rasa.Test.Missions.Pools
             foreach (var row in indicators)
                 Assert.IsTrue(row.IndicatorId > MissionIndicator.UnnamedFrom,
                     $"mission {row.MissionId} objective {row.ObjectiveId} indicator {row.IndicatorId}");
+        }
+
+        /// <summary>
+        /// Pools_lamna_armory takes out its three missions, its givers, bosses and their pools, Fearce's attacks; the Armory's
+        /// medics and Thrax pool and the spy chain stay.
+        /// </summary>
+        [TestMethod]
+        public void TheLamnaArmoryRollsBackWithItsMigration()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var world = harness.World;
+            var missions = new uint[] { 896, 898, 903 };
+            bool Has(uint mission) => world.MissionContentDefinitionEntries.AsNoTracking()
+                .Any(entry => entry.MissionId == mission && entry.ContentRevision == PoolsMissionDataV1.Revision);
+            int Count(string sql) => world.Database.SqlQueryRaw<int>(sql).AsEnumerable().Single();
+            (int, int, int, int, int) All() => (
+                Count("SELECT COUNT(*) AS Value FROM creature WHERE id BETWEEN 650213 AND 650220"),
+                Count("SELECT COUNT(*) AS Value FROM spawnpool WHERE id BETWEEN 650213 AND 650220"),
+                Count("SELECT COUNT(*) AS Value FROM npc_package WHERE id BETWEEN 650213 AND 650220"),
+                Count("SELECT COUNT(*) AS Value FROM creature_action WHERE id IN (650038, 650039)"),
+                Count("SELECT COUNT(*) AS Value FROM mission_scene_binding WHERE mission_id IN (896, 898, 903)"));
+            int Stays() => Count("SELECT COUNT(*) AS Value FROM spawnpool WHERE map_context_id = 1465 AND id NOT BETWEEN 650213 AND 650220");
+
+            Assert.IsTrue(missions.All(Has));
+            Assert.AreEqual((8, 6, 3, 2, 3), All());
+            var stays = Stays();
+
+            world.GetService<IMigrator>().Migrate(SpyChain);
+            Assert.IsFalse(missions.Any(Has));
+            Assert.AreEqual((0, 0, 0, 0, 0), All());
+            Assert.AreEqual(0, Count("SELECT COUNT(*) AS Value FROM creature_appearance WHERE id BETWEEN 650213 AND 650220"));
+            Assert.AreEqual(0, Count("SELECT COUNT(*) AS Value FROM creature_stat WHERE id BETWEEN 650213 AND 650220"));
+            Assert.IsFalse(world.MissionEvidenceEntries.Any(entry => missions.Contains(entry.MissionId)));
+            Assert.AreEqual(stays, Stays(), "the medics and the Thrax pool stay");
+            Assert.IsTrue(Has(PoolsSpyNetworkingV1.MissionId));
+
+            world.GetService<IMigrator>().Migrate(LamnaArmory);
+            Assert.IsTrue(missions.All(Has));
+            Assert.AreEqual((8, 6, 3, 2, 3), All());
         }
 
         /// <summary>

@@ -1,6 +1,6 @@
 # Valverde Pools missions: sources (cross-reference)
 
-The 24 missions of the Valverde Pools quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 27 missions of the Valverde Pools quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -10,7 +10,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 | Zone | Missions |
 | --- | ---: |
 | Plateau | 1 |
-| Pools | 23 |
+| Pools | 26 |
 
 ## Plateau
 
@@ -162,6 +162,101 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
   - Leads to: Stick Your Neck Out (id 1329) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Retread_Planning), [TaRapedia](https://tabularasa.fandom.com/wiki/Stick_Your_Neck_Out)
   - Leads to: Retread Planning Part II (id 1330) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Retread_Planning), [TaRapedia](https://tabularasa.fandom.com/wiki/Retread_Planning_Part_II), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 - **TR MMO DB quest series:** "Retread Planning", row 1 of 2 ([list](https://web.archive.org/web/20120731164744/http://tr.mmodb.com/quests/seriesname-retread_planning/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
+
+### 896 — Bane Battle Plans
+
+
+- **Rebuild summary:**
+  - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20080905084512/http://tr.mmodb.com/quests/bane-battle-plans-289.php)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - reward: 60000 XP; 5250 credits; choose 1 of: Direct Repair Tool, Electric Pistol, Virulent Disperser, EMP Torqueshell Rifle — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 60,000 XP; 5,250 credits; Dynamo Conical Repair Tool lvl 35; Shinobi Electric Pistol lvl 35; Vitalius Virulent Disperser lvl 32; AccuMax EMP Torqueshell Rifle lvl 33 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Bane_Battle_Plans_%28Lamna_Armory%29)
+  - reward: 5250 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20080905084512/http://tr.mmodb.com/quests/bane-battle-plans-289.php)
+  - reward: “Return to Sebastian for your reward which is a Vitalus Sonic Shotgun or Teleract Motor Assist Boots.” — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/foreas-base-missions)
+  - reward: “Return to Marquette when you have successfully completed the mission for your choice of Olympia Hazmat Armor Legs or a Vextronics Shotgun.” — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/northwestern-highlands-and-nidu-dav-missions)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Lt. Sebastian: Divide, Foreas Base, /loc -48, 119, 434 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Lt._Sebastian)
+  - location: Sebastian at -47.5, 119.4, 438.7 in the command center. — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/foreas-base-missions)
+  - location: Dissections II - This mission requires you to complete Dissections which begins with Medic Markis in Thoria Das around 276.4, 170.0, 1086.5. — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/foreas-base-missions)
+- **Client:** Find the battleplans and return them to Captain Arimoro.
+  - objectives (client): Acquire the First Blueprint; Acquire the Second Blueprint; Acquire the Third Blueprint; Acquire the Blueprints
+- **This PR:** revision `pools_1_16_5`, level 35, solo, category 10000061 (Battlefield (Pools)), giver Captain Arimoro
+  - reward: 60000 XP; 5250 credits; choose 1 of: Direct Repair Tool, Electric Pistol, Virulent Disperser, EMP Torqueshell Rifle
+- **TaRapedia** [Bane Battle Plans (Lamna Armory)](https://tabularasa.fandom.com/wiki/Bane_Battle_Plans_%28Lamna_Armory%29) (base-title title match): giver: Captain Arimoro; at: Lamna Armory; zone: Pools; requires: none; follow-up: none; XP: 60,000; credits: 5,250; items: Dynamo Conical Repair Tool lvl 35; Shinobi Electric Pistol lvl 35; Vitalius Virulent Disperser lvl 32; AccuMax EMP Torqueshell Rifle lvl 33; reward from: Captain Arimoro
+  - overview: • Find the battleplans and return them to Captain Arimoro.
+  - objectives: • Acquire the First Blueprint • Acquire the Second Blueprint • Acquire the Third Blueprint • Acquire the Blueprints • Bane Battle Plans 0 / 3
+  - walkthrough: The mission completion statement is deceptive. It acts like another mission is about to be assigned, but this one is stand alone (currently). The comments made might tie into the Trinity Bridge story. All blueprints are actually computer cards found in computer consoles in the chambers immediately to the west of the mission givers' room. You will also find a boss there who will drop one of the passkeys needed for another mission.
+- **TaRapedia mission list** [Lamna Armory mission list](https://tabularasa.fandom.com/wiki/Lamna_Armory_mission_list): zone Pools, given by Captain Arimoro
+- **Ten Ton Hammer** [foreas-base-missions](https://www.tentonhammer.com/guides/foreas-base-missions): “Bane Battle Plans - This quest begins with Lt. Sebastian at -47.5, 119.4, 438.7 in the command center. He wants you to retrieve some battle plans from a few bane. Head over to the Crossroads and just east where you'll find a few Bane encampments. Keep killing them until you get your drop which doesn't usually take long. Return to Sebastian for your reward which is a Vitalus …”
+- **Ten Ton Hammer** [northwestern-highlands-and-nidu-dav-missions](https://www.tentonhammer.com/guides/northwestern-highlands-and-nidu-dav-missions): “Bane Battle Plans which begins with Lieutenant Sebastian in the Foreas Base command center around -49.1, 119.4, 437.8. Bringing the Battle Home continues with Base Commander Marquette around -42.5, 121.1, 425.9. When you deliver the Bane Battle Plans to you he grows very concerned about an impending attack on Nidu Dav. He wants you to report to Elder Taros, the lead Forean and …”
+- **Ten Ton Hammer** [northwestern-highlands-and-nidu-dav-missions](https://www.tentonhammer.com/guides/northwestern-highlands-and-nidu-dav-missions): “Bane Battle Plans to you he grows very concerned about an impending attack on Nidu Dav. He wants you to report to Elder Taros, the lead Forean and offer whatever assistance you can. Speaking with Elder Toras at -459.9, 145.6, 494.4 will begin an attack sequence and you are required to repel the attack with no more than one Forean defender loss (so a friend might be a good …”
+- **TR MMO DB** [Bane Battle Plans](https://web.archive.org/web/20080905084512/http://tr.mmodb.com/quests/bane-battle-plans-289.php): level: 35; starts at npc: Captain Arimoro; starts in zone: Lamnas Armory; objectives: Acquire the First Blueprint, Acquire the Second Blueprint, Acquire the Third Blueprint, Return to Captain Arimoro; reward: 5250
+- **TR MMO DB NPC** [Captain Arimoro](https://web.archive.org/web/20081121152213/http://tr.mmodb.com/bestiary/captain-arimoro-710.php): Quest NPC, zone Lamnas Armory (starts this quest)
+- **RGTR official site** [rgtr.com:80/news/patch_notes/patch_notes_and_known_issues_109.html](https://web.archive.org/web/20071011062613/http://rgtr.com:80/news/patch_notes/patch_notes_and_known_issues_109.html): “Foreas Concorida Divide / Mission: Bane Battle Plans / Issue: Mission tries to reward 500 Sonic Shotguns to you preventing both completing or abandoning the mission.”
+- **Where (locations / coordinates):**
+  - Sebastian at -47.5, 119.4, 438.7 in the command center. — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/foreas-base-missions)
+  - Dissections II - This mission requires you to complete Dissections which begins with Medic Markis in Thoria Das around 276.4, 170.0, 1086.5. — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/foreas-base-missions)
+  - He'll ask you to bring Warnet samples to Specialist Kerr at 8.7, 116.9, 536.4. — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/foreas-base-missions)
+  - Bane Battle Plans which begins with Lieutenant Sebastian in the Foreas Base command center around -49.1, 119.4, 437.8. — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/northwestern-highlands-and-nidu-dav-missions)
+  - Bringing the Battle Home continues with Base Commander Marquette around -42.5, 121.1, 425.9. — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/northwestern-highlands-and-nidu-dav-missions)
+  - Speaking with Elder Toras at -459.9, 145.6, 494.4 will begin an attack sequence and you are required to repel the attack with no more than one Forean defender loss (so a friend might be a good idea). — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/northwestern-highlands-and-nidu-dav-missions)
+- **NPCs (TaRapedia NPC pages):**
+  - [Lt. Sebastian](https://tabularasa.fandom.com/wiki/Lt._Sebastian): Divide, Foreas Base, /loc -48, 119, 434 (NPC page lists this mission)
+
+### 898 — Operation Overlord
+
+
+- **Rebuild summary:**
+  - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20080907092038/http://tr.mmodb.com/quests/operation-overlord-288.php)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - reward: 60000 XP; 5250 credits; choose 1 of: Cryogenic Injector Gun, Pulse Chaingun, Electric Rifle, Rocket Launcher — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 60,000 XP; 5250 credits; Eclipse Cryogenic Injector Gun lvl 32; Teleract Pulse Chaingun lvl 33; Vitalius Electric Rifle lvl 36; Animatics Rocket Launcher lvl 34 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Operation_Overlord)
+  - reward: 5250 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20080907092038/http://tr.mmodb.com/quests/operation-overlord-288.php)
+  - drops / mission items: / * NPC: Kwel (Lamna Armoury) – The “Weaponsmith’s Key” dropped by boss “Kwel”, and used to progress through Lamna Armoury, can now be obtained without having to take the “Operation Overlord” mission — source: [IGN TR boards](https://web.archive.org/web/20080518034441/http://vnboards.ign.com/tabula_rasa_general_board/b22750/106585290/r106594805/)
+  - location: NPC Scout Bromfield: Lamna Armory, Lamna Armory — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Scout_Bromfield)
+- **Client:** Find and kill Overlord of the Lamna Armory and return to Commander Scout Bromfield.
+  - objectives (client): Acquire Security Key; Acquire Quartermaster Key; Acquire Weaponsmith Key; Kill the Overlord
+- **This PR:** revision `pools_1_16_5`, level 35, solo, category 10000061 (Battlefield (Pools)), giver Scout Bromfield
+  - reward: 60000 XP; 5250 credits; choose 1 of: Cryogenic Injector Gun, Pulse Chaingun, Electric Rifle, Rocket Launcher
+- **TaRapedia** [Operation Overlord](https://tabularasa.fandom.com/wiki/Operation_Overlord): giver: Scout Bromfield; at: Lamna Armory; zone: Pools; requires: none; follow-up: none; XP: 60,000; credits: 5250; items: Eclipse Cryogenic Injector Gun lvl 32; Teleract Pulse Chaingun lvl 33; Vitalius Electric Rifle lvl 36; Animatics Rocket Launcher lvl 34; reward from: Scout Bromfield
+  - overview: Find and kill Overlord of the Lamna Armory and return to Commander Scout Bromfield. • Acquire keys from three bosses, then use them to access and kill the Overlord of the armory.
+  - objectives: • Acquire Security Key • Acquire Quartermaster Key • Acquire Weaponsmith Key • Kill the Overlord
+  - walkthrough: The three key bosses are: a Thrax grenadier in the chambers immediately west of the mission giver; a standard Thrax infantry (black carapace) located in the testing labs below; and a Lightbender sniper located in the Storage area. Please note that each of these three respawns rather rapidly, and several engineers respawn around the Lightbender, so don't carelessly stand around after killing everything. The key cards will have to be inserted into 3 stations on the south side of the Testing Arena. Once all are placed, the fourth station with them can be used to turn off the laser door to the …
+- **TaRapedia mission list** [Lamna Armory mission list](https://tabularasa.fandom.com/wiki/Lamna_Armory_mission_list): zone Pools, given by Scout Bromfield
+- **TR MMO DB** [Operation Overlord](https://web.archive.org/web/20080907092038/http://tr.mmodb.com/quests/operation-overlord-288.php): level: 35; starts at npc: Scout Bromfield; starts in zone: Lamnas Armory; objectives: Acquire Security Key, Acquire Quartermaster Key, Acquire Weaponsmith Key, Slay the Overlord, Return to Scout Bromfield; description: SPOILER: You need to slay a Lightbender Sniper in the Storage room, a Thrax Infantry in the Testing Labs, and a Thrax Grenadier in the Chambers just to the west of Scout Bromfield. They drop the keys.; reward: 5250
+  - related mob Thrax Grenadier (not in the archived bestiary pages)
+- **IGN TR boards** [vnboards.ign.com/tabula_rasa_general_board/b22750/106585290/r106594805 …](https://web.archive.org/web/20080518034441/http://vnboards.ign.com/tabula_rasa_general_board/b22750/106585290/r106594805/): “* Map: (Chaukas Robotics Facility) – added waypoint teleporter at the beginning of the map. / * Mission: “Operation Overlord” (Lamna Armoury) – Players can now acquire Logos: Distance if the mission has already been completed. / * NPC: Kwel (Lamna Armoury) – The “Weaponsmith’s Key” dropped by boss “Kwel”, and used to progress through Lamna Armoury, can now be obtained without having to take the “Operation Overlord” mission.”
+- **NPCs (TaRapedia NPC pages):**
+  - [Scout Bromfield](https://tabularasa.fandom.com/wiki/Scout_Bromfield): Lamna Armory, Lamna Armory (NPC page lists this mission)
+- **Drops / item sources:**
+  - / * NPC: Kwel (Lamna Armoury) – The “Weaponsmith’s Key” dropped by boss “Kwel”, and used to progress through Lamna Armoury, can now be obtained without having to take the “Operation Overlord” mission — source: [IGN TR boards](https://web.archive.org/web/20080518034441/http://vnboards.ign.com/tabula_rasa_general_board/b22750/106585290/r106594805/)
+
+### 903 — Blow Them All Up
+
+
+- **Rebuild summary:**
+  - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20081010235945/http://tr.mmodb.com/quests/blow-them-all-up-290.php)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - reward: 100000 XP; 6600 credits; choose 1 of: Chaingun, Incendiary Net Gun, Exothermic Polarity Gun, Shotgun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 100,000 XP; 6,600 credits; ChiTech Chaingun lvl 33; AccuMax Incendiary Net Gun lvl 31; Vextronics Exothermic Polarity Gun lvl 33; ChiTech Shotgun lvl 32 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Blow_Them_All_Up)
+  - reward: 6600 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081010235945/http://tr.mmodb.com/quests/blow-them-all-up-290.php)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Colonel Herring: Lamna Armory, Lamna Armory — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Colonel_Herring)
+- **Client:** Find and destroy all 20 Bane Weapons Lockers in Lamna Armory and return to Colonel Helling when the job is done.
+  - objectives (client): Destroy 20 Weapons Lockers
+- **This PR:** revision `pools_1_16_5`, level 35, solo, category 10000061 (Battlefield (Pools)), giver Colonel Herring
+  - reward: 100000 XP; 6600 credits; choose 1 of: Chaingun, Incendiary Net Gun, Exothermic Polarity Gun, Shotgun
+- **TaRapedia** [Blow Them All Up](https://tabularasa.fandom.com/wiki/Blow_Them_All_Up): giver: Colonel Herring; at: Lamna Armory; zone: Pools; requires: none; follow-up: none; XP: 100,000; credits: 6,600; items: ChiTech Chaingun lvl 33; AccuMax Incendiary Net Gun lvl 31; Vextronics Exothermic Polarity Gun lvl 33; ChiTech Shotgun lvl 32; reward from: Colonel Herring
+  - overview: • It's a Bane weapons factory...tear it up!
+  - objectives: • Destroy 20 Weapons Lockers
+  - walkthrough: Take the assignment, then fire over his right shoulder. One weapons locker down! In the mission text for Blow Them All Up Col. Herring's name is spelled Col. Helling. This is not correct. The text should refer to Col. Herring.
+- **TaRapedia mission list** [Lamna Armory mission list](https://tabularasa.fandom.com/wiki/Lamna_Armory_mission_list): zone Pools, given by Colonel Herring
+- **TR MMO DB** [Blow Them All Up](https://web.archive.org/web/20081010235945/http://tr.mmodb.com/quests/blow-them-all-up-290.php): level: 35; starts at npc: Colonel Herring; starts in zone: Lamnas Armory; objectives: Destroy 20 Weapons Lockers, Return to Colonel Herring; reward: 6600
+- **NPCs (TaRapedia NPC pages):**
+  - [Colonel Herring](https://tabularasa.fandom.com/wiki/Colonel_Herring): Lamna Armory, Lamna Armory (NPC page lists this mission)
 
 ### 932 — Bane Investigation
 
