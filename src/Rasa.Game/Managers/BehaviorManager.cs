@@ -1683,6 +1683,10 @@ namespace Rasa.Managers
                 patrol.WaitMs = 0;
             }
 
+            // A leader with no attack stands while its guards fight, so they fight by it (PatrolGroups.IsBystander).
+            if (PatrolGroups.HoldsForItsGroup(mapChannel, creature))
+                return;
+
             // A group's leader that turned about waits, its turn made, for the group to re-form.
             if (patrol.Reforming)
             {

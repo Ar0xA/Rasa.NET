@@ -5,6 +5,7 @@ using System.Numerics;
 
 namespace Rasa.Managers
 {
+    using Data;
     using Structures;
 
     /// <summary>
@@ -46,7 +47,9 @@ namespace Rasa.Managers
     ///    creatures always leads: a patrol of equals.
     ///  - It fights as one: one of the group that starts a fight - the scan, a hit - takes the
     ///    rest of the group into it (<see cref="Assist"/>), and a follower out of a fight its
-    ///    leader is still in goes back into it. When the leader is drawn too far off its beat
+    ///    leader is still in goes back into it. One of the group neutral and with no attack (a
+    ///    talkable NPC its guards walk with, <see cref="IsBystander"/>) is not taken in, and as
+    ///    leader it holds its place while they fight. When the leader is drawn too far off its beat
     ///    and runs back (BehaviorManager.Leash), its followers give the fight up with it.
     ///  - A follower fights on a tether to its leader (<see cref="TetherDistance"/>), not a
     ///    leash: it chases no further from it, and at the tether's end, with nothing it can
@@ -589,6 +592,21 @@ namespace Rasa.Managers
         /// the group not in one go into it too, knowing whom it hates. One running home after a
         /// leash does not (BehaviorManager.CanSetActionFighting), nor one a mission scene moves.
         /// </summary>
+        /// <summary>
+        /// A NEUTRAL creature with no attack - a talkable NPC its guards walk with (Nakrinx,
+        /// PoolsSupplyNpcsV1). It is taken into no fight, neither its group's nor by a hit (Threat), and a leader
+        /// that is one holds its place on the beat while one of its group fights (BehaviorManager.AdvancePatrol),
+        /// so its guards stay by it rather than on a tether to a leader that walks on.
+        /// </summary>
+        public static bool IsBystander(Creature creature) =>
+            creature.TargetCategory == TargetCategory.Neutral && creature.Actions.Count == 0;
+
+        /// <summary>A bystander leader's group fights: it holds its place on the beat.</summary>
+        public static bool HoldsForItsGroup(MapChannel map, Creature leader) =>
+            IsBystander(leader) && IsGroup(leader.SpawnPool) && map != null
+            && MembersOf(map, leader.SpawnPool).Any(other => other != leader
+                && other.Controller?.CurrentAction == BehaviorManager.BehaviorActionFighting);
+
         public static void Assist(MapChannel map, Creature creature, ulong targetEntityId)
         {
             if (_assisting || creature.MasterEntityId != 0 || !IsGroup(creature.SpawnPool) || map == null)
@@ -602,6 +620,9 @@ namespace Rasa.Managers
 
                 foreach (var other in MembersOf(map, creature.SpawnPool).Where(other => other != creature).ToList())
                 {
+                    // A bystander is not taken into their fights: it would only chase the target and stand there.
+                    if (IsBystander(other))
+                        continue;
                     if (other.Controller.CurrentAction == BehaviorManager.BehaviorActionFighting
                         || other.Controller.CurrentAction == BehaviorManager.BehaviorActionScriptedMove
                         || other.Controller.ActionFollow.DroppedTargetId == targetEntityId)

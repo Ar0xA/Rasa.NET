@@ -1663,6 +1663,61 @@ namespace Rasa.Test.World
             Assert.AreNotEqual(BehaviorManager.BehaviorActionFighting, guards[0].Controller.CurrentAction);
         }
 
+        /// <summary>
+        /// A neutral leader with no attack - a talkable NPC its guards walk with (Nakrinx, PoolsSupplyNpcsV1) - is not
+        /// taken into its guards' fight, the other guard is; and it holds its place on the beat while they fight.
+        /// </summary>
+        [TestMethod]
+        public void AGroupsFightDoesNotTakeInANeutralLeaderWithNoAttackAndItHolds()
+        {
+            using var world = new WorldTestContext();
+            var watcher = Watch(world, x: 40);
+            var (leader, guards) = Group(world, new[] { new PatrolStep(new Vector3(10, 0, 0)), new PatrolStep(new Vector3(30, 0, 0)) });
+            leader.TargetCategory = TargetCategory.Neutral;
+            Assert.IsTrue(PatrolGroups.IsBystander(leader));
+
+            Record(world, watcher, leader, 4);
+            Assert.IsTrue(BehaviorManager.Instance.TrySetActionFighting(guards[0], watcher.Player.EntityId));
+            var held = leader.Position;
+            Record(world, watcher, leader, 8);
+
+            Assert.AreEqual(BehaviorManager.BehaviorActionFighting, guards[1].Controller.CurrentAction, "the other guard fights");
+            Assert.AreEqual(BehaviorManager.BehaviorActionPatrol, leader.Controller.CurrentAction, "the leader stays on its beat");
+            Assert.IsLessThan(0.01f, Vector3.Distance(held, leader.Position), "and holds its place");
+        }
+
+        /// <summary>A hit on a neutral creature with no attack does not start a fight: it has nothing to fight with.</summary>
+        [TestMethod]
+        public void AHitDoesNotTakeANeutralLeaderWithNoAttackIntoAFight()
+        {
+            using var world = new WorldTestContext();
+            var watcher = Watch(world, x: 40);
+            var (leader, guards) = Group(world, new[] { new PatrolStep(new Vector3(10, 0, 0)), new PatrolStep(new Vector3(30, 0, 0)) });
+            leader.TargetCategory = TargetCategory.Neutral;
+            Record(world, watcher, leader, 4);
+
+            Threat.FromDamage(leader, watcher.Player, 10);
+            Record(world, watcher, leader, 2);
+
+            Assert.AreNotEqual(BehaviorManager.BehaviorActionFighting, leader.Controller.CurrentAction, "the leader does not fight");
+            Assert.IsTrue(guards.All(guard => guard.Controller.CurrentAction != BehaviorManager.BehaviorActionFighting), "nor its guards for it");
+        }
+
+        /// <summary>A hostile leader with no attack is still taken into its guards' fight (only a neutral one is not).</summary>
+        [TestMethod]
+        public void AGroupsFightTakesInAHostileLeaderWithNoAttack()
+        {
+            using var world = new WorldTestContext();
+            var watcher = Watch(world, x: 40);
+            var (leader, guards) = Group(world, new[] { new PatrolStep(new Vector3(10, 0, 0), pauseMs: 600000), new PatrolStep(new Vector3(30, 0, 0)) });
+            Assert.IsEmpty(leader.Actions);
+            Record(world, watcher, leader, 4);
+
+            Assert.IsTrue(BehaviorManager.Instance.TrySetActionFighting(guards[0], watcher.Player.EntityId));
+
+            Assert.AreEqual(BehaviorManager.BehaviorActionFighting, leader.Controller.CurrentAction, "the leader fights");
+        }
+
         [TestMethod]
         public void NoGuardAMissionSceneMovesTakesTheBeatOnAsActingLeader()
         {

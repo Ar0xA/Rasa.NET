@@ -1,6 +1,6 @@
 # Valverde Pools missions: sources (cross-reference)
 
-The 17 missions of the Valverde Pools quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 21 missions of the Valverde Pools quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -10,7 +10,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 | Zone | Missions |
 | --- | ---: |
 | Plateau | 1 |
-| Pools | 16 |
+| Pools | 20 |
 
 ## Plateau
 
@@ -54,7 +54,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB](https://web.archive.org/web/20120731171607/http://tr.mmodb.com/quests/a-cult-divided-276.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 27500 XP; 3400 credits; Class VII Advanced Med Pack, Class VII Armor Charger, Class VII Cryogenic Grenade, Class VII Incendiary Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 27,500 XP; 3,400 credits; Class VII Advanced Med Pack (2); Claee VII Armor Charger (2); Class VII Cryogenic Grenade (4); Class VII Incendiary Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Cult_Divided)
   - reward: 3400 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20120731171607/http://tr.mmodb.com/quests/a-cult-divided-276.php)
@@ -105,7 +105,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 55000 XP; 5100 credits; choose 1 of: Hazmat Armor Helmet, Mech Armor Vest, Motor Assist Armor Helmet, Reflective Armor Helmet — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 55,000 XP; 5,100 credits; lvl 34; lvl 35; lvl 33; lvl 34 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/One_Man%27s_Trash)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -137,7 +137,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 27500 XP; 3300 credits; Class VII EMP Bomb, Class VII Adrenaline Booster, Class VII Cryogenic Grenade, Class VII Incendiary Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 27,500 XP; 3,300 credits; Class VII EMP Bomb (2); Class VII Adrenaline Booster (2); Class VII Cryogenic Grenade (4); Class VII Incendiary Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Retread_Planning)
   - reward: 0 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731164744/http://tr.mmodb.com/quests/seriesname-retread_planning/)
@@ -169,7 +169,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20080829154110/http://tr.mmodb.com/quests/bane-investigation-267.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 60000 XP; 5250 credits; choose 1 of: Weapon Module: Crit Hit Bonus [4], Armor Module: Armor Absorption [4], Tool Module: Threat Reduction [4], Weapon Module: Armor Piercing [4] — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 60,000 XP; 5,250 credits; Modification: Crit Hit Increase; Modification: Armor Absorption; Modification: Threat Reduction; Modification: Armor Piercing — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Bane_Investigation)
   - reward: 5250 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20080829154110/http://tr.mmodb.com/quests/bane-investigation-267.php)
@@ -199,7 +199,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20081010181037/http://tr.mmodb.com/quests/sabotage-the-tower-269.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 60000 XP; 5250 credits; choose 1 of: Direct Repair Tool, Electric Pistol, Virulent Disperser, EMP Torqueshell Rifle — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 60,000 XP; 5,250 credits; Prodigy Conical Repair Tool lvl 35; Vextronics Electric Pistol lvl 35; Teleract Virulent Disperser lvl 32; Eclipse EMP Torqueshell Rifle lvl 32 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Sabotage_the_Tower)
   - reward: 5250 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081010181037/http://tr.mmodb.com/quests/sabotage-the-tower-269.php)
@@ -233,7 +233,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20081010182144/http://tr.mmodb.com/quests/bane-jamming-268.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 120000 XP; 7000 credits; choose 1 of: Graviton Armor Gloves, Hazmat Armor Legs, Motor Assist Armor Legs, Reflective Armor Legs — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 120,000 XP; 7,000 credits; lvl 35; lvl 34; lvl 33; lvl 34 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Bane_Jamming)
   - reward: 950 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081010182144/http://tr.mmodb.com/quests/bane-jamming-268.php)
@@ -264,7 +264,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20080907092013/http://tr.mmodb.com/quests/elimination-265.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 60000 XP; 5250 credits; choose 1 of: Chaingun, Incendiary Net Gun, Exothermic Polarity Gun, Shotgun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 60,000 XP; 5,250 credits; AccuMax Chaingun lvl 33; AccuMax Incendiary Net Gun lvl 36; Vitalius Exothermic Polarity Gun lvl 33; Eclipse Shotgun lvl 32 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Elimination)
   - reward: 1760 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20080907092013/http://tr.mmodb.com/quests/elimination-265.php)
@@ -295,7 +295,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 25000 XP; 3300 credits; Class VI EMP Bomb, Class VI Adrenaline Booster, Class VI Incendiary Grenade, Class VI EMP Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 25,000 XP; 3,300 credits; Class VI EMP Bomb (2); Class VI Adrenaline Booster (2); Class VI Incendiary Grenade (4); Class VI EMP Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Mapping_The_Pools)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -325,7 +325,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 27500 XP; 3400 credits; Class VII EMP Bomb, Class VII Armor Charger, Class VII EMP Grenade, Class VII Concussion Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 27,500 XP; 3,400 credits; Class VII EMP Bomb (2); Class VII Armor Charger (2); Class VII EMP Grenade (4); Class VII Concussion Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Medicinal_Measures)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -358,7 +358,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Looking_for_Logos%3F); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 60000 XP; 4950 credits; choose 1 of: Bio Armor Gloves, Graviton Armor Helmet, Mech Armor Gloves, Stealth Armor Gloves — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 60,000 XP; 4,950 credits; lvl 30; lvl 30; lvl 30; lvl 30 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Looking_for_Logos%3F)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -382,7 +382,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB](https://web.archive.org/web/20080907092421/http://tr.mmodb.com/quests/building-materials-273.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 55000 XP; 5100 credits; choose 1 of: Bio Armor Vest, Graviton Armor Vest, Mech Armor Legs, Stealth Armor Vest — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 55,000 XP; 5,100 credits; lvl 35; lvl 35; lvl 35; lvl 35 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Building_Materials)
   - reward: 5100 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20080907092421/http://tr.mmodb.com/quests/building-materials-273.php)
@@ -413,7 +413,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB](https://web.archive.org/web/20081202022721/http://tr.mmodb.com/quests/death-patrol-274.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 55000 XP; 5000 credits; choose 1 of: Photonic Blade, Area Healing Disc, Sonic Pistol, Pulse Staff — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 55,000 XP; 5,000 credits; Vextronics Photonic Blade lvl 31; Astra Radial Healing Disc lvl 35; AccuMax Sonic Pistol lvl 35; Pulsar Pulse Staff lvl 35 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_Patrol)
   - reward: 5000 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081202022721/http://tr.mmodb.com/quests/death-patrol-274.php)
@@ -442,7 +442,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 
 - **Chain** (explicit prerequisite links): Death Patrol chain (18 missions), step 1
   - Leads to: More Clips and Tags (id 1321) — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
-  - Leads to: The Supply Master (id 1322) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Supply_Master)
+  - Leads to: The Supply Master (id 1322) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Supply_Master), this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - Leads to: The Hermit (id 1327) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Thirsty_Hermit)
   - Leads to: The Thirsty Hermit (id 1328) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Thirsty_Hermit), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 - **TR MMO DB quest series:** "Death Patrol", row 2 of 3 ([list](https://web.archive.org/web/20120731161916/http://tr.mmodb.com/quests/seriesname-death_patrol/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
@@ -453,7 +453,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 27500 XP; 3400 credits — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 34000 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/More_Clips_and_Tags)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -480,13 +480,140 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Chain** (explicit prerequisite links): Death Patrol chain (18 missions), step 2
   - Requires: Death Patrol (id 1315) — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
+### 1322 — The Supply Master
+
+
+- **Rebuild summary:**
+  - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
+  - reward: 60000 XP; 5250 credits; choose 1 of: Weapon Module: Steal Adrenaline [4], Weapon Module: Steal Armor [4], Weapon Module: Steal Health [4], Weapon Module: Steal Power [4] — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 60,000 XP; 5,250 credits; Modification: Steal Adrenaline; Modification: Steal Armor; Modification: Steal Health; Modification: Steal Power — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Supply_Master)
+  - reward: 5250 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731161417/http://tr.mmodb.com/quests/seriesname-the_supply_master/)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Supply Chief Riggins: Pools, The Snakepit, /loc -967, 915, 400 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Supply_Chief_Riggins)
+- **Client:** Supply Chief Riggins wants you to "interrogate" the Bane Supply Master named Nakrinx. He can be found traveling between the Thrax Barracks and Lamna Armory.
+  - objectives (client): Interrogate Nakrinx — Find and Interrogate the Bane Supply Master Nakrinx. You'll have to kill his bodyguards to get him to talk.; Return to Supply Chief Riggins — Return to Supply Chief Riggins a The Snake Pit
+- **This PR:** revision `pools_1_16_5`, level 33, solo, category 10000061 (Battlefield (Pools)), giver Supply Chief Riggins
+  - reward: 60000 XP; 5250 credits; choose 1 of: Weapon Module: Steal Adrenaline [4], Weapon Module: Steal Armor [4], Weapon Module: Steal Health [4], Weapon Module: Steal Power [4]
+  - prerequisites: Requires completed mission 1315
+- **TaRapedia** [The Supply Master](https://tabularasa.fandom.com/wiki/The_Supply_Master): giver: Supply Chief Riggins; at: The Snakepit; zone: Pools; requires: Death Patrol; follow-up: Eastern Listening Post; XP: 60,000; credits: 5,250; items: Modification: Steal Adrenaline; Modification: Steal Armor; Modification: Steal Health; Modification: Steal Power; reward from: Supply Chief Riggins
+  - overview: Supply Chief Riggins wants you to "interrogate" the Bane Supply Master named Nakrinx. He can be found traveling between the Thrax Barracks and Lamna Armory.
+  - objectives: • Interrogate Nakrinx • Find and Interrogate the Bane supply master Nakrinx. You'll have to kill his bodyguards to get him to talk.
+  - walkthrough: Nakrinx can be found in and around the Thrax Barracks. Kill the four Thrax that patrol with him and be careful not to kill him. After they die, a mission indicator pops above his head, and you can interrogate him.
+- **TaRapedia mission list** [The Snakepit mission list](https://tabularasa.fandom.com/wiki/The_Snakepit_mission_list): zone Pools, area The Snakepit, given by Supply Chief Riggins
+- **TR MMO DB quest series** [The Supply Master](https://web.archive.org/web/20120731161417/http://tr.mmodb.com/quests/seriesname-the_supply_master/): Eastern Listening Post (level 35, reward 3600) → The Supply Master (level 33, reward 5250) (series order as listed on the page; reward unit not stated)
+- **NPCs (TaRapedia NPC pages):**
+  - [Supply Chief Riggins](https://tabularasa.fandom.com/wiki/Supply_Chief_Riggins): Pools, The Snakepit, /loc -967, 915, 400 (named as giver/receiver)
+  - [Spymaster Timlin](https://tabularasa.fandom.com/wiki/Spymaster_Timlin): Pools, The Snakepit, /loc -970, 915, 414 (named in client text)
+
+- **Chain** (explicit prerequisite links): Death Patrol chain (18 missions), step 2
+  - Requires: Death Patrol (id 1315) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Supply_Master), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Eastern Listening Post (id 1323) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Eastern_Listening_Post), [TaRapedia](https://tabularasa.fandom.com/wiki/The_Supply_Master), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+- **TR MMO DB quest series:** "The Supply Master", row 2 of 2 ([list](https://web.archive.org/web/20120731161417/http://tr.mmodb.com/quests/seriesname-the_supply_master/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
+
+### 1323 — Eastern Listening Post
+
+
+- **Rebuild summary:**
+  - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Eastern_Listening_Post); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
+  - reward: 32500 XP; 3600 credits; Class VII EMP Bomb, Class VII Armor Charger, Class VII Incendiary Grenade, Class VII EMP Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 32,500 XP; 3,600 credits; Class VII EMP Bomb (2); Class VII Armor Charger (2); Class VII Incendiary Grenade (4); Class VII EMP Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Eastern_Listening_Post)
+  - reward: 3600 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731161417/http://tr.mmodb.com/quests/seriesname-the_supply_master/)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Colonel 'Snake' Washington: Pools, The Snakepit, /loc -981, 915, 413 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Colonel_%27Snake%27_Washington)
+- **Client:** Colonel Snake Washington wants you to recover the lost supply package for the East Listening Post and deliver it to Lieutenant Chester.
+  - objectives (client): Collect ELP Supply Package — Follow the beacon to the missing supply package for the Eastern Listening Post
+- **This PR:** revision `pools_1_16_5`, level 35, solo, category 10000061 (Battlefield (Pools)), giver Colonel 'Snake' Washington → Lieutenant Chester
+  - reward: 32500 XP; 3600 credits; items: Class VII EMP Bomb ×2, Class VII Armor Charger ×2, Class VII Incendiary Grenade ×4, Class VII EMP Grenade ×4
+  - prerequisites: Requires completed mission 1322
+- **TaRapedia** [Eastern Listening Post](https://tabularasa.fandom.com/wiki/Eastern_Listening_Post): giver: Colonel 'Snake' Washington; at: The Snakepit; zone: Pools; level: 33; requires: The Supply Master; follow-up: Smash and Grab; XP: 32,500; credits: 3,600; items: Class VII EMP Bomb (2); Class VII Armor Charger (2); Class VII Incendiary Grenade (4); Class VII EMP Grenade (4); reward from: Lieutenant Chester
+  - overview: • Colonel Snake Washington wants you to recover the lost supply package for the East Listening Post and deliver it to Lieutenant Chester.
+  - objectives: • Collect ELP Supply Package
+  - walkthrough: The supply crate beacon is at x(240.4), y(-141.2) The closest teleports are the South Listening Post and the Control Point Bane Guard Station. The large supply crate is actually in a large crater. NOTE: One or more striders may spawn when you approach the crate.
+- **TaRapedia mission list** [The Snakepit mission list](https://tabularasa.fandom.com/wiki/The_Snakepit_mission_list): zone Pools, area The Snakepit, given by Colonel 'Snake' Washington
+- **TR MMO DB quest series** [The Supply Master](https://web.archive.org/web/20120731161417/http://tr.mmodb.com/quests/seriesname-the_supply_master/): Eastern Listening Post (level 35, reward 3600) → The Supply Master (level 33, reward 5250) (series order as listed on the page; reward unit not stated)
+- **TR MMO DB NPC** [Lieutenant Chester](https://web.archive.org/web/20081205004007/http://tr.mmodb.com/bestiary/lieutenant-chester-708.php): Quest NPC, location East Listening Post, zone Pools (related to this quest)
+- **NPCs (TaRapedia NPC pages):**
+  - [Colonel 'Snake' Washington](https://tabularasa.fandom.com/wiki/Colonel_%27Snake%27_Washington): Pools, The Snakepit, /loc -981, 915, 413 (named as giver/receiver)
+  - [Lieutenant Chester](https://tabularasa.fandom.com/wiki/Lieutenant_Chester): Pools, East Listening Post, /loc 1017.1, 656.5, 330.9 (named as giver/receiver)
+  - [Spymaster Timlin](https://tabularasa.fandom.com/wiki/Spymaster_Timlin): Pools, The Snakepit, /loc -970, 915, 414 (named in client text)
+
+- **Chain** (explicit prerequisite links): Death Patrol chain (18 missions), step 3
+  - Requires: The Supply Master (id 1322) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Eastern_Listening_Post), [TaRapedia](https://tabularasa.fandom.com/wiki/The_Supply_Master), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Smash and Grab (id 1324) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Eastern_Listening_Post), [TaRapedia](https://tabularasa.fandom.com/wiki/Smash_and_Grab), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+- **TR MMO DB quest series:** "The Supply Master", row 1 of 2 ([list](https://web.archive.org/web/20120731161417/http://tr.mmodb.com/quests/seriesname-the_supply_master/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
+
+### 1324 — Smash and Grab
+
+
+- **Rebuild summary:**
+  - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Smash_and_Grab); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
+  - reward: 130000 XP; 7200 credits; choose 1 of: Laser Chaingun, Cryogenic Net Gun, Electric Polarity Gun, Laser Rifle — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 130,000 XP; 7,200 credits; Shinobi Laser Chaingun lvl 33; Vitalius Cryogenic Net Gun lvl 36; Vitalius Electric Polarity Gun lvl 33; Eclipse Laser Rifle lvl 36 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Smash_and_Grab)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Lieutenant Chester: Pools, East Listening Post, /loc 1017.1, 656.5, 330.9 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Lieutenant_Chester)
+- **Client:** Lt. Chester located at the East Listening Post in Valverde Pools wants you to steal several supplies and destroy the Bane data servers from the Thrax Barracks.
+  - objectives (client): Collect Thrax Ammo — Collect Thrax Ammunition from the Bane Barracks; Collect Plasma Capacitors — Collect Plasma Capacitors from the Bane Barracks; Collect Nutrient Paste from the Bane Barracks; Destroy Thrax Ammo Data Server — Destroy the Bane Data Sever located near the Thrax Ammunition dump.; Destroy Plasma Capacitor Data Server — Destroy the Bane Data Sever located near the Plasma Capacitor storage location.; Destroy Nutrient Paste Data Server — Destroy the Bane Data Sever located near the Nutrient Paste storage area; Additional Ammo — This is for One Man's Trash if active.
+- **This PR:** revision `pools_1_16_5`, level 35, solo, category 10000061 (Battlefield (Pools)), giver Lieutenant Chester
+  - reward: 130000 XP; 7200 credits; choose 1 of: Laser Chaingun, Cryogenic Net Gun, Electric Polarity Gun, Laser Rifle
+  - prerequisites: Requires completed mission 1323
+- **TaRapedia** [Smash and Grab](https://tabularasa.fandom.com/wiki/Smash_and_Grab): giver: Lieutenant Chester; at: East Listening Post; zone: Pools; level: 35; requires: Eastern Listening Post; follow-up: Spoils of War; XP: 130,000; credits: 7,200; items: Shinobi Laser Chaingun lvl 33; Vitalius Cryogenic Net Gun lvl 36; Vitalius Electric Polarity Gun lvl 33; Eclipse Laser Rifle lvl 36; reward from: Lieutenant Chester
+  - overview: • Lt. Chester located at the East Listening Post in Valverde Pools wants you to steal several supplies and destroy the Bane data servers from the Thrax Barracks.
+  - objectives: • Collect Thrax Ammo • Collect Plasma Capacitors • Collect Nutrient Paste from the Bane Barracks • Destroy Thrax Ammo Data Server • Destroy Plasma Capacitor Data Server • Destroy Nutrient Paste Data Server
+  - walkthrough: The items needed are in the two main buildings. There are bosses in each of the buildings. In addition, the Supplymaster and his guards spawn in one of these buildings, so the number of enemies can immediately rise. This is particularly the case in the building housing the computers. The object is to move quickly into the main central room and on to an upper level. This way you can control the number of foes you face. Remaining in the hall will subject you to crossfire from respawning Bane troops.
+- **TaRapedia mission list** [East Listening Post mission list](https://tabularasa.fandom.com/wiki/East_Listening_Post_mission_list): zone Pools, area East Listening Post, given by Lieutenant Chester
+- **TR MMO DB NPC** [Lieutenant Chester](https://web.archive.org/web/20081205004007/http://tr.mmodb.com/bestiary/lieutenant-chester-708.php): Quest NPC, location East Listening Post, zone Pools (starts this quest)
+- **PlanetTR** [planettr.com:80/forums/archive/index.php/t-1365.html](https://web.archive.org/web/20071209022816/http://planettr.com:80/forums/archive/index.php/t-1365.html): “o Issue: The ammo objective in One Man's Trash doesn't complete when the ammo is retrieved, preventing mission completion. / o Mission: Smash and Grab / o Issue: After collecting the three ammo crates required for Smash and Grab, the ammo crates objective doesn't complete, preventing completion of the mission.”
+- **RGTR official site** [rgtr.com:80/news/patch_notes/patch_notes_and_known_issues_109.html](https://web.archive.org/web/20071011062613/http://rgtr.com:80/news/patch_notes/patch_notes_and_known_issues_109.html): “Issue: Containers holding mission items do not respawn, causing mission to be uncompletable / Mission: Smash and Grab / Issue: Containers holding mission items do not respawn, causing mission to be uncompletable”
+- **RGTR official site** [www.rgtr.com/news/patch_notes/patch_notes_and_known_issues_1_4.html](https://web.archive.org/web/20081117172815/http://www.rgtr.com/news/patch_notes/patch_notes_and_known_issues_1_4.html): “Issue: The ammo objective in One Man's Trash doesn't complete when the ammo is retrieved, preventing mission completion. / Mission: Smash and Grab / Issue: After collecting the three ammo crates required for Smash and Grab, the ammo crates objective doesn't complete, preventing completion of the mission.”
+- **NPCs (TaRapedia NPC pages):**
+  - [Lieutenant Chester](https://tabularasa.fandom.com/wiki/Lieutenant_Chester): Pools, East Listening Post, /loc 1017.1, 656.5, 330.9 (named as giver/receiver)
+  - [Spymaster Timlin](https://tabularasa.fandom.com/wiki/Spymaster_Timlin): Pools, The Snakepit, /loc -970, 915, 414 (named in client text)
+
+- **Chain** (explicit prerequisite links): Death Patrol chain (18 missions), step 4
+  - Requires: Eastern Listening Post (id 1323) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Eastern_Listening_Post), [TaRapedia](https://tabularasa.fandom.com/wiki/Smash_and_Grab), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Spoils of War (id 1326) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Smash_and_Grab), [TaRapedia](https://tabularasa.fandom.com/wiki/Spoils_of_War), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+
+### 1326 — Spoils of War
+
+
+- **Rebuild summary:**
+  - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
+  - reward: 32500 XP; 3600 credits; Class VII Advanced Med Pack, Class VII Power Charger, Class VII Cryogenic Grenade, Class VII Incendiary Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 32,500 XP; 3,600 credits; Class VII Advanced Med Pack (2); Class VII Power Charger (2); Class VII Cryogenic Grenade (4); Class VII Incendiary Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Spoils_of_War)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Lieutenant Chester: Pools, East Listening Post, /loc 1017.1, 656.5, 330.9 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Lieutenant_Chester)
+- **Client:** Report to Colonel Snake Washington at the Snake Pit in Valverde Pools
+  - objectives (client): Report to Snake — Report to Colonel Snake Washington in Valverde Pools
+- **This PR:** revision `pools_1_16_5`, level 35, solo, category 10000061 (Battlefield (Pools)), giver Lieutenant Chester → Colonel 'Snake' Washington
+  - reward: 32500 XP; 3600 credits; items: Class VII Advanced Med Pack ×2, Class VII Power Charger ×2, Class VII Cryogenic Grenade ×4, Class VII Incendiary Grenade ×4
+  - prerequisites: Requires completed mission 1324
+- **TaRapedia** [Spoils of War](https://tabularasa.fandom.com/wiki/Spoils_of_War): giver: Lieutenant Chester; at: East Listening Post; zone: Pools; requires: Smash and Grab; follow-up: none; XP: 32,500; credits: 3,600; items: Class VII Advanced Med Pack (2); Class VII Power Charger (2); Class VII Cryogenic Grenade (4); Class VII Incendiary Grenade (4); reward from: Colonel 'Snake' Washington
+  - overview: • Report to Colonel 'Snake' Washington.
+  - objectives: • Report to Snake
+  - walkthrough: This is the end of this mission story arc.
+- **NPCs (TaRapedia NPC pages):**
+  - [Lieutenant Chester](https://tabularasa.fandom.com/wiki/Lieutenant_Chester): Pools, East Listening Post, /loc 1017.1, 656.5, 330.9 (named as giver/receiver)
+  - [Colonel 'Snake' Washington](https://tabularasa.fandom.com/wiki/Colonel_%27Snake%27_Washington): Pools, The Snakepit, /loc -981, 915, 413 (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Death Patrol chain (18 missions), step 9
+  - Requires: Smash and Grab (id 1324) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Smash_and_Grab), [TaRapedia](https://tabularasa.fandom.com/wiki/Spoils_of_War), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Requires: Taking the Poison (id 1590) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Taking_the_Poison)
+
 ### 1328 — The Thirsty Hermit
 
 
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 27500 XP; 3400 credits; Class VII Advanced Med Pack, Class VII Adrenaline Booster, Class VII Concussion Grenade, Class VII Fragmentation Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 27,500 XP; 3,400 credits; Class VII Advanced Med Pack (2); Class VII Adrenaline Booster (2); Class VII Concussion Grenade (4); Class VII Fragmentation Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Thirsty_Hermit)
   - reward: 3400 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731161916/http://tr.mmodb.com/quests/seriesname-death_patrol/)
@@ -519,7 +646,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 38 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 39 missions in this file with a sourced level
   - reward: 30000 XP; 3500 credits; Class VII Advanced Med Pack, Class VII Armor Charger, Class VII Fragmentation Grenade, Class VII Cryogenic Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 30,000 XP; 3,500 credits; Class VII Advanced Med Pack (2); Class VII Armor Charger (2); Class VII Fragmentation Grenade (4); Class VII Cryogenic Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Retread_Planning_Part_II)
   - reward: 3500 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731164744/http://tr.mmodb.com/quests/seriesname-retread_planning/)

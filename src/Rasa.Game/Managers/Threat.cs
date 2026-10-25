@@ -91,7 +91,8 @@ namespace Rasa.Managers
             victim.Hate.Add(attacker.EntityId, hate);
             PatrolGroups.ShareHate(victim, attacker.EntityId, newcomer);
 
-            if (victim.Controller != null
+            // A bystander (PatrolGroups.IsBystander) has nothing to fight with: it takes the hit and does not chase.
+            if (victim.Controller != null && !PatrolGroups.IsBystander(victim)
                 && (victim.Controller.CurrentAction == BehaviorManager.BehaviorActionWander
                     || victim.Controller.CurrentAction == BehaviorManager.BehaviorActionPatrol
                     || victim.Controller.CurrentAction == BehaviorManager.BehaviorActionFollowingPath
