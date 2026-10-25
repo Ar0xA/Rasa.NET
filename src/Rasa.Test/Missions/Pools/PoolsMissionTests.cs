@@ -29,7 +29,9 @@ namespace Rasa.Test.Missions.Pools
     /// and Overlord (Pools_lamna_armory); the Retread Caves' Stick Your Neck Out (1329) and Mox Clearing chain, Mox
     /// Clearing (1132), Mox Shouldn't Smoke (1135), A Mox On Both Our Houses (1133), Deadly Moxins, er-Toxins (1134),
     /// Miasma Mutations (1131), Miasma Testing (1136), Total Slaughter (1138) and The Mad Bomber (856), with the caves'
-    /// Retreads, mission creatures and pools (Pools_retread_caves). Amee Corman's Retreads to Retreads (1751) is on the
+    /// Retreads, mission creatures and pools (Pools_retread_caves); Turpis Refinery's Things That Blow Up (882), Hard Core
+    /// (884), Chemistry 101 (885), The Bad Doctor (886) and Cost of Doing Business (1079), with its givers and the
+    /// Toxicologist, and Corporal Hash's Turpis Transport (1305) on the Pools (Pools_turpis_refinery). Amee Corman's Retreads to Retreads (1751) is on the
     /// Plateau's revision (PlateauMissionTests): it follows Weapons Trafficking.
     /// </summary>
     [TestClass]
@@ -50,7 +52,9 @@ namespace Rasa.Test.Missions.Pools
             PoolsOperationOverlordV1.MissionId, PoolsBlowThemAllUpV1.MissionId, PoolsStickYourNeckOutV1.MissionId,
             PoolsMoxClearingV1.MissionId, PoolsMoxShouldntSmokeV1.MissionId, PoolsMoxOnBothOurHousesV1.MissionId,
             PoolsDeadlyMoxinsV1.MissionId, PoolsMiasmaMutationsV1.MissionId, PoolsMiasmaTestingV1.MissionId,
-            PoolsTotalSlaughterV1.MissionId, PoolsMadBomberV1.MissionId
+            PoolsTotalSlaughterV1.MissionId, PoolsMadBomberV1.MissionId, PoolsThingsThatBlowUpV1.MissionId,
+            PoolsHardCoreV1.MissionId, PoolsChemistry101V1.MissionId, PoolsTheBadDoctorV1.MissionId,
+            PoolsCostOfDoingBusinessV1.MissionId, PoolsTurpisTransportV1.MissionId
         };
 
         /// <summary>
@@ -62,8 +66,8 @@ namespace Rasa.Test.Missions.Pools
         /// four (the camp three times, the Hermit); Part II's one (Amee); The Supply Master's two (the beat's start, Riggins);
         /// Eastern Listening Post's one (the crate); Smash and Grab's six (the three stores, the three servers); Spoils of
         /// War's one (Snake); Spy Networking's one (the console); Poison Control's and Taking the Poison's three each (the
-        /// canister consoles). The Lamna Armory's three and the Retread Caves' nine have none (instance). Building Materials, Death Patrol and More Clips and
-        /// Tags have none (their creatures and bodies are all over the Pools).
+        /// canister consoles). The Lamna Armory's three, the Retread Caves' nine and Turpis Refinery's five have none (instance); Turpis
+        /// Transport has none (its map). Building Materials, Death Patrol and More Clips and Tags have none (their creatures and bodies are all over the Pools).
         /// </summary>
         internal const int Indicators = 56;
 
@@ -77,6 +81,7 @@ namespace Rasa.Test.Missions.Pools
         private const string SpyChain = "20270408000000_Pools_spy_chain";
         private const string LamnaArmory = "20270409000000_Pools_lamna_armory";
         private const string RetreadCaves = "20270410000000_Pools_retread_caves";
+        private const string TurpisRefinery = "20270411000000_Pools_turpis_refinery";
 
         [TestMethod]
         public void TheMissionsAreEnabledOperationalAndGivenByTheirNpcs()
@@ -117,7 +122,13 @@ namespace Rasa.Test.Missions.Pools
                 (PoolsMiasmaMutationsV1.MissionId, PoolsRetreadCavesNpcsV1.Donius, PoolsRetreadCavesNpcsV1.Donius, 35),
                 (PoolsMiasmaTestingV1.MissionId, PoolsRetreadCavesNpcsV1.Donius, PoolsRetreadCavesNpcsV1.Miles, 35),
                 (PoolsTotalSlaughterV1.MissionId, PoolsRetreadCavesNpcsV1.Miles, PoolsRetreadCavesNpcsV1.Ellen, 35),
-                (PoolsMadBomberV1.MissionId, PoolsRetreadCavesNpcsV1.Ellen, PoolsRetreadCavesNpcsV1.Ellen, 35)
+                (PoolsMadBomberV1.MissionId, PoolsRetreadCavesNpcsV1.Ellen, PoolsRetreadCavesNpcsV1.Ellen, 35),
+                (PoolsThingsThatBlowUpV1.MissionId, PoolsTurpisRefineryNpcsV1.Niebolo, PoolsTurpisRefineryNpcsV1.Niebolo, 33),
+                (PoolsHardCoreV1.MissionId, PoolsTurpisRefineryNpcsV1.Terentyeva, PoolsTurpisRefineryNpcsV1.Terentyeva, 33),
+                (PoolsChemistry101V1.MissionId, PoolsTurpisRefineryNpcsV1.Larouche, PoolsTurpisRefineryNpcsV1.Larouche, 33),
+                (PoolsTheBadDoctorV1.MissionId, PoolsTurpisRefineryNpcsV1.Lindloff, PoolsTurpisRefineryNpcsV1.Lindloff, 33),
+                (PoolsCostOfDoingBusinessV1.MissionId, PoolsTurpisRefineryNpcsV1.Johansson, PoolsTurpisRefineryNpcsV1.Johansson, 33),
+                (PoolsTurpisTransportV1.MissionId, PoolsTurpisRefineryNpcsV1.Hash, null, 33)
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var enabled = harness.World.MissionContentDefinitionEntries.AsNoTracking()
@@ -209,6 +220,22 @@ namespace Rasa.Test.Missions.Pools
             }
             foreach (var id in new uint[] { 650225, 650226, 650227, 650228, 650229 })
                 Assert.IsFalse(harness.World.SpawnPoolEntries.AsNoTracking().Any(row => row.Id == id), $"{id}: only its scene sets it down");
+            // Turpis Refinery: the five givers (friendly; Larouche level 39, the others 36) with their own packages in pools on
+            // its map, Hash on the Pools; the Toxicologist (hostile, level 36) in no pool.
+            foreach (var (npc, name, level, map) in new (uint, uint, uint, uint)[]
+            {
+                (650239, 4379, 36, 1429), (650240, 9031, 36, 1429), (650241, 4373, 39, 1429), (650242, 8549, 36, 1429),
+                (650243, 4380, 36, 1429), (650244, 9187, 36, 1304)
+            })
+            {
+                Assert.AreEqual(map, harness.World.SpawnPoolEntries.AsNoTracking().Single(row => row.Id == npc).MapContextId, $"{npc} map");
+                var creature = harness.World.CreatureEntries.AsNoTracking().Single(row => row.Id == npc);
+                Assert.AreEqual((name, level, 1U), (creature.NameId, creature.Level, creature.Faction), $"{npc} name, level and faction");
+                Assert.AreEqual(npc, harness.World.NpcPackageEntries.AsNoTracking().Single(row => row.Id == npc).PackageId, $"{npc} package");
+            }
+            var toxicologist = harness.World.CreatureEntries.AsNoTracking().Single(row => row.Id == 650245);
+            Assert.AreEqual((10092U, 36U, 0U, 7043U), (toxicologist.NameId, toxicologist.Level, toxicologist.Faction, toxicologist.ClassId), "the Toxicologist");
+            Assert.IsFalse(harness.World.SpawnPoolEntries.AsNoTracking().Any(row => row.Id == 650245), "only his scene sets him down");
 
             Assert.IsFalse(harness.Manager.LoadMissions().BlocksReadiness);
             foreach (var id in MissionIds)
@@ -301,7 +328,18 @@ namespace Rasa.Test.Missions.Pools
                 {
                     (1, 8185, 8186, null), (2, 8187, 8188, null), (3, 8187, 8188, null), (4, 8187, 8188, null), (5, 8187, 8188, null)
                 }),
-                (856, 4441, new (uint, uint, uint, uint?)[] { (1, 4445, 7359, null) })
+                (856, 4441, new (uint, uint, uint, uint?)[] { (1, 4445, 7359, null) }),
+                (882, 4620, new (uint, uint, uint, uint?)[]
+                {
+                    (1, 4624, 7321, 6205), (3, 12581, 12582, null), (4, 12583, 12584, null), (5, 12585, 12586, null),
+                    (6, 12587, 12588, null), (7, 12589, 12590, null)
+                }),
+                (884, 4629, new (uint, uint, uint, uint?)[] { (1, 4666, 7324, 4667), (2, 6210, 7325, null), (3, 6211, 7326, null), (4, 6212, 7327, null) }),
+                (885, 4633, new (uint, uint, uint, uint?)[] { (1, 5910, 7316, null), (2, 5911, 7317, null) }),
+                // 886's 2: the server's own approach, on 1's texts.
+                (886, 4637, new (uint, uint, uint, uint?)[] { (1, 4668, 7329, null), (2, 4668, 7329, null) }),
+                (1079, 6087, new (uint, uint, uint, uint?)[] { (2, 6091, 7319, 6092) }),
+                (1305, 10581, new (uint, uint, uint, uint?)[] { (1, 10586, 10587, null) })
             };
             // 937's objective 1 shows its second count too: counter 1 "Bane Equipment Locker Destroyed".
             var secondCounters = new Dictionary<(uint, uint), uint> { [(937, 1)] = 5058 };
@@ -338,7 +376,7 @@ namespace Rasa.Test.Missions.Pools
         /// Spoils of War each the one before; Spy Networking follows Part II, and Poison Control and Taking the Poison follow
         /// it; Stick Your Neck Out follows Retread Planning, and the Retread Caves' chain runs Mox Clearing (no requirement),
         /// Mox Shouldn't Smoke, A Mox On Both Our Houses, Deadly Moxins, Miasma Mutations, Miasma Testing, Total Slaughter,
-        /// The Mad Bomber, each the one before (TaRapedia).
+        /// The Mad Bomber, each the one before; Turpis Refinery's five and Turpis Transport have none (TaRapedia).
         /// </summary>
         [TestMethod]
         public void EachMissionRequiresTheMissionsBeforeIt()
@@ -348,7 +386,7 @@ namespace Rasa.Test.Missions.Pools
                 .Where(entry => entry.ContentRevision == PoolsMissionDataV1.Revision).ToArray();
             Assert.HasCount(26, prerequisites);
             Assert.IsTrue(prerequisites.All(entry => entry.Kind == MissionPrerequisiteKind.MissionCompleted));
-            foreach (var mission in new uint[] { 1314, 1066, 1315, 1308, 1025, 932, 896, 898, 903, 1132 })
+            foreach (var mission in new uint[] { 1314, 1066, 1315, 1308, 1025, 932, 896, 898, 903, 1132, 882, 884, 885, 886, 1079, 1305 })
                 Assert.IsFalse(prerequisites.Any(entry => entry.MissionId == mission), $"{mission}");
             CollectionAssert.AreEquivalent(new uint?[] { 1315 },
                 prerequisites.Where(entry => entry.MissionId == 1321).Select(entry => entry.RequiredMissionId).ToArray());
@@ -429,9 +467,12 @@ namespace Rasa.Test.Missions.Pools
                     (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
                 (903, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
                     (MissionEvidenceSourceKind.Reconstruction, 0.3) })
-            }.Concat(new uint[] { 1329, 1132, 1135, 1133, 1134, 1131, 1136, 1138, 856 }.Select(mission => (mission, new[]
+            }.Concat(new uint[] { 1329, 1132, 1135, 1133, 1134, 1131, 1136, 1138, 856, 882, 885, 1079, 1305 }.Select(mission => (mission, new[]
             {
                 (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5), (MissionEvidenceSourceKind.Reconstruction, 0.3)
+            }))).Concat(new uint[] { 884, 886 }.Select(mission => (mission, new[]
+            {
+                (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5), (MissionEvidenceSourceKind.Reconstruction, 0.4)
             }))))
                 CollectionAssert.AreEqual(confidences, evidence.Where(entry => entry.MissionId == mission)
                     .OrderBy(entry => entry.EvidenceId).Select(entry => (entry.SourceKind, entry.Confidence)).ToArray(),
@@ -448,6 +489,45 @@ namespace Rasa.Test.Missions.Pools
             foreach (var row in indicators)
                 Assert.IsTrue(row.IndicatorId > MissionIndicator.UnnamedFrom,
                     $"mission {row.MissionId} objective {row.ObjectiveId} indicator {row.IndicatorId}");
+        }
+
+        /// <summary>
+        /// Pools_turpis_refinery takes out its six missions, the five givers and Hash with their pools and packages, and the
+        /// Toxicologist; the refinery's older pools, its medical unit and the Retread Caves stay.
+        /// </summary>
+        [TestMethod]
+        public void TurpisRefineryRollsBackWithItsMigration()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var world = harness.World;
+            var missions = new uint[] { 882, 884, 885, 886, 1079, 1305 };
+            bool Has(uint mission) => world.MissionContentDefinitionEntries.AsNoTracking()
+                .Any(entry => entry.MissionId == mission && entry.ContentRevision == PoolsMissionDataV1.Revision);
+            int Count(string sql) => world.Database.SqlQueryRaw<int>(sql).AsEnumerable().Single();
+            (int, int, int, int, int, int) All() => (
+                Count("SELECT COUNT(*) AS Value FROM creature WHERE id BETWEEN 650239 AND 650245"),
+                Count("SELECT COUNT(*) AS Value FROM spawnpool WHERE id BETWEEN 650239 AND 650245"),
+                Count("SELECT COUNT(*) AS Value FROM npc_package WHERE id BETWEEN 650239 AND 650245"),
+                Count("SELECT COUNT(*) AS Value FROM creature_stat WHERE id BETWEEN 650239 AND 650245"),
+                Count("SELECT COUNT(*) AS Value FROM mission_area WHERE mission_id IN (886, 1305)"),
+                Count("SELECT COUNT(*) AS Value FROM mission_scene_binding WHERE mission_id IN (882, 884, 885, 886, 1079, 1305)"));
+            int Stays() => Count("SELECT COUNT(*) AS Value FROM spawnpool WHERE map_context_id = 1429 AND id NOT BETWEEN 650239 AND 650245");
+
+            Assert.IsTrue(missions.All(Has));
+            Assert.AreEqual((7, 6, 6, 1, 2, 5), All(), "1305 has no scene; only the Toxicologist has a stat row");
+            var stays = Stays();
+
+            world.GetService<IMigrator>().Migrate(RetreadCaves);
+            Assert.IsFalse(missions.Any(Has));
+            Assert.AreEqual((0, 0, 0, 0, 0, 0), All());
+            Assert.AreEqual(0, Count("SELECT COUNT(*) AS Value FROM creature_appearance WHERE id BETWEEN 650239 AND 650245"));
+            Assert.IsFalse(world.MissionEvidenceEntries.Any(entry => missions.Contains(entry.MissionId)));
+            Assert.AreEqual(stays, Stays(), "the refinery's older pools stay");
+            Assert.IsTrue(Has(PoolsMadBomberV1.MissionId) && Has(PoolsLookingForLogosV1.MissionId));
+
+            world.GetService<IMigrator>().Migrate(TurpisRefinery);
+            Assert.IsTrue(missions.All(Has));
+            Assert.AreEqual((7, 6, 6, 1, 2, 5), All());
         }
 
         /// <summary>

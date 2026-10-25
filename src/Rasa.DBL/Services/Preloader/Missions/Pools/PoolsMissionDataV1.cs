@@ -244,7 +244,8 @@ namespace Rasa.Services.Preloader.Missions.Pools
 
         /// <summary>
         /// An upright cylinder on map <paramref name="map"/> (a squad instance's too: its copies keep the map's
-        /// context id) that <see cref="EnterArea"/> waits for, as WildernessMissionDataV1.Area.
+        /// context id) that <see cref="EnterArea"/> waits for, as WildernessMissionDataV1.Area. <paramref name="height"/>
+        /// is a half-height: the cylinder reaches that far above and below <paramref name="y"/> (MissionAreaService).
         /// </summary>
         public void Area(uint id, uint map, double x, double y, double z, double radius, double height = 8) =>
             Insert("mission_area",
