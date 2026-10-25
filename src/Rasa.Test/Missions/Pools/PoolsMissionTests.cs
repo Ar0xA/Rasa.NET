@@ -57,7 +57,7 @@ namespace Rasa.Test.Missions.Pools
                 (PoolsMoreClipsAndTagsV1.MissionId, PoolsSnakePitNpcsV1.Riggins, PoolsSnakePitNpcsV1.Riggins, 33),
                 (PoolsThirstyHermitV1.MissionId, PoolsSnakePitNpcsV1.Riggins, PlateauBaileyNpcsV1.Hermit, 33),
                 (PoolsLookingForLogosV1.MissionId, PoolsSnakePitContactsV1.Timlin, 510202, 33),
-                (PoolsMappingThePoolsV1.MissionId, PoolsSnakePitContactsV1.Allen, PoolsSnakePitContactsV1.Allen, 33),
+                (PoolsMappingThePoolsV1.MissionId, PoolsSnakePitContactsV1.Allen, PoolsSnakePitContactsV1.Allen, 35),
                 (PoolsBaneInvestigationV1.MissionId, PoolsSnakePitContactsV1.Feldman, PoolsSnakePitContactsV1.Feldman, 35)
             };
             using var harness = WildernessRuntimeTestHarness.Create();

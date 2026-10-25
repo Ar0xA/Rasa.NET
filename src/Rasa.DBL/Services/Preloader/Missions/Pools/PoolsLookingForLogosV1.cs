@@ -24,7 +24,8 @@ namespace Rasa.Services.Preloader.Missions.Pools
     /// Armor Gloves, Astra Stealth Armor Gloves, level 30 (the current page; older revisions list four weapons). Ten Ton
     /// Hammer "Turpis Refinery": Suresh "will change the Looking for Logos objective into finding the logos Far and
     /// returning to her"; "You'll want to show Suresh the logos to complete the Looking for Logos mission." Suresh is
-    /// creature 510202 (pool 510202, package 1495) on the server already.
+    /// creature 510202 (pool 510202, package 1495) on the server already. The TR MMO DB Pools quest list gives level 35;
+    /// TaRapedia's 33 is used.
     ///
     /// Reconstructed (ESTIMATE): objectives 1, then 3, then 2 (user, 2026-10-25); 3 completes on the Logos, and one the
     /// player has already counts (as 1051); 4, with no text, is left out. The four armor pieces as the lowest Uncommon
@@ -86,7 +87,7 @@ namespace Rasa.Services.Preloader.Missions.Pools
             mission.Evidence(2, MissionEvidenceSourceKind.Documentation, "https://tabularasa.fandom.com/wiki/Looking_for_Logos%3F",
                 "Giver Spymaster Timlin, reward Scientist Suresh; level33; 60000XP, 4950 credits; no requirement, no follow-up; " +
                 "one of Olympia Bio Armor Gloves, Wellcare Graviton Armor Helmet, Titan Mech Armor Gloves, Astra Stealth Armor " +
-                "Gloves (level30, current page). Ten Ton Hammer Turpis Refinery: Suresh turns it into finding Far; show her the logos.");
+                "Gloves (level30, current page); TR MMO DB list level35, TaRapedia's 33 used. Ten Ton Hammer Turpis Refinery: Suresh turns it into finding Far; show her the logos.");
             mission.Evidence(3, MissionEvidenceSourceKind.Reconstruction, "repository:PoolsLookingForLogosV1",
                 "Order 1,3,2 (user); 3 on Logos64, one already owned counts; 4 left out. Items 46011, 25079, 34076, 40203 (V04 " +
                 "UNC 30-34), one to choose. Marker 3 on the Refinery door (148,673,-607). Timlin 650202 new.", 0.3);

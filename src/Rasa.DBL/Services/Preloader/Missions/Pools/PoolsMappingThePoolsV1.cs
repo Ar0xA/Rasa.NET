@@ -30,9 +30,10 @@ namespace Rasa.Services.Preloader.Missions.Pools
     /// Sourced: TaRapedia Mapping The Pools: giver and receiver Specialist Allen; no requirement; 25,000 XP, 3,300 credits,
     /// 2 Class VI EMP Bomb, 2 Class VI Adrenaline Booster, 4 Class VI Incendiary Grenade, 4 Class VI EMP Grenade (client
     /// classes 26541, 28467, 26287, 26277); the crate at -965.3, 915.7, 428.1; beacons #1 -568.8, 900.0, 511.2, #2 -264.5,
-    /// 866.7, 473.8, #3 -27.9, 818.0, 234.9, #4 -505.1, 775.5, -10.3, #5 -668.4, 858.2, 257.1.
+    /// 866.7, 473.8, #3 -27.9, 818.0, 234.9, #4 -505.1, 775.5, -10.3, #5 -668.4, 858.2, 257.1. TR MMO DB (Pools quest
+    /// list): level 35.
     ///
-    /// Reconstructed (ESTIMATE): level 33 (no source; the Pools' lowest); the pack (user, 2026-10-25: 22987, item 743,
+    /// Reconstructed (ESTIMATE): the pack (user, 2026-10-25: 22987, item 743,
     /// acceptor 7847) a personal crate that gives five beacons and closes; the five beacons in any order (user), each a
     /// personal acceptor that takes one, shows the planted beacon and closes, completes its objective and counts on 8; 9
     /// opens with 8. "Take Credit" gives no bonus (user): both choices complete 9 alike. Timlin's answers (flags 122/123)
@@ -43,7 +44,7 @@ namespace Rasa.Services.Preloader.Missions.Pools
     public static class PoolsMappingThePoolsV1
     {
         public const uint MissionId = 1025;
-        public const uint Level = 33;
+        public const uint Level = 35;
         public const uint Allen = PoolsSnakePitContactsV1.Allen;
         public const uint TimlinPackage = PoolsSnakePitContactsV1.TimlinPackage;
         public const uint Speak = 1, PickUp = 2, Tracker = 8, Report = 9;
@@ -195,9 +196,9 @@ namespace Rasa.Services.Preloader.Missions.Pools
             mission.Evidence(2, MissionEvidenceSourceKind.Documentation, "https://tabularasa.fandom.com/wiki/Mapping_The_Pools",
                 "Giver/receiver Specialist Allen; no requirement; 25000XP, 3300 credits, 2 Class VI EMP Bomb, 2 Class VI Adrenaline " +
                 "Booster, 4 Class VI Incendiary Grenade, 4 Class VI EMP Grenade; crate -965.3,915.7,428.1; beacons -568.8,900,511.2 / " +
-                "-264.5,866.7,473.8 / -27.9,818,234.9 / -505.1,775.5,-10.3 / -668.4,858.2,257.1.");
+                "-264.5,866.7,473.8 / -27.9,818,234.9 / -505.1,775.5,-10.3 / -668.4,858.2,257.1. TR MMO DB level35.");
             mission.Evidence(3, MissionEvidenceSourceKind.Reconstruction, "repository:PoolsMappingThePoolsV1",
-                "Level33. Personal pack 22987 gives five beacons 743; five personal spots 7847, any order, each takes one, completes " +
+                "Personal pack 22987 gives five beacons 743; five personal spots 7847, any order, each takes one, completes " +
                 "its objective and counts on 8; 9 opens with 8; both choices complete 9 (no bonus, user); Timlin's answers not " +
                 "shown; 11 and item744 unused. Items 111231x2, 118813x2, 111037x4, 111027x4. Timlin 650202, Allen 650203 new.", 0.3);
 

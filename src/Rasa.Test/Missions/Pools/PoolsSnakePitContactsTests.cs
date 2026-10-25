@@ -43,6 +43,7 @@ namespace Rasa.Test.Missions.Pools
         private const uint Timlin = PoolsSnakePitContactsV1.Timlin, Allen = PoolsSnakePitContactsV1.Allen;
         private const uint Feldman = PoolsSnakePitContactsV1.Feldman, Suresh = PoolsLookingForLogosV1.Suresh;
         private const uint MissionItemFiller = 11519;      // as PlateauCampResistanceTests
+        private const uint ArmorFiller = PoolsLookingForLogosV1.StealthGloves;
 
         /// <summary>The Snake Pit's waypoint (World DB teleporter 48), where a player arrives.</summary>
         private static readonly Vector3 SnakePitWaypoint = new(-941.7f, 919.94f, 367.4f);
@@ -84,12 +85,14 @@ namespace Rasa.Test.Missions.Pools
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, suresh, LookingForLogos), "Timlin gives it, not Suresh");
             Accept(harness, timlin, LookingForLogos);
             Assert.IsFalse(Conversation(harness, timlin).ContainsKey(ConversationType.ObjectiveComplete), "Timlin has no topic");
+            Refused(harness, timlin, LookingForLogos, PoolsLookingForLogosV1.Speak);
 
             // 1: Suresh; then 3 opens, 2 waits.
             Talk(harness, suresh, LookingForLogos, PoolsLookingForLogosV1.Speak);
             Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, LookingForLogos, PoolsLookingForLogosV1.Find));
             Assert.AreEqual(MissionObjectiveState.Inactive, Objective(harness, LookingForLogos, PoolsLookingForLogosV1.Show));
             Assert.IsFalse(Conversation(harness, suresh).ContainsKey(ConversationType.ObjectiveComplete), "nothing to show yet");
+            Refused(harness, suresh, LookingForLogos, PoolsLookingForLogosV1.Show);
             WildernessRanjaGorgeTests.Reload(harness);
             Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, LookingForLogos, PoolsLookingForLogosV1.Find), "kept at a reload");
             harness.Drain();
@@ -98,6 +101,7 @@ namespace Rasa.Test.Missions.Pools
             PlateauTrinityBridgeLogosTests.LoadMap(harness, PoolsLookingForLogosV1.TurpisRefinery);
             var refinery = PlateauTrinityBridgeLogosTests.ThroughTheDoor(harness, PoolsLookingForLogosV1.TurpisRefinery);
             Assert.IsTrue(refinery.IsSquadInstance);
+            harness.Drain();
             PlateauTrinityBridgeLogosTests.UseShrine(harness, refinery,
                 refinery.DynamicObjects.OfType<Logos>().Single(entry => entry.Id == PoolsLookingForLogosV1.FarLogos));
             Assert.IsTrue(harness.Client.Player.Logos.Contains(PoolsLookingForLogosV1.FarLogos));
@@ -108,10 +112,18 @@ namespace Rasa.Test.Missions.Pools
             // 2: back on the Pools, Suresh sees it.
             pools = PlateauValverdePoolsTests.OntoPools(harness);
             suresh = Npc(pools, Suresh);
-            Talk(harness, suresh, LookingForLogos, PoolsLookingForLogosV1.Show);
+            AssertHandInTopic(Conversation(harness, suresh), LookingForLogos, PoolsLookingForLogosV1.Show);
+            harness.MoveTo(suresh.Position);
+            harness.Drain();
+            Assert.IsTrue(harness.Manager.CompleteOfferedObjective(harness.Client, suresh.EntityId, LookingForLogos, PoolsLookingForLogosV1.Show, 1));
+            var packets = harness.Drain();
+            Assert.AreEqual(1, packets.OfType<ObjectiveCompletedPacket>().Count(packet => packet.MissionId == LookingForLogos &&
+                packet.ObjectiveId == PoolsLookingForLogosV1.Show), "ObjectiveCompleted once");
+            Assert.AreEqual(1, packets.OfType<MissionCompleteablePacket>().Count(packet => packet.MissionId == LookingForLogos), "MissionCompleteable once");
             Assert.IsTrue(harness.Client.Player.Missions[LookingForLogos].Completeable);
 
             FailedTurnInPaysNothing(harness, suresh, LookingForLogos, 1);
+            FullBagWaits(harness, suresh, LookingForLogos, 1, ArmorFiller);
             WildernessRanjaGorgeTests.CompleteAndCheckReward(harness, suresh, LookingForLogos, 1,
                 PoolsLookingForLogosV1.Experience, PoolsLookingForLogosV1.Credits);
             Assert.AreEqual(1, harness.Drain().OfType<MissionRewardedPacket>().Count(packet => packet.MissionId == LookingForLogos));
@@ -162,6 +174,10 @@ namespace Rasa.Test.Missions.Pools
             var spots = Spots(harness, pools);
             Use(harness, pools, pack, recovers: false);
             Assert.AreEqual(0U, Beacons(harness), "the pack waits for Timlin");
+            harness.MoveTo(spots[0].Position + new Vector3(0, 0, 1));
+            Use(harness, pools, spots[0], recovers: false);
+            Assert.IsTrue(spots[0].IsEnabled, "no planting before the pack");
+            Refused(harness, allen, Mapping, PoolsMappingThePoolsV1.Speak);
             Assert.IsFalse(Conversation(harness, allen).ContainsKey(ConversationType.ObjectiveComplete), "Allen has no topic");
 
             // 1: Timlin; 2: the pack, once.
@@ -311,6 +327,7 @@ namespace Rasa.Test.Missions.Pools
                 offer.SelectableReward.Select(item => item.ItemTemplateId).ToArray());
             Accept(harness, feldman, Investigation);
             Assert.IsFalse(Conversation(harness, feldman).ContainsKey(ConversationType.ObjectiveComplete), "Feldman has no topic");
+            Refused(harness, feldman, Investigation, PoolsBaneInvestigationV1.Search);
 
             var terminal = pools.DynamicObjects.Single(obj => obj.SceneMissionId == Investigation && obj.SceneActorRole == "terminal");
             Assert.AreEqual(PoolsBaneInvestigationV1.TerminalClass, (uint)terminal.EntityClassId);
@@ -321,6 +338,13 @@ namespace Rasa.Test.Missions.Pools
             AssertOnTheGround(pools, terminal.Position, "terminal");
             Assert.IsTrue(pools.NavMesh.FindPath(SnakePitWaypoint, terminal.Position, out var reached) != null && reached, "walked to");
 
+            new NpcManager(harness, harness.Manager).CompleteNPCObjective(harness.Client, new CompleteNPCObjectivePacket
+            {
+                EntityId = terminal.EntityId, MissionId = Investigation, ObjectiveId = PoolsBaneInvestigationV1.Access, PlayerFlagId = 1
+            });
+            harness.Drain();
+            Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Investigation, PoolsBaneInvestigationV1.Access),
+                "1 is not talked to on its own");
             var talk = OpenTerminal(harness, terminal);
             Assert.IsNotNull(talk, "the terminal talks");
             Assert.IsTrue(talk.ConvoDataDict.TryGetValue(ConversationType.ObjectiveComplete, out var topics));
@@ -343,6 +367,7 @@ namespace Rasa.Test.Missions.Pools
             harness.Drain();
 
             FailedTurnInPaysNothing(harness, feldman, Investigation, 2);
+            FullBagWaits(harness, feldman, Investigation, 2, PoolsBaneInvestigationV1.CritHitBonus);
             WildernessRanjaGorgeTests.CompleteAndCheckReward(harness, feldman, Investigation, 2,
                 PoolsBaneInvestigationV1.Experience, PoolsBaneInvestigationV1.Credits);
             Assert.AreEqual(1, harness.Drain().OfType<MissionRewardedPacket>().Count(packet => packet.MissionId == Investigation));
@@ -437,6 +462,31 @@ namespace Rasa.Test.Missions.Pools
             }
             Assert.AreEqual(before, harness.Context.ReadRewardTotals());
             Assert.IsTrue(harness.Client.Player.Missions[mission].Completeable, "still to be turned in");
+            harness.Drain();
+        }
+
+        /// <summary>The wrong NPC: the server refuses the objective, and it stays open.</summary>
+        private static void Refused(WildernessRuntimeTestHarness harness, Creature npc, uint mission, uint objective)
+        {
+            harness.MoveTo(npc.Position);
+            harness.Drain();
+            var before = Objective(harness, mission, objective);
+            Assert.IsFalse(harness.Manager.CompleteOfferedObjective(harness.Client, npc.EntityId, mission, objective, 1), $"{npc.DbId} refuses {mission}.{objective}");
+            harness.Drain();
+            Assert.AreEqual(before, Objective(harness, mission, objective));
+        }
+
+        /// <summary>A full bag and inbox: the turn-in pays nothing; one slot freed, the caller turns it in.</summary>
+        private static void FullBagWaits(WildernessRuntimeTestHarness harness, Creature receiver, uint mission, int? choice, uint filler)
+        {
+            WildernessAliaBranchesTests.FillCategory(harness, filler, 50);
+            harness.FillInbox();
+            harness.MoveTo(receiver.Position);
+            var before = harness.Context.ReadRewardTotals();
+            Assert.IsFalse(harness.Manager.CompleteOfferedMission(harness.Client, receiver.EntityId, mission, choice), "no room");
+            Assert.AreEqual(before, harness.Context.ReadRewardTotals());
+            Assert.IsTrue(harness.Client.Player.Missions[mission].Completeable, "still to be turned in");
+            WildernessAliaBranchesTests.FreeOneSlot(harness, filler);
             harness.Drain();
         }
 
