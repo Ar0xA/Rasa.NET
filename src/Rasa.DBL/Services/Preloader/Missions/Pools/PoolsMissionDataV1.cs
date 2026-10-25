@@ -127,6 +127,12 @@ namespace Rasa.Services.Preloader.Missions.Pools
             Trigger(objective, transition, MissionTriggerKind.TimerElapsed, 1, ("duration_seconds", seconds));
         }
 
+        /// <summary>Offered again as soon as it is turned in (mission_repeat_policy Immediate), as WildernessDaghdasUrnV1's replacement batch.</summary>
+        public void RepeatImmediately() =>
+            _migration.InsertData("mission_repeat_policy",
+                new[] { "mission_id", "content_revision", "repeat_kind", "cooldown_seconds", "reset_second_utc" },
+                new object[] { _missionId, Revision, (int)Rasa.Missions.Runtime.MissionRepeatKind.Immediate, null, null });
+
         public void Prerequisite(uint mission, uint id = 1) =>
             Insert("mission_prerequisite",
                 ("prerequisite_id", id), ("kind", (byte)MissionPrerequisiteKind.MissionCompleted),
@@ -171,9 +177,10 @@ namespace Rasa.Services.Preloader.Missions.Pools
             Trigger(objective, transition, MissionTriggerKind.Conversation, 1, ("npc_package_id", package), ("player_flag_id", flag));
 
         /// <summary>
-        /// A progress rule. Rules that name the same <paramref name="counter"/> add to one count,
-        /// counter 0 for a kill count, 1 for a scene result set (MissionProgressRuleAuthoring); each
-        /// rule needs a trigger id of its own. No target for a one-off event (a mission completed).
+        /// A progress rule. Rules that name the same <paramref name="counter"/> add to one count:
+        /// counter 0 for a kill count; for a scene result set the counter is the scenario id
+        /// (MissionProgressRuleAuthoring). Each rule needs a trigger id of its own. No target for a
+        /// one-off event (a mission completed).
         /// </summary>
         public void Progress(uint objective, MissionProgressEventKind kind, uint subject, uint? target,
             uint? counter = null, uint trigger = 1) =>

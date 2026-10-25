@@ -14,7 +14,9 @@ namespace Rasa.Test.Missions.Pools
 
     /// <summary>
     /// The Valverde Pools missions (PoolsMissionDataV1, revision pools_1_16_5): the Snake Pit's Building Materials (1314)
-    /// and Medicinal Measures (1066), with Supply Chief Riggins and Dr. Hester (Pools_snake_pit). Amee Corman's Retreads to
+    /// and Medicinal Measures (1066), with Supply Chief Riggins and Dr. Hester (Pools_snake_pit); Riggins's Death Patrol (1315),
+    /// More Clips and Tags (1321) and The Thirsty Hermit (1328), and Snake's move to his sourced place (Pools_death_patrol).
+    /// Amee Corman's Retreads to
     /// Retreads (1751) is on the Plateau's revision (PlateauMissionTests): it follows Weapons Trafficking.
     /// </summary>
     [TestClass]
@@ -24,14 +26,19 @@ namespace Rasa.Test.Missions.Pools
         /// <summary>The Pools missions the World migrations enable, for the tests that pin the enabled set.</summary>
         internal static readonly uint[] MissionIds =
         {
-            PoolsBuildingMaterialsV1.MissionId, PoolsMedicinalMeasuresV1.MissionId
+            PoolsBuildingMaterialsV1.MissionId, PoolsMedicinalMeasuresV1.MissionId, PoolsDeathPatrolV1.MissionId,
+            PoolsMoreClipsAndTagsV1.MissionId, PoolsThirstyHermitV1.MissionId
         };
 
-        /// <summary>Medicinal Measures' one, on the Mawflower field; Building Materials has none (its creatures are all over the Pools).</summary>
-        internal const int Indicators = 1;
+        /// <summary>
+        /// Medicinal Measures' one, on the Mawflower field; The Thirsty Hermit's three (Hester, the cabinet, the Hermit).
+        /// Building Materials, Death Patrol and More Clips and Tags have none (their creatures and bodies are all over the Pools).
+        /// </summary>
+        internal const int Indicators = 4;
 
         private const string Before = "20270401000000_Plateau_retreads_to_retreads";
         private const string SnakePit = "20270402000000_Pools_snake_pit";
+        private const string DeathPatrol = "20270403000000_Pools_death_patrol";
 
         [TestMethod]
         public void TheMissionsAreEnabledOperationalAndGivenByTheirNpcs()
@@ -39,7 +46,10 @@ namespace Rasa.Test.Missions.Pools
             var expected = new (uint Mission, uint? Giver, uint? Receiver, uint Level)[]
             {
                 (PoolsBuildingMaterialsV1.MissionId, PoolsSnakePitNpcsV1.Riggins, PoolsSnakePitNpcsV1.Riggins, 33),
-                (PoolsMedicinalMeasuresV1.MissionId, PoolsSnakePitNpcsV1.Hester, PoolsSnakePitNpcsV1.Hester, 35)
+                (PoolsMedicinalMeasuresV1.MissionId, PoolsSnakePitNpcsV1.Hester, PoolsSnakePitNpcsV1.Hester, 35),
+                (PoolsDeathPatrolV1.MissionId, PoolsSnakePitNpcsV1.Riggins, PoolsSnakePitNpcsV1.Riggins, 33),
+                (PoolsMoreClipsAndTagsV1.MissionId, PoolsSnakePitNpcsV1.Riggins, PoolsSnakePitNpcsV1.Riggins, 33),
+                (PoolsThirstyHermitV1.MissionId, PoolsSnakePitNpcsV1.Riggins, PlateauBaileyNpcsV1.Hermit, 33)
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var enabled = harness.World.MissionContentDefinitionEntries.AsNoTracking()
@@ -78,7 +88,12 @@ namespace Rasa.Test.Missions.Pools
             var expected = new (uint Mission, uint Title, (uint Objective, uint Name, uint Body, uint? Counter)[] Objectives)[]
             {
                 (1314, 10666, new (uint, uint, uint, uint?)[] { (1, 10671, 10672, null), (2, 10673, 10674, null), (3, 10675, 10676, null) }),
-                (1066, 6005, new (uint, uint, uint, uint?)[] { (1, 6019, 7644, null), (2, 6019, 7644, null) })
+                (1066, 6005, new (uint, uint, uint, uint?)[] { (1, 6019, 7644, null), (2, 6019, 7644, null) }),
+                (1315, 10677, new (uint, uint, uint, uint?)[] { (1, 10717, 10718, null), (2, 10719, 10720, null), (4, 10717, 10718, null),
+                    (5, 10719, 10720, null) }),
+                (1321, 10721, new (uint, uint, uint, uint?)[] { (1, 10726, 10727, null), (2, 10728, 10729, null), (4, 10726, 10727, null),
+                    (5, 10728, 10729, null) }),
+                (1328, 10848, new (uint, uint, uint, uint?)[] { (1, 10853, 10854, null), (2, 10856, 10857, null), (3, 10858, 10859, null) })
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             foreach (var (mission, title, objectives) in expected)
@@ -102,14 +117,28 @@ namespace Rasa.Test.Missions.Pools
             }
         }
 
-        /// <summary>Building Materials and Medicinal Measures have no requirement (TaRapedia).</summary>
+        /// <summary>
+        /// Building Materials, Medicinal Measures and Death Patrol have no requirement (TaRapedia). More Clips and Tags follows
+        /// Death Patrol and repeats at once (PlanetTR); The Thirsty Hermit follows both Death Patrol and Medicinal Measures.
+        /// </summary>
         [TestMethod]
-        public void TheSnakePitsFirstMissionsHaveNoRequirement()
+        public void EachMissionRequiresTheMissionsBeforeIt()
         {
             using var harness = WildernessRuntimeTestHarness.Create();
             var prerequisites = harness.World.MissionPrerequisiteEntries.AsNoTracking()
                 .Where(entry => entry.ContentRevision == PoolsMissionDataV1.Revision).ToArray();
-            Assert.HasCount(0, prerequisites);
+            Assert.HasCount(3, prerequisites);
+            Assert.IsTrue(prerequisites.All(entry => entry.Kind == MissionPrerequisiteKind.MissionCompleted));
+            foreach (var mission in new uint[] { 1314, 1066, 1315 })
+                Assert.IsFalse(prerequisites.Any(entry => entry.MissionId == mission), $"{mission}");
+            CollectionAssert.AreEquivalent(new uint?[] { 1315 },
+                prerequisites.Where(entry => entry.MissionId == 1321).Select(entry => entry.RequiredMissionId).ToArray());
+            CollectionAssert.AreEquivalent(new uint?[] { 1315, 1066 },
+                prerequisites.Where(entry => entry.MissionId == 1328).Select(entry => entry.RequiredMissionId).ToArray());
+
+            var repeats = harness.World.Set<MissionRepeatPolicyEntry>().AsNoTracking()
+                .Where(entry => entry.ContentRevision == PoolsMissionDataV1.Revision).ToArray();
+            Assert.AreEqual((1321U, Rasa.Missions.Runtime.MissionRepeatKind.Immediate), (repeats.Single().MissionId, repeats.Single().Kind));
         }
 
         /// <summary>The missions' sources and how far each is trusted: the client 1.0, TaRapedia 0.5, the reconstruction 0.3.</summary>
@@ -124,6 +153,12 @@ namespace Rasa.Test.Missions.Pools
                 (1314, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
                     (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
                 (1066, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
+                    (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
+                (1315, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
+                    (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
+                (1321, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.4),
+                    (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
+                (1328, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
                     (MissionEvidenceSourceKind.Reconstruction, 0.3) })
             })
                 CollectionAssert.AreEqual(confidences, evidence.Where(entry => entry.MissionId == mission)
@@ -141,6 +176,37 @@ namespace Rasa.Test.Missions.Pools
             foreach (var row in indicators)
                 Assert.IsTrue(row.IndicatorId > MissionIndicator.UnnamedFrom,
                     $"mission {row.MissionId} objective {row.ObjectiveId} indicator {row.IndicatorId}");
+        }
+
+        /// <summary>
+        /// Pools_death_patrol takes out its three missions and puts Snake back at his Plateau-PR place; the Snake Pit's two
+        /// missions stay.
+        /// </summary>
+        [TestMethod]
+        public void DeathPatrolRollsBackWithItsMigrationAndSnakeGoesBack()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var world = harness.World;
+            bool Has(uint mission) => world.MissionContentDefinitionEntries.AsNoTracking()
+                .Any(entry => entry.MissionId == mission && entry.ContentRevision == PoolsMissionDataV1.Revision);
+            (double, double, double) Snake()
+            {
+                var row = world.SpawnPoolEntries.AsNoTracking().Single(entry => entry.Id == PlateauSnakePitV1.Snake);
+                return (System.Math.Round(row.PosX, 2), System.Math.Round(row.PosY, 2), System.Math.Round(row.PosZ, 2));
+            }
+
+            Assert.IsTrue(Has(1315) && Has(1321) && Has(1328));
+            Assert.AreEqual(PoolsWashingtonPlaceV1.At, Snake());
+
+            world.GetService<IMigrator>().Migrate(SnakePit);
+            Assert.IsFalse(Has(1315) || Has(1321) || Has(1328));
+            Assert.IsFalse(world.Set<MissionRepeatPolicyEntry>().AsNoTracking().Any(entry => entry.ContentRevision == PoolsMissionDataV1.Revision));
+            Assert.AreEqual(PlateauSnakePitV1.SnakeAt, Snake());
+            Assert.IsTrue(Has(1314) && Has(1066));
+
+            world.GetService<IMigrator>().Migrate(DeathPatrol);
+            Assert.IsTrue(Has(1315) && Has(1321) && Has(1328));
+            Assert.AreEqual(PoolsWashingtonPlaceV1.At, Snake());
         }
 
         /// <summary>Pools_snake_pit takes out its missions and Riggins and Hester; Retreads to Retreads stays.</summary>
