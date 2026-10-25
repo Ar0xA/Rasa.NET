@@ -19,7 +19,9 @@ namespace Rasa.Test.Missions.Pools
     /// More Clips and Tags (1321) and The Thirsty Hermit (1328), and Snake's move to his sourced place (Pools_death_patrol);
     /// Looking For Logos? (1308), Mapping The Pools (1025) and Bane Investigation (932), with Spymaster Timlin, Specialist
     /// Allen and Lieutenant Feldman (Pools_snake_pit_contacts); Sabotage the Tower (937), Bane Jamming (938) and
-    /// Elimination (941), with the western fort's Eloh obelisk and a Pools Linker (Pools_bane_chain).
+    /// Elimination (941), with the western fort's Eloh obelisk and a Pools Linker (Pools_bane_chain); the Retread chain, A
+    /// Cult Divided (560), Testing the Pools (561), One Man's Trash (562), Retread Planning (563) and Retread Planning Part II
+    /// (1330), with McKormic, Venma, Buckley and Rickert at the Retread Camp (Pools_retread_chain).
     /// Amee Corman's Retreads to
     /// Retreads (1751) is on the Plateau's revision (PlateauMissionTests): it follows Weapons Trafficking.
     /// </summary>
@@ -33,23 +35,28 @@ namespace Rasa.Test.Missions.Pools
             PoolsBuildingMaterialsV1.MissionId, PoolsMedicinalMeasuresV1.MissionId, PoolsDeathPatrolV1.MissionId,
             PoolsMoreClipsAndTagsV1.MissionId, PoolsThirstyHermitV1.MissionId, PoolsLookingForLogosV1.MissionId,
             PoolsMappingThePoolsV1.MissionId, PoolsBaneInvestigationV1.MissionId, PoolsSabotageTheTowerV1.MissionId,
-            PoolsBaneJammingV1.MissionId, PoolsEliminationV1.MissionId
+            PoolsBaneJammingV1.MissionId, PoolsEliminationV1.MissionId, PoolsCultDividedV1.MissionId,
+            PoolsTestingThePoolsV1.MissionId, PoolsOneMansTrashV1.MissionId, PoolsRetreadPlanningV1.MissionId,
+            PoolsRetreadPlanningPartTwoV1.MissionId
         };
 
         /// <summary>
         /// Medicinal Measures' one, on the Mawflower field; The Thirsty Hermit's three (Hester, the cabinet, the Hermit);
         /// Looking For Logos?'s three (Suresh, the Refinery's door, Suresh); Mapping The Pools' eight (Timlin, the pack, the
         /// five beacons, Timlin); Bane Investigation's three (the terminal twice, Feldman); Sabotage the Tower's two (the fort,
-        /// the obelisk); Bane Jamming's seven (the obelisk, the six jammers); Elimination's one (Prysiam). Building Materials,
-        /// Death Patrol and More Clips and Tags have none (their creatures and bodies are all over the Pools).
+        /// the obelisk); Bane Jamming's seven (the obelisk, the six jammers); Elimination's one (Prysiam); A Cult Divided's
+        /// one (McKormic); Testing the Pools' three (the sample spots); One Man's Trash's two (the crates); Retread Planning's
+        /// four (the camp three times, the Hermit); Part II's one (Amee). Building Materials, Death Patrol and More Clips and
+        /// Tags have none (their creatures and bodies are all over the Pools).
         /// </summary>
-        internal const int Indicators = 28;
+        internal const int Indicators = 39;
 
         private const string Before = "20270401000000_Plateau_retreads_to_retreads";
         private const string SnakePit = "20270402000000_Pools_snake_pit";
         private const string DeathPatrol = "20270403000000_Pools_death_patrol";
         private const string Contacts = "20270404000000_Pools_snake_pit_contacts";
         private const string BaneChain = "20270405000000_Pools_bane_chain";
+        private const string RetreadChain = "20270406000000_Pools_retread_chain";
 
         [TestMethod]
         public void TheMissionsAreEnabledOperationalAndGivenByTheirNpcs()
@@ -66,7 +73,12 @@ namespace Rasa.Test.Missions.Pools
                 (PoolsBaneInvestigationV1.MissionId, PoolsSnakePitContactsV1.Feldman, PoolsSnakePitContactsV1.Feldman, 35),
                 (PoolsSabotageTheTowerV1.MissionId, PoolsSnakePitContactsV1.Feldman, PoolsSnakePitContactsV1.Feldman, 35),
                 (PoolsBaneJammingV1.MissionId, PoolsSnakePitContactsV1.Feldman, PoolsSnakePitContactsV1.Feldman, 35),
-                (PoolsEliminationV1.MissionId, PlateauSnakePitV1.Snake, PlateauSnakePitV1.Snake, 35)
+                (PoolsEliminationV1.MissionId, PlateauSnakePitV1.Snake, PlateauSnakePitV1.Snake, 35),
+                (PoolsCultDividedV1.MissionId, PlateauBaileyNpcsV1.Hermit, PoolsRetreadCampNpcsV1.McKormic, 33),
+                (PoolsTestingThePoolsV1.MissionId, PoolsRetreadCampNpcsV1.Venma, PoolsRetreadCampNpcsV1.Venma, 33),
+                (PoolsOneMansTrashV1.MissionId, PoolsRetreadCampNpcsV1.Buckley, PoolsRetreadCampNpcsV1.Buckley, 33),
+                (PoolsRetreadPlanningV1.MissionId, null, PlateauBaileyNpcsV1.Hermit, 33),
+                (PoolsRetreadPlanningPartTwoV1.MissionId, PlateauBaileyNpcsV1.Hermit, 510195, 33)
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var enabled = harness.World.MissionContentDefinitionEntries.AsNoTracking()
@@ -80,11 +92,12 @@ namespace Rasa.Test.Missions.Pools
                 Assert.AreEqual<uint?>(level, entry.Level, $"{mission} level");
                 Assert.AreEqual<uint?>(PoolsMissionDataV1.CategoryId, entry.CategoryId);
             }
-            // Riggins, Hester, Timlin and Feldman stand at the Snake Pit, Allen in the field, on Valverde Pools, with their
-            // names, level and packages.
+            // Riggins, Hester, Timlin and Feldman stand at the Snake Pit, Allen in the field, McKormic, Venma, Buckley and
+            // Rickert at the Retread Camp, on Valverde Pools, with their names, level and packages.
             foreach (var (npc, name, package) in new (uint, uint, uint)[]
             {
-                (650200, 9385, 650200), (650201, 8865, 1129), (650202, 4385, 343), (650203, 4387, 650203), (650204, 4376, 650204)
+                (650200, 9385, 650200), (650201, 8865, 1129), (650202, 4385, 343), (650203, 4387, 650203), (650204, 4376, 650204),
+                (650206, 4367, 326), (650207, 4368, 327), (650208, 4369, 328), (650209, 4374, 333)
             })
             {
                 Assert.AreEqual(1304U, harness.World.SpawnPoolEntries.AsNoTracking().Single(row => row.Id == npc).MapContextId, $"{npc} map");
@@ -128,7 +141,22 @@ namespace Rasa.Test.Missions.Pools
                     (1, 5093, 7978, 5097), (2, 5096, 7979, null), (8, 5263, 7980, null), (9, 5264, 7981, null), (10, 5265, 7982, null),
                     (11, 5266, 7983, null), (12, 5267, 7984, null)
                 }),
-                (941, 5115, new (uint, uint, uint, uint?)[] { (1, 5130, 7580, 5131) })
+                (941, 5115, new (uint, uint, uint, uint?)[] { (1, 5130, 7580, 5131) }),
+                (560, 1623, new (uint, uint, uint, uint?)[] { (2, 9341, 9342, null) }),
+                (561, 1634, new (uint, uint, uint, uint?)[] { (1, 1642, 8054, null), (3, 1643, 8055, null), (4, 1644, 8056, null),
+                    (5, 1645, 8057, null) }),
+                (562, 1638, new (uint, uint, uint, uint?)[] { (1, 1651, 7613, null), (2, 1652, 7614, null) }),
+                (563, 1653, new (uint, uint, uint, uint?)[]
+                {
+                    (3, 1666, 7994, null), (4, 1668, 7995, null), (5, 1670, 7996, null), (6, 1672, 7997, null), (7, 1674, 7998, null),
+                    (10, 1678, 8001, null), (11, 1680, 8002, null), (12, 1682, 8003, null), (13, 1684, 8004, null), (14, 1686, 8005, null),
+                    (15, 10869, 10870, 10871), (16, 10872, 10873, 10874), (17, 10875, 10876, 10877),
+                    (19, 10884, 10885, null), (20, 10887, 10888, null), (21, 10890, 10891, null), (22, 10893, 10894, null),
+                    (23, 10896, 10897, null), (24, 10881, 10882, null),
+                    // 25 and 26: the server's own hidden gate, on 24's texts.
+                    (25, 10881, 10882, null), (26, 10881, 10882, null)
+                }),
+                (1330, 10899, new (uint, uint, uint, uint?)[] { (1, 10904, 10905, null) })
             };
             // 937's objective 1 shows its second count too: counter 1 "Bane Equipment Locker Destroyed".
             var secondCounters = new Dictionary<(uint, uint), uint> { [(937, 1)] = 5058 };
@@ -159,7 +187,9 @@ namespace Rasa.Test.Missions.Pools
         /// Building Materials, Medicinal Measures, Death Patrol, Looking For Logos?, Mapping The Pools and Bane Investigation
         /// have no requirement (TaRapedia). More Clips and Tags follows
         /// Death Patrol and repeats at once (PlanetTR); The Thirsty Hermit follows both Death Patrol and Medicinal Measures;
-        /// Sabotage the Tower follows Bane Investigation, and Bane Jamming and Elimination follow it (TaRapedia).
+        /// Sabotage the Tower follows Bane Investigation, and Bane Jamming and Elimination follow it; A Cult Divided follows The
+        /// Thirsty Hermit, Testing the Pools and One Man's Trash follow it, Retread Planning follows One Man's Trash, and Part
+        /// II follows Retread Planning (TaRapedia).
         /// </summary>
         [TestMethod]
         public void EachMissionRequiresTheMissionsBeforeIt()
@@ -167,7 +197,7 @@ namespace Rasa.Test.Missions.Pools
             using var harness = WildernessRuntimeTestHarness.Create();
             var prerequisites = harness.World.MissionPrerequisiteEntries.AsNoTracking()
                 .Where(entry => entry.ContentRevision == PoolsMissionDataV1.Revision).ToArray();
-            Assert.HasCount(6, prerequisites);
+            Assert.HasCount(11, prerequisites);
             Assert.IsTrue(prerequisites.All(entry => entry.Kind == MissionPrerequisiteKind.MissionCompleted));
             foreach (var mission in new uint[] { 1314, 1066, 1315, 1308, 1025, 932 })
                 Assert.IsFalse(prerequisites.Any(entry => entry.MissionId == mission), $"{mission}");
@@ -175,7 +205,10 @@ namespace Rasa.Test.Missions.Pools
                 prerequisites.Where(entry => entry.MissionId == 1321).Select(entry => entry.RequiredMissionId).ToArray());
             CollectionAssert.AreEquivalent(new uint?[] { 1315, 1066 },
                 prerequisites.Where(entry => entry.MissionId == 1328).Select(entry => entry.RequiredMissionId).ToArray());
-            foreach (var (mission, required) in new (uint, uint)[] { (937, 932), (938, 937), (941, 937) })
+            foreach (var (mission, required) in new (uint, uint)[]
+            {
+                (937, 932), (938, 937), (941, 937), (560, 1328), (561, 560), (562, 560), (563, 562), (1330, 563)
+            })
                 CollectionAssert.AreEquivalent(new uint?[] { required },
                     prerequisites.Where(entry => entry.MissionId == mission).Select(entry => entry.RequiredMissionId).ToArray(), $"{mission}");
 
@@ -214,6 +247,16 @@ namespace Rasa.Test.Missions.Pools
                 (938, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
                     (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
                 (941, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
+                    (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
+                (560, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
+                    (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
+                (561, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
+                    (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
+                (562, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
+                    (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
+                (563, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
+                    (MissionEvidenceSourceKind.Reconstruction, 0.3) }),
+                (1330, new[] { (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
                     (MissionEvidenceSourceKind.Reconstruction, 0.3) })
             })
                 CollectionAssert.AreEqual(confidences, evidence.Where(entry => entry.MissionId == mission)
@@ -231,6 +274,41 @@ namespace Rasa.Test.Missions.Pools
             foreach (var row in indicators)
                 Assert.IsTrue(row.IndicatorId > MissionIndicator.UnnamedFrom,
                     $"mission {row.MissionId} objective {row.ObjectiveId} indicator {row.IndicatorId}");
+        }
+
+        /// <summary>
+        /// Pools_retread_chain takes out its five missions and the four Retreads; Amee, the Hermit and The Thirsty Hermit stay.
+        /// </summary>
+        [TestMethod]
+        public void TheRetreadChainRollsBackWithItsMigration()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var world = harness.World;
+            var missions = new uint[] { 560, 561, 562, 563, 1330 };
+            bool Has(uint mission) => world.MissionContentDefinitionEntries.AsNoTracking()
+                .Any(entry => entry.MissionId == mission && entry.ContentRevision == PoolsMissionDataV1.Revision);
+            int Count(string sql) => world.Database.SqlQueryRaw<int>(sql).AsEnumerable().Single();
+            int Rows(string table) => Count($"SELECT COUNT(*) AS Value FROM {table} WHERE id BETWEEN " +
+                $"{PoolsRetreadCampNpcsV1.McKormic} AND {PoolsRetreadCampNpcsV1.Rickert}");
+            (int, int, int, int, int) All() => (Rows("creature"), Rows("spawnpool"), Rows("npc_package"), Rows("creature_appearance"),
+                Count("SELECT COUNT(*) AS Value FROM mission_scene_binding WHERE mission_id IN (560, 561, 562, 563, 1330)"));
+
+            Assert.IsTrue(missions.All(Has));
+            Assert.AreEqual((4, 4, 4, 24, 4), All(), "1330 has no scene");
+
+            world.GetService<IMigrator>().Migrate(BaneChain);
+            Assert.IsFalse(missions.Any(Has));
+            Assert.AreEqual((0, 0, 0, 0, 0), All());
+            Assert.IsFalse(world.MissionEvidenceEntries.Any(entry => missions.Contains(entry.MissionId)));
+            Assert.IsFalse(world.Set<MissionChannelPolicyEntry>().AsNoTracking().Any(entry => entry.MissionId == 563 &&
+                entry.ContentRevision == PoolsMissionDataV1.Revision), "563's radio offer goes");
+            Assert.IsTrue(Has(PoolsThirstyHermitV1.MissionId) && Has(937));
+            Assert.AreEqual(1, Count($"SELECT COUNT(*) AS Value FROM creature WHERE id = {PoolsRetreadCampNpcsV1.Amee}"));
+            Assert.AreEqual(1, Count($"SELECT COUNT(*) AS Value FROM creature WHERE id = {PlateauBaileyNpcsV1.Hermit}"));
+
+            world.GetService<IMigrator>().Migrate(RetreadChain);
+            Assert.IsTrue(missions.All(Has));
+            Assert.AreEqual((4, 4, 4, 24, 4), All());
         }
 
         /// <summary>
