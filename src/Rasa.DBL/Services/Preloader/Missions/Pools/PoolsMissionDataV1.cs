@@ -149,10 +149,10 @@ namespace Rasa.Services.Preloader.Missions.Pools
                 ("comment", comment));
 
         public void Objective(uint id, uint nameTextId, uint bodyTextId, uint ordinal, MissionObjectiveState initial,
-            uint? counterTextId = null, bool required = true) =>
+            uint? counterTextId = null, bool required = true, uint? counter1TextId = null) =>
             Insert("mission_objective_definition",
                 ("objective_id", id), ("client_name_text_id", nameTextId), ("client_body_text_id", bodyTextId),
-                ("client_counter_0_text_id", counterTextId), ("client_counter_1_text_id", null),
+                ("client_counter_0_text_id", counterTextId), ("client_counter_1_text_id", counter1TextId),
                 ("client_counter_2_text_id", null), ("ordinal", ordinal), ("initial_state", (byte)initial),
                 ("is_required", required), ("comment", $"Native objective {_missionId}.{id}"));
 

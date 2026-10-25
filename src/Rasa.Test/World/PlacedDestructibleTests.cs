@@ -53,6 +53,7 @@ namespace Rasa.Test.World
         private const EntityClasses Shrine = (EntityClasses)919;           // UsableShrinePlayer: 13
         private const EntityClasses Dummy = (EntityClasses)29365;          // the Practice Dummy
         private const EntityClasses Rock = (EntityClasses)4321;            // no augmentation at all
+        private const EntityClasses Obelisk = (EntityClasses)10259;        // ArchElohObeliskV01: none either, but listed
 
         private const uint AttaGrubClass = 29089;
         private const uint WarnetSoldierClass = 6262;
@@ -95,6 +96,7 @@ namespace Rasa.Test.World
             AddClass(Shrine, "UsableShrinePlayer", true, AugmentationType.Shrine);
             AddClass(Dummy, "UsableStatelessHumPracticeDummyV01", true, AugmentationType.InertDestroyable);
             AddClass(Rock, "PropRock", false);
+            AddClass(Obelisk, "ArchElohObeliskV01", false);
 
             // The kinds of creature the spawners are named for: two grubs, a soldier on the map.
             AddCreature(531081, AttaGrubClass);
@@ -572,6 +574,31 @@ namespace Rasa.Test.World
             Assert.IsFalse(PlacedDestructibles.LiveOf(world.Map, 1).IsDown);
         }
 
+        /// <summary>
+        /// A plain model the server lists (PlainScenery: the Pools' obelisk) is put down as scenery with no state and no
+        /// target; any other plain model (the rock) stays left out.
+        /// </summary>
+        [TestMethod]
+        public void AListedPlainModelIsSceneryWithNoStateAndAnUnlistedOneIsLeftOut()
+        {
+            using var world = new WorldTestContext();
+            var client = Stand(world, new Vector3(14, 2, 20));
+            using var placed = Put(world, Row(1, Obelisk, 10, 20));
+            var obelisk = ObjectOf(world, 1);
+
+            Assert.IsNull(PlacedDestructibles.WhyNot(Obelisk, out var kind));
+            Assert.AreEqual(PlacedDestructibles.Kind.Scenery, kind);
+            Assert.AreEqual(DynamicObjectType.Scenery, obelisk.DynamicObjectType);
+            var made = Sent(client).Select(entry => entry.Packet).OfType<CreatePhysicalEntityPacket>().Single(packet => packet.EntityId == obelisk.EntityId);
+            Assert.AreEqual(Obelisk, made.ClassId);
+            Assert.IsEmpty(made.EntityData.OfType<UsableInfoPacket>(), "a plain model has no usable state");
+            Assert.IsFalse(PracticeTargetManager.TryGetTarget(world.Map, obelisk.EntityId, out _), "no target");
+            Assert.IsFalse(PlacedDestructibles.LiveOf(world.Map, 1).IsDown);
+
+            StringAssert.Contains(PlacedDestructibles.WhyNot(Rock, out _), "no destroyed state");
+            CollectionAssert.AreEquivalent(new uint[] { 10259 }, PlacedDestructibles.PlainScenery.ToArray());
+        }
+
         [TestMethod]
         public void EachPrivateCopyOfAMapHasItsOwnAndTheOpenWorldsAreLeftAlone()
         {
@@ -662,10 +689,11 @@ namespace Rasa.Test.World
                 {
                     MigratedDatabaseTemplates.Migrate(context, () => context.Database.Migrate());
 
-                    // No rows of its own: the only ones are a later migration's (Wilderness_post_npcs), taken out
-                    // here so the fixture's lot is all there is.
+                    // No rows of its own: the only ones are later migrations' (Wilderness_post_npcs, and the Pools'
+                    // obelisk of Pools_bane_chain), taken out here so the fixture's lot is all there is.
                     CollectionAssert.AreEquivalent(
-                        Enumerable.Range(0, WildernessPostNpcs.Barrels.Length + 1).Select(i => WildernessPostNpcs.FirstDestructible + (uint)i).ToList(),
+                        Enumerable.Range(0, WildernessPostNpcs.Barrels.Length + 1).Select(i => WildernessPostNpcs.FirstDestructible + (uint)i)
+                            .Append(Rasa.Services.Preloader.Missions.Pools.PoolsObeliskV1.Id).ToList(),
                         new WorldDestructibleRepository(context).Get().Select(row => row.Id).ToList(), "no rows of its own");
                     context.Database.ExecuteSqlRaw("DELETE FROM world_destructible");
                     Assert.IsFalse(context.Database.HasPendingModelChanges());

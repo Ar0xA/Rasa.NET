@@ -1,6 +1,6 @@
 # Valverde Pools missions: sources (cross-reference)
 
-The 9 missions of the Valverde Pools quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 12 missions of the Valverde Pools quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -10,7 +10,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 | Zone | Missions |
 | --- | ---: |
 | Plateau | 1 |
-| Pools | 8 |
+| Pools | 11 |
 
 ## Plateau
 
@@ -77,6 +77,90 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Chain** (explicit prerequisite links): Bane Investigation chain (4 missions), step 1
   - Leads to: Sabotage the Tower (id 937) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Bane_Investigation), [TaRapedia](https://tabularasa.fandom.com/wiki/Sabotage_the_Tower)
 - **TR MMO DB quest series:** "Bane Investigation", row 1 of 3 ([list](https://web.archive.org/web/20120731170309/http://tr.mmodb.com/quests/seriesname-bane_investigation/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
+
+### 937 — Sabotage the Tower
+
+
+- **Rebuild summary:**
+  - level: 35 — source: [TR MMO DB](https://web.archive.org/web/20081010181037/http://tr.mmodb.com/quests/sabotage-the-tower-269.php)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 35, 10th–90th percentile) — derived from 34 missions in this file with a sourced level
+  - reward: 60,000 XP; 5,250 credits; Prodigy Conical Repair Tool lvl 35; Vextronics Electric Pistol lvl 35; Teleract Virulent Disperser lvl 32; Eclipse EMP Torqueshell Rifle lvl 32 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Sabotage_the_Tower)
+  - reward: 5250 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081010181037/http://tr.mmodb.com/quests/sabotage-the-tower-269.php)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Lieutenant Feldman: Pools, The Snakepit, /loc -934, 920, 381 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Lieutenant_Feldman)
+- **Client:** Destroy the Bane personnel and their equipment protecting the Eloh Obelisk.
+  - objectives (client): Destroy the Bane Equipment; Eliminate the Linkers guarding the Eloh Relic site.
+- **TaRapedia** [Sabotage the Tower](https://tabularasa.fandom.com/wiki/Sabotage_the_Tower): giver: Lieutenant Feldman; at: The Snakepit; zone: Pools; requires: Bane Investigation; follow-up: Bane Jamming; Elimination; XP: 60,000; credits: 5,250; items: Prodigy Conical Repair Tool lvl 35; Vextronics Electric Pistol lvl 35; Teleract Virulent Disperser lvl 32; Eclipse EMP Torqueshell Rifle lvl 32; reward from: Lieutenant Feldman
+  - overview: Destroy the Bane personnel and their equipment protecting the Eloh Obelisk.
+  - objectives: • Destroy the Bane Equipment • Vital Bane Equipment Destroyed 0 / 6 • Bane Equipment Locker Destroyed 0 / 10 • Eliminate the Linkers guarding the Eloh Relic site. • Linkers eliminated 0 / 4
+  - walkthrough: Walkthrough
+- **TaRapedia mission list** [The Snakepit mission list](https://tabularasa.fandom.com/wiki/The_Snakepit_mission_list): zone Pools, area The Snakepit, given by Lieutenant Feldman
+- **TR MMO DB** [Sabotage the Tower](https://web.archive.org/web/20081010181037/http://tr.mmodb.com/quests/sabotage-the-tower-269.php): level: 35; starts at npc: Lieutenant Feldman; starts in zone: Pools; objectives: Destroy the Bane Equipment, Eliminate the LInkers guarding the Eloh Relic Site; reward: 5250; series: Bane Investigation
+- **TR MMO DB quest series** [Bane Investigation](https://web.archive.org/web/20120731170309/http://tr.mmodb.com/quests/seriesname-bane_investigation/): Bane Investigation (level 35, reward 5250) → Bane Jamming (level 35, reward 950) → Sabotage the Tower (level 35, reward 5250) (series order as listed on the page; reward unit not stated)
+- **IGN TR Vault** [tabularasavault.ign.com/View.php?view=Npc.List&category_show_all=1&per …](https://web.archive.org/web/20120712175931/http://tabularasavault.ign.com/View.php?view=Npc.List&category_show_all=1&persist_search=1b97890fb44f287ca7117545aec03cc8&sort_field=Author&sort_dir=asc): “Starts quest "Building Materials" / Lietenant Feldman / Cyberus / 12-29-2007 / Sabotage the Tower / Amee Corman / Cyberus / 12-29-2007 / New Orders from the General”
+- **NPCs (TaRapedia NPC pages):**
+  - [Lieutenant Feldman](https://tabularasa.fandom.com/wiki/Lieutenant_Feldman): Pools, The Snakepit, /loc -934, 920, 381 (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Bane Investigation chain (4 missions), step 2
+  - Requires: Bane Investigation (id 932) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Bane_Investigation), [TaRapedia](https://tabularasa.fandom.com/wiki/Sabotage_the_Tower)
+  - Leads to: Bane Jamming (id 938) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Bane_Jamming), [TaRapedia](https://tabularasa.fandom.com/wiki/Sabotage_the_Tower)
+  - Leads to: Elimination (id 941) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Elimination), [TaRapedia](https://tabularasa.fandom.com/wiki/Sabotage_the_Tower)
+- **TR MMO DB quest series:** "Bane Investigation", row 3 of 3 ([list](https://web.archive.org/web/20120731170309/http://tr.mmodb.com/quests/seriesname-bane_investigation/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
+
+### 938 — Bane Jamming
+
+
+- **Rebuild summary:**
+  - level: 35 — source: [TR MMO DB](https://web.archive.org/web/20081010182144/http://tr.mmodb.com/quests/bane-jamming-268.php)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 35, 10th–90th percentile) — derived from 34 missions in this file with a sourced level
+  - reward: 120,000 XP; 7,000 credits; lvl 35; lvl 34; lvl 33; lvl 34 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Bane_Jamming)
+  - reward: 950 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081010182144/http://tr.mmodb.com/quests/bane-jamming-268.php)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Lieutenant Feldman: Pools, The Snakepit, /loc -934, 920, 381 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Lieutenant_Feldman)
+- **Client:** Prevent the Bane from tapping into the Eloh tower by destroying any attached equipment and by burying Jammers surrounding the tower.
+  - objectives (client): Destroy the Bane Equipment attached to the Eloh Obelisk; Place Jammer: Alpha; Place Jammer: Beta; Place Jammer: Gamma; Place Jammer: Delta; Place Jammer: Epsilon; Place Jammer: Zeta
+- **TaRapedia** [Bane Jamming](https://tabularasa.fandom.com/wiki/Bane_Jamming): giver: Lieutenant Feldman; at: The Snakepit; zone: Pools; requires: Sabotage the Tower; XP: 120,000; credits: 7,000; items: lvl 35; lvl 34; lvl 33; lvl 34; reward from: Lieutenant Feldman
+  - overview: Prevent the Bane from tapping into the Eloh tower by destroying any attached equipment and by burying Jammers surrounding the tower.
+  - objectives: • Destroy the Bane Equipment attached to the Eloh Obelisk • Place Jammer: Alpha • Place Jammer: Beta • Place Jammer: Gamma • Place Jammer: Delta • Place Jammer: Epsilon • Place Jammer: Zeta
+  - walkthrough: Approaching from the area outside the base where you plant three of the beacons, you can jump onto the wall of the base to reach the other three without fighting through hordes of enemies. You can also take out Overseer Prysiam for Elimination this way.
+- **TaRapedia mission list** [The Snakepit mission list](https://tabularasa.fandom.com/wiki/The_Snakepit_mission_list): zone Pools, area The Snakepit, given by Lieutenant Feldman
+- **TR MMO DB** [Bane Jamming](https://web.archive.org/web/20081010182144/http://tr.mmodb.com/quests/bane-jamming-268.php): level: 35; starts at npc: Lieutenant Feldman; starts in zone: Pools; objectives: Destroy the Bane Equipment attached to the Eloh Obelisk, Plane Jammers: Alpha, Beta, Gamma, Delta, Epsilon, and Zeta, Return to Lieutenant Feldman; reward: 950; series: Bane Investigation
+- **TR MMO DB quest series** [Bane Investigation](https://web.archive.org/web/20120731170309/http://tr.mmodb.com/quests/seriesname-bane_investigation/): Bane Investigation (level 35, reward 5250) → Bane Jamming (level 35, reward 950) → Sabotage the Tower (level 35, reward 5250) (series order as listed on the page; reward unit not stated)
+- **NPCs (TaRapedia NPC pages):**
+  - [Lieutenant Feldman](https://tabularasa.fandom.com/wiki/Lieutenant_Feldman): Pools, The Snakepit, /loc -934, 920, 381 (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Bane Investigation chain (4 missions), step 3
+  - Requires: Sabotage the Tower (id 937) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Bane_Jamming), [TaRapedia](https://tabularasa.fandom.com/wiki/Sabotage_the_Tower)
+- **TR MMO DB quest series:** "Bane Investigation", row 2 of 3 ([list](https://web.archive.org/web/20120731170309/http://tr.mmodb.com/quests/seriesname-bane_investigation/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
+
+### 941 — Elimination
+
+
+- **Rebuild summary:**
+  - level: 35 — source: [TR MMO DB](https://web.archive.org/web/20080907092013/http://tr.mmodb.com/quests/elimination-265.php)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 35, 10th–90th percentile) — derived from 34 missions in this file with a sourced level
+  - reward: 60,000 XP; 5,250 credits; AccuMax Chaingun lvl 33; AccuMax Incendiary Net Gun lvl 36; Vitalius Exothermic Polarity Gun lvl 33; Eclipse Shotgun lvl 32 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Elimination)
+  - reward: 1760 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20080907092013/http://tr.mmodb.com/quests/elimination-265.php)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Colonel 'Snake' Washington: Pools, The Snakepit, /loc -981, 915, 413 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Colonel_%27Snake%27_Washington)
+- **Client:** Eliminate the Bane Officer name Prysiam located in the vacinity of the Eloh Obelisk in Western Valverde Pools.
+  - objectives (client): Eliminate Overseer Prysiam
+- **TaRapedia** [Elimination](https://tabularasa.fandom.com/wiki/Elimination): giver: Colonel 'Snake' Washington; at: The Snakepit; zone: Pools; requires: Sabotage the Tower; XP: 60,000; credits: 5,250; items: AccuMax Chaingun lvl 33; AccuMax Incendiary Net Gun lvl 36; Vitalius Exothermic Polarity Gun lvl 33; Eclipse Shotgun lvl 32; reward from: Colonel 'Snake' Washington
+  - overview: Eliminate the Bane Officer named Prysiam located in the vacinity of the Eloh Obelisk in Western Valverde Pools.
+  - objectives: • Eliminate Overseer Prysiam
+  - walkthrough: If you jump onto the wall of the base from outside near where you place three beacons for Bane Jamming, you can take out Overseer Prysiam without having to fight through the entire base.
+- **TaRapedia mission list** [The Snakepit mission list](https://tabularasa.fandom.com/wiki/The_Snakepit_mission_list): zone Pools, area The Snakepit, given by Colonel 'Snake' Washington
+- **TR MMO DB** [Elimination](https://web.archive.org/web/20080907092013/http://tr.mmodb.com/quests/elimination-265.php): level: 35; starts at npc: Colonel 'Snake' Washington; starts in zone: Pools; objectives: Eliminate Overseer Prysiam, Return to Colonel Washington; reward: 1760
+  - related mob Overseer Prysiam (not in the archived bestiary pages)
+- **Stratics TR forum** [boards.stratics.com:80/php-bin/tr/showflat.php?Cat=&Number=11987&page= …](https://web.archive.org/web/20071221003621/http://boards.stratics.com:80/php-bin/tr/showflat.php?Cat=&Number=11987&page=0&view=collapsed&sb=5&o=&fpart=1): “missions Traitor in the Midst, Wrench in the Gears, Process of / Elimination, and Proof of Assurance. / Valverede Divide: Sanctus Grotto: Mission rewards have been added to the new”
+- **NPCs (TaRapedia NPC pages):**
+  - [Colonel 'Snake' Washington](https://tabularasa.fandom.com/wiki/Colonel_%27Snake%27_Washington): Pools, The Snakepit, /loc -981, 915, 413 (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Bane Investigation chain (4 missions), step 3
+  - Requires: Sabotage the Tower (id 937) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Elimination), [TaRapedia](https://tabularasa.fandom.com/wiki/Sabotage_the_Tower)
 
 ### 1025 — Mapping The Pools
 
