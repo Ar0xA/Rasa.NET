@@ -194,7 +194,7 @@ namespace Rasa.Test.Missions.Plateau
         }
 
         /// <summary>The shrine used, from where it stands, and the use's ten seconds run out (LogosShrineUseArgTests).</summary>
-        private static void UseShrine(WildernessRuntimeTestHarness harness, MapChannel map, Logos shrine)
+        internal static void UseShrine(WildernessRuntimeTestHarness harness, MapChannel map, Logos shrine)
         {
             harness.MoveTo(shrine.Position);
             harness.Drain();

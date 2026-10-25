@@ -61,7 +61,8 @@ namespace Rasa.Services.Preloader.Missions.Pools
             }
         }
 
-        private static IEnumerable<string> Npc(uint id, string comment, uint name, uint package, (double X, double Y, double Z) at)
+        /// <summary>One NPC of the Snake Pit in its uniform, as PoolsSnakePitContactsV1 adds more.</summary>
+        internal static IEnumerable<string> Npc(uint id, string comment, uint name, uint package, (double X, double Y, double Z) at)
         {
             yield return "INSERT INTO creature (id, comment, class_id, faction, level, max_hp, name_id, run_speed, walk_speed, " +
                          "action1, action2, action3, action4, action5, action6, action7, action8) " +
