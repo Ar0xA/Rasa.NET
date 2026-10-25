@@ -1,6 +1,6 @@
 # Valverde Pools missions: sources (cross-reference)
 
-The 27 missions of the Valverde Pools quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 36 missions of the Valverde Pools quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -10,7 +10,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 | Zone | Missions |
 | --- | ---: |
 | Plateau | 1 |
-| Pools | 26 |
+| Pools | 35 |
 
 ## Plateau
 
@@ -54,7 +54,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB](https://web.archive.org/web/20120731171607/http://tr.mmodb.com/quests/a-cult-divided-276.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 27500 XP; 3400 credits; Class VII Advanced Med Pack, Class VII Armor Charger, Class VII Cryogenic Grenade, Class VII Incendiary Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 27,500 XP; 3,400 credits; Class VII Advanced Med Pack (2); Claee VII Armor Charger (2); Class VII Cryogenic Grenade (4); Class VII Incendiary Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Cult_Divided)
   - reward: 3400 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20120731171607/http://tr.mmodb.com/quests/a-cult-divided-276.php)
@@ -105,7 +105,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 55000 XP; 5100 credits; choose 1 of: Hazmat Armor Helmet, Mech Armor Vest, Motor Assist Armor Helmet, Reflective Armor Helmet — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 55,000 XP; 5,100 credits; lvl 34; lvl 35; lvl 33; lvl 34 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/One_Man%27s_Trash)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -137,7 +137,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 27500 XP; 3300 credits; Class VII EMP Bomb, Class VII Adrenaline Booster, Class VII Cryogenic Grenade, Class VII Incendiary Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 27,500 XP; 3,300 credits; Class VII EMP Bomb (2); Class VII Adrenaline Booster (2); Class VII Cryogenic Grenade (4); Class VII Incendiary Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Retread_Planning)
   - reward: 0 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731164744/http://tr.mmodb.com/quests/seriesname-retread_planning/)
@@ -159,9 +159,40 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 
 - **Chain** (explicit prerequisite links): Death Patrol chain (18 missions), step 5
   - Requires: One Man's Trash (id 562) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/One_Man%27s_Trash), [TaRapedia](https://tabularasa.fandom.com/wiki/Retread_Planning), this PR's World data (`mission_content_definition` / `mission_reward_*`)
-  - Leads to: Stick Your Neck Out (id 1329) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Retread_Planning), [TaRapedia](https://tabularasa.fandom.com/wiki/Stick_Your_Neck_Out)
+  - Leads to: Stick Your Neck Out (id 1329) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Retread_Planning), [TaRapedia](https://tabularasa.fandom.com/wiki/Stick_Your_Neck_Out), this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - Leads to: Retread Planning Part II (id 1330) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Retread_Planning), [TaRapedia](https://tabularasa.fandom.com/wiki/Retread_Planning_Part_II), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 - **TR MMO DB quest series:** "Retread Planning", row 1 of 2 ([list](https://web.archive.org/web/20120731164744/http://tr.mmodb.com/quests/seriesname-retread_planning/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
+
+### 856 — The Mad Bomber
+
+
+- **Instance mentioned:** Retread Caves — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172827/http://tr.mmodb.com/quests/startingzone-retread_caves/)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
+  - reward: 60000 XP; 7000 credits; choose 1 of: Hazmat Armor Gloves, Motor Assist Armor Gloves, Reflective Armor Gloves, Stealth Armor Legs — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 60,000 XP; 7,000 credits; lvl 34; lvl 33; lvl 34; lvl 35 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Mad_Bomber)
+  - reward: 7000 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Pools only
+- **Client:** Find and kill the Mad Bomber.
+  - objectives (client): Kill the Mad Bomber
+- **This PR:** revision `pools_1_16_5`, level 35, solo, category 10000061 (Battlefield (Pools)), giver Ellen Lenee
+  - reward: 60000 XP; 7000 credits; choose 1 of: Hazmat Armor Gloves, Motor Assist Armor Gloves, Reflective Armor Gloves, Stealth Armor Legs
+  - prerequisites: Requires completed mission 1138
+- **TaRapedia** [The Mad Bomber](https://tabularasa.fandom.com/wiki/The_Mad_Bomber): giver: Ellen Lenee; at: Retread Caves; zone: Pools; requires: Total Slaughter; follow-up: none; XP: 60,000; credits: 7,000; items: lvl 34; lvl 33; lvl 34; lvl 35; reward from: Ellen Lenee
+  - overview: Find and kill the Mad Bomber. • This is the last mission from the Retread Caves instance story arc. The story ties to the supply line bombing story in Plateau.
+  - objectives: • Kill the Mad Bomber
+  - walkthrough: • The Mad Bomber is located at the pit of the Eastern Chamber. To get to it, go back up the trail from Ellen towards the instance portal, but just a little ways. Look for a branch to the right. Take it and fight your way down the downhill slope. When you enter the Eastern chamber take the time to note the number of canisters along your path. These are proximity mines. Tanks about level 35 should suffer few ill effects, but lower ranks, and possible those with light armor should be cautious. The Mad Bomber has a fighting style similar to a Thrax Grenadier boss.
+- **TaRapedia mission list** [Retread Caves mission list](https://tabularasa.fandom.com/wiki/Retread_Caves_mission_list): zone Pools, given by Ellen Lenee
+- **TR MMO DB quest series** [Mox Clearing](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/): A Mox On Both Our Houses (level 35, reward 4800) → Deadly Moxins, er-Toxins (level 35, reward 4800) → Deadly Moxins, er-Toxins (level 35, reward 4800) → Miasma Testing (level 35, reward 4800) → Mox Clearing (level 35, reward 4800) → Mox Shouldn't Smoke (level 35, reward 4800) → The Mad Bomber (level 35, reward 7000) → Total Slaughter (level 35, reward 4950) (series order as listed on the page; reward unit not stated)
+- **PlayTR EU** [eu.playtr.com/en/news_article/deployment_84_live_server](https://web.archive.org/web/20090106070852/http://eu.playtr.com/en/news_article/deployment_84_live_server): “The mission “Pincer Power” on Palisades can now be completed normally. / The Mad Bomber’s bombs in Retread Caves now do significantly more damage. / The linker Overseer Prion in Pravus Research now has a visible name.”
+- **RGTR official site** [www.rgtr.com/news/patch_notes/deployment_8_live.html](https://web.archive.org/web/20081115092820/http://www.rgtr.com/news/patch_notes/deployment_8_live.html): “s, even if they advanced to this objective at the same time as another player. The mission “Pincer Power” on Palisades can now be completed normally. The Mad Bomber’s bombs in Retread Caves now do significantly more damage. The linker Overseer Prion in Pravus Research now has a visible name. The AFS have deployed a Portable Waypoint at the entrance to Eloh Vale. The Brann in the Phanin Research Facility now drop appropriate loot The Brann in the …”
+
+- **Chain** (explicit prerequisite links): Mox Clearing chain (8 missions), step 8
+  - Requires: Total Slaughter (id 1138) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Mad_Bomber), [TaRapedia](https://tabularasa.fandom.com/wiki/Total_Slaughter), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+- **TR MMO DB quest series:** "Mox Clearing", row 7 of 8 ([list](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
 
 ### 896 — Bane Battle Plans
 
@@ -169,7 +200,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20080905084512/http://tr.mmodb.com/quests/bane-battle-plans-289.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 60000 XP; 5250 credits; choose 1 of: Direct Repair Tool, Electric Pistol, Virulent Disperser, EMP Torqueshell Rifle — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 60,000 XP; 5,250 credits; Dynamo Conical Repair Tool lvl 35; Shinobi Electric Pistol lvl 35; Vitalius Virulent Disperser lvl 32; AccuMax EMP Torqueshell Rifle lvl 33 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Bane_Battle_Plans_%28Lamna_Armory%29)
   - reward: 5250 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20080905084512/http://tr.mmodb.com/quests/bane-battle-plans-289.php)
@@ -210,7 +241,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20080907092038/http://tr.mmodb.com/quests/operation-overlord-288.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 60000 XP; 5250 credits; choose 1 of: Cryogenic Injector Gun, Pulse Chaingun, Electric Rifle, Rocket Launcher — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 60,000 XP; 5250 credits; Eclipse Cryogenic Injector Gun lvl 32; Teleract Pulse Chaingun lvl 33; Vitalius Electric Rifle lvl 36; Animatics Rocket Launcher lvl 34 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Operation_Overlord)
   - reward: 5250 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20080907092038/http://tr.mmodb.com/quests/operation-overlord-288.php)
@@ -239,7 +270,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20081010235945/http://tr.mmodb.com/quests/blow-them-all-up-290.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 100000 XP; 6600 credits; choose 1 of: Chaingun, Incendiary Net Gun, Exothermic Polarity Gun, Shotgun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 100,000 XP; 6,600 credits; ChiTech Chaingun lvl 33; AccuMax Incendiary Net Gun lvl 31; Vextronics Exothermic Polarity Gun lvl 33; ChiTech Shotgun lvl 32 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Blow_Them_All_Up)
   - reward: 6600 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081010235945/http://tr.mmodb.com/quests/blow-them-all-up-290.php)
@@ -264,7 +295,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20080829154110/http://tr.mmodb.com/quests/bane-investigation-267.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 60000 XP; 5250 credits; choose 1 of: Weapon Module: Crit Hit Bonus [4], Armor Module: Armor Absorption [4], Tool Module: Threat Reduction [4], Weapon Module: Armor Piercing [4] — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 60,000 XP; 5,250 credits; Modification: Crit Hit Increase; Modification: Armor Absorption; Modification: Threat Reduction; Modification: Armor Piercing — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Bane_Investigation)
   - reward: 5250 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20080829154110/http://tr.mmodb.com/quests/bane-investigation-267.php)
@@ -294,7 +325,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20081010181037/http://tr.mmodb.com/quests/sabotage-the-tower-269.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 60000 XP; 5250 credits; choose 1 of: Direct Repair Tool, Electric Pistol, Virulent Disperser, EMP Torqueshell Rifle — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 60,000 XP; 5,250 credits; Prodigy Conical Repair Tool lvl 35; Vextronics Electric Pistol lvl 35; Teleract Virulent Disperser lvl 32; Eclipse EMP Torqueshell Rifle lvl 32 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Sabotage_the_Tower)
   - reward: 5250 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081010181037/http://tr.mmodb.com/quests/sabotage-the-tower-269.php)
@@ -328,7 +359,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20081010182144/http://tr.mmodb.com/quests/bane-jamming-268.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 120000 XP; 7000 credits; choose 1 of: Graviton Armor Gloves, Hazmat Armor Legs, Motor Assist Armor Legs, Reflective Armor Legs — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 120,000 XP; 7,000 credits; lvl 35; lvl 34; lvl 33; lvl 34 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Bane_Jamming)
   - reward: 950 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081010182144/http://tr.mmodb.com/quests/bane-jamming-268.php)
@@ -359,7 +390,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20080907092013/http://tr.mmodb.com/quests/elimination-265.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 60000 XP; 5250 credits; choose 1 of: Chaingun, Incendiary Net Gun, Exothermic Polarity Gun, Shotgun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 60,000 XP; 5,250 credits; AccuMax Chaingun lvl 33; AccuMax Incendiary Net Gun lvl 36; Vitalius Exothermic Polarity Gun lvl 33; Eclipse Shotgun lvl 32 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Elimination)
   - reward: 1760 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20080907092013/http://tr.mmodb.com/quests/elimination-265.php)
@@ -390,7 +421,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 25000 XP; 3300 credits; Class VI EMP Bomb, Class VI Adrenaline Booster, Class VI Incendiary Grenade, Class VI EMP Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 25,000 XP; 3,300 credits; Class VI EMP Bomb (2); Class VI Adrenaline Booster (2); Class VI Incendiary Grenade (4); Class VI EMP Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Mapping_The_Pools)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -420,7 +451,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 27500 XP; 3400 credits; Class VII EMP Bomb, Class VII Armor Charger, Class VII EMP Grenade, Class VII Concussion Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 27,500 XP; 3,400 credits; Class VII EMP Bomb (2); Class VII Armor Charger (2); Class VII EMP Grenade (4); Class VII Concussion Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Medicinal_Measures)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -446,6 +477,211 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
   - Leads to: The Hermit (id 1327) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Thirsty_Hermit)
   - Leads to: The Thirsty Hermit (id 1328) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Thirsty_Hermit), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
+### 1131 — Miasma Mutations [instance]
+
+
+- **Instance:** Retread Caves — client objective/log text: "Bring 10 skin samples from mutated miasmas back to Dr. Donius in the Retread Caves."
+- **Rebuild summary:**
+  - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
+  - reward: 45000 XP; 4800 credits; choose 1 of: Pulse Grenade Launcher, Virulent Leech Gun, Incendiary Net Gun, Photonic Shotgun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 45,000 XP; 4,800 credits; Teleract Pulse RPG Launcher lvl 30; AccuMax Virulent Leech Gun lvl 29; Shinobi Incendiary Net Gun lvl 31; ChiTech Photonic Shotgun lvl 32 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Miasma_Mutations)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Pools only
+- **Client:** Bring 10 skin samples from mutated miasmas back to Dr. Donius in the Retread Caves.
+  - objectives (client): Collect Mutation Samples
+- **This PR:** revision `pools_1_16_5`, level 35, solo, category 10000061 (Battlefield (Pools)), giver Dr. Donius
+  - reward: 45000 XP; 4800 credits; choose 1 of: Pulse Grenade Launcher, Virulent Leech Gun, Incendiary Net Gun, Photonic Shotgun
+  - prerequisites: Requires completed mission 1134
+- **TaRapedia** [Miasma Mutations](https://tabularasa.fandom.com/wiki/Miasma_Mutations): giver: Dr. Donius; at: Retread Caves; zone: Pools; requires: Deadly Moxins, er-Toxins; follow-up: Miasma Testing; XP: 45,000; credits: 4,800; items: Teleract Pulse RPG Launcher lvl 30; AccuMax Virulent Leech Gun lvl 29; Shinobi Incendiary Net Gun lvl 31; ChiTech Photonic Shotgun lvl 32; reward from: Dr. Donius
+  - overview: Bring 10 skin samples from mutated miasmas back to Dr. Donius in the Retread Caves.
+  - objectives: • Collect Mutation Samples
+  - walkthrough: The moment you accept the mission, miasma will leap from the ground closest to the doctor, most likely the ledge below the two female NPC mission givers. The miasma will respawn at that point from now on.
+- **TaRapedia mission list** [Retread Caves mission list](https://tabularasa.fandom.com/wiki/Retread_Caves_mission_list): zone Pools, given by Dr. Donius
+
+- **Chain** (explicit prerequisite links): Mox Clearing chain (8 missions), step 5
+  - Requires: Deadly Moxins, er-Toxins (id 1134) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Deadly_Moxins%2C_er-Toxins), [TaRapedia](https://tabularasa.fandom.com/wiki/Miasma_Mutations), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Miasma Testing (id 1136) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Miasma_Mutations), [TaRapedia](https://tabularasa.fandom.com/wiki/Miasma_Testing), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+
+### 1132 — Mox Clearing
+
+
+- **Instance mentioned:** Retread Caves — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172827/http://tr.mmodb.com/quests/startingzone-retread_caves/)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
+  - reward: 45000 XP; 4800 credits; choose 1 of: Laser Chaingun, Electric Net Gun, Laser Pistol, Endothermic Polarity Gun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 45,000 XP; 4,800 credits; ChiTech Laser Chaingun lvl 33; Shinobi Electric Net Gun lvl 31; Vextronics Laser Pistol lvl 30; ChiTech Endothermic Polarity Gun lvl 33 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Mox_Clearing)
+  - reward: 4800 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Pools only
+- **Client:** Kill 12 Mox.
+  - objectives (client): Mox Killed
+- **This PR:** revision `pools_1_16_5`, level 35, solo, category 10000061 (Battlefield (Pools)), giver Ellen Lenee
+  - reward: 45000 XP; 4800 credits; choose 1 of: Laser Chaingun, Electric Net Gun, Laser Pistol, Endothermic Polarity Gun
+- **TaRapedia** [Mox Clearing](https://tabularasa.fandom.com/wiki/Mox_Clearing) [stub, bug noted]: giver: Ellen Lenee; at: Retread Caves; zone: Pools; requires: none; follow-up: Mox Shouldn't Smoke; XP: 45,000; credits: 4,800; items: ChiTech Laser Chaingun lvl 33; Shinobi Electric Net Gun lvl 31; Vextronics Laser Pistol lvl 30; ChiTech Endothermic Polarity Gun lvl 33; reward from: Ellen Lenee
+  - overview: • Kill 12 Mox.
+  - objectives: • Mox Killed
+  - walkthrough: Ellen Lenee is towards the center of the Retread Caves. Since the caves are in a radial pattern, she's not too far in. You may encounter some brief resistance while getting to her. This mission, though independently issued, is something of a follow-up to Stick Your Neck Out, whose reward giver stands next to Ellen. You may wish to acquire that mission before entering the instance.
+- **TaRapedia mission list** [Retread Caves mission list](https://tabularasa.fandom.com/wiki/Retread_Caves_mission_list): zone Pools, given by Ellen Lenee
+- **TR MMO DB quest series** [Mox Clearing](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/): A Mox On Both Our Houses (level 35, reward 4800) → Deadly Moxins, er-Toxins (level 35, reward 4800) → Deadly Moxins, er-Toxins (level 35, reward 4800) → Miasma Testing (level 35, reward 4800) → Mox Clearing (level 35, reward 4800) → Mox Shouldn't Smoke (level 35, reward 4800) → The Mad Bomber (level 35, reward 7000) → Total Slaughter (level 35, reward 4950) (series order as listed on the page; reward unit not stated)
+- **PlanetTR** [www.planettr.com:80/forums/archive/index.php/t-2090.html](https://web.archive.org/web/20080926064554/http://www.planettr.com:80/forums/archive/index.php/t-2090.html): “I have sight problem with Retead Cavss well, there is a quest there called "Mox Clearing" and no matter how many I kill the quest counter still says "0/10" some guys at General Chat said that there are 2 kind of mox there, well I searched and I only found 1 type of Mox , Miasmas and the Mad Bomber, so if someone would kindly tell me in which cave does this "second kind of Mox" spawn or whether these exist or is it bugged?”
+
+- **Chain** (explicit prerequisite links): Mox Clearing chain (8 missions), step 1
+  - Leads to: Mox Shouldn't Smoke (id 1135) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Mox_Clearing), [TaRapedia](https://tabularasa.fandom.com/wiki/Mox_Shouldn%27t_Smoke), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+- **TR MMO DB quest series:** "Mox Clearing", row 5 of 8 ([list](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
+
+### 1133 — A Mox On Both Our Houses
+
+
+- **Instance mentioned:** Retread Caves — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172827/http://tr.mmodb.com/quests/startingzone-retread_caves/)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
+  - reward: 45000 XP; 4800 credits; choose 1 of: Area Repair Tool, Sonic Disperser, Rifle, Sonic Torqueshell Rifle — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 45,000 XP; 4,800 credits; Phoenix Radial Repair Tool lvl 30; AccuMax Sonic Disperser lvl 32; AccuMax Rifle lvl 31; Eclipse Sonic Torqueshell Rifle lvl 33 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Mox_On_Both_Our_Houses)
+  - reward: 4800 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Pools only
+- **Client:** Place the laced carton of cigarettes into the empty container, then wait for the Alpha Mox to come to you. When he does, kill him, then return to Ellen Lenee.
+  - objectives (client): Place the Tobacco; Kill the Alpha
+- **This PR:** revision `pools_1_16_5`, level 35, solo, category 10000061 (Battlefield (Pools)), giver Dr. Donius → Ellen Lenee
+  - reward: 45000 XP; 4800 credits; choose 1 of: Area Repair Tool, Sonic Disperser, Rifle, Sonic Torqueshell Rifle
+  - prerequisites: Requires completed mission 1135
+- **TaRapedia** [A Mox On Both Our Houses](https://tabularasa.fandom.com/wiki/A_Mox_On_Both_Our_Houses): giver: Dr. Donius; at: Retread Caves; zone: Pools; requires: Mox Shouldn't Smoke; follow-up: Deadly Moxins, er-Toxins; XP: 45,000; credits: 4,800; items: Phoenix Radial Repair Tool lvl 30; AccuMax Sonic Disperser lvl 32; AccuMax Rifle lvl 31; Eclipse Sonic Torqueshell Rifle lvl 33; reward from: Ellen Lenee
+  - overview: Place the laced carton of cigarettes into the empty container, then wait for the Alpha Mox to come to you. When he does, kill him, then return to Ellen Lenee.
+  - objectives: • Place the Tobacco • Kill the Alpha
+- **TaRapedia mission list** [Retread Caves mission list](https://tabularasa.fandom.com/wiki/Retread_Caves_mission_list): zone Pools, given by Dr. Donius
+- **TR MMO DB quest series** [Mox Clearing](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/): A Mox On Both Our Houses (level 35, reward 4800) → Deadly Moxins, er-Toxins (level 35, reward 4800) → Deadly Moxins, er-Toxins (level 35, reward 4800) → Miasma Testing (level 35, reward 4800) → Mox Clearing (level 35, reward 4800) → Mox Shouldn't Smoke (level 35, reward 4800) → The Mad Bomber (level 35, reward 7000) → Total Slaughter (level 35, reward 4950) (series order as listed on the page; reward unit not stated)
+
+- **Chain** (explicit prerequisite links): Mox Clearing chain (8 missions), step 3
+  - Requires: Mox Shouldn't Smoke (id 1135) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Mox_On_Both_Our_Houses), [TaRapedia](https://tabularasa.fandom.com/wiki/Mox_Shouldn%27t_Smoke), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Deadly Moxins, er-Toxins (id 1134) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Mox_On_Both_Our_Houses), [TaRapedia](https://tabularasa.fandom.com/wiki/Deadly_Moxins%2C_er-Toxins), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+- **TR MMO DB quest series:** "Mox Clearing", row 1 of 8 ([list](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
+
+### 1134 — Deadly Moxins, er-Toxins
+
+
+- **Instance mentioned:** Retread Caves — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB](https://web.archive.org/web/20081202022751/http://tr.mmodb.com/quests/deadly-moxins,-er-toxins-296.php)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
+  - reward: 45000 XP; 4800 credits; choose 1 of: Bio Armor Boots, Graviton Armor Boots, Mech Armor Boots, Stealth Armor Boots — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 45,000 XP; 4,800 credits; lvl 30; lvl 30; lvl 30; lvl 30 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Deadly_Moxins%2C_er-Toxins)
+  - reward: 4800 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081202022751/http://tr.mmodb.com/quests/deadly-moxins,-er-toxins-296.php)
+  - drops / mission items: 06/28/08: The only way I was able to get this mission to complete was to go through the Drop Off and into the Eastern Fringe and kill the Mad bomber — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Deadly_Moxins%2C_er-Toxins)
+  - location: NPC Amee Corman: Pools, Retread Camp — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Amee_Corman)
+- **Client:** Dr. Donius wants you to place the flares filled with toxins to kill the Mox in the Mox cave. When the flares are placed kill all the Mox you can find in the cave. When you're done report to Amee Corman.
+  - objectives (client): Place Flares; Kill the Remaining Mox
+- **This PR:** revision `pools_1_16_5`, level 35, solo, category 10000061 (Battlefield (Pools)), giver Dr. Donius → Amee Corman
+  - reward: 45000 XP; 4800 credits; choose 1 of: Bio Armor Boots, Graviton Armor Boots, Mech Armor Boots, Stealth Armor Boots
+  - prerequisites: Requires completed mission 1133
+- **TaRapedia** [Deadly Moxins, er-Toxins](https://tabularasa.fandom.com/wiki/Deadly_Moxins%2C_er-Toxins): giver: Dr. Donius; at: Retread Caves; zone: Pools; requires: A Mox On Both Our Houses; follow-up: Miasma Mutations; XP: 45,000; credits: 4,800; items: lvl 30; lvl 30; lvl 30; lvl 30; reward from: Ellen Lenee
+  - overview: • Dr. Donius wants you to place the flares filled with toxins to kill the Mox in the Mox cave. When the flares are placed kill all the Mox you can find in the cave. When you're done report to Amee Corman.
+  - objectives: • Place Flares • Kill the remaining Mox
+  - walkthrough: 06/28/08: The only way I was able to get this mission to complete was to go through the Drop Off and into the Eastern Fringe and kill the Mad bomber. Doesn't make any sense, but that's what triggered it to complete. Too bad you need to kill him for a mission later on. Had to go outside and let the instance reset so I could kill him again. The mission does not really request that all Mox in all the Retread Caves be killed, it is targeting a few spawned specifically for the mission. Be certain to check up by the instance entrance, as some drift up that way. Don't get too close to the entrance …
+- **TaRapedia mission list** [Retread Caves mission list](https://tabularasa.fandom.com/wiki/Retread_Caves_mission_list): zone Pools, given by Dr. Donius
+- **TR MMO DB** [Deadly Moxins, er-Toxins](https://web.archive.org/web/20081202022751/http://tr.mmodb.com/quests/deadly-moxins,-er-toxins-296.php): level: 35; starts at npc: Dr. Donius; starts in zone: Retread Caves; objectives: Place Flares, Slay the Remaining Mox, Speak with Ellen Lenee; reward: 4800; series: Mox Clearing
+  - related mob Ellen Lenee (not in the archived bestiary pages)
+- **TR MMO DB quest series** [Mox Clearing](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/): A Mox On Both Our Houses (level 35, reward 4800) → Deadly Moxins, er-Toxins (level 35, reward 4800) → Deadly Moxins, er-Toxins (level 35, reward 4800) → Miasma Testing (level 35, reward 4800) → Mox Clearing (level 35, reward 4800) → Mox Shouldn't Smoke (level 35, reward 4800) → The Mad Bomber (level 35, reward 7000) → Total Slaughter (level 35, reward 4950) (series order as listed on the page; reward unit not stated)
+- **NPCs (TaRapedia NPC pages):**
+  - [Amee Corman](https://tabularasa.fandom.com/wiki/Amee_Corman): Pools, Retread Camp (named as giver/receiver)
+- **Drops / item sources:**
+  - 06/28/08: The only way I was able to get this mission to complete was to go through the Drop Off and into the Eastern Fringe and kill the Mad bomber — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Deadly_Moxins%2C_er-Toxins)
+
+- **Chain** (explicit prerequisite links): Mox Clearing chain (8 missions), step 4
+  - Requires: A Mox On Both Our Houses (id 1133) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Mox_On_Both_Our_Houses), [TaRapedia](https://tabularasa.fandom.com/wiki/Deadly_Moxins%2C_er-Toxins), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Miasma Mutations (id 1131) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Deadly_Moxins%2C_er-Toxins), [TaRapedia](https://tabularasa.fandom.com/wiki/Miasma_Mutations), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+- **TR MMO DB quest series:** "Mox Clearing", row 2 of 8 ([list](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
+
+### 1135 — Mox Shouldn't Smoke
+
+
+- **Instance mentioned:** Retread Caves — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172827/http://tr.mmodb.com/quests/startingzone-retread_caves/)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
+  - reward: 45000 XP; 4800 credits; choose 1 of: Hazmat Armor Legs, Mech Armor Vest, Motor Assist Armor Legs, Reflective Armor Legs — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 45,000 XP; 4,800 credits; lvl 29; lvl 30; lvl 33; lvl 29 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Mox_Shouldn%27t_Smoke)
+  - reward: 4800 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Pools only
+- **Client:** Speak with Dr. Donius, then go and bring back the cigarettes.
+  - objectives (client): Get the Carton of Cigarettes; Talk to Dr. Donius
+- **This PR:** revision `pools_1_16_5`, level 35, solo, category 10000061 (Battlefield (Pools)), giver Ellen Lenee
+  - reward: 45000 XP; 4800 credits; choose 1 of: Hazmat Armor Legs, Mech Armor Vest, Motor Assist Armor Legs, Reflective Armor Legs
+  - prerequisites: Requires completed mission 1132
+- **TaRapedia** [Mox Shouldn't Smoke](https://tabularasa.fandom.com/wiki/Mox_Shouldn%27t_Smoke): giver: Ellen Lenee; at: Retread Caves; zone: Pools; requires: Mox Clearing; follow-up: A Mox On Both Our Houses; XP: 45,000; credits: 4,800; items: lvl 29; lvl 30; lvl 33; lvl 29; reward from: Dr. Donius
+  - overview: Speak with Dr. Donius, then go and bring back the cigarettes. The Retreads have another idea for clearing the Mox from the caves.
+  - objectives: • Talk to Dr. Donius • Get the Carton of Cigarettes
+  - walkthrough: Dr. Donius is in the same chamber as the mission giver.
+- **TaRapedia mission list** [Retread Caves mission list](https://tabularasa.fandom.com/wiki/Retread_Caves_mission_list): zone Pools, given by Ellen Lenee
+- **TR MMO DB quest series** [Mox Clearing](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/): A Mox On Both Our Houses (level 35, reward 4800) → Deadly Moxins, er-Toxins (level 35, reward 4800) → Deadly Moxins, er-Toxins (level 35, reward 4800) → Miasma Testing (level 35, reward 4800) → Mox Clearing (level 35, reward 4800) → Mox Shouldn't Smoke (level 35, reward 4800) → The Mad Bomber (level 35, reward 7000) → Total Slaughter (level 35, reward 4950) (series order as listed on the page; reward unit not stated)
+
+- **Chain** (explicit prerequisite links): Mox Clearing chain (8 missions), step 2
+  - Requires: Mox Clearing (id 1132) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Mox_Clearing), [TaRapedia](https://tabularasa.fandom.com/wiki/Mox_Shouldn%27t_Smoke), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: A Mox On Both Our Houses (id 1133) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Mox_On_Both_Our_Houses), [TaRapedia](https://tabularasa.fandom.com/wiki/Mox_Shouldn%27t_Smoke), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+- **TR MMO DB quest series:** "Mox Clearing", row 6 of 8 ([list](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
+
+### 1136 — Miasma Testing
+
+
+- **Instance mentioned:** Retread Caves — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- Internal/test identity in the client.
+- **Client:** Bring back the docile Miasmas for testing.
+  - objectives (client): Find the Docile Miasma; Return to HP Miles; Speak with H.P.; Acquire Test Miasma; Return to H.P. Miles; Speak to H.P.; Acquire Test Miasma; Return to H.P.; Speak to H.P.; Speak To H.P. … (+1 more)
+- **This PR:** revision `pools_1_16_5`, level 35, solo, category 10000061 (Battlefield (Pools)), giver Dr. Donius → H.P. Miles
+  - reward: 45000 XP; 4800 credits; choose 1 of: Bio Armor Vest, Graviton Armor Vest, Mech Armor Legs, Stealth Armor Vest
+  - prerequisites: Requires completed mission 1131
+- **TaRapedia** [Miasma Testing](https://tabularasa.fandom.com/wiki/Miasma_Testing): giver: Dr. Donius; at: Retread Caves; zone: Pools; requires: Miasma Mutations; follow-up: Total Slaughter; XP: 45,000; credits: 4,800; items: lvl 30; lvl 30; lvl 30; lvl 30; reward from: H.P. Miles
+  - overview: Bring back the docile Miasmas for testing.
+  - objectives: • Find the Docile Miasma • Return to H.P. Miles • Speak with H.P. • Speak to H.P. • Acquire Test Miasma (second round) • Return to H.P. Miles • Speak to H.P. • Speak To H.P. • Acquire Test Miasma (third round) • Return to H.P. Miles • Return to H.P. • Speak To H.P.
+- **TaRapedia mission list** [Retread Caves mission list](https://tabularasa.fandom.com/wiki/Retread_Caves_mission_list): zone Pools, given by Dr. Donius
+- **TR MMO DB quest series** [Mox Clearing](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/): A Mox On Both Our Houses (level 35, reward 4800) → Deadly Moxins, er-Toxins (level 35, reward 4800) → Deadly Moxins, er-Toxins (level 35, reward 4800) → Miasma Testing (level 35, reward 4800) → Mox Clearing (level 35, reward 4800) → Mox Shouldn't Smoke (level 35, reward 4800) → The Mad Bomber (level 35, reward 7000) → Total Slaughter (level 35, reward 4950) (series order as listed on the page; reward unit not stated)
+
+- **Chain** (explicit prerequisite links): Mox Clearing chain (8 missions), step 6
+  - Requires: Miasma Mutations (id 1131) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Miasma_Mutations), [TaRapedia](https://tabularasa.fandom.com/wiki/Miasma_Testing), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Total Slaughter (id 1138) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Miasma_Testing), [TaRapedia](https://tabularasa.fandom.com/wiki/Total_Slaughter), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+- **TR MMO DB quest series:** "Mox Clearing", row 4 of 8 ([list](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
+- **Requires an instance mission:** Miasma Mutations (1131) — source: the chain links above
+
+### 1138 — Total Slaughter
+
+
+- **Instance mentioned:** Retread Caves — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172827/http://tr.mmodb.com/quests/startingzone-retread_caves/)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
+  - reward: 50000 XP; 4950 credits; choose 1 of: Electric Injector Gun, Electric Chaingun, Sonic Cannon, Sonic Shotgun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 50,000 XP; 4,950 credits; Teleract Electric Injector Gun lvl 32; Vitalius Electric Chaingun lvl 33; Teleract Sonic Cannon lvl 34; Teleract Sonic Shotgun lvl 32 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Total_Slaughter)
+  - reward: 4950 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Pools only
+- **Client:** Turn on the water pump and when the Miasmas come to stop you eliminate them.
+  - objectives (client): Turn on the Water Pump; Slaughter the Miasmas
+- **This PR:** revision `pools_1_16_5`, level 35, solo, category 10000061 (Battlefield (Pools)), giver H.P. Miles → Ellen Lenee
+  - reward: 50000 XP; 4950 credits; choose 1 of: Electric Injector Gun, Electric Chaingun, Sonic Cannon, Sonic Shotgun
+  - prerequisites: Requires completed mission 1136
+- **TaRapedia** [Total Slaughter](https://tabularasa.fandom.com/wiki/Total_Slaughter): giver: H.P. Miles; at: Retread Caves; zone: Pools; requires: Miasma Testing; follow-up: The Mad Bomber; XP: 50,000; credits: 4,950; items: Teleract Electric Injector Gun lvl 32; Vitalius Electric Chaingun lvl 33; Teleract Sonic Cannon lvl 34; Teleract Sonic Shotgun lvl 32; reward from: Ellen Lenee
+  - overview: Turn on the water pump and when the Miasmas come to stop you eliminate them.
+  - objectives: • Turn on the Water Pump • Slaughter the Miasmas
+  - walkthrough: The miasma will approach in waves. The last wave most likely will have a long pause, and then begin with an enormous wave of miasma. Your best weapons are Level 2 Lightening and a good shotgun. Also, don't back yourself into a corner. Enjoy the carnage!
+- **TaRapedia mission list** [Retread Caves mission list](https://tabularasa.fandom.com/wiki/Retread_Caves_mission_list): zone Pools, given by H.P. Miles
+- **TR MMO DB quest series** [Mox Clearing](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/): A Mox On Both Our Houses (level 35, reward 4800) → Deadly Moxins, er-Toxins (level 35, reward 4800) → Deadly Moxins, er-Toxins (level 35, reward 4800) → Miasma Testing (level 35, reward 4800) → Mox Clearing (level 35, reward 4800) → Mox Shouldn't Smoke (level 35, reward 4800) → The Mad Bomber (level 35, reward 7000) → Total Slaughter (level 35, reward 4950) (series order as listed on the page; reward unit not stated)
+- **PlanetTR** [planettr.com:80/forums/archive/index.php/t-2591.html](https://web.archive.org/web/20090117075527/http://planettr.com:80/forums/archive/index.php/t-2591.html): “Pools: You just need to petition it and have a GM see you kill them, then he/she will complete it for you. After a while you get the mission 'Total Slaughter, 'which is also bugged. You need to do the first objective before killing all the Miasmas in the room to complete the mission.”
+- **PlanetTR** [www.planettr.com:80/forums/archive/index.php/t-2090.html](https://web.archive.org/web/20080926064554/http://www.planettr.com:80/forums/archive/index.php/t-2090.html): “12-20-2007, 06:25 PM / just a note, another quest in there "Total Slaughter" seems to be bugged as well, I had to petition that to complete it. / vBulletin® v3.6.8, Copyright ©2000-2008, Jelsoft Enterprises Ltd.”
+
+- **Chain** (explicit prerequisite links): Mox Clearing chain (8 missions), step 7
+  - Requires: Miasma Testing (id 1136) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Miasma_Testing), [TaRapedia](https://tabularasa.fandom.com/wiki/Total_Slaughter), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: The Mad Bomber (id 856) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Mad_Bomber), [TaRapedia](https://tabularasa.fandom.com/wiki/Total_Slaughter), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+- **TR MMO DB quest series:** "Mox Clearing", row 8 of 8 ([list](https://web.archive.org/web/20120731162925/http://tr.mmodb.com/quests/seriesname-mox_clearing/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
+
 ### 1308 — Looking For Logos?
 
 
@@ -453,7 +689,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Looking_for_Logos%3F); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 60000 XP; 4950 credits; choose 1 of: Bio Armor Gloves, Graviton Armor Helmet, Mech Armor Gloves, Stealth Armor Gloves — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 60,000 XP; 4,950 credits; lvl 30; lvl 30; lvl 30; lvl 30 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Looking_for_Logos%3F)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -477,7 +713,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB](https://web.archive.org/web/20080907092421/http://tr.mmodb.com/quests/building-materials-273.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 55000 XP; 5100 credits; choose 1 of: Bio Armor Vest, Graviton Armor Vest, Mech Armor Legs, Stealth Armor Vest — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 55,000 XP; 5,100 credits; lvl 35; lvl 35; lvl 35; lvl 35 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Building_Materials)
   - reward: 5100 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20080907092421/http://tr.mmodb.com/quests/building-materials-273.php)
@@ -508,7 +744,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB](https://web.archive.org/web/20081202022721/http://tr.mmodb.com/quests/death-patrol-274.php)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 55000 XP; 5000 credits; choose 1 of: Photonic Blade, Area Healing Disc, Sonic Pistol, Pulse Staff — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 55,000 XP; 5,000 credits; Vextronics Photonic Blade lvl 31; Astra Radial Healing Disc lvl 35; AccuMax Sonic Pistol lvl 35; Pulsar Pulse Staff lvl 35 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_Patrol)
   - reward: 5000 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081202022721/http://tr.mmodb.com/quests/death-patrol-274.php)
@@ -548,7 +784,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 27500 XP; 3400 credits — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 34000 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/More_Clips_and_Tags)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -581,7 +817,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 60000 XP; 5250 credits; choose 1 of: Weapon Module: Steal Adrenaline [4], Weapon Module: Steal Armor [4], Weapon Module: Steal Health [4], Weapon Module: Steal Power [4] — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 60,000 XP; 5,250 credits; Modification: Steal Adrenaline; Modification: Steal Armor; Modification: Steal Health; Modification: Steal Power — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Supply_Master)
   - reward: 5250 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731161417/http://tr.mmodb.com/quests/seriesname-the_supply_master/)
@@ -613,7 +849,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Eastern_Listening_Post); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 32500 XP; 3600 credits; Class VII EMP Bomb, Class VII Armor Charger, Class VII Incendiary Grenade, Class VII EMP Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 32,500 XP; 3,600 credits; Class VII EMP Bomb (2); Class VII Armor Charger (2); Class VII Incendiary Grenade (4); Class VII EMP Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Eastern_Listening_Post)
   - reward: 3600 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731161417/http://tr.mmodb.com/quests/seriesname-the_supply_master/)
@@ -647,7 +883,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 35 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Smash_and_Grab); 35 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 130000 XP; 7200 credits; choose 1 of: Laser Chaingun, Cryogenic Net Gun, Electric Polarity Gun, Laser Rifle — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 130,000 XP; 7,200 credits; Shinobi Laser Chaingun lvl 33; Vitalius Cryogenic Net Gun lvl 36; Vitalius Electric Polarity Gun lvl 33; Eclipse Laser Rifle lvl 36 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Smash_and_Grab)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -680,7 +916,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 35 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 32500 XP; 3600 credits; Class VII Advanced Med Pack, Class VII Power Charger, Class VII Cryogenic Grenade, Class VII Incendiary Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 32,500 XP; 3,600 credits; Class VII Advanced Med Pack (2); Class VII Power Charger (2); Class VII Cryogenic Grenade (4); Class VII Incendiary Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Spoils_of_War)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -708,7 +944,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 27500 XP; 3400 credits; Class VII Advanced Med Pack, Class VII Adrenaline Booster, Class VII Concussion Grenade, Class VII Fragmentation Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 27,500 XP; 3,400 credits; Class VII Advanced Med Pack (2); Class VII Adrenaline Booster (2); Class VII Concussion Grenade (4); Class VII Fragmentation Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Thirsty_Hermit)
   - reward: 3400 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731161916/http://tr.mmodb.com/quests/seriesname-death_patrol/)
@@ -735,13 +971,42 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
   - Leads to: A Cult Divided (id 560) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Cult_Divided), [TaRapedia](https://tabularasa.fandom.com/wiki/The_Thirsty_Hermit), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 - **TR MMO DB quest series:** "Death Patrol", row 3 of 3 ([list](https://web.archive.org/web/20120731161916/http://tr.mmodb.com/quests/seriesname-death_patrol/)). The row order is an ESTIMATE of the play order. The list does not say which mission unlocks which.
 
+### 1329 — Stick Your Neck Out [instance]
+
+
+- **Instance:** Retread Caves — client objective/log text: "Speak with Kaethi Rose inside the Retread Caves"
+- **Rebuild summary:**
+  - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
+  - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
+  - reward: 30000 XP; 3500 credits; Class VII Advanced Med Pack, Class VII Adrenaline Booster, Class VII EMP Grenade, Class VII Concussion Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - reward: 30,000 XP; 3,500 credits; Class VII Advanced Med Pack (2); Class VII Adrenaline Booster (2); Class VII EMP Grenade (4); Class VII Concussion Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Stick_Your_Neck_Out)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Amee Corman: Pools, Retread Camp — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Amee_Corman)
+- **Client:** Amee Corman wants you to travel to the Retread Caves to speak with Kaethi Rose.
+  - objectives (client): Speak with Kaethi Rose — Speak with Kaethi Rose inside the Retread Caves
+- **This PR:** revision `pools_1_16_5`, level 33, solo, category 10000061 (Battlefield (Pools)), giver Amee Corman → Kaethi Rose
+  - reward: 30000 XP; 3500 credits; items: Class VII Advanced Med Pack ×2, Class VII Adrenaline Booster ×2, Class VII EMP Grenade ×4, Class VII Concussion Grenade ×4
+  - prerequisites: Requires completed mission 563
+- **TaRapedia** [Stick Your Neck Out](https://tabularasa.fandom.com/wiki/Stick_Your_Neck_Out): giver: Amee Corman; at: Retread Camp; zone: Pools; requires: Retread Planning; follow-up: none; XP: 30,000; credits: 3,500; items: Class VII Advanced Med Pack (2); Class VII Adrenaline Booster (2); Class VII EMP Grenade (4); Class VII Concussion Grenade (4); reward from: Kaethi Rose
+  - overview: Speak with Kaethi Rose in Retread Caves
+  - objectives: • Speak with Kaethi Rose
+  - walkthrough: This mission is the introduction to the Retread Caves instance. Kaethi Rose is just a short way inside the Retread Caves. You may encounter some brief resistance while getting to her. Although this mission does not have a formal follow-up mission, its the natural lead-in to Mox Clearing issued by Ellen Lenee who stands adjacent to the reward giver. She even comments that Col. Washington sent you to them.
+- **TaRapedia mission list** [Retread Camp mission list](https://tabularasa.fandom.com/wiki/Retread_Camp_mission_list): zone Pools, area Retread Camp, given by Amee Corman
+- **TaRapedia mission list** [Retread Caves mission list](https://tabularasa.fandom.com/wiki/Retread_Caves_mission_list): zone Pools, given by Amee Corman
+- **NPCs (TaRapedia NPC pages):**
+  - [Amee Corman](https://tabularasa.fandom.com/wiki/Amee_Corman): Pools, Retread Camp (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Death Patrol chain (18 missions), step 6
+  - Requires: Retread Planning (id 563) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Retread_Planning), [TaRapedia](https://tabularasa.fandom.com/wiki/Stick_Your_Neck_Out), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+
 ### 1330 — Retread Planning Part II
 
 
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 30000 XP; 3500 credits; Class VII Advanced Med Pack, Class VII Armor Charger, Class VII Fragmentation Grenade, Class VII Cryogenic Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 30,000 XP; 3,500 credits; Class VII Advanced Med Pack (2); Class VII Armor Charger (2); Class VII Fragmentation Grenade (4); Class VII Cryogenic Grenade (4) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Retread_Planning_Part_II)
   - reward: 3500 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB quest series list](https://web.archive.org/web/20120731164744/http://tr.mmodb.com/quests/seriesname-retread_planning/)
@@ -773,7 +1038,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 32 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 32 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 65000 XP; 5400 credits; choose 1 of: Graviton Armor Gloves, Hazmat Armor Helmet, Motor Assist Armor Helmet, Reflective Armor Helmet — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 65,000 XP; 5,400 credits; lvl 35; lvl 34; lvl 33; lvl 34 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Spy_Networking)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -802,7 +1067,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 32 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 32 — source: [TR MMO DB quest list](https://web.archive.org/web/20120731172517/http://tr.mmodb.com/quests/startingzone-pools/)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 130000 XP; 7200 credits; choose 1 of: Bio Armor Boots, Graviton Armor Boots, Mech Armor Boots, Stealth Armor Boots — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 130,000 XP; 7,200 credits; lvl 35; lvl 35; lvl 35; lvl 35 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Poison_Control)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -831,7 +1096,7 @@ Playtest status and the deviations from the original game: `docs/pools-playtest.
 - **Rebuild summary:**
   - level: 33 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 33 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Taking_the_Poison)
   - level ESTIMATE from zone: the Pools zone level range is 34-38 — source: [Ellatha map: Pools](https://www.ellatha.com/tr/Pools_Maps_Logos.asp) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 40 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Pools missions are level 33–35 (median 33, 10th–90th percentile) — derived from 41 missions in this file with a sourced level
   - reward: 130000 XP; 5400 credits; choose 1 of: Weapon Module: Debuff Electric Resist [4], Weapon Module: Debuff Fire Resist [4], Weapon Module: Debuff Ice Resist [4], Weapon Module: Debuff Virulent Resist [4] — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 130,000 XP; 5,400 credits; Modification: Debuff to Electric Resist; Modification: Debuff to Fire Resist; Modification: Debuff to Ice Resist; Modification: Debuff to Virulent Resist — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Taking_the_Poison)
   - drops / mission items: not found (not critical, or not a collect mission)
