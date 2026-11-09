@@ -87,7 +87,7 @@ namespace Rasa.Test.Missions.Ashen
         public void TheRequisitionOrdersAreNotOfferedOffTheAfsSide()
         {
             using var harness = WildernessRuntimeTestHarness.Create();
-            SeedCompleted(harness, Human.MissionId, Bribe.MissionId, Court.MissionId, Departed.MissionId);
+            AshenRuntime.SeedCompleted(harness, Human.MissionId, Bribe.MissionId, Court.MissionId, Departed.MissionId);
             var desert = AshenLeadInsTests.EnterAshen(harness, FC.AshokaHospital);
             var latan = Npc(desert, K.Latan);
             var ito = Npc(desert, K.Ito);
@@ -101,7 +101,7 @@ namespace Rasa.Test.Missions.Ashen
             harness.Drain();
             Assert.AreEqual(1U, FC.Flag(harness, Complaints.YamamotoFlag), "the flag stays at an abandon");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, ito, Robotic.MissionId), "choice 2, abandon 1254: 1267 not offered");
-            WildernessRanjaGorgeTests.Reload(harness);
+            AshenRuntime.Reload(harness);
             harness.Drain();
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, ito, Robotic.MissionId), "nor after a reload");
 
@@ -113,7 +113,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.AreEqual((1U, 0U), (FC.Flag(harness, Complaints.LatanFlag), FC.Flag(harness, Complaints.YamamotoFlag)), "choice 1: 250, 251 back to 0");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, ito, Robotic.MissionId), "choice 1 completed: 1267 not offered");
             Assert.IsTrue(PlateauRetreadCampTests.Offers(harness, latan, Latans.MissionId), "Latan's side instead");
-            WildernessRanjaGorgeTests.Reload(harness);
+            AshenRuntime.Reload(harness);
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, ito, Robotic.MissionId), "nor after a reload");
         }
 
@@ -134,18 +134,16 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsTrue(PlateauRetreadCampTests.Offers(harness, ito, Human.MissionId), "Ito offers The Human Perspective");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, ito, Robotic.MissionId), "not before Dearly Departed");
 
-            SeedCompleted(harness, Human.MissionId, Bribe.MissionId, Court.MissionId);
-            WildernessRanjaGorgeTests.Reload(harness);
+            AshenRuntime.SeedCompleted(harness, Human.MissionId, Bribe.MissionId, Court.MissionId);
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, ito, Robotic.MissionId), "Dearly Departed not done: 1267 not offered");
 
-            SeedCompleted(harness, Departed.MissionId);
-            WildernessRanjaGorgeTests.Reload(harness);
+            AshenRuntime.SeedCompleted(harness, Departed.MissionId);
             Assert.IsTrue(PlateauRetreadCampTests.Offers(harness, ito, Robotic.MissionId), "Ito offers Robotic Salvage Acquisitions");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, latan, Robotic.MissionId), "not Latan's to give");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, latan, Latans.MissionId), "no Latan side");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, ito, Weapon.MissionId), "Weapon Salvage Acquisitions waits for Robotic");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, ito, Heavy.MissionId), "Heavy Salvage Acquisitions waits for Weapon");
-            WildernessRanjaGorgeTests.Reload(harness);
+            AshenRuntime.Reload(harness);
             Assert.IsTrue(PlateauRetreadCampTests.Offers(harness, ito, Robotic.MissionId), "after a reload too");
         }
 
@@ -228,8 +226,7 @@ namespace Rasa.Test.Missions.Ashen
             var latan = Npc(desert, K.Latan);
             var ito = Npc(desert, K.Ito);
             HearYamamotoFirst(harness, latan);
-            SeedCompleted(harness, Human.MissionId, Bribe.MissionId, Court.MissionId, Departed.MissionId);
-            WildernessRanjaGorgeTests.Reload(harness);
+            AshenRuntime.SeedCompleted(harness, Human.MissionId, Bribe.MissionId, Court.MissionId, Departed.MissionId);
             Spawn(desert, NitroPools.Concat(MachinaPools).ToArray());
 
             var offer = WildernessRanjaGorgeTests.Offer(harness, ito, Robotic.MissionId);
@@ -273,7 +270,7 @@ namespace Rasa.Test.Missions.Ashen
                 packets.AddRange(harness.Drain());
                 if (count == 7)
                 {
-                    WildernessRanjaGorgeTests.Reload(harness);
+                    AshenRuntime.Reload(harness);
                     harness.Drain();
                     Assert.AreEqual((7U, 7U), (Held(harness, 97465), Held(harness, 97466)), "kept at a reload");
                     Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Robotic.MissionId, 1), "seven of fifteen");
@@ -300,6 +297,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, ito, Robotic.MissionId), "done once");
             Assert.IsTrue(PlateauRetreadCampTests.Offers(harness, ito, Weapon.MissionId), "Ito offers Weapon Salvage Acquisitions");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, latan, Latans.MissionId), "Latan offers nothing of hers");
+            Assert.IsFalse(Holds(SC.Kill(harness, desert, S.Nitroglazer, NitroPools), 97465), "after the turn-in a Nitroglazer drops none");
         }
 
         /// <summary>
@@ -314,7 +312,7 @@ namespace Rasa.Test.Missions.Ashen
         {
             var percentile = 0;
             using var harness = WildernessRuntimeTestHarness.Create(lootRoll: (minimum, maximum) => maximum == 100 ? percentile : minimum);
-            SeedCompleted(harness, Complaints.MissionId, Robotic.MissionId);
+            AshenRuntime.SeedCompleted(harness, Complaints.MissionId, Robotic.MissionId);
             var desert = AshenLeadInsTests.EnterAshen(harness, Ashoka);
             var ito = Npc(desert, K.Ito);
             var thrax = BoneyardThrax.Concat(RavagerPools).ToArray();
@@ -375,7 +373,8 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.AreEqual(((uint)count, (uint)count), (Held(harness, 97469), Held(harness, 97470)), $"after {count}");
             }
             Assert.AreEqual(1, packets.OfType<MissionCompleteablePacket>().Count(packet => packet.MissionId == Weapon.MissionId && packet.IsCompleteable), "MissionCompleteable once");
-            WildernessRanjaGorgeTests.Reload(harness);
+            Assert.IsFalse(Holds(SC.Kill(harness, desert, 531008, BoneyardThrax), 97469), "a sixteenth Soldier drops no rifle");
+            AshenRuntime.Reload(harness);
             harness.Drain();
             Assert.IsTrue(harness.Client.Player.Missions[Weapon.MissionId].Completeable, "kept at a reload");
 
@@ -398,7 +397,7 @@ namespace Rasa.Test.Missions.Ashen
         public void HeavyAcquisitionsComeOffAStalkerAndAPredator()
         {
             using var harness = WildernessRuntimeTestHarness.Create(lootRoll: (minimum, maximum) => maximum == 100 ? 99 : minimum);
-            SeedCompleted(harness, Complaints.MissionId, Robotic.MissionId, Weapon.MissionId);
+            AshenRuntime.SeedCompleted(harness, Complaints.MissionId, Robotic.MissionId, Weapon.MissionId);
             var desert = AshenLeadInsTests.EnterAshen(harness, Ashoka);
             var ito = Npc(desert, K.Ito);
             Spawn(desert, StalkerPools.Concat(PredatorPools).ToArray());
@@ -437,7 +436,7 @@ namespace Rasa.Test.Missions.Ashen
             FailedTurnInPaysNothing(harness, ito, Heavy.MissionId, 3);
             WildernessRanjaGorgeTests.CompleteAndCheckReward(harness, ito, Heavy.MissionId, 3, 200000, 6300);
             Assert.AreEqual(1, harness.Drain().OfType<MissionRewardedPacket>().Count(packet => packet.MissionId == Heavy.MissionId), "MissionRewarded once");
-            Assert.IsGreaterThanOrEqualTo(6U, Held(harness, 45063), "the six Basic Med Packs chosen");
+            Assert.AreEqual(6U, Held(harness, 45063), "the six Basic Med Packs chosen, no more");
             Assert.AreEqual((0U, 0U), (Held(harness, 97467), Held(harness, 97468)), "Ito takes both");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, ito, Heavy.MissionId), "done once");
         }
@@ -451,8 +450,8 @@ namespace Rasa.Test.Missions.Ashen
         private static Vector3 V((double X, double Y, double Z) at) => new((float)at.X, (float)at.Y, (float)at.Z);
 
         /// <summary>
-        /// Formal Complaints played to its end on the AFS side (choice 2: flag 251). Played, not seeded: the harness's reload does
-        /// not read the character's flags back (a login does, CharacterManager), so a seeded flag would not reach the player.
+        /// Formal Complaints played to its end on the AFS side (choice 2: flag 251). Played, not seeded: the flag is the choice's
+        /// own write (AshenRuntime.Reload reads it back from the character database).
         /// </summary>
         private static void HearYamamotoFirst(WildernessRuntimeTestHarness harness, Creature latan)
         {

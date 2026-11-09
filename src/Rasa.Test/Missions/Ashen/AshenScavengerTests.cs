@@ -94,7 +94,7 @@ namespace Rasa.Test.Missions.Ashen
             harness.Drain();
             Assert.AreEqual(1U, FC.Flag(harness, Complaints.LatanFlag), "the flag stays at an abandon");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, latan, Robotic.MissionId), "choice 1, abandon 1254: 1264 not offered");
-            WildernessRanjaGorgeTests.Reload(harness);
+            AshenRuntime.Reload(harness);
             harness.Drain();
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, latan, Robotic.MissionId), "nor after a reload");
 
@@ -106,7 +106,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.AreEqual((0U, 1U), (FC.Flag(harness, Complaints.LatanFlag), FC.Flag(harness, Complaints.YamamotoFlag)), "choice 2: 251, 250 back to 0");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, latan, Robotic.MissionId), "choice 2 completed: 1264 not offered");
             Assert.IsTrue(PlateauRetreadCampTests.Offers(harness, ito, Human.MissionId), "Ito's side instead");
-            WildernessRanjaGorgeTests.Reload(harness);
+            AshenRuntime.Reload(harness);
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, latan, Robotic.MissionId), "nor after a reload");
         }
 
@@ -131,7 +131,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, ito, Human.MissionId), "no AFS side");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, latan, Weapon.MissionId), "Weapon Salvage Recovery waits for Robotic");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, latan, Heavy.MissionId), "Heavy Salvage Recovery waits for Weapon");
-            WildernessRanjaGorgeTests.Reload(harness);
+            AshenRuntime.Reload(harness);
             Assert.IsTrue(PlateauRetreadCampTests.Offers(harness, latan, Robotic.MissionId), "after a reload too");
         }
 
@@ -233,6 +233,40 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>
+        /// The set's four robot pools (the only new pools of sets 7 and 8: set 8 adds none) stand apart (across, 2D) 60 m or more
+        /// from every other Ashen Desert pool of a hostile creature, so a fight at one does not pull in another camp, and 85 m or
+        /// more from every friendly NPC's pool (Latan and Ito on Ashoka's lower level included). The probe of 2026-11-09 said
+        /// "90 m+"; the nearest NPC is the Ashoka market's 500013 at 89.96 m across (21 m below, on the lower level), so 85 m
+        /// (ESTIMATE margin) is held here.
+        /// </summary>
+        [TestMethod]
+        public void TheRobotPoolsStandApartFromOtherHostilesAndTheNpcs()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var pools = harness.World.SpawnPoolEntries.AsNoTracking().Where(row => row.MapContextId == AshenMissionDataV1.MapContextId).ToList();
+            bool Holds(Rasa.Structures.World.SpawnPoolEntry row, Func<Creature, bool> what) =>
+                new[] { row.Creature1Id, row.Creature2Id, row.Creature3Id, row.Creature4Id, row.Creature5Id, row.Creature6Id }
+                    .Any(id => id != 0 && CreatureManager.Instance.LoadedCreatures.TryGetValue(id, out var creature) && what(creature));
+            var hostile = pools.Where(row => !RobotPools.Contains(row.Id) && Holds(row, creature => creature.TargetCategory == TargetCategory.Hostile)).ToList();
+            var npcs = pools.Where(row => Holds(row, creature => creature.TargetCategory != TargetCategory.Hostile && creature.Npc != null)).ToList();
+            Assert.IsGreaterThan(50, hostile.Count, "the Ashen hostile pools are read");
+            Assert.IsTrue(npcs.Any(row => row.Id == K.Latan) && npcs.Any(row => row.Id == K.Ito), "Latan and Ito among the NPCs");
+            var failures = new List<string>();
+            foreach (var poolId in RobotPools)
+            {
+                var pool = pools.Single(row => row.Id == poolId);
+                float Across(Rasa.Structures.World.SpawnPoolEntry other) => Vector2.Distance(new((float)pool.PosX, (float)pool.PosZ), new((float)other.PosX, (float)other.PosZ));
+                var nearestHostile = hostile.MinBy(Across);
+                if (Across(nearestHostile) < 60)
+                    failures.Add(FormattableString.Invariant($"pool {poolId}: hostile pool {nearestHostile.Id} {Across(nearestHostile):0.0} m across"));
+                var nearestNpc = npcs.MinBy(Across);
+                if (Across(nearestNpc) < 85)
+                    failures.Add(FormattableString.Invariant($"pool {poolId}: NPC pool {nearestNpc.Id} {Across(nearestNpc):0.0} m across"));
+            }
+            Assert.IsEmpty(failures, string.Join("; ", failures));
+        }
+
+        /// <summary>
         /// Robotic Salvage Recovery: Latan offers it with the four armour pieces; no salvage drops before it. Accepted, Latan hears
         /// no objective; two markers on each objective, on Ashen Desert. A Nitroglazer drops Nitroglazer salvage only and a Hominis
         /// Machina Machina salvage only, under 75 (75 misses, 74 drops); a death is not a pickup; a full bag leaves it on the
@@ -295,7 +329,7 @@ namespace Rasa.Test.Missions.Ashen
                 packets.AddRange(harness.Drain());
                 if (count == 7)
                 {
-                    WildernessRanjaGorgeTests.Reload(harness);
+                    AshenRuntime.Reload(harness);
                     harness.Drain();
                     Assert.AreEqual((7U, 7U), (Held(harness, Robotic.NitroTemplate), Held(harness, Robotic.MachinaTemplate)), "kept at a reload");
                     Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Robotic.MissionId, Robotic.NitroSalvage), "seven of fifteen");
@@ -321,6 +355,8 @@ namespace Rasa.Test.Missions.Ashen
             Assert.AreEqual((0U, 0U), (Held(harness, Robotic.NitroTemplate), Held(harness, Robotic.MachinaTemplate)), "Latan takes all thirty");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, latan, Robotic.MissionId), "done once");
             Assert.IsTrue(PlateauRetreadCampTests.Offers(harness, latan, Weapon.MissionId), "Latan offers Weapon Salvage Recovery");
+            Assert.IsFalse(Holds(Kill(harness, desert, S.Nitroglazer, NitroPools), 97465), "after the turn-in a Nitroglazer drops none");
+            Assert.IsFalse(Holds(Kill(harness, desert, S.Machina, MachinaPools), 97466), "nor a Machina");
         }
 
         /// <summary>
@@ -335,7 +371,7 @@ namespace Rasa.Test.Missions.Ashen
         {
             var percentile = 0;
             using var harness = WildernessRuntimeTestHarness.Create(lootRoll: (minimum, maximum) => maximum == 100 ? percentile : minimum);
-            SeedCompleted(harness, Complaints.MissionId, Robotic.MissionId);
+            AshenRuntime.SeedCompleted(harness, Complaints.MissionId, Robotic.MissionId);
             var desert = AshenLeadInsTests.EnterAshen(harness, Ashoka);
             var latan = Npc(desert, K.Latan);
             var thrax = BoneyardThrax.Concat(Weapon.RavagerPools).ToArray();
@@ -356,13 +392,22 @@ namespace Rasa.Test.Missions.Ashen
             var soldier = Kill(harness, desert, Weapon.ThraxSoldier, BoneyardThrax);
             Assert.IsTrue(Holds(soldier, Weapon.RifleTemplate) && !Holds(soldier, Weapon.LauncherTemplate), "74: a Soldier drops a rifle only");
             Assert.AreEqual(0U, Held(harness, Weapon.RifleTemplate), "a death is not a pickup");
+            WildernessAliaBranchesTests.FillCategory(harness, MissionItemFiller, 50);
             PickUp(harness, soldier);
+            Assert.AreEqual(0U, Held(harness, Weapon.RifleTemplate), "a full bag: no room");
+            Assert.IsTrue(Holds(soldier, Weapon.RifleTemplate), "the rifle stays on the corpse");
+            WildernessAliaBranchesTests.FreeOneSlot(harness, MissionItemFiller);
+            PickUp(harness, soldier);
+            Assert.AreEqual(1U, Held(harness, Weapon.RifleTemplate), "picked up once there is room");
+            WildernessAliaBranchesTests.FreeOneSlot(harness, MissionItemFiller);
             var ravager = Kill(harness, desert, Weapon.ThraxRavager, Weapon.RavagerPools);
             Assert.IsTrue(Holds(ravager, Weapon.LauncherTemplate) && !Holds(ravager, Weapon.RifleTemplate), "a Ravager drops a launcher only");
             PickUp(harness, ravager);
             var packets = harness.Drain().Cast<object>().ToList();
             for (var count = 2; count <= Weapon.Count; count++)
             {
+                WildernessAliaBranchesTests.FreeOneSlot(harness, MissionItemFiller);
+                WildernessAliaBranchesTests.FreeOneSlot(harness, MissionItemFiller);
                 var rifle = Kill(harness, desert, Weapon.ThraxSoldier, BoneyardThrax);
                 Assert.IsTrue(Holds(rifle, Weapon.RifleTemplate), $"rifle {count} dropped");
                 PickUp(harness, rifle);
@@ -372,7 +417,9 @@ namespace Rasa.Test.Missions.Ashen
             }
             Assert.AreEqual((15U, 15U), (Held(harness, Weapon.RifleTemplate), Held(harness, Weapon.LauncherTemplate)), "fifteen of each");
             Assert.AreEqual(1, packets.OfType<MissionCompleteablePacket>().Count(packet => packet.MissionId == Weapon.MissionId && packet.IsCompleteable), "MissionCompleteable once");
-            WildernessRanjaGorgeTests.Reload(harness);
+            Assert.IsFalse(Holds(Kill(harness, desert, Weapon.ThraxSoldier, BoneyardThrax), Weapon.RifleTemplate), "a sixteenth Soldier drops no rifle");
+            Assert.IsFalse(Holds(Kill(harness, desert, Weapon.ThraxRavager, Weapon.RavagerPools), Weapon.LauncherTemplate), "a sixteenth Ravager drops no launcher");
+            AshenRuntime.Reload(harness);
             harness.Drain();
             Assert.IsTrue(harness.Client.Player.Missions[Weapon.MissionId].Completeable, "kept at a reload");
 
@@ -395,7 +442,7 @@ namespace Rasa.Test.Missions.Ashen
         public void HeavySalvageComesOffAStalkerAndAPredator()
         {
             using var harness = WildernessRuntimeTestHarness.Create(lootRoll: (minimum, maximum) => maximum == 100 ? 99 : minimum);
-            SeedCompleted(harness, Complaints.MissionId, Robotic.MissionId, Weapon.MissionId);
+            AshenRuntime.SeedCompleted(harness, Complaints.MissionId, Robotic.MissionId, Weapon.MissionId);
             var desert = AshenLeadInsTests.EnterAshen(harness, Ashoka);
             var latan = Npc(desert, K.Latan);
             Spawn(desert, StalkerPools.Concat(PredatorPools).ToArray());
@@ -429,7 +476,7 @@ namespace Rasa.Test.Missions.Ashen
             FailedTurnInPaysNothing(harness, latan, Heavy.MissionId, 3);
             WildernessRanjaGorgeTests.CompleteAndCheckReward(harness, latan, Heavy.MissionId, 3, Heavy.Experience, Heavy.Credits);
             Assert.AreEqual(1, harness.Drain().OfType<MissionRewardedPacket>().Count(packet => packet.MissionId == Heavy.MissionId), "MissionRewarded once");
-            Assert.IsGreaterThanOrEqualTo(Complaints.BasicMedPacks, Held(harness, Complaints.BasicMedPack), "the stack chosen");
+            Assert.AreEqual(6U, Held(harness, 45063), "the six Basic Med Packs chosen, no more");
             Assert.AreEqual((0U, 0U), (Held(harness, Heavy.StalkerTemplate), Held(harness, Heavy.PredatorTemplate)), "Latan takes both");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, latan, Heavy.MissionId), "done once");
         }
@@ -437,8 +484,8 @@ namespace Rasa.Test.Missions.Ashen
         private static uint Held(WildernessRuntimeTestHarness harness, uint template) => WildernessRanjaGorgeTests.Held(harness, template);
 
         /// <summary>
-        /// Formal Complaints played to its end on Latan's side (choice 1: flag 250). Played, not seeded: the harness's reload does
-        /// not read the character's flags back (a login does, CharacterManager), so a seeded flag would not reach the player.
+        /// Formal Complaints played to its end on Latan's side (choice 1: flag 250). Played, not seeded: the flag is the choice's
+        /// own write (AshenRuntime.Reload reads it back from the character database).
         /// </summary>
         private static void SideWithLatan(WildernessRuntimeTestHarness harness, Creature latan)
         {

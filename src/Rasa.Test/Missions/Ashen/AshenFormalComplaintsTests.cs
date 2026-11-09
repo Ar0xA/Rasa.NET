@@ -342,7 +342,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.AreEqual((1U, 0U), (Flag(harness, Complaints.YamamotoFlag), Flag(harness, Complaints.LatanFlag)), "flag 251 set, 250 not");
             Assert.AreEqual((MissionObjectiveState.Inactive, MissionObjectiveState.Incomplete),
                 (Objective(harness, Complaints.MissionId, Complaints.LatanSide), Objective(harness, Complaints.MissionId, Complaints.YamamotoSide)), "3 opens, 2 stays shut");
-            WildernessRanjaGorgeTests.Reload(harness);
+            AshenRuntime.Reload(harness);
             harness.Drain();
             Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Complaints.MissionId, Complaints.YamamotoSide), "kept at a reload");
             Assert.IsEmpty(Choices(harness, latan, Complaints.MissionId), "no second choice");
@@ -366,7 +366,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsEmpty(Topics(harness, ito, Human.MissionId), "Ito hears nothing");
             Assert.IsEmpty(Topics(harness, latan, Human.MissionId), "Latan hears nothing");
             CollectionAssert.AreEqual(new[] { (Human.Speak, Complaints.YamamotoFlag) }, TopicVariants(harness, yamamoto, Human.MissionId), "Yamamoto in variant 251");
-            WildernessRanjaGorgeTests.Reload(harness);
+            AshenRuntime.Reload(harness);
             harness.Drain();
             packets = Say(harness, yamamoto, Human.MissionId, Human.Speak, Complaints.YamamotoFlag);
             Assert.AreEqual(1, packets.OfType<MissionCompleteablePacket>().Count(packet => packet.MissionId == Human.MissionId && packet.IsCompleteable), "MissionCompleteable once");
@@ -445,7 +445,7 @@ namespace Rasa.Test.Missions.Ashen
             WildernessRanjaGorgeTests.CompleteAndCheckReward(harness, latan, Complaints.MissionId, 0, Complaints.Experience, Complaints.Credits);
             Assert.AreEqual(1, harness.Drain().OfType<MissionRewardedPacket>().Count(packet => packet.MissionId == Complaints.MissionId), "MissionRewarded once");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, ito, Human.MissionId), "Latan's side: no The Human Perspective");
-            WildernessRanjaGorgeTests.Reload(harness);
+            AshenRuntime.Reload(harness);
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, ito, Human.MissionId), "not after a reload either");
             Assert.AreEqual((1U, 0U), (Flag(harness, Complaints.LatanFlag), Flag(harness, Complaints.YamamotoFlag)), "the flags kept");
         }
@@ -464,7 +464,7 @@ namespace Rasa.Test.Missions.Ashen
             })
             {
                 using var harness = WildernessRuntimeTestHarness.Create();
-                SeedCompleted(harness, done);
+                AshenRuntime.SeedCompleted(harness, done);
                 SeedFlag(harness, Complaints.YamamotoFlag, 1);
                 var desert = AshenLeadInsTests.EnterAshen(harness, AshokaHospital);
                 var npc = Npc(desert, giver);
@@ -499,7 +499,7 @@ namespace Rasa.Test.Missions.Ashen
         {
             var percentile = 0;
             using var harness = WildernessRuntimeTestHarness.Create(lootRoll: (minimum, maximum) => maximum == 100 ? percentile : minimum);
-            SeedCompleted(harness, Complaints.MissionId, Human.MissionId, Bribe.MissionId, Court.MissionId);
+            AshenRuntime.SeedCompleted(harness, Complaints.MissionId, Human.MissionId, Bribe.MissionId, Court.MissionId);
             var desert = AshenLeadInsTests.EnterAshen(harness, Ashoka);
             var megumi = Npc(desert, K.Megumi);
             var yamamoto = Npc(desert, N.Yamamoto);
@@ -538,7 +538,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsFalse(Holds(KillThrax(harness, desert, ThraxPools), ClientRingTemplate), "one ring: the next Thrax has none");
             PickUp(harness, highway);
             Assert.AreEqual(1U, Ring(harness), "never two");
-            WildernessRanjaGorgeTests.Reload(harness);
+            AshenRuntime.Reload(harness);
             Assert.AreEqual((1U, MissionObjectiveState.Completed), (Ring(harness), Objective(harness, Departed.MissionId, Departed.Recover)), "kept at a reload");
             harness.Drain();
 
@@ -558,7 +558,7 @@ namespace Rasa.Test.Missions.Ashen
         public void DearlyDepartedAbandonedKeepsTheRing()
         {
             using var harness = WildernessRuntimeTestHarness.Create(lootRoll: (minimum, maximum) => maximum == 100 ? 0 : minimum);
-            SeedCompleted(harness, Complaints.MissionId, Human.MissionId, Bribe.MissionId, Court.MissionId);
+            AshenRuntime.SeedCompleted(harness, Complaints.MissionId, Human.MissionId, Bribe.MissionId, Court.MissionId);
             var desert = AshenLeadInsTests.EnterAshen(harness, Ashoka);
             var megumi = Npc(desert, K.Megumi);
             Spawn(desert, ThraxPools);
@@ -684,7 +684,7 @@ namespace Rasa.Test.Missions.Ashen
         {
             using (var unit = harness.CreateChar())
                 unit.ExecuteTransaction(() => unit.CharacterFlags.Set(harness.Client.Player.Id, flag, value));
-            WildernessRanjaGorgeTests.Reload(harness);
+            AshenRuntime.Reload(harness);
         }
 
         /// <summary>The navmesh floors on a 1 m grid within Departed.ClearRadius of <paramref name="centre"/> (as AshenFixATests.Columns).</summary>

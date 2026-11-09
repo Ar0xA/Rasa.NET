@@ -114,6 +114,24 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>The migration directly before <paramref name="migration"/> (IMigrationsAssembly, ordinal order), as CrucibleMissionTests.Previous.</summary>
         internal static string Previous(DbContext world, string migration) => Rasa.Test.Missions.Crucible.CrucibleMissionTests.Previous(world, migration);
 
+        /// <summary>
+        /// The Ashen Desert pools that the migrations sorting after <paramref name="migration"/> add or change: <paramref
+        /// name="world"/>'s rows (all migrations) against a database migrated only to <paramref name="migration"/>. A rollback
+        /// test that goes down past them and up again only to its own migration leaves these out of its "no other pool changes".
+        /// </summary>
+        internal static uint[] PoolsOfLaterMigrations(DbContext world, string migration)
+        {
+            static Dictionary<uint, string> Rows(DbContext context) => context.Set<SpawnPoolEntry>().AsNoTracking()
+                .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId).AsEnumerable()
+                .ToDictionary(entry => entry.Id, entry => new { entry.PosX, entry.PosY, entry.PosZ, entry.Radius, entry.Creature1Id, entry.RespawnTime }.ToString());
+            var all = Rows(world);
+            Dictionary<uint, string> before;
+            using (var fresh = WildernessRuntimeTestHarness.Create(targetWorldMigration: migration))
+                before = Rows(fresh.World);
+            return all.Where(row => !before.TryGetValue(row.Key, out var was) || was != row.Value).Select(row => row.Key)
+                .Concat(before.Keys.Where(id => !all.ContainsKey(id))).OrderBy(id => id).ToArray();
+        }
+
         [TestMethod]
         public void TheMissionsAreEnabledOperationalAndGivenByTheirNpcs()
         {
@@ -1304,10 +1322,10 @@ namespace Rasa.Test.Missions.Ashen
                 .Select(pool => world.SpawnPoolEntries.AsNoTracking().Single(entry => entry.Id == pool.Pool))
                 .Select(row => ((row.PosX, row.PosY, row.PosZ), row.Radius)).ToArray();
             var thraxIds = AshenDearlyDepartedV1.Pools.Select(pool => pool.Pool).ToArray();
+            var later = PoolsOfLaterMigrations(world, FormalComplaints);
             string Others() => string.Join("; ", world.SpawnPoolEntries.AsNoTracking()
                 .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && !thraxIds.Contains(entry.Id) && entry.Id != Latan && entry.Id != Ito && entry.Id != Megumi
-                    && entry.Id != AshenFixBV1.Pool // Exing: fix B (a later migration) goes down and up with the Down to set 5
-                    && !NitroPools.Contains(entry.Id) && !MachinaPools.Contains(entry.Id)) // set 7's pools (a later migration) go down and up too
+                    && !later.Contains(entry.Id)) // the later migrations' pools (fix B's Exing, set 7's robots) go down and up too
                 .OrderBy(entry => entry.Id).Select(entry => new { entry.Id, entry.PosX, entry.PosY, entry.PosZ, entry.Radius }).AsEnumerable().Select(entry => entry.ToString()));
             var others = Others();
             void AllUp()
@@ -1424,8 +1442,9 @@ namespace Rasa.Test.Missions.Ashen
                 Count("SELECT COUNT(*) AS Value FROM creature_action WHERE id = 62059"));
             var look = Count("SELECT COUNT(*) AS Value FROM creature_appearance WHERE id = 660012");
             Assert.IsGreaterThan(0, look);
+            var later = PoolsOfLaterMigrations(world, Scavenger);
             string Others() => string.Join("; ", world.SpawnPoolEntries.AsNoTracking()
-                .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && !NitroPools.Contains(entry.Id) && !MachinaPools.Contains(entry.Id))
+                .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && !NitroPools.Contains(entry.Id) && !MachinaPools.Contains(entry.Id) && !later.Contains(entry.Id))
                 .OrderBy(entry => entry.Id).Select(entry => new { entry.Id, entry.PosX, entry.PosY, entry.PosZ, entry.Radius, entry.Creature1Id }).AsEnumerable().Select(entry => entry.ToString()));
             var others = Others();
             void AllUp()
@@ -1484,8 +1503,9 @@ namespace Rasa.Test.Missions.Ashen
                 .Select(entry => new { entry.MissionId, entry.ObjectiveId, entry.IndicatorId, entry.PosX, entry.PosZ }).AsEnumerable().Select(entry => entry.ToString()))
                 + "|" + string.Join("; ", Scenes(harness).Where(entry => entry.MissionId >= 1264 && entry.MissionId <= 1266).OrderBy(entry => entry.MissionId)
                     .SelectMany(entry => entry.Scene.Items.Select(item => $"{entry.MissionId}:{item.ItemTemplateId}:{item.Drop.ChancePercent}")));
+            var later = PoolsOfLaterMigrations(world, Logistician);
             string Others() => string.Join("; ", world.SpawnPoolEntries.AsNoTracking()
-                .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId)
+                .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && !later.Contains(entry.Id))
                 .OrderBy(entry => entry.Id).Select(entry => new { entry.Id, entry.PosX, entry.PosY, entry.PosZ, entry.Radius, entry.Creature1Id }).AsEnumerable().Select(entry => entry.ToString()));
             var others = Others();
             var twins = Twins();

@@ -58,9 +58,6 @@ namespace Rasa.Test.Missions.Ashen
             ("the Sheitan Highway camp (pool 790085)", new Vector3(-180f, 306.57f, -305f))
         };
 
-        /// <summary>The pools of later migrations (set 7's): they go down and up with the Down to fix B's predecessor.</summary>
-        private static readonly uint[] LaterPools = AshenScavengerNpcsV1.NitroglazerPools.Concat(AshenScavengerNpcsV1.MachinaPools).Select(pool => pool.Pool).ToArray();
-
         private static Vector3 V((double X, double Y, double Z) at) => new((float)at.X, (float)at.Y, (float)at.Z);
 
         /// <summary>
@@ -207,8 +204,10 @@ namespace Rasa.Test.Missions.Ashen
                 entry.ContentRevision == AshenMissionDataV1.Revision && entry.EvidenceId == X.Evidence);
             void Is((double X, double Y, double Z) expected, (double X, double Y, double Z) actual, string what) =>
                 Assert.IsLessThan(0.01, Vector3.Distance(V(expected), V(actual)), $"{what}: {expected}, is {actual}");
+            // The pools of later migrations (set 7's on): they go down and up with the Down to fix B's predecessor.
+            var later = AshenMissionTests.PoolsOfLaterMigrations(world, FixB);
             string Others() => string.Join("; ", world.SpawnPoolEntries.AsNoTracking()
-                .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && entry.Id != X.Pool && !LaterPools.Contains(entry.Id)).OrderBy(entry => entry.Id)
+                .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && entry.Id != X.Pool && !later.Contains(entry.Id)).OrderBy(entry => entry.Id)
                 .Select(entry => new { entry.Id, entry.PosX, entry.PosY, entry.PosZ, entry.Radius }).AsEnumerable().Select(entry => entry.ToString()));
             void Fixed()
             {
