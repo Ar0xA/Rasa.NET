@@ -176,12 +176,13 @@ namespace Rasa.Test.Missions.Ashen
 
             var pools = AshenFithikInfestationV1.Pools.Select(pool => pool.Pool).ToArray();
             Spawn(desert, pools);
-            // The marked pool's row stands 4 m under the ground: the spawn puts its Fithik on it (SpawnPoolManager.Anchor,
-            // RandomPointAround), inside the marker and walked to from the Stonewall waypoint. The Ridge's other automatic pool,
+            // The marked pool, a point on the open east slope since fix job A (AshenFixATests): its Fithik on the point or its
+            // rings, inside the marker (on the point since fix job A) and walked to from the Stonewall waypoint. The Ridge's other automatic pool,
             // 540066, has no marker: its Fithik come down in an isolated navmesh pocket (y 325.3 under layers at 330.6 and 336.5,
             // probe of 2026-11-09) with no path to any waypoint; not asserted here (where in the pocket they land is random).
-            foreach (var (poolId, at) in AshenFithikInfestationV1.Pools)
+            foreach (var poolId in pools)
             {
+                var at = poolId == AshenFixAV1.Pool ? AshenFixAV1.MarkerNow : AshenFithikInfestationV1.Pools.Single(pool => pool.Pool == poolId).At;
                 var pool = desert.SpawnPools.Single(loaded => loaded.DbId == poolId);
                 Assert.IsTrue(SpawnPoolManager.HasWalkableGround(desert, pool), $"{poolId} has walkable ground");
                 var fithik = Fithiks(desert).FirstOrDefault(creature => creature.SpawnPool?.DbId == poolId);

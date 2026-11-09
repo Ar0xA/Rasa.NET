@@ -89,10 +89,11 @@ namespace Rasa.Test.Missions.Ashen
                     Assert.IsTrue(BehaviorManager.NeverMoves(CreatureManager.Instance.LoadedCreatures[slot.CreatureId]), $"{slot.CreatureId} stands still");
             }
             var found = SpawnPoolManager.Instance.PoolsTooClose(new List<(uint, Vector3, string)>()).Select(entry => entry.Message).ToList();
-            // This batch's own pools (the block's hostile ones too: "spawnpool 79...") and the upstream pools it moves (Exing's 520007)
-            // or relies on (set 3's highway mortars 592191-592194).
+            // This batch's own pools (the block's hostile ones too: "spawnpool 79...") and the upstream pools it moves (Exing's 520007,
+            // fix job A's Fithik pool 540067) or relies on (set 3's highway mortars 592191-592194).
             Assert.IsFalse(found.Any(message => message.Contains("of pool 790") || message.StartsWith("spawnpool 79") ||
                     message.StartsWith($"spawnpool {AshenMaunaBarrensNpcsV1.Exing}:") || H.Mortars.Any(mortar => message.StartsWith($"spawnpool {mortar.Pool}:")) ||
+                    message.StartsWith($"spawnpool {AshenFixAV1.Pool}:") ||
                     npcs.Any(npc => message.Contains($"of pool {npc.DbId}"))),
                 string.Join("\n", found));
         }
@@ -509,14 +510,19 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsGreaterThanOrEqualTo(1, ashen.Count, "the Ashen World migrations");
 
             migrator.Migrate(ids[ids.IndexOf(ashen[0]) - 1]);
+            // The Downs, from the last to the first, leave the rows they write as a database migrated only that far has them: a
+            // Down that writes back a rounded value (233.2 for the single float 233.1999969482422 a pool row holds) is caught
+            // here; the Up/Down pairs below start from the state the Downs left.
+            var written = ashen.SelectMany(id => Tables(assembly.CreateMigration(assembly.Migrations[id], world.Database.ProviderName)))
+                .Distinct().OrderBy(table => table, StringComparer.Ordinal).ToList();
+            using (var fresh = WildernessRuntimeTestHarness.Create(targetWorldMigration: ids[ids.IndexOf(ashen[0]) - 1]))
+                AssertSame(Dump(fresh.World, written), Dump(world, written), "the Downs against a database migrated to before the Ashen migrations");
             foreach (var id in ashen)
             {
                 var migration = assembly.CreateMigration(assembly.Migrations[id], world.Database.ProviderName);
                 var operations = migration.UpOperations.Concat(migration.DownOperations).ToList();
                 Assert.IsTrue(operations.All(operation => operation is SqlOperation), $"{id}: plain SQL only");
-                var tables = operations.Cast<SqlOperation>()
-                    .SelectMany(operation => Regex.Matches(operation.Sql, @"\b(?:INSERT\s+INTO|UPDATE|DELETE\s+FROM)\s+(\w+)", RegexOptions.IgnoreCase))
-                    .Select(match => match.Groups[1].Value).Distinct().OrderBy(table => table, StringComparer.Ordinal).ToList();
+                var tables = Tables(migration);
                 Assert.IsNotEmpty(tables, $"{id} writes rows");
 
                 var before = Dump(world, tables);
@@ -571,6 +577,12 @@ namespace Rasa.Test.Missions.Ashen
 
         private static string MapName(WildernessRuntimeTestHarness harness) =>
             harness.World.MapInfoEntries.AsNoTracking().Single(map => map.Id == Map).MapName;
+
+        /// <summary>The tables a migration's plain SQL writes (Up and Down).</summary>
+        private static List<string> Tables(Migration migration) =>
+            migration.UpOperations.Concat(migration.DownOperations).OfType<SqlOperation>()
+                .SelectMany(operation => Regex.Matches(operation.Sql, @"\b(?:INSERT\s+INTO|UPDATE|DELETE\s+FROM)\s+(\w+)", RegexOptions.IgnoreCase))
+                .Select(match => match.Groups[1].Value).Distinct().OrderBy(table => table, StringComparer.Ordinal).ToList();
 
         private static void Run(DbContext world, IReadOnlyList<MigrationOperation> operations)
         {

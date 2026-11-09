@@ -20,9 +20,11 @@ category 10000016 "Battlefield (Ashen Desert)". New NPCs 790000-790003, next fre
   3x 111029, 1x 47600.
 - [ ] 1274 Fithik Infestation (Ligo Ashen Desert): Emmons offers it, no requirement, level 40. Kill 10 Fithik ("Kill
   Fithik" n/10; any creature with the Fithik species flag counts, anywhere). One marker (radius 30) on the Stonewall
-  Ridge Fithik pool 540067 (234.8, 320.05, -651.2). Turn in at Emmons: 90000 XP, 6150 credits, one of 123046, 123141,
-  123166, 123026. The pool row is 4 m under the ground; the spawn puts the Fithik on it (tested). No marker on the other
-  Ridge pool 540066: its Fithik stand in a navmesh pocket no player reaches (see Deviations).
+  Ridge Fithik pool 540067, since fix job A a point pool on the open east slope of the Ridge (261, 308.6, -642.2): a full
+  spawn puts its 2-4 Fithik on the point and the rings round it (within 6.6 m), a single one topped up comes on the point;
+  on open ground, also after a respawn (tested). Turn in at
+  Emmons: 90000 XP, 6150 credits, one of 123046, 123141, 123166, 123026. No marker on the other Ridge pool 540066: its
+  Fithik stand in a navmesh pocket no player reaches (see Deviations).
 - [ ] 1283 Good Day to Die (Ligo Ashen Desert): Lt. Colonel Trent Ivan (new, 790001, Shadow's Edge east barracks, -97,
   297.05, -792) offers it, no requirement, level 40. Talk to Captain Akio Yamamoto (new, 790003, Boneyard Outpost eastern
   tent, 686, 289.93, -495). A marker at Yamamoto. Turn in at Yamamoto: 45000 XP, 4100 credits, one of 3x 111019, 6x
@@ -175,9 +177,9 @@ All ESTIMATE (set 3):
 
 ## Server data that differs from the sources (not changed)
 
-- The Stonewall Ridge Fithik pools 540066 and 540067 stand 14 m and 4 m under the ground. Cosmetic, upstream design: the
-  spawn puts their Fithik on the ground (SpawnPoolManager.Anchor, RandomPointAround); no effect. 540066's ground is an
-  unreachable navmesh pocket (upstream navmesh defect).
+- The Stonewall Ridge Fithik pool 540066 stands 14 m under the ground. Cosmetic, upstream design: the spawn puts its
+  Fithik on the ground (SpawnPoolManager.Anchor, RandomPointAround). Its ground is an unreachable navmesh pocket (upstream
+  navmesh defect).
 
 ## Server data changed by set 1 (upstream rows)
 
@@ -198,3 +200,12 @@ All ESTIMATE (set 3):
   takes it off while it is still 9223.
 - The Sheitan Highway mortar pools 592191-592194 (Bane_mortars) hold the copies 790081-790084 for 592011 (BaneMortarTests
   allows it). Down gives them 592011 back while they still hold the copy.
+
+## Server data changed by fix job A (20271110000300)
+
+- Fithik pool 540067 (to-fix row 1): from (233.2, 316.4, -651.2) radius 15 to a point (radius 0) at (261, 308.3, -642.2),
+  29 m east on the Ridge's open slope; 1274's marker from (234.8, 320.05, -651.2) onto it (261, 308.6, -642.2). Upstream's
+  15 m (Detour's random points reach up to 10 m past it) took in ground under a rock shelf (about x 232-240, z -660 to
+  -636): 15 % of the Fithik came down there, a client surface 3.5-7 m over them, and could not be shot from the shelf; not
+  killed, they filled the pool. A full spawn comes on the point and its rings, a single top-up on the point. The point has
+  open ground joined to the waypoints 17 m round it (the rings and a 10 m stroll), one navmesh floor in each spot. ESTIMATE: the place. Down puts upstream's pool and set 1's marker back while they are still the fix's.

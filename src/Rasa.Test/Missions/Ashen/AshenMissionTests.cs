@@ -316,7 +316,8 @@ namespace Rasa.Test.Missions.Ashen
                         (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
                         (MissionEvidenceSourceKind.Reconstruction, 0.3)
                     },
-                    evidence.Where(entry => entry.MissionId == mission).OrderBy(entry => entry.EvidenceId)
+                    evidence.Where(entry => entry.MissionId == mission && !(mission == AshenFixAV1.MissionId && entry.EvidenceId == AshenFixAV1.Evidence))
+                        .OrderBy(entry => entry.EvidenceId)
                         .Select(entry => (entry.SourceKind, entry.Confidence)).ToArray(), $"{mission} evidence");
         }
 
@@ -416,7 +417,7 @@ namespace Rasa.Test.Missions.Ashen
             {
                 (1250, 1, -132, -875, 8),                           // Mason Linier
                 (1273, 1, -62, -414, 8),                            // Emmons
-                (1274, 1, 234.8, -651.2, 30), // Fithik pool 540067 (540066's Fithik are in an unreachable pocket)
+                (1274, 1, AshenFixAV1.MarkerNow.X, AshenFixAV1.MarkerNow.Z, 30), // Fithik pool 540067, a point since fix job A (540066's Fithik are in an unreachable pocket)
                 (1283, 1, 686, -495, 8),                            // Yamamoto
                 (1284, 1, -507.4, 162.4, 8),                        // Daris Linier
                 (1242, 1, -493, -240, 20), (1242, 1, -429, -240, 20), // the Ashen Atta Soldier pools 790046, 790047
