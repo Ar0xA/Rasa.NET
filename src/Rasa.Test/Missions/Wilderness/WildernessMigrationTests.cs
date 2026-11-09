@@ -703,8 +703,10 @@ namespace Rasa.Test.Missions.Wilderness
             // UnnamedFrom but for those keyed by the client's names: What's that Gas?'s fern marker 5 "Calla Ferns", the
             // harvester fields' 106 "Bane Harvester" and Beware: Buried Gas Lines' 138 "Pipeline Supply Point"
             // (MarshesMissionTests.NamedMarker).
-            // The Crucible's and Ashen Desert's are all keyed above UnnamedFrom: the client has no names for them.
-            foreach (var row in wilderness.Concat(plateau).Concat(pools).Concat(crucible).Concat(ashen)
+            // The Crucible's are all keyed above UnnamedFrom: the client has no names for them. Ashen Desert's too, but Eyes on
+            // the Ground's five beacon points 155-159 "Atta Beacon Point 1" .. "5" (AshenMissionTests.NamedMarker).
+            foreach (var row in wilderness.Concat(plateau).Concat(pools).Concat(crucible)
+                .Concat(ashen.Where(row => Rasa.Test.Missions.Ashen.AshenMissionTests.NamedMarker(row.MissionId, row.ObjectiveId) == null))
                 .Concat(marshes.Where(row => Rasa.Test.Missions.Marshes.MarshesMissionTests.NamedMarker(row.MissionId, row.ObjectiveId) == null)))
                 Assert.IsTrue(row.IndicatorId > Rasa.Structures.MissionIndicator.UnnamedFrom,
                     $"mission {row.MissionId} objective {row.ObjectiveId} indicator {row.IndicatorId}");

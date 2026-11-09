@@ -23,6 +23,7 @@ using Rasa.Test.Missions.Wilderness;
 namespace Rasa.Test.Missions.Ashen
 {
     using N = AshenLeadInNpcsV1;
+    using B = AshenMaunaBarrensNpcsV1;
     using F = MarshesClientFloorTests;
 
     /// <summary>
@@ -44,6 +45,9 @@ namespace Rasa.Test.Missions.Ashen
     {
         private const uint Map = AshenMissionDataV1.MapContextId;
 
+        /// <summary>The friendly NPCs new in the block: set 1's and set 2's.</summary>
+        private static readonly uint[] NewNpcs = N.New.Select(npc => npc.Id).Concat(B.New.Select(npc => npc.Id)).ToArray();
+
         /// <summary>The friendly NPC pools of the Ashen missions on Ashen Desert: the block's and the upstream ones set 1 moved.</summary>
         private static List<SpawnPool> Npcs()
         {
@@ -52,7 +56,7 @@ namespace Rasa.Test.Missions.Ashen
             var npcs = SpawnPoolManager.Instance.LoadedSpawnPools.Values.Where(pool => pool.MapContextId == Map &&
                 (pool.DbId is >= 790000 and <= 790999 || moved.Contains(pool.DbId)) &&
                 pool.SpawnSlot.Count > 0 && pool.SpawnSlot.TrueForAll(slot => Friendly(slot.CreatureId))).ToList();
-            Assert.HasCount(N.New.Length + N.Moves.Length, npcs, "the Ashen NPCs are read");
+            Assert.HasCount(NewNpcs.Length + N.Moves.Length, npcs, "the Ashen NPCs are read");
             return npcs;
         }
 
@@ -84,22 +88,33 @@ namespace Rasa.Test.Missions.Ashen
                     Assert.IsTrue(BehaviorManager.NeverMoves(CreatureManager.Instance.LoadedCreatures[slot.CreatureId]), $"{slot.CreatureId} stands still");
             }
             var found = SpawnPoolManager.Instance.PoolsTooClose(new List<(uint, Vector3, string)>()).Select(entry => entry.Message).ToList();
-            Assert.IsFalse(found.Any(message => message.Contains("of pool 790") || npcs.Any(npc => message.Contains($"of pool {npc.DbId}"))),
+            // This batch's own pools (the block's hostile ones too: "spawnpool 79...") and the upstream pools it moves (Exing's 520007).
+            Assert.IsFalse(found.Any(message => message.Contains("of pool 790") || message.StartsWith("spawnpool 79") ||
+                    message.StartsWith($"spawnpool {AshenMaunaBarrensNpcsV1.Exing}:") || npcs.Any(npc => message.Contains($"of pool {npc.DbId}"))),
                 string.Join("\n", found));
         }
 
-        /// <summary>To-fix row 17 (Marshes): a quest NPC with no creature_stat row plays with 100 hit points. Each new Ashen NPC has 4500 and armour 300.</summary>
+        /// <summary>
+        /// To-fix row 17 (Marshes): a quest NPC with no creature_stat row plays with 100 hit points. Each new Ashen NPC has 4500
+        /// and armour 300; each new Ashen creature (set 2's Atta) has the hit points and armour of the World DB row it copies.
+        /// </summary>
         [TestMethod]
         public void EveryNewAshenNpcHasItsOwnHitPoints()
         {
             using var harness = WildernessRuntimeTestHarness.Create();
             var stats = harness.World.CreatureStatEntries.AsNoTracking().Where(row => row.Id >= 790000 && row.Id <= 790999).ToDictionary(row => row.Id);
             var npcs = Npcs().Where(pool => pool.DbId >= 790000).SelectMany(pool => pool.SpawnSlot).Select(slot => slot.CreatureId).Distinct().ToList();
-            Assert.HasCount(N.New.Length, npcs);
+            Assert.HasCount(NewNpcs.Length, npcs);
             foreach (var npc in npcs)
             {
                 Assert.IsTrue(stats.TryGetValue(npc, out var stat), $"{npc} has a creature_stat row");
                 Assert.AreEqual(((int)N.HitPoints, (int)N.Armor), (stat.Health, stat.Armor), $"{npc}");
+            }
+            var copied = harness.World.CreatureStatEntries.AsNoTracking().ToDictionary(row => row.Id);
+            foreach (var (atta, _, copy, _) in B.Atta)
+            {
+                Assert.IsTrue(stats.TryGetValue(atta, out var stat), $"{atta} has a creature_stat row");
+                Assert.AreEqual((copied[copy].Health, copied[copy].Armor), (stat.Health, stat.Armor), $"{atta} as {copy}");
             }
         }
 
@@ -128,14 +143,14 @@ namespace Rasa.Test.Missions.Ashen
         {
             var dataDir = F.ClientData();
             using var harness = WildernessRuntimeTestHarness.Create();
-            var places = Places();
+            var places = Places(harness);
             using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
             var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", MapName(harness)), meshes, 1);
-            var (floors, ceilings) = F.Surfaces(geometry, places.Select(place => (place.At, F.Walkable)).ToList());
+            var (floors, ceilings) = F.Surfaces(geometry, places.Select(place => (place.At, place.Npc ? F.Walkable : F.NotVertical)).ToList());
             var failures = new List<string>();
             for (var i = 0; i < places.Count; i++)
             {
-                var (label, at) = places[i];
+                var (label, at, _) = places[i];
                 if (at.Y - floors[i] > F.MaxOver || !float.IsPositiveInfinity(ceilings[i]))
                     failures.Add(FormattableString.Invariant($"{label} at ({at.X}, {at.Y}, {at.Z}): ") +
                         (float.IsNegativeInfinity(floors[i]) ? "no floor" : FormattableString.Invariant($"{at.Y - floors[i]:0.00} m over its floor")) +
@@ -156,7 +171,7 @@ namespace Rasa.Test.Missions.Ashen
             const float TalkReach = 5;
             var dataDir = F.ClientData();
             using var harness = WildernessRuntimeTestHarness.Create();
-            var places = Places();
+            var places = Places(harness);
             using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
             var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", MapName(harness)), meshes, 1);
             var near = F.Near(geometry, places.Select(place => place.At).ToList(), F.Ring + 1);
@@ -164,10 +179,10 @@ namespace Rasa.Test.Missions.Ashen
             var failures = new List<string>();
             for (var i = 0; i < places.Count; i++)
             {
-                var (label, at) = places[i];
+                var (label, at, npc) = places[i];
                 foreach (var placed in objects.Where(placed => placed.Box.Distance2D(at) < TalkReach + 1 && MathF.Abs(at.Y - placed.Box.Min.Y) < 3))
                     failures.Add(FormattableString.Invariant($"{label}: {placed.Label} {placed.Box.Distance2D(at):0.0} m off"));
-                var aim = at + new Vector3(0, F.NpcMiddle, 0);
+                var aim = at + new Vector3(0, npc ? F.NpcMiddle : F.ObjectMiddle, 0);
                 for (var k = 0; k < F.RingPlaces; k++)
                 {
                     var angle = k * 2 * MathF.PI / F.RingPlaces;
@@ -202,7 +217,10 @@ namespace Rasa.Test.Missions.Ashen
                 (N.Harris, "the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
                 (N.Yamamoto, "the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
                 (N.Emmons, "the Stonewall Ridge waypoint", AshenLeadInsTests.StonewallWaypoint),
-                (N.DarisLinier, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
+                (N.DarisLinier, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
+                (B.Kuang, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                (B.Kwon, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                (B.Karter, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint)
             };
             var npcs = Npcs().ToDictionary(npc => npc.DbId);
             Assert.HasCount(npcs.Count, walks, "a walk to each NPC");
@@ -285,7 +303,7 @@ namespace Rasa.Test.Missions.Ashen
             var pads = harness.World.TeleporterEntries.AsNoTracking().Where(row => row.MapContextId == Map).ToList();
             Assert.IsGreaterThan(10, pads.Count, "Ashen Desert's waypoints and teleporters");
             var near = new List<string>();
-            foreach (var (label, at) in Places())
+            foreach (var (label, at, _) in Places(harness))
             {
                 foreach (var link in links)
                 {
@@ -387,7 +405,13 @@ namespace Rasa.Test.Missions.Ashen
                 [AshenReportToStonewallV1.MissionId] = ("the Stonewall Ridge waypoint", AshenLeadInsTests.StonewallWaypoint),
                 [AshenFithikInfestationV1.MissionId] = ("the Stonewall Ridge waypoint", AshenLeadInsTests.StonewallWaypoint),
                 [AshenGoodDayToDieV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
-                [AshenCantDrinkAshV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
+                [AshenCantDrinkAshV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
+                // Set 2: the Mauna Barrens have no waypoint; the givers' is Shadow's Edge Post's. Exing: "Northwest of Stonewall
+                // Ridge waypoint" (TaRapedia).
+                [AshenAngryAngryAttaV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                [AshenHarmfulMutationsV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                [AshenChemicalOversightV1.MissionId] = ("the Stonewall Ridge waypoint", AshenLeadInsTests.StonewallWaypoint),
+                [AshenEyesOnTheGroundV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint)
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var desert = AshenLeadInsTests.EnterAshen(harness);
@@ -458,11 +482,15 @@ namespace Rasa.Test.Missions.Ashen
             migrator.Migrate(ids[^1]);
         }
 
-        /// <summary>The set's NPCs (label, place) on Ashen Desert; set 1 has no scene actor.</summary>
-        private static List<(string Label, Vector3 At)> Places()
+        /// <summary>The sets' NPCs and scene actors with a place (label, place, NPC) on Ashen Desert: set 2's five beacon spots (1245).</summary>
+        private static List<(string Label, Vector3 At, bool Npc)> Places(WildernessRuntimeTestHarness harness)
         {
-            var places = Npcs().Select(pool => ($"pool {pool.DbId}", pool.Position)).ToList();
-            Assert.HasCount(N.New.Length + N.Moves.Length, places, "the NPCs");
+            var places = Npcs().Select(pool => ($"pool {pool.DbId}", pool.Position, true)).ToList();
+            foreach (var (mission, scene) in AshenMissionTests.Scenes(harness))
+                foreach (var actor in scene.Actors.Values.Where(actor => actor.Position != null))
+                    places.Add(($"{mission} {actor.Role}", new Vector3(actor.Position.X, actor.Position.Y, actor.Position.Z),
+                        actor.Kind == Rasa.Missions.Scenes.SceneActorKind.Creature));
+            Assert.HasCount(NewNpcs.Length + N.Moves.Length + 5, places, "the NPCs and 1245's five beacon spots");
             return places;
         }
 
