@@ -27,6 +27,7 @@ namespace Rasa.Test.Missions.Ashen
     using H = AshenSheitanHighwayNpcsV1;
     using Y = AshenBoneyardNpcsV1;
     using C = AshenConscriptionBaseNpcsV1;
+    using K = AshenFormalComplaintsNpcsV1;
     using F = MarshesClientFloorTests;
 
     /// <summary>
@@ -48,8 +49,9 @@ namespace Rasa.Test.Missions.Ashen
     {
         private const uint Map = AshenMissionDataV1.MapContextId;
 
-        /// <summary>The friendly NPCs new in the block: set 1's, set 2's and set 4's (Infanger).</summary>
-        private static readonly uint[] NewNpcs = N.New.Select(npc => npc.Id).Concat(B.New.Select(npc => npc.Id)).Append(Y.Infanger).ToArray();
+        /// <summary>The friendly NPCs new in the block: set 1's, set 2's, set 4's (Infanger) and set 6's (Latan, Ito, Megumi).</summary>
+        private static readonly uint[] NewNpcs = N.New.Select(npc => npc.Id).Concat(B.New.Select(npc => npc.Id)).Append(Y.Infanger)
+            .Concat(K.New.Select(npc => npc.Id)).ToArray();
 
         /// <summary>The upstream NPCs the sets use where upstream has them: set 4's Lieutenant Jan Blood (1262).</summary>
         private static readonly uint[] Kept = { Y.Blood };
@@ -279,7 +281,13 @@ namespace Rasa.Test.Missions.Ashen
                 (B.Karter, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
                 // Set 4: Boneyard Outpost has no waypoint; Ashoka Settlement's is the nearest (Yamamoto's too).
                 (Y.Infanger, "the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
-                (Y.Blood, "the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
+                (Y.Blood, "the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                // Set 6: Latan and Ito on Ashoka's lower level, walked to from the Ashoka Settlement hospital on that floor (the
+                // server navmesh does not join the level to the waypoint, the client's floor does: AshenFormalComplaintsTests,
+                // upstream N18); Megumi in Shadow's Edge Post.
+                (K.Latan, "the Ashoka Settlement hospital", AshenFormalComplaintsTests.AshokaHospital),
+                (K.Ito, "the Ashoka Settlement hospital", AshenFormalComplaintsTests.AshokaHospital),
+                (K.Megumi, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint)
             };
             var npcs = Npcs().ToDictionary(npc => npc.DbId);
             Assert.HasCount(npcs.Count, walks, "a walk to each NPC");
@@ -343,7 +351,7 @@ namespace Rasa.Test.Missions.Ashen
                     if (!Inside(talk.MissionId, talk.ObjectiveId, new((float)pool.PosX, (float)pool.PosY, (float)pool.PosZ)))
                         outside.Add($"{talk.MissionId}.{talk.ObjectiveId} NPC pool {pool.Id}");
                 }
-            Assert.AreEqual(4, checkedTargets, "Mason Linier, Emmons, Yamamoto and Daris Linier");
+            Assert.AreEqual(4 + 4 + 3, checkedTargets, "Mason Linier, Emmons, Yamamoto and Daris Linier; set 6's Latan (1254's four talks), Yamamoto (1258, 1259), Mason Linier (1261)");
             Assert.IsEmpty(outside, string.Join(", ", outside));
         }
 
@@ -483,7 +491,16 @@ namespace Rasa.Test.Missions.Ashen
                 // the control point's, the Bane's at the start.
                 [AshenDeathFromAboveV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
                 [AshenTurningOutTheLightsV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
-                [AshenStrongestLinkV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
+                [AshenStrongestLinkV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                // Set 6: 1254's markers at Latan on Ashoka's lower level, walked to from the Ashoka Settlement hospital on that
+                // floor (its ramp to the waypoint is the client's, not the server navmesh's: AshenFormalComplaintsTests, N18);
+                // Yamamoto's (1258, 1259) and the Boneyard Thrax pools' (1285) from the Ashoka waypoint; Mason Linier's (1261)
+                // from Shadow's Edge Post's.
+                [AshenFormalComplaintsV1.MissionId] = ("the Ashoka Settlement hospital", AshenFormalComplaintsTests.AshokaHospital),
+                [AshenHumanPerspectiveV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                [AshenBribeForYourThoughtsV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                [AshenCourtMartialArtsV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                [AshenDearlyDepartedV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var desert = AshenLeadInsTests.EnterAshen(harness);

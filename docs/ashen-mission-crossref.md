@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 18 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 23 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -9,7 +9,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 | Zone | Missions |
 | --- | ---: |
-| Ashen Desert | 18 |
+| Ashen Desert | 23 |
 
 ## Ashen Desert
 
@@ -191,6 +191,89 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **NPCs (TaRapedia NPC pages):**
   - [Sergeant Bernard Ames](https://tabularasa.fandom.com/wiki/Sergeant_Bernard_Ames): no location on page (named as giver/receiver)
 
+### 1254 — Formal Complaints
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - reward: 45,000 XP; 4,100 credits; Class VIII EMP Grenade x3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x3; Class VIII Basic Med Pack x6 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Formal_Complaints)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Speak with Vakiel Latan of the Labbna Syndicate about the tense relationship between Captain Yamamoto and the Labbna Syndicate. You must choose between helping Vakiel Latan, or speaking with Captain Yamamoto to find out his side. Once you make your choice you can not change your mind.
+  - objectives (client): Discuss the situation with Vakiel Latan; Speak with Vakiel Latan; Speak with Vakiel Latan
+- **TaRapedia** [Formal Complaints](https://tabularasa.fandom.com/wiki/Formal_Complaints) [stub]: giver: Captain Amandla Botha; at: Ashoka Settlement; zone: Ashen Desert; requires: None; follow-up: The Human Perspective (If Option 2); XP: 45,000; credits: 4,100; items: Class VIII EMP Grenade x3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x3; Class VIII Basic Med Pack x6; reward from: Captain Amandla Botha
+  - overview: Speak with Vakiel Latan of the Labbna Syndicate about the tense relationship between Captain Yamamoto and the Labbna Syndicate. You must choose between helping Vakiel Latan, or speaking with Captain Yamamoto to find out his side. Once you make your choice you can not change your mind.
+  - objectives: • Discuss the situation with Vakiel Latan • Option 1: Side with Vakiel Latan and speak directly to Colonel Linier • Option 2: Choose to speak with Captain Yamamoto to hear his side of the story
+- **TaRapedia mission list** [Ashoka Settlement mission list](https://tabularasa.fandom.com/wiki/Ashoka_Settlement_mission_list): zone Ashen Desert, area Ashoka Settlement, given by Scavenger Vakiel Latan
+
+### 1258 — The Human Perspective
+
+
+- **Rebuild summary:**
+  - level: <=41 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective)
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - reward: 45,000 XP; 4,100 credits; Class VIII Cryogenic Grenade x3; Class VIII Basic Med Pack x3; Class VIII Incendiary Grenade x3; Class VIII Advanced Med Pack x2 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Shinichiro Ito: Plains, Ashoka Settlement, /loc 556, 248, -320 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Shinichiro_Ito)
+- **Client:** Travel to the Boneyard Outpost and speak with Captain Yamamoto. Once you have spoke with Captain Yamamoto, return to Ashoka Settlement and see what Vakiel Latan has to say.
+  - objectives (client): Speak with Captain Yamamoto
+- **TaRapedia** [The Human Perspective](https://tabularasa.fandom.com/wiki/The_Human_Perspective): giver: Shinichiro Ito; at: Ashoka Settlement; zone: Ashen Desert; level: <=41; requires: Formal Complaints (If Option 2); follow-up: A Bribe for Your Thoughts; XP: 45,000; credits: 4,100; items: Class VIII Cryogenic Grenade x3; Class VIII Basic Med Pack x3; Class VIII Incendiary Grenade x3; Class VIII Advanced Med Pack x2; reward from: Scavenger Vakiel Latan
+  - overview: Travel to the Boneyard Outpost and speak with Captain Yamamoto. Once you have spoke with Captain Yamamoto, return to Ashoka Settlement and see what Vakiel Latan has to say.
+  - objectives: • Speak with Captain Yamamoto
+- **TaRapedia mission list** [Ashoka Settlement mission list](https://tabularasa.fandom.com/wiki/Ashoka_Settlement_mission_list): zone Ashen Desert, area Ashoka Settlement, given by Shinichiro Ito
+- **NPCs (TaRapedia NPC pages):**
+  - [Shinichiro Ito](https://tabularasa.fandom.com/wiki/Shinichiro_Ito): Plains, Ashoka Settlement, /loc 556, 248, -320 (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): The Human Perspective chain (7 missions), step 1
+  - Leads to: A Bribe for Your Thoughts (id 1259) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts), [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective)
+- **Requires (name not matched to a mission):** Formal Complaints (If Option 2) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective)
+
+### 1259 — A Bribe for Your Thoughts
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - reward: 45,000 XP; 4,100 credits; Class VIII EMP Grenade x3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x3; Class VIII Basic Med Pack x6 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Captain Aiko Yamamoto: Ashen Desert, Boneyard Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto)
+- **Client:** Deliver Latan's Package to Captain Yamamoto so that he can see the contents. Captain Yamamoto is in Boneyard Outpost in eastern Ashen Desert.
+  - objectives (client): Delivery Latan's Package to Captain Yamamoto
+- **TaRapedia** [A Bribe for Your Thoughts](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts): giver: Scavenger Vakiel Latan; at: Ashoka Settlement; zone: Ashen Desert; requires: The Human Perspective; follow-up: Court Martial Arts; XP: 45,000; credits: 4,100; items: Class VIII EMP Grenade x3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x3; Class VIII Basic Med Pack x6; reward from: Captain Aiko Yamamoto
+  - overview: Travel to the Boneyard Outpost and deliver Vakiel Latan's package to Captain Yamamoto.
+  - objectives: • Deliver Latan's Package to Captain Yamamoto
+- **TaRapedia mission list** [Ashoka Settlement mission list](https://tabularasa.fandom.com/wiki/Ashoka_Settlement_mission_list): zone Ashen Desert, area Ashoka Settlement, given by Scavenger Vakiel Latan
+- **NPCs (TaRapedia NPC pages):**
+  - [Captain Aiko Yamamoto](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto): Ashen Desert, Boneyard Outpost (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): The Human Perspective chain (7 missions), step 2
+  - Requires: The Human Perspective (id 1258) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts), [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective)
+  - Leads to: Court Martial Arts (id 1261) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts), [TaRapedia](https://tabularasa.fandom.com/wiki/Court_Martial_Arts)
+
+### 1261 — Court Martial Arts
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - reward: 45,000 XP; 4,100 credits; Class VIII Fragmentation Grenade x3; Class VIII EMP Bomb; Class VIII Cryogenic Grenade x3; Class VIII Standard Med Pack x3 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Court_Martial_Arts)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Captain Aiko Yamamoto: Ashen Desert, Boneyard Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto)
+- **Client:** Deliver Latan's Package to Colonel Linier at Shadow's Edge Post. Shadow's Edge Post can be found in the southern part of the Ashen Desert.
+  - objectives (client): Deliver Latan's Package to Colonel Linier
+- **TaRapedia** [Court Martial Arts](https://tabularasa.fandom.com/wiki/Court_Martial_Arts): giver: Captain Aiko Yamamoto; at: Boneyard Outpost; zone: Ashen Desert; requires: A Bribe for Your Thoughts; follow-up: None; XP: 45,000; credits: 4,100; items: Class VIII Fragmentation Grenade x3; Class VIII EMP Bomb; Class VIII Cryogenic Grenade x3; Class VIII Standard Med Pack x3; reward from: Colonel Mason Linier
+  - overview: Deliver Latan's Package to Colonel Linier at Shadow's Edge Post. Shadow's Edge Post can be found in the southern part of the Ashen Desert.
+  - objectives: • Deliver Latan's Package to Colonel Linier
+- **TaRapedia mission list** [Boneyard Outpost mission list](https://tabularasa.fandom.com/wiki/Boneyard_Outpost_mission_list): zone Ashen Desert, area Boneyard Outpost, given by Captain Aiko Yamamoto
+- **NPCs (TaRapedia NPC pages):**
+  - [Captain Aiko Yamamoto](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto): Ashen Desert, Boneyard Outpost (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): The Human Perspective chain (7 missions), step 3
+  - Requires: A Bribe for Your Thoughts (id 1259) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts), [TaRapedia](https://tabularasa.fandom.com/wiki/Court_Martial_Arts)
+  - Leads to: Dearly Departed (id 1285) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Dearly_Departed)
+
 ### 1262 — Xanxless Job
 
 
@@ -342,6 +425,36 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
   - overview: Travel to White Oasis Outpost up in Maji Field, in the north end of Ashen Desert. Report to Captain Daris Linier for futher orders.
   - objectives: • Report to Captain Linier
 - **TaRapedia mission list** [Shadow's Edge Post mission list](https://tabularasa.fandom.com/wiki/Shadow%27s_Edge_Post_mission_list): zone Ashen Desert, area Shadow's Edge Post, given by Lt. Colonel Dania Caldwell
+
+### 1285 — Dearly Departed
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - reward: 190,000 XP; 8,400 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Dearly_Departed)
+  - drops / mission items: Yamamoto's Wedding Ring: Overview: Yamamoto's Wedding Ring was lost during a battle with the Bane. Captain Aiko Yamamoto kept it as a memento of his wife, who was slain at their hands. It … — source: [TaRapedia item](https://tabularasa.fandom.com/wiki/Yamamoto%27s_Wedding_Ring)
+  - drops / mission items: Yamamoto's Wedding Ring can be found on one of the many Thrax in the region — source: client text
+  - drops / mission items: The wedding ring is a random drop off Thrax in the area — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Dearly_Departed)
+  - location: NPC Megumi Yamamoto: Ashen Desert, Shadow's Edge Post — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Megumi_Yamamoto)
+- **Client:** Recover Captain Yamamoto's lost wedding ring, which was misplaced while he was fighting Thrax in the Boneyard. Yamamoto's Wedding Ring can be found on one of the many Thrax in the region. Return the ring to Captain Yamamoto once you have found it.
+  - objectives (client): Recovery Yamamoto's Ring
+- **TaRapedia** [Dearly Departed](https://tabularasa.fandom.com/wiki/Dearly_Departed): giver: Megumi Yamamoto; at: Shadow's Edge Post; zone: Ashen Desert; requires: Court Martial Arts; follow-up: None; XP: 190,000; credits: 8,400; reward from: Megumi Yamamoto
+  - overview: Recover Captain Yamamoto's lost wedding ring, which was misplaced while he was fighting Thrax in the Boneyard. Yamamoto's Wedding Ring can be found on one of the many Thrax in the region. Return the ring to Captain Yamamoto once you have found it.
+  - objectives: • Recover Yamamoto's Ring • x/1
+  - walkthrough: The wedding ring is a random drop off Thrax in the area.
+- **TaRapedia mission list** [Shadow's Edge Post mission list](https://tabularasa.fandom.com/wiki/Shadow%27s_Edge_Post_mission_list): zone Ashen Desert, area Shadow's Edge Post, given by Megumi Yamamoto
+- **NPCs (TaRapedia NPC pages):**
+  - [Megumi Yamamoto](https://tabularasa.fandom.com/wiki/Megumi_Yamamoto): Ashen Desert, Shadow's Edge Post (named as giver/receiver)
+- **Mission items (TaRapedia item pages):**
+  - [Yamamoto's Wedding Ring](https://tabularasa.fandom.com/wiki/Yamamoto%27s_Wedding_Ring): Overview: Yamamoto's Wedding Ring was lost during a battle with the Bane. Captain Aiko Yamamoto kept it as a memento of his wife, who was slain at their hands. It fueled his rage in combat. His daughter, Megumi Yamamoto, asks you to find his missing ring and return it to him. == …
+- **Drops / item sources:**
+  - Yamamoto's Wedding Ring can be found on one of the many Thrax in the region — source: client text
+  - The wedding ring is a random drop off Thrax in the area — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Dearly_Departed)
+
+- **Chain** (explicit prerequisite links): The Human Perspective chain (7 missions), step 4
+  - Requires: Court Martial Arts (id 1261) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Dearly_Departed)
+  - Leads to: Robotic Salvage Acquisitions (id 1267) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Acquisitions)
 
 ### 1352 — Death from Above
 

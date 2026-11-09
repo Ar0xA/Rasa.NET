@@ -137,6 +137,32 @@ and 1263 done. The base and the trench have no waypoint a player holds (the Cons
   -30), a marker r15. Turn in at Blood: 200000 XP, 8600 credits, one of 33342, 24086, 19544, 36638 (armour). Look: the
   Linkers can be hit and killed (to-fix row 2 was an Atta hit problem; Linker class 9751 not yet tried in the client).
 
+Set 6, Formal Complaints and the AFS side (migration `20271110000600_Ashen_formal_complaints`). New: Scavenger Vakiel
+Latan 790200 (576, 248.65, -321) and Shinichiro Ito 790201 (560, 248.65, -320) on Ashoka's lower level (the hospital's
+floor), Megumi Yamamoto 790202 (-166, 296.98, -895, Shadow's Edge Post, south enclosure); next free id 790203. The Boneyard
+Thrax pools 531038, 531039, 531041 made point pools on open ground. Walk to Latan and Ito from the Ashoka Settlement
+hospital, the Ashoka Upper teleporter (613) or down the market's ramp (the server navmesh does not join the ramp top to
+the waypoint's terrace: N18; the client floor does).
+
+- [ ] 1254 Formal Complaints (Ligo Ashen Desert): Latan offers it, level 40. Objective 1: talk to Latan and choose:
+  choice 1 (side with Latan) sets player flag 250 to 1 and 251 to 0 and opens 2 "talk to Latan" (her variant 250);
+  choice 2 (hear Yamamoto first) sets 251 to 1 and 250 to 0 and opens 3 (variant 251). Hidden objective 4 is done by 2 or 3.
+  Turn in at Latan: 45000 XP, 4100 credits, one of 111029 x3, 47600, 111019 x3, 45063 x6. Flag 250 leads to 1264-1266
+  (set 7), 251 to 1258. Look: the choice window and both answer texts.
+- [ ] 1258 The Human Perspective (Ligo Ashen Desert): Ito offers it after 1254 with flag 251 at 1, level 41. Talk to
+  Captain Akio Yamamoto (790003, Boneyard Outpost; variant 251). Turn in at Latan: 45000 XP, 4100 credits, the 1254 stacks.
+- [ ] 1259 A Bribe for Your Thoughts (Ligo Ashen Desert): Latan offers it after 1258, level 41; Latan's Package (97462) at
+  the accept (a full bag refuses the accept). Give it to Yamamoto (variant 251); turn in at Yamamoto: 45000 XP, 4100
+  credits, the 1254 stacks.
+- [ ] 1261 Court Martial Arts (Ligo Ashen Desert): Yamamoto offers it after 1259, level 41; the package again at the
+  accept. Give it to Colonel Mason Linier (510010, Shadow's Edge HQ entrance; variant 251); turn in at Linier: 45000 XP,
+  4100 credits, one of 45447 x3, 111233, 111049 x3, 45064 x3.
+- [ ] 1285 Dearly Departed (Ligo Ashen Desert): Megumi offers it after 1261, level 42. Yamamoto's Wedding Ring (97481): a
+  personal 15 % drop off a Thrax Soldier (531008) or Thrax Ravager (531009) anywhere on Ashen Desert while 1 is open, one
+  at most; markers r25 on the Boneyard Thrax pools 531038 (566, 285.1, -136), 531039 (487, 286.45, -261.3), 531041 (487,
+  271.9, -219). Turn in at Yamamoto (he takes the ring): 190000 XP, 8400 credits, one of 38823, 23828, 20802, 29093
+  (armour). Look: the ring drops and is picked up; the Thrax stand on the ground at the moved points.
+
 ## Assumptions and choices (not from a source)
 
 All ESTIMATE (set 1):
@@ -252,6 +278,19 @@ All ESTIMATE (set 5):
 - Rewards: as set 2. "Incendiary Blade" the fire blade, "Pulse Cannon" the EMP rocket launcher, "Photonic Shotgun" the
   laser shotgun, "Cryogenic Injector" the ice injection gun.
 
+All ESTIMATE (set 6):
+- 1254: giver and receiver Latan (the client's voice; TaRapedia's infobox says Botha, triage D1). The flags stay at an
+  abandon; taken again, the choice is asked again and the last one stands (as Crucible Calendar Girl).
+- Levels: 1254 40, 1258, 1259, 1261 41, 1285 42 (the zone band, D5).
+- Rewards: 1258 and 1259 have no item on TaRapedia: the 1254 stacks (the zone's other 45000 XP talks).
+- Places: Ito 4 m from his TaRapedia /loc (556, 248, -320); Latan 16 m east of him (no source). Megumi's TaRapedia /loc
+  (-195, 269, -898) is in the barracks rooms under the post, a navmesh island; the post has no tent: she stands on the
+  post's floor in its south enclosure, 29 m from the loc.
+- Looks: Latan a copy of Raji Lasat 510014 (Brann), Ito of Mason Linier, Megumi of Ida Hayner.
+- 1259, 1261: the package is given at each accept, taken at the talk, gone at an abandon.
+- 1285: the ring a 15 % drop (triage); kept at an abandon (as 1243's samples). The three Boneyard Thrax pools moved to
+  open ground 14-27 m from their points and made point pools (see "Server data changed by set 6").
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -284,6 +323,13 @@ All ESTIMATE (set 5):
   object (PracticeTargetManager.TryGetTarget).
 - 1355: "Hundreds of them": fifteen Linkers in five pools round the base, not a perimeter of hundreds. Linkers killed in
   the Bane Conscription Facility, Indra Caverns and on the Sheitan Highway count too (same row 531014).
+
+- 1254: a player can change sides by abandoning 1254 before the turn-in and choosing again (the flags are set at the
+  choice, the follow-ups open only at the turn-in).
+- 1254: the client reminder texts 10066 / 10067 are not sent (no server reminder).
+- 1285: the ring drops off any Ashen Thrax Soldier or Ravager (a drop is bound to creature rows and the map), not only
+  those of the Boneyard: also those of the Sheitan Highway and the Conscription Facility.
+- 1285: Megumi does not stand in the "eastern tent" (TaRapedia): see the assumptions.
 
 ## Server data that differs from the sources (not changed)
 
@@ -333,3 +379,13 @@ All ESTIMATE (set 5):
   allows it). Down gives them 592011 back while they still hold the copy.
 - Moved: Overseer Naxveik's pool 520005 from (305.41, 282.61, 84.41) to (296, 296.49, -30) in the generators' compound.
   Down puts it back (the exact stored values) while it still stands at the new place.
+
+## Server data changed by set 6 (upstream rows)
+
+- The Boneyard Thrax pools 531038 (544.2, 283.2, -120, radius 14.4), 531039 (499, 285.5, -269.3, radius 10.7) and 531041
+  (502, 277.5, -198.2, radius 12.6) become point pools (radius 0) at (566, 285.1, -136), (487, 286.45, -261.3) and (487,
+  271.9, -219), 14-27 m away (probe of 2026-11-09). Upstream's radius draws (Detour's random point round the circle) put
+  Thrax up to 47 m from the point, onto rock tops (531038 has two navmesh floors 2.7-6 m apart) and 2-5 m off the rows'
+  heights (the rows stand 1.7-2.75 m under the ground). Round each new point every navmesh floor within 17 m is one floor,
+  joined to the Ashoka Settlement waypoint, on a client floor under open sky. Count, creatures and respawn as upstream.
+  ESTIMATE: the places. Down puts upstream's rows back (the exact stored values) while they are still set 6's.
