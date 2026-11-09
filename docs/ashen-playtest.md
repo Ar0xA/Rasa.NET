@@ -188,9 +188,9 @@ west); next free id 790247. Only for a character who chose Latan's side (choice 
 Set 8, the AFS side of Formal Complaints (migration `20271110000800_Ashen_logistician`). No new world rows: the three
 use set 7's robots and pools, the Thrax rows 531008 / 531009, set 3's Desert Predator and set 4's Desert Stalker. Only for
 a character who chose Yamamoto (choice 2), finished Formal Complaints and the chain up to Dearly Departed (1285). Ito
-stands on Ashoka's lower level: walk to him from the Ashoka hospital or the Ashoka Upper teleporter (613); the ramp from
-the waypoint fails the tightened client-floor walk (head height under the terrain sheet at the ramp top, 0.93 m up onto the
-terrace): try it in the real client.
+stands on Ashoka's lower level: walk to him from the Ashoka Settlement waypoint through the Brann corridor under the
+dome (fix C: mouth at (404, -472), down to the market, the east and cross corridors), or from the Ashoka hospital or the
+Ashoka Upper teleporter (613). The straight line to the market ramp is walled off.
 
 - [ ] 1267 Robotic Salvage Acquisitions (Ligo Ashen Desert): Ito offers it after 1285 and 1254 done with flag 251 at 1,
   level 42. Recover 15 Intact Nitroglazer Salvage (97465) and 15 Intact Machina Salvage (97466): personal 75 % drops off

@@ -249,9 +249,6 @@ namespace Rasa.Test.Missions.Ashen
             return ClientFloorLine(geometry, path.Prepend(start).ToList(), to);
         }
 
-        /// <summary>Set 8's name for ClientFloorLine with the defaults (kept until its route test moves over).</summary>
-        internal static string ClientFloorAlong(MapGeometry geometry, IReadOnlyList<Vector3> corners, Vector3 to) => ClientFloorLine(geometry, corners, to);
-
         /// <summary>
         /// The walk along <paramref name="corners"/> (in order; the first one's height is the start's floor) on the client's floor,
         /// with ClientFloorWalk's checks: for a route the navmesh does not join (Ashen fix C: Ashoka's corridor, upstream N18).

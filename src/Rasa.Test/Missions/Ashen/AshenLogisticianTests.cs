@@ -152,8 +152,9 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>
         /// The walks on the client's floor (AshenFixBTests.ClientFloorWalk: every half metre, never more than 0.9 m up over a
         /// metre, nothing of the placed meshes in the way at knee, chest or head height), there and back: Ito from the Ashoka
-        /// Settlement hospital on his floor and from the Ashoka Upper teleporter (613) on that floor (the ramp from the Ashoka
-        /// Settlement waypoint, set 6's route, fails the tightened walk and is not counted on, upstream N18); from the Ashoka
+        /// Settlement hospital on his floor and from the Ashoka Upper teleporter (613) on that floor, and from the Ashoka
+        /// Settlement waypoint through the Brann corridor under the dome (fix C, AshenFormalComplaintsTests.AshokaWalk: the
+        /// straight line to the market ramp is walled off; the navmesh does not join the two, upstream N18); from the Ashoka
         /// Settlement waypoint the Boneyard's places (the robot pools, two of the Thrax pools, the Desert Stalker pools; the
         /// third Thrax pool, 531041, is not reached: no 1269 marker on it); from the Shadow's Edge Post waypoint the Sheitan
         /// Highway's (the Ravager pools and every step of the Desert Predators' beats).
@@ -183,14 +184,11 @@ namespace Rasa.Test.Missions.Ashen
             Both("Ito", FC.AshokaHospital, "the Ashoka Settlement hospital", ito);
             Both("Ito", AshokaUpper, "the Ashoka Upper teleporter (613)", ito);
 
-            // Over the market's ramp (set 6's route): the tightened walk does not pass (head height at the ramp top under the
-            // terrain sheet, 0.93 m up onto the terrace), so the route is not counted on; the hospital and teleporter 613 are
-            // (upstream N18; real-client check in NOTES-playtest).
-            var terrace = nav.Nearest(new Vector3(420f, 279.6f, -470f)).Value;
-            var top = nav.Nearest(FC.AshokaRampTop).Value;
-            var down = nav.FindPath(nav.Nearest(Ashoka).Value, terrace, out _).Prepend(nav.Nearest(Ashoka).Value)
-                .Concat(nav.FindPath(top, ito, out _).Prepend(top)).ToList();
-            Assert.IsNotNull(AshenFixBTests.ClientFloorAlong(geometry, down, ito), "the ramp route fails the tightened walk (recorded, not used)");
+            // From the waypoint through the corridor (fix C) and back.
+            if (FC.AshokaWalk(nav, geometry, ito, down: true) is { } down)
+                failures.Add($"Ito from the Ashoka Settlement waypoint through the corridor: {down}");
+            if (FC.AshokaWalk(nav, geometry, ito, down: false) is { } up)
+                failures.Add($"Ito back to the Ashoka Settlement waypoint through the corridor: {up}");
 
             foreach (var (pool, at) in S.NitroglazerPools.Concat(S.MachinaPools))
                 Both($"robot pool {pool}", Ashoka, "the Ashoka Settlement waypoint", V(at));
