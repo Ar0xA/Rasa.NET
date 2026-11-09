@@ -24,6 +24,7 @@ namespace Rasa.Test.Missions.Ashen
 {
     using N = AshenLeadInNpcsV1;
     using B = AshenMaunaBarrensNpcsV1;
+    using H = AshenSheitanHighwayNpcsV1;
     using F = MarshesClientFloorTests;
 
     /// <summary>
@@ -88,15 +89,57 @@ namespace Rasa.Test.Missions.Ashen
                     Assert.IsTrue(BehaviorManager.NeverMoves(CreatureManager.Instance.LoadedCreatures[slot.CreatureId]), $"{slot.CreatureId} stands still");
             }
             var found = SpawnPoolManager.Instance.PoolsTooClose(new List<(uint, Vector3, string)>()).Select(entry => entry.Message).ToList();
-            // This batch's own pools (the block's hostile ones too: "spawnpool 79...") and the upstream pools it moves (Exing's 520007).
+            // This batch's own pools (the block's hostile ones too: "spawnpool 79...") and the upstream pools it moves (Exing's 520007)
+            // or relies on (set 3's highway mortars 592191-592194).
             Assert.IsFalse(found.Any(message => message.Contains("of pool 790") || message.StartsWith("spawnpool 79") ||
-                    message.StartsWith($"spawnpool {AshenMaunaBarrensNpcsV1.Exing}:") || npcs.Any(npc => message.Contains($"of pool {npc.DbId}"))),
+                    message.StartsWith($"spawnpool {AshenMaunaBarrensNpcsV1.Exing}:") || H.Mortars.Any(mortar => message.StartsWith($"spawnpool {mortar.Pool}:")) ||
+                    npcs.Any(npc => message.Contains($"of pool {npc.DbId}"))),
                 string.Join("\n", found));
         }
 
         /// <summary>
+        /// Auditor F2 (set 3): a creature on a beat stands wherever its beat takes it, not only at its pool's point. Every step
+        /// of every Ashen beat (spawnpool_patrol of the block's pools) stands ReachClearance outside every friendly NPC's pool
+        /// on Ashen Desert (by its circle) and ReachClearance from every hospital and waypoint, where players arrive.
+        /// </summary>
+        [TestMethod]
+        public void EveryAshenBeatStepStandsClearOfNpcsAndArrivals()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            AshenLeadInsTests.EnterAshen(harness);
+            bool Friendly(uint creature) => CreatureManager.Instance.LoadedCreatures.TryGetValue(creature, out var c) && c.TargetCategory != TargetCategory.Hostile;
+            var friendly = SpawnPoolManager.Instance.LoadedSpawnPools.Values.Where(pool => pool.MapContextId == Map &&
+                pool.SpawnSlot.Count > 0 && pool.SpawnSlot.TrueForAll(slot => Friendly(slot.CreatureId))).ToList();
+            Assert.IsGreaterThan(10, friendly.Count, "Ashen Desert's friendly NPC pools");
+            var arrivals = harness.World.TeleporterEntries.AsNoTracking().Where(row => row.MapContextId == Map).ToList()
+                .Where(row => row.Description != null && (row.Description.StartsWith("Hospital:") || row.Description.StartsWith("Waypoint:"))).ToList();
+            Assert.IsGreaterThan(5, arrivals.Count, "Ashen Desert's hospitals and waypoints");
+            var steps = harness.World.SpawnPoolPatrolEntries.AsNoTracking().Where(row => row.PoolId >= 790000 && row.PoolId <= 790999).ToList();
+            Assert.HasCount(H.PredatorPools.Sum(pool => 2 * pool.Way.Length - 2), steps, "set 3's beats");
+            var near = new List<string>();
+            foreach (var step in steps)
+            {
+                var at = new Vector2((float)step.PosX, (float)step.PosZ);
+                foreach (var npc in friendly)
+                {
+                    var gap = Vector2.Distance(at, new(npc.Position.X, npc.Position.Z)) - npc.Radius;
+                    if (gap < MarshesNpcsStandStillV1.ReachClearance)
+                        near.Add(FormattableString.Invariant($"pool {step.PoolId} step {step.Step} {gap:0.0} m from NPC pool {npc.DbId}"));
+                }
+                foreach (var arrival in arrivals)
+                {
+                    var gap = Vector2.Distance(at, new((float)arrival.PosX, (float)arrival.PosZ));
+                    if (gap < MarshesNpcsStandStillV1.ReachClearance)
+                        near.Add(FormattableString.Invariant($"pool {step.PoolId} step {step.Step} {gap:0.0} m from {arrival.Description}"));
+                }
+            }
+            Assert.IsEmpty(near, string.Join("; ", near));
+        }
+
+        /// <summary>
         /// To-fix row 17 (Marshes): a quest NPC with no creature_stat row plays with 100 hit points. Each new Ashen NPC has 4500
-        /// and armour 300; each new Ashen creature (set 2's Atta) has the hit points and armour of the World DB row it copies.
+        /// and armour 300; each new Ashen creature (set 2's Atta, set 3's Desert Predator and mortars) has the hit points and armour
+        /// of the World DB row it copies.
         /// </summary>
         [TestMethod]
         public void EveryNewAshenNpcHasItsOwnHitPoints()
@@ -115,6 +158,11 @@ namespace Rasa.Test.Missions.Ashen
             {
                 Assert.IsTrue(stats.TryGetValue(atta, out var stat), $"{atta} has a creature_stat row");
                 Assert.AreEqual((copied[copy].Health, copied[copy].Armor), (stat.Health, stat.Armor), $"{atta} as {copy}");
+            }
+            foreach (var (creature, copy) in H.Mortars.Select(mortar => (mortar.Creature, H.Mortar)).Append((H.Predator, H.PredatorCopy)))
+            {
+                Assert.IsTrue(stats.TryGetValue(creature, out var stat), $"{creature} has a creature_stat row");
+                Assert.AreEqual((copied[copy].Health, copied[copy].Armor), (stat.Health, stat.Armor), $"{creature} as {copy}");
             }
         }
 
@@ -411,7 +459,11 @@ namespace Rasa.Test.Missions.Ashen
                 [AshenAngryAngryAttaV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
                 [AshenHarmfulMutationsV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
                 [AshenChemicalOversightV1.MissionId] = ("the Stonewall Ridge waypoint", AshenLeadInsTests.StonewallWaypoint),
-                [AshenEyesOnTheGroundV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint)
+                [AshenEyesOnTheGroundV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                // Set 3: the Sheitan Highway has no waypoint; it runs north from Shadow's Edge Post (the givers' waypoint).
+                [AshenHighwayToHellV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                [AshenAirSuperiorityV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                [AshenArtilleryAnnihilationV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint)
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var desert = AshenLeadInsTests.EnterAshen(harness);

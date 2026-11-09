@@ -59,6 +59,30 @@ Post).
   Beacon Point 1" .. "5" on the map. Turn in at Karter: 90000 XP, 6150 credits, one of 33987, 23698, 21100, 46013. Look:
   the spot's name and the planted beacon model; the map labels of the markers.
 
+Set 3, the Sheitan Highway (migration `20271110000200_Ashen_sheitan_highway`). New Desert Predator 790080, mortar copies
+790081-790084, Thrax pools 790085-790088, Predator pools 790089-790090, next free id 790091. The highway has no waypoint:
+walk north from Shadow's Edge Post along the road; the Bane camp is at (-160, 303, -300).
+
+- [ ] 1247 Highway to Hell (Ligo Ashen Desert): Captain Sera Karter (790042, Shadow's Edge dropship pad) offers it, no
+  requirement, level 41. Kill 10 Thrax Ravagers (counter "Thrax Ravagers"; the Ashen Thrax Grenadier 531009, L39, now
+  named "Thrax Ravager") and 10 Thrax Soldiers (counter "Thrax Soldiers"; Thrax Soldier Mark VI 531008, L39). Ravager
+  pools 790085 (-180, 306.57, -305) and 790086 (-140, 306.34, -305) in the camp, Soldier pools 790087 (-160, 304.19, -260)
+  and 790088 (-120, 304.81, -225) at and north of its north end; a marker r20 on each. The camp's own pool 531034
+  (Soldiers and others) counts too. Turn in at Karter: 180000 XP, 8200 credits, one of 49576, 45777, 47948, 45762
+  (weapons). Look: the "Thrax Ravager" name over the grenadiers (also in the Bane Conscription Facility and Indra Caverns).
+- [ ] 1248 Air Superiority (Ligo Ashen Desert): Lt. Colonel Trent Ivan (790001, Shadow's Edge east barracks) offers it, no
+  requirement, level 42. Destroy 1 Desert Predator (new, 790080, L42, 4700 HP; counter "Desert Predators"): two walk beats
+  on the road south of the camp, pool 790089 from (-170.6, 295.8, -515.6) to (-160, 299.52, -440) (home, the pool's point,
+  at -173.3, 297.11, -478.7) and pool 790090 from (-160, 297.59, -425) to (-160, 301.35, -365) (home at -162, 299.39,
+  -400), each a loop from home to both ends; a marker on each beat (r50 at -174.4, -482.2; r40 at -161.6, -392.2). Turn in at Ivan: 180000 XP, 8200 credits, one of 12065, 11953, 47772, 15111 (weapons). Look: the Predators walk
+  their beats on the road (not through the ground), fight and go back to the beat; "get some help" (a group mission).
+- [ ] 1249 Artillery Annihilation (Ligo Ashen Desert): Lt. Colonel Dania Caldwell (790002, Shadow's Edge west barracks)
+  offers it, no requirement, level 41. Destroy Mortar 1-4 (any order): the Bane mortars on the pads by the camp, pool
+  592191 (-210.9, 315.29, -409.7), 592192 (-195.6, 317.34, -337.7), 592193 (-180.6, 310.17, -282.7), 592194 (-140.3,
+  310.43, -285.3) (L42, 17500 HP); a marker r10 on each, named "Bane Heavy Mortar 1" .. "4" on the map. Turn in at
+  Caldwell: 90000 XP, 6150 credits, one of 24086, 20504, 36188, 19286 (armour). Look: each mortar ticks off its own
+  objective; the map labels of the markers.
+
 ## Assumptions and choices (not from a source)
 
 All ESTIMATE (set 1):
@@ -103,6 +127,30 @@ All ESTIMATE (set 2):
 - Rewards: TaRapedia's item names matched to the lowest Uncommon template of the kind and icon number in the band of the
   mission's level, the nearest icon number where the band has none (as the Crucible).
 
+All ESTIMATE (set 3):
+- Levels: 1247 and 1249 41, 1248 42 (the zone band, triage D5; no chain; 1248 is TaRapedia's 180000 XP group mission and
+  its Predator is L42).
+- Thrax Ravager = the World DB's unnamed Ashen Thrax Grenadier 531009 (triage D9: 1266 says the Ravagers carry grenade
+  launchers); the name 9223 is on the row, so every 531009 (Ashen Desert, Bane Conscription Facility, Indra Caverns) is a
+  Thrax Ravager. Thrax Soldier = 531008 "Thrax Soldier Mark VI". Any kill of either counts, wherever.
+- The Thrax pools: four of three (two Ravager, two Soldier), radius 0, 120 s respawn; places by the client map's Bane camp
+  statics (floodlights, barricades, pillboxes at x -200..-120, z -347..-258), chosen by a probe (2026-11-09): navmesh
+  ground, 11 m or more from a wall, walked to from the Shadow's Edge Post waypoint, 19.7 m or more from the mortar pads
+  (Ravager pool 790086 to Mortar 4). Counts per pool have no source.
+- The Desert Predator: a copy of the World DB's Alpha Class Recon Predator - Incline 520022 (class 3902, L42, 4700 HP,
+  armour 410, its attacks) with the client name 9327; stock look (set 21). "The two Predators patrolling" (the client's
+  reminder): two pools of one, each on a beat (spawnpool_patrol, steps on the navmesh ground along the navmesh's path, 4-12
+  m apart), on the road between Shadow's Edge Post and the camp; 120 s respawn. The pool's point (the Predator's home) is
+  the beat's middle step and the beat a loop from there to both ends, every step at most 45 m from home: a fight is left
+  at 60 m from home (BehaviorManager.MaxChaseDistance), so a fight anywhere on the beat has 15 m before the leash. One kill
+  is the client's count.
+- 1249: each mortar of the four highway pads is its own copy of the Ashen Bane Mortar 592011 (same class, level, hit
+  points, armour, attack and launcher look; no name id, so the client still calls it "Bane Mortar"), so Mortar n is the kill
+  of copy n. Mortar n = pool n, south to north along the road (592191-592193 west of it, 592194 east); the client gives no
+  order.
+- Rewards: as set 2. 1247's "Cryogenic RPG Launcher" read as the ice grenade launcher (the client has no ice rocket
+  launcher); 1248's "Flame Thrower" as the fire propellant gun.
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -117,6 +165,13 @@ All ESTIMATE (set 2):
   Outpost, at the north end of the Sheitan Highway" is not followed (triage D10). He does not walk "among the Atta" (the
   1244 offer): a boss pool of his own, 14 m from the upstream spot.
 - 1242: the Atta "call for assistance" (TaRapedia 2007-12-11) is not built (no such server behaviour).
+
+- 1247: "the Thrax are landing in waves" (the reminder) is flavour: no dropship waves, the pools respawn.
+- 1247: the kills count by creature row (531009, 531008), so Thrax Ravagers and Thrax Soldier Mark VIs killed in the Bane
+  Conscription Facility and Indra Caverns (the same rows) count too, not only those of the Sheitan Highway.
+- 1248: the air strikes on the camp after the turn-in (the turn-in text) are flavour.
+- 1249: the mortars shell what comes within their reach (BaneMortars), not Shadow's Edge Post far to the south (the log's
+  "firing at Shadow's Edge Post" is flavour).
 
 ## Server data that differs from the sources (not changed)
 
@@ -136,3 +191,10 @@ All ESTIMATE (set 2):
 - Moved: Thrax Overseer Exing's pool 520007 from (-281, 340.4, -252), a navmesh island on the mesa top that no walk from
   any waypoint reaches (probe of 2026-11-09), 14 m to (-289, 332.98, -264) on the mesa's slope, walked to from the
   Stonewall Ridge and Shadow's Edge Post waypoints. Down puts it back.
+
+## Server data changed by set 3 (upstream rows)
+
+- 531009 "Thrax Grenadier - Ashen Desert" (no name id upstream) gets the client name 9223 "Thrax Ravager" (triage D9). Down
+  takes it off while it is still 9223.
+- The Sheitan Highway mortar pools 592191-592194 (Bane_mortars) hold the copies 790081-790084 for 592011 (BaneMortarTests
+  allows it). Down gives them 592011 back while they still hold the copy.
