@@ -51,8 +51,9 @@ Post).
   790051 (-405, 300.97, -272); a marker r20 on each. Turn in at Doctor Jung Kwon (new, 790041, by the Shadow's Edge
   hospital, -89, 296.78, -822): 90000 XP, 6150 credits, one of 34116, 40502, 36787, 31088; she takes the samples.
 - [ ] 1244 Chemical Oversight (Ligo Ashen Desert): Kuang offers it after 1242, level 41. Kill Thrax Overseer Exing (L44;
-  pool 520007 moved 14 m off its navmesh island to -289, 332.98, -264, on the mesa slope west of the Sheitan Highway).
-  A marker r15 on him. Walk from the Stonewall Ridge waypoint. Turn in at Kuang: 90000 XP, 6150 credits, one of 28634,
+  pool 520007 moved off its navmesh island: set 2 to -289, 332.98, -264 on the mesa slope, fix B to -260, 308.9, -310 on
+  the flat at the mesa's south foot, west of the Sheitan Highway). A marker r15 on him. Walk from the Shadow's Edge Post
+  waypoint, or on from the Mauna Barrens basin or the highway camp. Turn in at Kuang: 90000 XP, 6150 credits, one of 28634,
   38952, 18770, 35740. "Bring some friends" (a group boss).
 - [ ] 1245 Eyes on the Ground (Ligo Ashen Desert): Captain Sera Karter (new, 790042, by the Shadow's Edge dropship pad,
   -112, 296.19, -748) offers it after 1243, level 41, and gives 5 Atta Sensor Beacons (97460). Plant one at each of five
@@ -368,6 +369,16 @@ All ESTIMATE (set 6):
   -636): 15 % of the Fithik came down there, a client surface 3.5-7 m over them, and could not be shot from the shelf; not
   killed, they filled the pool. A full spawn comes on the point and its rings, a single top-up on the point. The point has
   open ground joined to the waypoints 17 m round it (the rings and a 10 m stroll), one navmesh floor in each spot. ESTIMATE: the place. Down puts upstream's pool and set 1's marker back while they are still the fix's.
+
+## Server data changed by fix job B (20271110000610)
+
+- Thrax Overseer Exing's pool 520007 (to-fix row 5): from set 2's spot (-289, 332.98, -264) on the mesa's slope to (-260,
+  308.9, -310) on the flat at the mesa's south foot, 54 m on; 1244's marker with him (-260, 309.26, -310). No real-client
+  walk reached set 2's spot: every navmesh route ends on a mesa flank the client floor does not climb (more than 0.9 m a
+  metre; upstream N19). The new spot is walked on the client floor (0.9 m steps at most, nothing in the way at chest
+  height) from the Shadow's Edge Post waypoint, the Mauna Barrens basin and the Sheitan Highway camp; still west of the
+  highway and south of the Barrens (D10). ESTIMATE: the place. Down puts set 2's pool and marker back while they are
+  still the fix's.
 
 ## Server data changed by set 4 (upstream rows)
 

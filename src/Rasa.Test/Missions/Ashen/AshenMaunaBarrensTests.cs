@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Rasa.ClientData;
 using Rasa.Data;
 using Rasa.Game;
 using Rasa.Managers;
@@ -122,8 +124,9 @@ namespace Rasa.Test.Missions.Ashen
                 }
             }
 
+            // Exing where fix B put him (AshenFixBV1: set 2's spot on the mesa is not walked to on the client's floor).
             var exing = Alive(desert).Single(candidate => candidate.DbId == B.Exing && candidate.SpawnPool?.DbId == B.Exing);
-            Assert.IsLessThan(3f, Vector2.Distance(new((float)B.ExingAt.X, (float)B.ExingAt.Z), new(exing.Position.X, exing.Position.Z)), "Exing at his new place");
+            Assert.IsLessThan(3f, Vector2.Distance(new((float)AshenFixBV1.PoolNow.X, (float)AshenFixBV1.PoolNow.Z), new(exing.Position.X, exing.Position.Z)), "Exing at fix B's place");
             Assert.IsTrue(nav.IsOnMesh(exing.Position), $"Exing on the navmesh at {exing.Position}");
             Assert.IsTrue(Walked(Stonewall, exing.Position), "Exing walked to from the Stonewall Ridge waypoint");
             Assert.IsTrue(Walked(Shadow, exing.Position), "Exing walked to from the Shadow's Edge Post waypoint");
@@ -132,6 +135,21 @@ namespace Rasa.Test.Missions.Ashen
                 "Exing inside his marker");
             var upstream = new Vector3((float)B.ExingBefore.X, (float)B.ExingBefore.Y, (float)B.ExingBefore.Z);
             Assert.IsFalse(Walked(Stonewall, nav.Nearest(upstream) ?? upstream), "upstream's spot is the navmesh island no walk reaches");
+
+            // Exing's walks on the client's floor (fix B, to-fix row 5): from the Shadow's Edge Post waypoint and from where the real
+            // client stood for 1242 and 1247, never more than 0.9 m up a metre, nothing in the way at chest height.
+            var dataDir = MarshesClientFloorTests.ClientData();
+            using (var meshes = new MeshLibrary(dataDir, MarshesClientFloorTests.MeshCsv()))
+            {
+                var geometry = MapGeometry.Load(System.IO.Path.Combine(dataDir, "maps", harness.World.MapInfoEntries.AsNoTracking()
+                    .Single(map => map.Id == AshenMissionDataV1.MapContextId).MapName), meshes, 1);
+                var exingGround = nav.Nearest(exing.Position) ?? exing.Position;
+                foreach (var (name, from) in AshenFixBTests.RealClientPlaces.Prepend(("the Shadow's Edge Post waypoint", Shadow)))
+                {
+                    var failure = AshenFixBTests.ClientFloorWalk(nav, geometry, from, exingGround);
+                    Assert.IsNull(failure, $"Exing walked to on the client's floor from {name}: {failure}");
+                }
+            }
 
             var hostiles = harness.World.SpawnPoolEntries.AsEnumerable().Where(row => row.MapContextId == AshenMissionDataV1.MapContextId)
                 .Where(row => harness.Creatures.LoadedCreatures.TryGetValue(row.Creature1Id, out var c) && c.TargetCategory == TargetCategory.Hostile).ToList();
@@ -402,7 +420,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsEmpty(Topics(harness, kuang, Oversight), "Kuang hears no objective");
             var marker = harness.Manager.BuildStatusSnapshot(harness.Client.Player)[Oversight].ObjectivesList.Single().IndicatorList.Single();
             Assert.AreEqual(AshenMissionDataV1.MapContextId, marker.MapContextId);
-            Assert.IsLessThan(0.1f, Vector2.Distance(new(marker.Position.X, marker.Position.Z), new((float)B.ExingAt.X, (float)B.ExingAt.Z)), "the marker on Exing");
+            Assert.IsLessThan(0.1f, Vector2.Distance(new(marker.Position.X, marker.Position.Z), new((float)AshenFixBV1.MarkerNow.X, (float)AshenFixBV1.MarkerNow.Z)), "the marker on Exing (fix B)");
 
             KillOne(harness, desert, Thrax, spawnFrom: PoolsOf(harness, Thrax));
             harness.Drain();

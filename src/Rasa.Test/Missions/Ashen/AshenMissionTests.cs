@@ -168,7 +168,7 @@ namespace Rasa.Test.Missions.Ashen
             {
                 (Ames, 345, -818), (Ivan, -97, -792), (Caldwell, -158, -792), (Yamamoto, 686, -495), (MasonLinier, -132, -875),
                 (Harris, 405, -459.5), (Emmons, -62, -414), (DarisLinier, -507.4, 162.4), (Kuang, -205, -736), (Kwon, -89, -822),
-                (Karter, -112, -748), (Exing, -289, -264), (Infanger, 676, -505), (Blood, 682.4, -516.4), (Naxveik, 296, -30),
+                (Karter, -112, -748), (Exing, -260, -310), (Infanger, 676, -505), (Blood, 682.4, -516.4), (Naxveik, 296, -30),
                 (Latan, 576, -321), (Ito, 560, -320), (Megumi, -166, -895)
             })
             {
@@ -480,7 +480,8 @@ namespace Rasa.Test.Missions.Ashen
                         (MissionEvidenceSourceKind.Client, 1.0), (MissionEvidenceSourceKind.Documentation, 0.5),
                         (MissionEvidenceSourceKind.Reconstruction, 0.3)
                     },
-                    evidence.Where(entry => entry.MissionId == mission && !(mission == AshenFixAV1.MissionId && entry.EvidenceId == AshenFixAV1.Evidence))
+                    evidence.Where(entry => entry.MissionId == mission && !(mission == AshenFixAV1.MissionId && entry.EvidenceId == AshenFixAV1.Evidence)
+                        && !(mission == AshenFixBV1.MissionId && entry.EvidenceId == AshenFixBV1.Evidence))
                         .OrderBy(entry => entry.EvidenceId)
                         .Select(entry => (entry.SourceKind, entry.Confidence)).ToArray(), $"{mission} evidence");
         }
@@ -605,7 +606,7 @@ namespace Rasa.Test.Missions.Ashen
                 (1242, 1, -493, -240, 20), (1242, 1, -429, -240, 20), // the Ashen Atta Soldier pools 790046, 790047
                 (1242, 2, -461, -216, 20), (1242, 2, -461, -264, 20), // the Ashen Atta Worker pools 790048, 790049
                 (1243, 1, -533, -256, 20), (1243, 1, -405, -272, 20), // the Mutated Atta Soldier pools 790050, 790051
-                (1244, 1, -289, -264, 15),                          // Exing, moved
+                (1244, 1, -260, -310, 15),                          // Exing, moved (set 2, fix B)
                 (1245, 1, -431, -203, 8), (1245, 2, -554, -230, 8), (1245, 3, -596, -83, 8), (1245, 4, -476, -17, 8), (1245, 5, -338, -80, 8),
                 (1247, 1, -180, -305, 20), (1247, 1, -140, -305, 20), // the Thrax Ravager pools 790085, 790086
                 (1247, 3, -160, -260, 20), (1247, 3, -120, -225, 20), // the Thrax Soldier pools 790087, 790088
@@ -929,10 +930,10 @@ namespace Rasa.Test.Missions.Ashen
             {
                 Assert.IsTrue(missions.All(Has));
                 Assert.AreEqual((6, 6, 9, 3, appearances, 12, 2), All());
-                Assert.AreEqual(AshenMaunaBarrensNpcsV1.ExingAt, ExingAt(), "Exing at his set 2 place");
             }
 
             AllUp();
+            Assert.AreEqual(AshenFixBV1.PoolNow, ExingAt(), "Exing at fix B's place (the last migration)");
             world.GetService<IMigrator>().Migrate(Previous(world, MaunaBarrens));
             world.ChangeTracker.Clear();
             Assert.IsFalse(missions.Any(Has));
@@ -949,6 +950,7 @@ namespace Rasa.Test.Missions.Ashen
             world.GetService<IMigrator>().Migrate(MaunaBarrens);
             world.ChangeTracker.Clear();
             AllUp();
+            Assert.AreEqual(AshenMaunaBarrensNpcsV1.ExingAt, ExingAt(), "Exing at his set 2 place (fix B not run again)");
         }
 
         /// <summary>
@@ -1194,7 +1196,8 @@ namespace Rasa.Test.Missions.Ashen
                 .Select(row => ((row.PosX, row.PosY, row.PosZ), row.Radius)).ToArray();
             var thraxIds = AshenDearlyDepartedV1.Pools.Select(pool => pool.Pool).ToArray();
             string Others() => string.Join("; ", world.SpawnPoolEntries.AsNoTracking()
-                .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && !thraxIds.Contains(entry.Id) && entry.Id != Latan && entry.Id != Ito && entry.Id != Megumi)
+                .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && !thraxIds.Contains(entry.Id) && entry.Id != Latan && entry.Id != Ito && entry.Id != Megumi
+                    && entry.Id != AshenFixBV1.Pool) // Exing: fix B (a later migration) goes down and up with the Down to set 5
                 .OrderBy(entry => entry.Id).Select(entry => new { entry.Id, entry.PosX, entry.PosY, entry.PosZ, entry.Radius }).AsEnumerable().Select(entry => entry.ToString()));
             var others = Others();
             void AllUp()
