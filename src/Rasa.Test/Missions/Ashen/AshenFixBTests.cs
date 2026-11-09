@@ -246,16 +246,20 @@ namespace Rasa.Test.Missions.Ashen
             var path = nav.FindPath(start, to, out var complete);
             if (path == null || !complete)
                 return "no complete navmesh walk";
-            return ClientFloorAlong(geometry, path.Prepend(start).ToList(), to);
+            return ClientFloorLine(geometry, path.Prepend(start).ToList(), to);
         }
 
+        /// <summary>Set 8's name for ClientFloorLine with the defaults (kept until its route test moves over).</summary>
+        internal static string ClientFloorAlong(MapGeometry geometry, IReadOnlyList<Vector3> corners, Vector3 to) => ClientFloorLine(geometry, corners, to);
+
         /// <summary>
-        /// ClientFloorWalk's checks along given <paramref name="corners"/> (a route that is not one navmesh walk, as Ashoka's
-        /// ramp, upstream N18): every Spacing along them, the client's floor never more than MaxClientStep up over a metre, nothing
-        /// of the placed meshes in the way at knee, chest or head height; it ends within 1.5 m of <paramref name="to"/>'s height.
-        /// Null when it gets there, else why not.
+        /// The walk along <paramref name="corners"/> (in order; the first one's height is the start's floor) on the client's floor,
+        /// with ClientFloorWalk's checks: for a route the navmesh does not join (Ashen fix C: Ashoka's corridor, upstream N18).
+        /// Where <paramref name="meshFloorOnly"/> holds, only the placed meshes are floor, not the heightmap (a Brann corridor
+        /// the terrain runs through, AshenFormalComplaintsTests.InAshokaCorridor). With <paramref name="halfWidth"/> the knee, chest
+        /// and head lines are checked that far to each side as well (a player's body, not a line: doorways and corners).
         /// </summary>
-        internal static string ClientFloorAlong(MapGeometry geometry, IReadOnlyList<Vector3> corners, Vector3 to)
+        internal static string ClientFloorLine(MapGeometry geometry, IReadOnlyList<Vector3> corners, Vector3 to, Func<Vector3, bool> meshFloorOnly = null, float halfWidth = 0)
         {
             // Points every Spacing along the corners as one line (a short leg between corners is sampled too), and the last corner.
             var points = new List<Vector3> { corners[0] };
@@ -273,11 +277,12 @@ namespace Rasa.Test.Missions.Ashen
             var near = F.Near(geometry, points, 2);
             bool OnTerrain((Vector3 A, Vector3 B, Vector3 C) t) =>
                 new[] { t.A, t.B, t.C }.All(v => geometry.Terrain.Height(v.X, v.Z) is { } h && MathF.Abs(h - v.Y) < 0.01f);
-            var y = F.FloorAt(near[0], points[0], points[0].Y - 2, points[0].Y + 1) ?? points[0].Y;
+            List<(Vector3 A, Vector3 B, Vector3 C)> Floor(int i) => meshFloorOnly?.Invoke(points[i]) == true ? near[i].Where(t => !OnTerrain(t)).ToList() : near[i];
+            var y = F.FloorAt(Floor(0), points[0], points[0].Y - 2, points[0].Y + 1) ?? points[0].Y;
             var floors = new List<Vector3>();
             for (var i = 0; i < points.Count; i++)
             {
-                if (F.FloorAt(near[i], points[i] with { Y = y }, y - 2.5f, y + MaxClientStep) is not { } floor)
+                if (F.FloorAt(Floor(i), points[i] with { Y = y }, y - 2.5f, y + MaxClientStep) is not { } floor)
                     return FormattableString.Invariant($"no client floor within {MaxClientStep} m up at ({points[i].X:0.0}, {points[i].Z:0.0}) from {y:0.00} (navmesh {points[i].Y:0.00})");
                 var here = points[i] with { Y = floor };
                 // The rise over the last metre of the walk (the samples back to 1 m behind), not only from the sample before.
@@ -293,9 +298,12 @@ namespace Rasa.Test.Missions.Ashen
                 {
                     var before = floors[^1];
                     var solids = near[i - 1].Concat(near[i]).Where(t => !OnTerrain(t)).ToList();
+                    var across = Vector3.Normalize(new Vector3(before.Z - here.Z, 0, here.X - before.X)) * halfWidth;
+                    var sides = halfWidth > 0 ? new[] { Vector3.Zero, across, -across } : new[] { Vector3.Zero };
                     foreach (var (height, name) in new[] { (Knee, "knee"), (Chest, "chest"), (Head, "head") })
-                        if (!F.Clear(solids, before + new Vector3(0, height, 0), here + new Vector3(0, height, 0)))
-                            return FormattableString.Invariant($"something in the way at {name} height from ({before.X:0.0}, {before.Y:0.00}, {before.Z:0.0}) to ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0})");
+                        foreach (var side in sides)
+                            if (!F.Clear(solids, before + side + new Vector3(0, height, 0), here + side + new Vector3(0, height, 0)))
+                                return FormattableString.Invariant($"something in the way at {name} height from ({before.X:0.0}, {before.Y:0.00}, {before.Z:0.0}) to ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0}){(side == Vector3.Zero ? "" : " beside the line")}");
                 }
                 y = floor;
                 floors.Add(here);

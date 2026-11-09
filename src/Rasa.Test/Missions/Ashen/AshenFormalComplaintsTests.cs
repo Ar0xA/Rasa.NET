@@ -61,8 +61,6 @@ namespace Rasa.Test.Missions.Ashen
         private const int Respawns = 6;                    // the rounds of respawns sampled after the first spawn
         private const float FloorReach = 1;                // a creature stands within this of the client's floor
         private const float PoolHeight = 2;                // and within this of its pool's height
-        private const float Step = 0.9f;                   // the most the client's floor rises from one metre to the next on the ramp (N18 probe: 0.9)
-        private const float Chest = 1.2f;                  // the height over the floor that must be clear from one point to the next
 
         /// <summary>The Ashoka Settlement hospital (World DB teleporter 207), on Ashoka's lower level, where Latan and Ito stand.</summary>
         internal static readonly Vector3 AshokaHospital = new(594.41f, 248.5f, -307.91f);
@@ -81,9 +79,9 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>
         /// Latan, Ito and Megumi stand at their places on the navmesh with the client's names and packages, friendly. Latan and
         /// Ito stand on Ashoka's lower level: the navmesh walks to them from the hospital on that floor, from the Ashoka Upper
-        /// teleporter (613) and from the top of the market's ramp; from the Ashoka Settlement waypoint to that ramp top the
-        /// client's floor runs on (one metre at a time, never more than 0.9 m up, nothing in the way at chest height), where the server navmesh does not (upstream
-        /// N18). Megumi is walked to from the Shadow's Edge Post waypoint.
+        /// teleporter (613) and from the top of the market's ramp. From the Ashoka Settlement waypoint, where the server navmesh
+        /// does not join them (upstream N18), the client's floor reaches each of them and back through the Brann corridor under
+        /// the dome (AshokaWalk, fix C). Megumi is walked to from the Shadow's Edge Post waypoint.
         /// </summary>
         [TestMethod]
         public void LatanItoAndMegumiStandWherePlayersWalkToThem()
@@ -113,39 +111,96 @@ namespace Rasa.Test.Missions.Ashen
             using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
             var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", harness.World.MapInfoEntries.AsNoTracking()
                 .Single(map => map.Id == AshenMissionDataV1.MapContextId).MapName), meshes, 1);
-            // From the ramp top west up the slope onto the waypoint's terrace (420, -470), then along the navmesh's path from there
-            // to the waypoint (probe of 2026-11-09).
-            var terrace = new Vector3(420f, 279.6f, -470f);
-            var onTerrace = nav.FindPath(nav.Nearest(terrace) ?? terrace, nav.Nearest(Ashoka) ?? Ashoka, out var terraceComplete);
-            Assert.IsTrue(onTerrace != null && terraceComplete, "the terrace is walked to the waypoint on the navmesh");
-            var route = new[] { AshokaRampTop }.Concat(onTerrace).Append(Ashoka).ToArray();
-            var points = new List<Vector3> { route[0] };
-            for (var leg = 1; leg < route.Length; leg++)
+            foreach (var pool in new[] { K.Latan, K.Ito })
             {
-                var length = Math.Max(1, (int)MathF.Ceiling(Vector2.Distance(new(route[leg - 1].X, route[leg - 1].Z), new(route[leg].X, route[leg].Z))));
-                points.AddRange(Enumerable.Range(1, length).Select(i => Vector3.Lerp(route[leg - 1], route[leg], i / (float)length)));
+                var at = Npc(desert, pool).Position;
+                var down = AshokaWalk(nav, geometry, at, true);
+                Assert.IsNull(down, $"{pool} from the waypoint: {down}");
+                var up = AshokaWalk(nav, geometry, at, false);
+                Assert.IsNull(up, $"{pool} back to the waypoint: {up}");
             }
-            var near = F.Near(geometry, points, 2);
-            bool OnTerrain((Vector3 A, Vector3 B, Vector3 C) t) => new[] { t.A, t.B, t.C }
-                .All(v => geometry.Terrain.Height(v.X, v.Z) is { } h && MathF.Abs(h - v.Y) < 0.01f);
-            var y = AshokaRampTop.Y;
-            Vector3? last = null;
-            for (var i = 0; i < points.Count; i++)
-            {
-                var floor = F.FloorAt(near[i], points[i] with { Y = y }, y - 2.5f, y + Step);
-                Assert.IsNotNull(floor, FormattableString.Invariant($"the client's floor from the ramp top to the waypoint at ({points[i].X:0.0}, {points[i].Z:0.0}), from {y:0.00}"));
-                y = floor.Value;
-                var here = points[i] with { Y = y };
-                // Against the placed meshes, not the heightmap: the terrain is a surface to stand on, not a solid
-                // (TerrainHeightmap.AppendTriangles), and its flat 279.55 m sheet runs over the ramp from x 430 to 420 (probe
-                // 2026-11-09). That the client shows no terrain over the ramp is for the real-client walk (NOTES-playtest).
-                if (last is { } before)
-                    Assert.IsTrue(F.Clear(near[i - 1].Concat(near[i]).Where(t => !OnTerrain(t)).ToList(), before + new Vector3(0, Chest, 0), here + new Vector3(0, Chest, 0)),
-                        FormattableString.Invariant($"nothing in the way at chest height from ({before.X:0.0}, {before.Y:0.00}, {before.Z:0.0}) to ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0})"));
-                last = here;
-            }
-            Assert.IsLessThan(1f, MathF.Abs(y - Ashoka.Y), "the client's floor reaches the waypoint");
         }
+
+        /// <summary>
+        /// Fix C (to-fix row 7), the negative control for AshokaWalk: the lower level's way up is the Brann corridor under the
+        /// dome east of the waypoint (client map: ArchBrannCorridorEntrance01V01 at (416, 280, -472), its mouth at x 404 between
+        /// walls at z -470.5 and -473.5, then two ArchBrannCorridorRamp01V01 down to the market, 264.5). The real client walked
+        /// from the waypoint straight at the ramp's navmesh end (428, 277.05, -467.2) and stopped at (407.4-408, 281,
+        /// -466.4..-467.8): the dome's wall (ArchBrannDome01V01, its face at x 408.1 there). That line fails the same check
+        /// both ways, and from the real client's stop it fails on the dome's wall; the real client's slant from there into the
+        /// mouth fails with a player's width (it caught on the north jamb). The client-floor flood of 2026-11-09 (0.5 m
+        /// grid, terrain and the placed meshes, knee / chest / head) found no other way between the waypoint's terrace and the
+        /// lower level.
+        /// </summary>
+        [TestMethod]
+        public void TheRealClientsStraightLineIsWalledOff()
+        {
+            var dataDir = F.ClientData();
+            using var harness = WildernessRuntimeTestHarness.Create();
+            using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
+            var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", harness.World.MapInfoEntries.AsNoTracking()
+                .Single(map => map.Id == AshenMissionDataV1.MapContextId).MapName), meshes, 1);
+            Assert.IsNotNull(AshenFixBTests.ClientFloorLine(geometry, new[] { Ashoka, AshokaRampTop }, AshokaRampTop, InAshokaCorridor), "the real client's line down");
+            Assert.IsNotNull(AshenFixBTests.ClientFloorLine(geometry, new[] { AshokaRampTop, Ashoka }, Ashoka, InAshokaCorridor), "the real client's line up");
+            var stop = new Vector3(405f, 280.6f, -467f);
+            var wall = AshenFixBTests.ClientFloorLine(geometry, new[] { stop, AshokaRampTop }, AshokaRampTop, InAshokaCorridor) ?? "";
+            var at = System.Text.RegularExpressions.Regex.Match(wall, @"^something in the way at \w+ height from \(([0-9.]+),");
+            Assert.IsTrue(at.Success && float.Parse(at.Groups[1].Value, System.Globalization.CultureInfo.InvariantCulture) is >= 407f and <= 408.5f,
+                $"the dome's wall stops the line from the real client's stop at x 407-408.5: {wall}");
+            // The real client's "south corner route": from its stop at a slant to the mouth (404, -471.6), then in along
+            // z -471.6; it caught at (403.7, 280.1, -470.2). A player's width must not pass that slant.
+            var slant = new[] { new Vector3(407.4f, 280.8f, -467.8f), new Vector3(404f, 280.4f, -471.6f), new Vector3(414.8f, 280.5f, -471.6f) };
+            Assert.IsNotNull(AshenFixBTests.ClientFloorLine(geometry, slant, slant[^1], InAshokaCorridor, PlayerHalfWidth), "the real client's slant into the mouth");
+        }
+
+        /// <summary>Half a player's width (HumanMale capsule radius, MarshesClientFloorTests).</summary>
+        internal const float PlayerHalfWidth = 0.33f;
+
+        /// <summary>
+        /// The way from the waypoint down to the lower level, along the middles (fix C; client-floor flood of 2026-11-09): round
+        /// the crates west of the corridor's mouth, then straight in along its middle from (398.5, -472) (the real client, coming
+        /// in at a slant, caught on the mouth's north jamb at (403.7, 280.1, -470.2)), down both corridor ramps to the market
+        /// (264.5), across it to the east corridor (z -440), down its ramp, then north along the cross corridor (x 597.5, clear
+        /// of the tables and the bin at x 590.8-595) and down its ramp to the lower level's floor (248.5), where the navmesh
+        /// goes on.
+        /// </summary>
+        internal static readonly Vector3[] AshokaCorridor =
+        {
+            AshenLeadInsTests.AshokaWaypoint, new(397f, 280.4f, -466f), new(398.5f, 280.2f, -472f), new(459f, 266.5f, -472f),
+            new(525f, 264.5f, -470f), new(548f, 264.5f, -440f), new(597f, 260.5f, -440f), new(597.5f, 248.5f, -345f)
+        };
+
+        /// <summary>
+        /// The client-floor walk (AshenFixBTests.ClientFloorLine: 0.5 m samples, at most 0.9 m up over a metre, knee / chest /
+        /// head lines clear of the placed meshes on the line and PlayerHalfWidth to each side; the terrain is floor, except
+        /// InAshokaCorridor) between the Ashoka Settlement waypoint and
+        /// <paramref name="lower"/> on the lower level: AshokaCorridor, then the navmesh's walk. Null when it gets there.
+        /// </summary>
+        internal static string AshokaWalk(Rasa.Navigation.NavMeshQuery nav, MapGeometry geometry, Vector3 lower, bool down)
+        {
+            var foot = nav.Nearest(AshokaCorridor[^1]) ?? AshokaCorridor[^1];
+            if (Vector2.Distance(new(foot.X, foot.Z), new(AshokaCorridor[^1].X, AshokaCorridor[^1].Z)) > 0.5f)
+                return "the corridor's foot is off the navmesh";
+            var from = down ? foot : nav.Nearest(lower) ?? lower;
+            var path = nav.FindPath(from, down ? lower : foot, out var complete);
+            if (path == null || !complete)
+                return "no complete navmesh walk on the lower level";
+            var corridor = AshokaCorridor.Take(AshokaCorridor.Length - 1).Append(foot);
+            var corners = down
+                ? corridor.Concat(path).ToList()
+                : path.Prepend(from).Concat(corridor.Reverse().Skip(1)).ToList();
+            return AshenFixBTests.ClientFloorLine(geometry, corners, down ? lower : AshenLeadInsTests.AshokaWaypoint, InAshokaCorridor, PlayerHalfWidth);
+        }
+
+        /// <summary>
+        /// The corridor inside the dome (client map: the entrance at (416, 280, -472) and its two ramps reach x 404-464, z -480 to
+        /// -464; the dome's west wall stands at x 408.1, so from x 412 on). Inside it the floor is the corridor's, not the heightmap: the terrain's flat 279.55 sheet runs through the first ramp
+        /// (x 418-435, 0.3-5 m over its floor) and the mound over the second one. A Brann corridor ramp with the terrain through
+        /// it is common in the client's maps (2026-11-09 survey: also Crucible (-144, 252, 288), (-28, 188, 296), Torden Abyss,
+        /// Torden Incline); were the sheet floor or solid to the client, the lower level, its hospital (207) and vendors would
+        /// have had no way up. ESTIMATE until the real client walks AshokaCorridor (NOTES-playtest).
+        /// </summary>
+        internal static bool InAshokaCorridor(Vector3 at) => at.X >= 412f && at.X <= 464f && at.Z >= -480f && at.Z <= -464f;
 
         /// <summary>
         /// The Boneyard's three Thrax pools (World DB, made point pools by set 6, 1285's markers): each puts down two or three
