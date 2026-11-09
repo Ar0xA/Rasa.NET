@@ -44,6 +44,12 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>The height over the floor that must be clear from one metre to the next.</summary>
         internal const float Chest = 1.2f;
 
+        /// <summary>The heights over the floor at knee and head that must be clear as well (fix B review): an obstacle 0.9-1.2 m high passes under the chest line.</summary>
+        internal const float Knee = 0.5f, Head = 1.8f;
+
+        /// <summary>The walk is sampled every half metre along its corners as one line.</summary>
+        internal const float Spacing = 0.5f;
+
         /// <summary>The places the real client reached on its own feet near the mesa (1242's Atta pool 790051, 1247's camp pools 790087, 790085).</summary>
         internal static readonly (string Name, Vector3 At)[] RealClientPlaces =
         {
@@ -105,12 +111,18 @@ namespace Rasa.Test.Missions.Ashen
                 var failure = ClientFloorWalk(nav, geometry, from, exing);
                 Assert.IsNull(failure, $"Exing from {name}: {failure}");
             }
+            var back = ClientFloorWalk(nav, geometry, exing, AshenLeadInsTests.ShadowsEdgeWaypoint);
+            Assert.IsNull(back, $"from Exing back to the Shadow's Edge Post waypoint: {back}");
             Assert.IsTrue(nav.FindPath(nav.Nearest(AshenLeadInsTests.StonewallWaypoint).Value, exing, out var complete) != null && complete,
                 "Exing walked to from the Stonewall Ridge waypoint on the navmesh");
 
             var before = nav.Nearest(V(X.PoolBefore)).Value;
             foreach (var (name, from) in RealClientPlaces.Take(2))
-                Assert.IsNotNull(ClientFloorWalk(nav, geometry, from, before), $"set 2's spot from {name}: the client floor does not climb the flank");
+            {
+                var failure = ClientFloorWalk(nav, geometry, from, before);
+                Assert.IsTrue(failure?.StartsWith("no client floor within", StringComparison.Ordinal) == true,
+                    $"set 2's spot from {name}: the client floor does not climb the flank ({failure})");
+            }
         }
 
         /// <summary>
@@ -234,27 +246,49 @@ namespace Rasa.Test.Missions.Ashen
             var path = nav.FindPath(start, to, out var complete);
             if (path == null || !complete)
                 return "no complete navmesh walk";
+            // Points every Spacing along the corners as one line (a short leg between corners is sampled too), and the last corner.
             var corners = path.Prepend(start).ToList();
             var points = new List<Vector3> { corners[0] };
+            var carried = 0f;
             for (var k = 1; k < corners.Count; k++)
             {
-                var n = Math.Max(1, (int)MathF.Ceiling(Vector2.Distance(new(corners[k - 1].X, corners[k - 1].Z), new(corners[k].X, corners[k].Z))));
-                points.AddRange(Enumerable.Range(1, n).Select(i => Vector3.Lerp(corners[k - 1], corners[k], i / (float)n)));
+                var length = Vector2.Distance(new(corners[k - 1].X, corners[k - 1].Z), new(corners[k].X, corners[k].Z));
+                var along = Spacing - carried;
+                for (; along <= length; along += Spacing)
+                    points.Add(Vector3.Lerp(corners[k - 1], corners[k], along / length));
+                carried = length - (along - Spacing);
             }
+            if (Vector2.Distance(new(points[^1].X, points[^1].Z), new(corners[^1].X, corners[^1].Z)) > 0.01f)
+                points.Add(corners[^1]);
             var near = F.Near(geometry, points, 2);
             bool OnTerrain((Vector3 A, Vector3 B, Vector3 C) t) =>
                 new[] { t.A, t.B, t.C }.All(v => geometry.Terrain.Height(v.X, v.Z) is { } h && MathF.Abs(h - v.Y) < 0.01f);
             var y = F.FloorAt(near[0], points[0], points[0].Y - 2, points[0].Y + 1) ?? points[0].Y;
-            Vector3? last = null;
+            var floors = new List<Vector3>();
             for (var i = 0; i < points.Count; i++)
             {
                 if (F.FloorAt(near[i], points[i] with { Y = y }, y - 2.5f, y + MaxClientStep) is not { } floor)
                     return FormattableString.Invariant($"no client floor within {MaxClientStep} m up at ({points[i].X:0.0}, {points[i].Z:0.0}) from {y:0.00} (navmesh {points[i].Y:0.00})");
                 var here = points[i] with { Y = floor };
-                if (last is { } before && !F.Clear(near[i - 1].Concat(near[i]).Where(t => !OnTerrain(t)).ToList(), before + new Vector3(0, Chest, 0), here + new Vector3(0, Chest, 0)))
-                    return FormattableString.Invariant($"something in the way at chest height from ({before.X:0.0}, {before.Y:0.00}, {before.Z:0.0}) to ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0})");
+                // The rise over the last metre of the walk (the samples back to 1 m behind), not only from the sample before.
+                for (var back = floors.Count - 1; back >= 0; back--)
+                {
+                    var run = Vector2.Distance(new(floors[back].X, floors[back].Z), new(here.X, here.Z));
+                    if (run > 1.001f)
+                        break;
+                    if (here.Y - floors[back].Y > MaxClientStep)
+                        return FormattableString.Invariant($"no client floor within {MaxClientStep} m up at ({here.X:0.0}, {here.Z:0.0}): {here.Y - floors[back].Y:0.00} m up over {run:0.00} m");
+                }
+                if (floors.Count > 0)
+                {
+                    var before = floors[^1];
+                    var solids = near[i - 1].Concat(near[i]).Where(t => !OnTerrain(t)).ToList();
+                    foreach (var (height, name) in new[] { (Knee, "knee"), (Chest, "chest"), (Head, "head") })
+                        if (!F.Clear(solids, before + new Vector3(0, height, 0), here + new Vector3(0, height, 0)))
+                            return FormattableString.Invariant($"something in the way at {name} height from ({before.X:0.0}, {before.Y:0.00}, {before.Z:0.0}) to ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0})");
+                }
                 y = floor;
-                last = here;
+                floors.Add(here);
             }
             return MathF.Abs(y - to.Y) > 1.5f ? FormattableString.Invariant($"ends on the floor at {y:0.00}, {to.Y:0.00} wanted") : null;
         }

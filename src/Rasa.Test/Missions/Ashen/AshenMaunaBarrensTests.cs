@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Rasa.ClientData;
 using Rasa.Data;
 using Rasa.Game;
 using Rasa.Managers;
@@ -135,21 +133,7 @@ namespace Rasa.Test.Missions.Ashen
                 "Exing inside his marker");
             var upstream = new Vector3((float)B.ExingBefore.X, (float)B.ExingBefore.Y, (float)B.ExingBefore.Z);
             Assert.IsFalse(Walked(Stonewall, nav.Nearest(upstream) ?? upstream), "upstream's spot is the navmesh island no walk reaches");
-
-            // Exing's walks on the client's floor (fix B, to-fix row 5): from the Shadow's Edge Post waypoint and from where the real
-            // client stood for 1242 and 1247, never more than 0.9 m up a metre, nothing in the way at chest height.
-            var dataDir = MarshesClientFloorTests.ClientData();
-            using (var meshes = new MeshLibrary(dataDir, MarshesClientFloorTests.MeshCsv()))
-            {
-                var geometry = MapGeometry.Load(System.IO.Path.Combine(dataDir, "maps", harness.World.MapInfoEntries.AsNoTracking()
-                    .Single(map => map.Id == AshenMissionDataV1.MapContextId).MapName), meshes, 1);
-                var exingGround = nav.Nearest(exing.Position) ?? exing.Position;
-                foreach (var (name, from) in AshenFixBTests.RealClientPlaces.Prepend(("the Shadow's Edge Post waypoint", Shadow)))
-                {
-                    var failure = AshenFixBTests.ClientFloorWalk(nav, geometry, from, exingGround);
-                    Assert.IsNull(failure, $"Exing walked to on the client's floor from {name}: {failure}");
-                }
-            }
+            // Exing's walks on the client's floor: AshenFixBTests.ExingIsWalkedToOnTheClientsFloor (it needs the client's files).
 
             var hostiles = harness.World.SpawnPoolEntries.AsEnumerable().Where(row => row.MapContextId == AshenMissionDataV1.MapContextId)
                 .Where(row => harness.Creatures.LoadedCreatures.TryGetValue(row.Creature1Id, out var c) && c.TargetCategory == TargetCategory.Hostile).ToList();
