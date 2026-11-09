@@ -201,7 +201,8 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsTrue(world.MissionContentDefinitionEntries.Any(entry => entry.MissionId == A.MissionId && entry.ContentRevision == AshenMissionDataV1.Revision && entry.Enabled),
                 "1274 stays (set 1)");
 
-            world.GetService<IMigrator>().Migrate(FixA);
+            // Up again to the last migration: the Down to fix A's predecessor took the later sets' pools out too (set 4's).
+            world.GetService<IMigrator>().Migrate();
             world.ChangeTracker.Clear();
             Fixed();
             CollectionAssert.AreEqual(otherPools.Select(entry => entry.ToString()).ToList(),

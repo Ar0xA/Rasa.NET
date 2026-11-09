@@ -26,7 +26,10 @@ namespace Rasa.Test.Missions.Ashen
     /// and the Ashen Atta new and Thrax Overseer Exing's pool moved (Ashen_mauna_barrens); set 3, the Sheitan Highway, Karter's
     /// Highway to Hell (1247), Lt. Colonel Trent Ivan's Air Superiority (1248) and Lt. Colonel Dania Caldwell's Artillery
     /// Annihilation (1249), with the Thrax Ravager name on the Ashen Thrax Grenadier, the highway's Thrax pools, the Desert
-    /// Predator on two beats and the highway's four mortars each its own row (Ashen_sheitan_highway).
+    /// Predator on two beats and the highway's four mortars each its own row (Ashen_sheitan_highway); set 4, the Boneyard,
+    /// Lieutenant Jan Blood's Xanxless Job (1262), Captain Akio Yamamoto's Fallen Soldiers (1263) and Lieutenant Gabriel
+    /// Infanger's Stalking the Stalkers (1272), with Infanger, the Boneyard's Xanx pools and the Desert Stalker new
+    /// (Ashen_boneyard).
     ///
     /// Why these tests: the client's text ids and packages are written out here from the client tables, not taken from the
     /// data classes, so a wrong id fails; the NPC rows, rewards, prerequisites and markers are pinned; the migration rolls back
@@ -45,7 +48,8 @@ namespace Rasa.Test.Missions.Ashen
             AshenGoodDayToDieV1.MissionId, AshenCantDrinkAshV1.MissionId,
             AshenAngryAngryAttaV1.MissionId, AshenHarmfulMutationsV1.MissionId, AshenChemicalOversightV1.MissionId,
             AshenEyesOnTheGroundV1.MissionId,
-            AshenHighwayToHellV1.MissionId, AshenAirSuperiorityV1.MissionId, AshenArtilleryAnnihilationV1.MissionId
+            AshenHighwayToHellV1.MissionId, AshenAirSuperiorityV1.MissionId, AshenArtilleryAnnihilationV1.MissionId,
+            AshenXanxlessJobV1.MissionId, AshenFallenSoldiersV1.MissionId, AshenStalkingTheStalkersV1.MissionId
         };
 
         /// <summary>
@@ -53,13 +57,15 @@ namespace Rasa.Test.Missions.Ashen
         /// receiver, Fithik Infestation's on the Stonewall Ridge Fithik pool); set 2's twelve (1242's four on the Atta Soldier and
         /// Worker pools, 1243's two on the Mutated Atta pools, 1244's on Exing, 1245's five on the beacon spots); set 3's ten
         /// (1247's four on the Thrax Ravager and Soldier pools, 1248's two on the Desert Predators' beats, 1249's four on the
-        /// mortars).
+        /// mortars); set 4's six (1262's three on the Xanx pools, 1263's one over the six fallen, 1272's two on the Desert Stalker
+        /// pools).
         /// </summary>
-        internal const int Indicators = 5 + 12 + 10;
+        internal const int Indicators = 5 + 12 + 10 + 6;
 
         private const string LeadIns = "20271110000000_Ashen_lead_ins";
         private const string MaunaBarrens = "20271110000100_Ashen_mauna_barrens";
         private const string SheitanHighway = "20271110000200_Ashen_sheitan_highway";
+        private const string Boneyard = "20271110000400_Ashen_boneyard";
         private const uint Map = 1734;
 
         private const uint Ames = 790000, Ivan = 790001, Caldwell = 790002, Yamamoto = 790003;
@@ -69,6 +75,9 @@ namespace Rasa.Test.Missions.Ashen
         private const uint Ravager = 531009, ThraxSoldier = 531008, Predator = 790080, Mortar = 592011;
         private static readonly uint[] MortarCopies = { 790081, 790082, 790083, 790084 };
         private static readonly uint[] MortarPools = { 592191, 592192, 592193, 592194 };
+        private const uint Blood = 510013, Infanger = 790120, Xanx = 540020, Stalker = 790121;
+        private static readonly uint[] XanxPools = { 790122, 790123, 790124 };
+        private static readonly uint[] StalkerPools = { 790125, 790126 };
 
         /// <summary>The migration directly before <paramref name="migration"/> (IMigrationsAssembly, ordinal order), as CrucibleMissionTests.Previous.</summary>
         internal static string Previous(DbContext world, string migration) => Rasa.Test.Missions.Crucible.CrucibleMissionTests.Previous(world, migration);
@@ -80,7 +89,8 @@ namespace Rasa.Test.Missions.Ashen
             {
                 (1250, Ames, MasonLinier, 40), (1273, Harris, Emmons, 40), (1274, Emmons, Emmons, 40), (1283, Ivan, Yamamoto, 40),
                 (1284, Caldwell, DarisLinier, 40), (1242, Kuang, Kuang, 40), (1243, Kuang, Kwon, 40), (1244, Kuang, Kuang, 41),
-                (1245, Karter, Karter, 41), (1247, Karter, Karter, 41), (1248, Ivan, Ivan, 42), (1249, Caldwell, Caldwell, 41)
+                (1245, Karter, Karter, 41), (1247, Karter, Karter, 41), (1248, Ivan, Ivan, 42), (1249, Caldwell, Caldwell, 41),
+                (1262, Blood, Blood, 40), (1263, Yamamoto, Yamamoto, 40), (1272, Infanger, Infanger, 41)
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var enabled = harness.World.MissionContentDefinitionEntries.AsNoTracking()
@@ -113,7 +123,8 @@ namespace Rasa.Test.Missions.Ashen
             foreach (var (npc, name, package, cls, level) in new (uint, uint, uint, uint, uint)[]
             {
                 (Ames, 9279, 790000, 3846, 40), (Ivan, 9261, 790001, 3846, 40), (Caldwell, 9262, 790002, 3848, 40), (Yamamoto, 9303, 1414, 3846, 49),
-                (Kuang, 9291, 790040, 3846, 40), (Kwon, 9298, 790041, 3848, 40), (Karter, 9281, 790042, 3848, 48)
+                (Kuang, 9291, 790040, 3846, 40), (Kwon, 9298, 790041, 3848, 40), (Karter, 9281, 790042, 3848, 48),
+                (Infanger, 9304, 790120, 3846, 40)
             })
             {
                 var creature = world.CreatureEntries.AsNoTracking().Single(row => row.Id == npc);
@@ -132,7 +143,7 @@ namespace Rasa.Test.Missions.Ashen
             {
                 (Ames, 345, -818), (Ivan, -97, -792), (Caldwell, -158, -792), (Yamamoto, 686, -495), (MasonLinier, -132, -875),
                 (Harris, 405, -459.5), (Emmons, -62, -414), (DarisLinier, -507.4, 162.4), (Kuang, -205, -736), (Kwon, -89, -822),
-                (Karter, -112, -748), (Exing, -289, -264)
+                (Karter, -112, -748), (Exing, -289, -264), (Infanger, 676, -505), (Blood, 682.4, -516.4)
             })
             {
                 var row = world.SpawnPoolEntries.AsNoTracking().Single(entry => entry.Id == pool);
@@ -143,6 +154,10 @@ namespace Rasa.Test.Missions.Ashen
                 row.Id == DarisLinier).AsEnumerable().ToDictionary(row => row.Id, row => row.PackageId);
             Assert.AreEqual((1389U, 1412U, 1411U, 1476U), (packages[MasonLinier], packages[Harris], packages[Emmons], packages[DarisLinier]));
             Assert.AreEqual(1, world.NpcPackageEntries.AsNoTracking().Count(row => row.PackageId == 1414), "only Yamamoto has 1414");
+            // Set 4: Blood gives and takes 1262 by his id; the client gives him no talk in it, and he keeps upstream's row (no package).
+            var blood = world.CreatureEntries.AsNoTracking().Single(row => row.Id == Blood);
+            Assert.AreEqual((9305U, 1U), (blood.NameId, blood.Faction), "Lieutenant Jan Blood, friendly");
+            Assert.IsFalse(world.NpcPackageEntries.AsNoTracking().Any(row => row.Id == Blood), "Blood: no package, as upstream");
         }
 
         /// <summary>
@@ -168,7 +183,11 @@ namespace Rasa.Test.Missions.Ashen
                 }),
                 (1247, 9962, new (uint, uint, uint, uint?)[] { (1, 9967, 9968, 9969), (3, 9973, 9974, 9975) }),
                 (1248, 9976, new (uint, uint, uint, uint?)[] { (1, 9981, 9982, 9983) }),
-                (1249, 9984, new (uint, uint, uint, uint?)[] { (1, 9989, 9990, null), (2, 9991, 9992, null), (3, 9993, 9994, null), (4, 9995, 9996, null) })
+                (1249, 9984, new (uint, uint, uint, uint?)[] { (1, 9989, 9990, null), (2, 9991, 9992, null), (3, 9993, 9994, null), (4, 9995, 9996, null) }),
+                (1262, 10121, new (uint, uint, uint, uint?)[] { (1, 10126, 10127, 10128) }),
+                // 1263's 2 is server-only and hidden: it carries 1's texts (the client has no objective 2).
+                (1263, 10136, new (uint, uint, uint, uint?)[] { (1, 10141, 10142, null), (2, 10141, 10142, null) }),
+                (1272, 10224, new (uint, uint, uint, uint?)[] { (1, 10229, 10230, 10231) })
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             foreach (var (mission, title, objectives) in expected)
@@ -246,6 +265,26 @@ namespace Rasa.Test.Missions.Ashen
                 (1249, 1, killed, 790081, null, null), (1249, 2, killed, 790082, null, null), (1249, 3, killed, 790083, null, null),
                 (1249, 4, killed, 790084, null, null)
             }, highway);
+
+            // Set 4's kills: 1262 the Xanx - Ashen Desert (540020, "Xanx Burrower") six on counter 0; 1272 the Desert Stalker once
+            // on counter 0. 1263's hidden 2 counts the six fallen's uses (scene results 1-6, counter 1, to 6); 1 completes on it.
+            var boneyard = harness.World.Set<MissionTriggerEntry>().AsNoTracking()
+                .Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision && (entry.MissionId == 1262 || entry.MissionId == 1263 ||
+                                entry.MissionId == 1272) && entry.Kind == MissionTriggerKind.ProgressEvent).AsEnumerable()
+                .Select(entry => (entry.MissionId, entry.ObjectiveId, entry.EventKind, entry.SubjectId, entry.CounterId, entry.TargetValue))
+                .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ObjectiveId).ThenBy(entry => entry.SubjectId).ToArray();
+            var scene = (byte?)MissionProgressEventKind.ScenarioEvent;
+            CollectionAssert.AreEqual(new (uint, uint, byte?, uint?, uint?, uint?)[]
+            {
+                (1262, 1, killed, Xanx, 0, 6),
+                (1263, 2, scene, 1, 1, 6), (1263, 2, scene, 2, 1, 6), (1263, 2, scene, 3, 1, 6), (1263, 2, scene, 4, 1, 6),
+                (1263, 2, scene, 5, 1, 6), (1263, 2, scene, 6, 1, 6),
+                (1272, 1, killed, Stalker, 0, 1)
+            }, boneyard);
+            var tags = Scenes(harness).Single(entry => entry.MissionId == 1263).Scene;
+            CollectionAssert.AreEqual(new uint[] { 2 }, tags.HiddenObjectiveIds.ToArray(), "1263's 2 is hidden");
+            var tag = tags.Items.Single();
+            Assert.AreEqual((97464U, 6U, 1U), (tag.ItemTemplateId, tag.MaximumQuantity, tag.CounterObjectiveId), "Ashen AFS Dog Tag (client item class 25443), n/6 on 1");
         }
 
         /// <summary>
@@ -290,7 +329,7 @@ namespace Rasa.Test.Missions.Ashen
         public void OnlyTheFollowUpsRequireAMission()
         {
             using var harness = WildernessRuntimeTestHarness.Create();
-            // Set 3's three need none (TaRapedia: no requirement; triage chain 13).
+            // Set 3's three need none (TaRapedia: no requirement; triage chain 13); set 4's three neither (TaRapedia).
             var prerequisites = harness.World.MissionPrerequisiteEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision)
                 .AsEnumerable().Select(entry => (entry.MissionId, entry.Kind, entry.RequiredMissionId, entry.RequiredMissionState))
                 .OrderBy(entry => entry.MissionId).ToArray();
@@ -339,7 +378,10 @@ namespace Rasa.Test.Missions.Ashen
                 (1245, 90000, 6150, new[] { (33987U, 1U), (23698U, 1U), (21100U, 1U), (46013U, 1U) }),
                 (1247, 180000, 8200, new[] { (49576U, 1U), (45777U, 1U), (47948U, 1U), (45762U, 1U) }),
                 (1248, 180000, 8200, new[] { (12065U, 1U), (11953U, 1U), (47772U, 1U), (15111U, 1U) }),
-                (1249, 90000, 6150, new[] { (24086U, 1U), (20504U, 1U), (36188U, 1U), (19286U, 1U) })
+                (1249, 90000, 6150, new[] { (24086U, 1U), (20504U, 1U), (36188U, 1U), (19286U, 1U) }),
+                (1262, 95000, 6300, new[] { (46029U, 1U), (34374U, 1U), (23569U, 1U), (31241U, 1U) }),
+                (1263, 95000, 6300, new[] { (49616U, 1U), (49536U, 1U), (15301U, 1U), (14861U, 1U) }),
+                (1272, 190000, 8400, new[] { (15335U, 1U), (48108U, 1U), (12125U, 1U), (14534U, 1U) })
             })
             {
                 var reward = harness.World.Set<MissionRewardDefinitionEntry>().AsNoTracking()
@@ -388,7 +430,7 @@ namespace Rasa.Test.Missions.Ashen
             _ => null
         };
 
-        /// <summary>Every visible Ashen objective has a marker; no Ashen objective is hidden (the scenes of 1243 and 1245 hold items and spots only).</summary>
+        /// <summary>Every visible Ashen objective has a marker; the one hidden objective is 1263's server-only tally (2): the scenes of 1243 and 1245 hold items and spots only.</summary>
         [TestMethod]
         public void EveryVisibleObjectiveHasAMarker()
         {
@@ -398,11 +440,16 @@ namespace Rasa.Test.Missions.Ashen
             var marked = world.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision)
                 .Select(entry => new { entry.MissionId, entry.ObjectiveId }).ToList()
                 .Select(entry => (entry.MissionId, entry.ObjectiveId)).ToHashSet();
-            CollectionAssert.AreEquivalent(new uint[] { 1243, 1245 }, Scenes(harness).Select(scene => scene.MissionId).ToArray(), "the scenes");
+            var scenes = Scenes(harness);
+            CollectionAssert.AreEquivalent(new uint[] { 1243, 1245, 1263 }, scenes.Select(scene => scene.MissionId).ToArray(), "the scenes");
+            var hidden = scenes.SelectMany(scene => (scene.Scene.HiddenObjectiveIds ?? new()).Select(objective => (scene.MissionId, objective))).ToHashSet();
+            CollectionAssert.AreEquivalent(new[] { (1263U, 2U) }, hidden.ToArray(), "1263's tally, hidden");
             var objectives = world.MissionObjectiveDefinitionEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision)
                 .Select(entry => new { entry.MissionId, entry.ObjectiveId }).ToList();
-            Assert.HasCount(5 + 2 + 1 + 1 + 5 + 2 + 1 + 4, objectives, "the objectives are read");
-            var missing = objectives.Select(entry => (entry.MissionId, entry.ObjectiveId)).Where(key => !marked.Contains(key)).OrderBy(key => key).ToArray();
+            Assert.HasCount(5 + 2 + 1 + 1 + 5 + 2 + 1 + 4 + 1 + 2 + 1, objectives, "the objectives are read");
+            var missing = objectives.Select(entry => (entry.MissionId, entry.ObjectiveId)).Where(key => !marked.Contains(key) && !hidden.Contains(key))
+                .OrderBy(key => key).ToArray();
+            Assert.IsFalse(hidden.Any(marked.Contains), "no marker on a hidden objective");
             Assert.IsEmpty(missing, string.Join(", ", missing));
         }
 
@@ -429,7 +476,10 @@ namespace Rasa.Test.Missions.Ashen
                 (1247, 3, -160, -260, 20), (1247, 3, -120, -225, 20), // the Thrax Soldier pools 790087, 790088
                 (1248, 1, -174.4, -482.2, 50), (1248, 1, -161.6, -392.2, 40), // the Desert Predators' south and north beats
                 (1249, 1, -210.888, -409.662, 10), (1249, 2, -195.561, -337.739, 10), // the mortar pools 592191, 592192
-                (1249, 3, -180.58, -282.694, 10), (1249, 4, -140.3, -285.3, 10)        // and 592193, 592194
+                (1249, 3, -180.58, -282.694, 10), (1249, 4, -140.3, -285.3, 10),       // and 592193, 592194
+                (1262, 1, 560, -250, 20), (1262, 1, 600, -230, 20), (1262, 1, 640, -250, 20), // the Xanx pools 790122-790124
+                (1263, 1, 512.5, -335.5, 55),                       // over the six fallen
+                (1272, 1, 580, -345, 15), (1272, 1, 585, -370, 15)  // the Desert Stalker pools 790125, 790126
             };
             Assert.HasCount(Indicators, expected);
             foreach (var (mission, objective, x, z, radius) in expected)
@@ -454,7 +504,8 @@ namespace Rasa.Test.Missions.Ashen
                 (790046, AttaSoldier, 1, 1242), (790047, AttaSoldier, 1, 1242), (790048, AttaWorker, 2, 1242), (790049, AttaWorker, 2, 1242),
                 (790050, MutatedSoldier, 1, 1243), (790051, MutatedSoldier, 1, 1243), (Exing, Exing, 1, 1244),
                 (790085, Ravager, 1, 1247), (790086, Ravager, 1, 1247), (790087, ThraxSoldier, 3, 1247), (790088, ThraxSoldier, 3, 1247),
-                (592191, 790081, 1, 1249), (592192, 790082, 2, 1249), (592193, 790083, 3, 1249), (592194, 790084, 4, 1249)
+                (592191, 790081, 1, 1249), (592192, 790082, 2, 1249), (592193, 790083, 3, 1249), (592194, 790084, 4, 1249),
+                (790122, Xanx, 1, 1262), (790123, Xanx, 1, 1262), (790124, Xanx, 1, 1262), (790125, Stalker, 1, 1272), (790126, Stalker, 1, 1272)
             })
             {
                 var row = harness.World.SpawnPoolEntries.AsNoTracking().Single(entry => entry.Id == pool);
@@ -475,6 +526,45 @@ namespace Rasa.Test.Missions.Ashen
                     Assert.IsLessThanOrEqualTo(marker.Radius, Vector2.Distance(new((float)marker.PosX, (float)marker.PosZ), new((float)step.PosX, (float)step.PosZ)),
                         $"pool {pool} step {step.Step} inside its marker");
             }
+
+            // The six fallen (1263's scene) inside its one marker.
+            var field = rows.Single(row => row.MissionId == 1263);
+            foreach (var actor in Scenes(harness).Single(scene => scene.MissionId == 1263).Scene.Actors.Values)
+                Assert.IsLessThanOrEqualTo(field.Radius, Vector2.Distance(new((float)field.PosX, (float)field.PosZ), new(actor.Position.X, actor.Position.Z)),
+                    $"{actor.Role} inside the 1263 marker");
+        }
+
+        /// <summary>
+        /// Set 4's creatures: the Desert Stalker 790121 has the client's name 9321 "Class XI Desert Stalker" and the class, level,
+        /// hit points, armour and attacks of the World DB's Stalker 520073, hostile, in two pools of one (radius 0); the Xanx pools
+        /// hold the World DB's Xanx - Ashen Desert 540020 (name 471 "Xanx Burrower", L39, unchanged), three each, radius 0. All on
+        /// Ashen Desert, 120 s respawn, automatic. Infanger's pool is his own.
+        /// </summary>
+        [TestMethod]
+        public void TheBoneyardCreaturesCopyTheirWorldRows()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var world = harness.World;
+            var creatures = world.CreatureEntries.AsNoTracking().ToDictionary(row => row.Id);
+            var stats = world.CreatureStatEntries.AsNoTracking().ToDictionary(row => row.Id);
+            var stalker = creatures[Stalker];
+            var source = creatures[520073];
+            Assert.AreEqual((9321U, 3781U, 40U, 0U), (stalker.NameId, stalker.ClassId, stalker.Level, stalker.Faction), "the Desert Stalker");
+            Assert.AreEqual((source.MaxHitPoints, source.Action1, source.Action2, source.Action3, source.Action4, source.RunSpeed, source.WalkSpeed),
+                (stalker.MaxHitPoints, stalker.Action1, stalker.Action2, stalker.Action3, stalker.Action4, stalker.RunSpeed, stalker.WalkSpeed), "copies 520073");
+            Assert.AreEqual((4500, 400), (stats[Stalker].Health, stats[Stalker].Armor));
+            Assert.IsTrue(CreatureManager.Instance.LoadedCreatures.TryGetValue(Stalker, out var loaded) && loaded.TargetCategory == TargetCategory.Hostile, "hostile");
+            Assert.AreEqual((471U, 7510U, 39U), (creatures[Xanx].NameId, creatures[Xanx].ClassId, creatures[Xanx].Level), "the Xanx row, as upstream");
+
+            foreach (var (pools, creature, count) in new[] { (XanxPools, Xanx, (byte)3), (StalkerPools, Stalker, (byte)1) })
+                foreach (var pool in pools)
+                {
+                    var row = world.SpawnPoolEntries.AsNoTracking().Single(entry => entry.Id == pool);
+                    Assert.AreEqual((Map, creature, count, count, 0U, 0.0, 1200U, (byte)0), (row.MapContextId, row.Creature1Id, row.Creature1MinCount,
+                        row.Creature1MaxCount, row.Creature2Id, row.Radius, row.RespawnTime, row.Mode), $"pool {pool}");
+                }
+            CollectionAssert.AreEquivalent(StalkerPools, world.SpawnPoolEntries.AsNoTracking().Where(pool => pool.Creature1Id == Stalker).Select(pool => pool.Id).ToArray(),
+                "the Desert Stalker's two pools");
         }
 
         /// <summary>
@@ -739,15 +829,66 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>
+        /// Ashen_boneyard takes out its three missions, Infanger, the Desert Stalker and the five pools; Blood and the Xanx row stay
+        /// as upstream has them; sets 1-3 stay. Up again, all of it is back. The counts take only set 4's own ids and missions.
+        /// </summary>
+        [TestMethod]
+        public void BoneyardRollsBackWithItsMigration()
+        {
+            var missions = new[] { AshenXanxlessJobV1.MissionId, AshenFallenSoldiersV1.MissionId, AshenStalkingTheStalkersV1.MissionId };
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var world = harness.World;
+            bool Has(uint mission) => world.MissionContentDefinitionEntries.AsNoTracking()
+                .Any(entry => entry.MissionId == mission && entry.ContentRevision == AshenMissionDataV1.Revision);
+            int Count(string sql) => world.Database.SqlQueryRaw<int>(sql).AsEnumerable().Single();
+            var creatures = $"{Infanger}, {Stalker}";
+            var pools = string.Join(", ", XanxPools.Concat(StalkerPools).Append(Infanger));
+            var ids = string.Join(", ", missions);
+            (int, int, int, int, int, int, int) All() => (
+                Count($"SELECT COUNT(*) AS Value FROM creature WHERE id IN ({creatures})"),
+                Count($"SELECT COUNT(*) AS Value FROM creature_stat WHERE id IN ({creatures})"),
+                Count($"SELECT COUNT(*) AS Value FROM npc_package WHERE id IN ({creatures})"),
+                Count($"SELECT COUNT(*) AS Value FROM spawnpool WHERE id IN ({pools})"),
+                Count($"SELECT COUNT(*) AS Value FROM mission_indicator WHERE content_revision = 'ashen_1_16_5' AND mission_id IN ({ids})"),
+                Count($"SELECT COUNT(*) AS Value FROM mission_scene_binding WHERE content_revision = 'ashen_1_16_5' AND mission_id IN ({ids})"),
+                Count($"SELECT COUNT(*) AS Value FROM creature WHERE id IN ({Blood}, {Xanx})"));
+            var appearances = Count($"SELECT COUNT(*) AS Value FROM creature_appearance WHERE id = {MasonLinier}");
+            Assert.IsGreaterThan(0, appearances);
+            void AllUp()
+            {
+                Assert.IsTrue(missions.All(Has));
+                Assert.AreEqual((2, 2, 1, 6, 6, 1, 2), All());
+                Assert.AreEqual(appearances, Count($"SELECT COUNT(*) AS Value FROM creature_appearance WHERE id = {Infanger}"), "Infanger's look");
+            }
+
+            AllUp();
+            world.GetService<IMigrator>().Migrate(Previous(world, Boneyard));
+            world.ChangeTracker.Clear();
+            Assert.IsFalse(missions.Any(Has));
+            Assert.AreEqual((0, 0, 0, 0, 0, 0, 2), All());
+            Assert.AreEqual(0, Count($"SELECT COUNT(*) AS Value FROM creature_appearance WHERE id = {Infanger}"));
+            Assert.IsFalse(world.MissionEvidenceEntries.Any(entry => entry.ContentRevision == AshenMissionDataV1.Revision && missions.Contains(entry.MissionId)));
+            Assert.IsFalse(world.MissionRewardItemEntries.Any(entry => entry.ContentRevision == AshenMissionDataV1.Revision && missions.Contains(entry.MissionId)));
+            Assert.IsFalse(world.MissionObjectiveDefinitionEntries.Any(entry => entry.ContentRevision == AshenMissionDataV1.Revision && missions.Contains(entry.MissionId)));
+            Assert.IsTrue(MissionIds.Take(12).All(Has), "sets 1-3 stay");
+
+            world.GetService<IMigrator>().Migrate(Boneyard);
+            world.ChangeTracker.Clear();
+            AllUp();
+        }
+
+        /// <summary>
         /// A scene use object takes the use argument the client sends (QUEST-RULES): usabledata lookup[class][0], or 1 where it
         /// is None (Usable.__init__), written out here. 7847 UsableItemAccHumGpsBeacon sends 3 (as CrucibleMissionTests pins it);
-        /// 1245's five spots carry the client's name 71 "Atta Sensor Beacon" (usablenameoverride LIGO_ASHEN_ATTA_BEACON).
+        /// 1245's five spots carry the client's name 71 "Atta Sensor Beacon" (usablenameoverride LIGO_ASHEN_ATTA_BEACON). The
+        /// human corpses UsableTreasureDispHumCorpseMale V01-V04 (24995, 7865, 24989, 24990) have None: they send 1; 1263's six
+        /// fallen carry 63 "Fallen Soldier" (LIGO_ASHEN_FALLENSOLDIER).
         /// </summary>
         [TestMethod]
         public void EveryUsableSceneObjectTakesTheClientsUseArgument()
         {
-            var clientUseArguments = new Dictionary<uint, uint> { [7847] = 3 };
-            var clientUseNames = new Dictionary<uint, uint> { [7847] = 71 };
+            var clientUseArguments = new Dictionary<uint, uint> { [7847] = 3, [24995] = 1, [7865] = 1, [24989] = 1, [24990] = 1 };
+            var clientUseNames = new Dictionary<uint, uint> { [7847] = 71, [24995] = 63, [7865] = 63, [24989] = 63, [24990] = 63 };
             using var harness = WildernessRuntimeTestHarness.Create();
             var used = 0;
             foreach (var scene in Scenes(harness))
@@ -759,7 +900,7 @@ namespace Rasa.Test.Missions.Ashen
                     Assert.AreEqual(argument, actor.UseAction.ActionArgId, $"{scene.MissionId} {actor.Role}: the client's argument");
                     Assert.AreEqual(clientUseNames[actor.TemplateId], actor.NameOverrideId, $"{scene.MissionId} {actor.Role}: the client's name");
                 }
-            Assert.AreEqual(5, used, "1245's five beacon spots");
+            Assert.AreEqual(5 + 6, used, "1245's five beacon spots and 1263's six fallen");
         }
 
         /// <summary>Where upstream puts a pool: its MissionNpcSpawnpoolPreloader row, with StandingHeights' correction.</summary>

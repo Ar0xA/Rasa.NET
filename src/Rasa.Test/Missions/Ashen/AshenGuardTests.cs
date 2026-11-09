@@ -25,6 +25,7 @@ namespace Rasa.Test.Missions.Ashen
     using N = AshenLeadInNpcsV1;
     using B = AshenMaunaBarrensNpcsV1;
     using H = AshenSheitanHighwayNpcsV1;
+    using Y = AshenBoneyardNpcsV1;
     using F = MarshesClientFloorTests;
 
     /// <summary>
@@ -46,18 +47,21 @@ namespace Rasa.Test.Missions.Ashen
     {
         private const uint Map = AshenMissionDataV1.MapContextId;
 
-        /// <summary>The friendly NPCs new in the block: set 1's and set 2's.</summary>
-        private static readonly uint[] NewNpcs = N.New.Select(npc => npc.Id).Concat(B.New.Select(npc => npc.Id)).ToArray();
+        /// <summary>The friendly NPCs new in the block: set 1's, set 2's and set 4's (Infanger).</summary>
+        private static readonly uint[] NewNpcs = N.New.Select(npc => npc.Id).Concat(B.New.Select(npc => npc.Id)).Append(Y.Infanger).ToArray();
 
-        /// <summary>The friendly NPC pools of the Ashen missions on Ashen Desert: the block's and the upstream ones set 1 moved.</summary>
+        /// <summary>The upstream NPCs the sets use where upstream has them: set 4's Lieutenant Jan Blood (1262).</summary>
+        private static readonly uint[] Kept = { Y.Blood };
+
+        /// <summary>The friendly NPC pools of the Ashen missions on Ashen Desert: the block's, the upstream ones set 1 moved and those kept.</summary>
         private static List<SpawnPool> Npcs()
         {
-            var moved = N.Moves.Select(move => move.Pool).ToHashSet();
+            var moved = N.Moves.Select(move => move.Pool).Concat(Kept).ToHashSet();
             bool Friendly(uint creature) => CreatureManager.Instance.LoadedCreatures.TryGetValue(creature, out var c) && c.TargetCategory != TargetCategory.Hostile;
             var npcs = SpawnPoolManager.Instance.LoadedSpawnPools.Values.Where(pool => pool.MapContextId == Map &&
                 (pool.DbId is >= 790000 and <= 790999 || moved.Contains(pool.DbId)) &&
                 pool.SpawnSlot.Count > 0 && pool.SpawnSlot.TrueForAll(slot => Friendly(slot.CreatureId))).ToList();
-            Assert.HasCount(NewNpcs.Length + N.Moves.Length, npcs, "the Ashen NPCs are read");
+            Assert.HasCount(NewNpcs.Length + N.Moves.Length + Kept.Length, npcs, "the Ashen NPCs are read");
             return npcs;
         }
 
@@ -139,8 +143,8 @@ namespace Rasa.Test.Missions.Ashen
 
         /// <summary>
         /// To-fix row 17 (Marshes): a quest NPC with no creature_stat row plays with 100 hit points. Each new Ashen NPC has 4500
-        /// and armour 300; each new Ashen creature (set 2's Atta, set 3's Desert Predator and mortars) has the hit points and armour
-        /// of the World DB row it copies.
+        /// and armour 300; each new Ashen creature (set 2's Atta, set 3's Desert Predator and mortars, set 4's Desert Stalker) has
+        /// the hit points and armour of the World DB row it copies.
         /// </summary>
         [TestMethod]
         public void EveryNewAshenNpcHasItsOwnHitPoints()
@@ -160,7 +164,7 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.IsTrue(stats.TryGetValue(atta, out var stat), $"{atta} has a creature_stat row");
                 Assert.AreEqual((copied[copy].Health, copied[copy].Armor), (stat.Health, stat.Armor), $"{atta} as {copy}");
             }
-            foreach (var (creature, copy) in H.Mortars.Select(mortar => (mortar.Creature, H.Mortar)).Append((H.Predator, H.PredatorCopy)))
+            foreach (var (creature, copy) in H.Mortars.Select(mortar => (mortar.Creature, H.Mortar)).Append((H.Predator, H.PredatorCopy)).Append((Y.Stalker, Y.StalkerCopy)))
             {
                 Assert.IsTrue(stats.TryGetValue(creature, out var stat), $"{creature} has a creature_stat row");
                 Assert.AreEqual((copied[copy].Health, copied[copy].Armor), (stat.Health, stat.Armor), $"{creature} as {copy}");
@@ -269,7 +273,10 @@ namespace Rasa.Test.Missions.Ashen
                 (N.DarisLinier, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
                 (B.Kuang, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
                 (B.Kwon, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
-                (B.Karter, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint)
+                (B.Karter, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                // Set 4: Boneyard Outpost has no waypoint; Ashoka Settlement's is the nearest (Yamamoto's too).
+                (Y.Infanger, "the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                (Y.Blood, "the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
             };
             var npcs = Npcs().ToDictionary(npc => npc.DbId);
             Assert.HasCount(npcs.Count, walks, "a walk to each NPC");
@@ -464,7 +471,11 @@ namespace Rasa.Test.Missions.Ashen
                 // Set 3: the Sheitan Highway has no waypoint; it runs north from Shadow's Edge Post (the givers' waypoint).
                 [AshenHighwayToHellV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
                 [AshenAirSuperiorityV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
-                [AshenArtilleryAnnihilationV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint)
+                [AshenArtilleryAnnihilationV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                // Set 4: the Boneyard and Boneyard Outpost have no waypoint; Ashoka Settlement's is the nearest.
+                [AshenXanxlessJobV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                [AshenFallenSoldiersV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                [AshenStalkingTheStalkersV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var desert = AshenLeadInsTests.EnterAshen(harness);
@@ -540,7 +551,7 @@ namespace Rasa.Test.Missions.Ashen
             migrator.Migrate(ids[^1]);
         }
 
-        /// <summary>The sets' NPCs and scene actors with a place (label, place, NPC) on Ashen Desert: set 2's five beacon spots (1245).</summary>
+        /// <summary>The sets' NPCs and scene actors with a place (label, place, NPC) on Ashen Desert: set 2's five beacon spots (1245), set 4's six fallen (1263).</summary>
         private static List<(string Label, Vector3 At, bool Npc)> Places(WildernessRuntimeTestHarness harness)
         {
             var places = Npcs().Select(pool => ($"pool {pool.DbId}", pool.Position, true)).ToList();
@@ -548,7 +559,7 @@ namespace Rasa.Test.Missions.Ashen
                 foreach (var actor in scene.Actors.Values.Where(actor => actor.Position != null))
                     places.Add(($"{mission} {actor.Role}", new Vector3(actor.Position.X, actor.Position.Y, actor.Position.Z),
                         actor.Kind == Rasa.Missions.Scenes.SceneActorKind.Creature));
-            Assert.HasCount(NewNpcs.Length + N.Moves.Length + 5, places, "the NPCs and 1245's five beacon spots");
+            Assert.HasCount(NewNpcs.Length + N.Moves.Length + Kept.Length + 5 + 6, places, "the NPCs, 1245's five beacon spots and 1263's six fallen");
             return places;
         }
 

@@ -85,6 +85,28 @@ walk north from Shadow's Edge Post along the road; the Bane camp is at (-160, 30
   Caldwell: 90000 XP, 6150 credits, one of 24086, 20504, 36188, 19286 (armour). Look: each mortar ticks off its own
   objective; the map labels of the markers.
 
+Set 4, the Boneyard (migration `20271110000400_Ashen_boneyard`). New Lieutenant Gabriel Infanger 790120, Desert Stalker
+790121, Xanx pools 790122-790124, Stalker pools 790125-790126, next free id 790127. Boneyard Outpost and the Boneyard have
+no waypoint: walk north-east from the Ashoka Settlement waypoint (up out of Ashoka) to the outpost (682, 290, -516) and the
+Boneyard (579, 283, -291).
+
+- [ ] 1262 Xanxless Job (Ligo Ashen Desert): Lieutenant Jan Blood (upstream 510013, Boneyard Outpost, 682.4, 289.56,
+  -516.4, where upstream has him) offers it, no requirement, level 40. Kill 6 Xanx (counter "Xanx Killed"; the World DB's
+  Xanx - Ashen Desert 540020, "Xanx Burrower", L39): pools 790122 (560, 283.41, -250), 790123 (600, 282.49, -230), 790124
+  (640, 282.85, -250) of three in the Boneyard; a marker r20 on each. Turn in at Blood: 95000 XP, 6300 credits, one of
+  46029, 34374, 23569, 31241 (armour). Look: the Xanx come down and back on the Boneyard floor (not under it).
+- [ ] 1263 Fallen Soldiers (Ligo Ashen Desert): Captain Akio Yamamoto (790003, Boneyard Outpost eastern tent) offers it, no
+  requirement, level 40. Six personal "Fallen Soldier" bodies in the Boneyard, one Ashen AFS Dog Tag (97464) each, any
+  order: (483, 286.56, -379), (520, 283.38, -308), (507, 282.89, -321), (544, 285.58, -352), (519, 283.51, -306), (500,
+  286.56, -345); one marker r55 over them (512.5, -335.5); the objective shows n/6. Turn in at Yamamoto (he takes the six):
+  95000 XP, 6300 credits, one of 49616, 49536, 15301, 14861 (weapons). Look: the bodies' model and name, the tag counter.
+- [ ] 1272 Stalking the Stalkers (Ligo Ashen Desert): Lieutenant Gabriel Infanger (new, 790120, Boneyard Outpost, 676,
+  289.65, -505) offers it, no requirement, level 41. Destroy 1 Desert Stalker (new, 790121, "Class XI Desert Stalker", L40,
+  4500 HP; counter "Desert Stalkers"): pools of one 790125 (580, 282.85, -345) and 790126 (585, 283.58, -370) by
+  TaRapedia's spot (595, -354); a marker r15 on each. Turn in at Infanger: 190000 XP, 8400 credits, one of 15335, 48108,
+  12125, 14534 (weapons). Look: the Stalker on the Boneyard floor, not on Ashoka's lower level under it; "Class XI Desert
+  Stalker" over it.
+
 ## Assumptions and choices (not from a source)
 
 All ESTIMATE (set 1):
@@ -153,6 +175,32 @@ All ESTIMATE (set 3):
 - Rewards: as set 2. 1247's "Cryogenic RPG Launcher" read as the ice grenade launcher (the client has no ice rocket
   launcher); 1248's "Flame Thrower" as the fire propellant gun.
 
+All ESTIMATE (set 4):
+- Levels: 1262 and 1263 40, 1272 41 (the zone band, triage D5; 1272 is TaRapedia's 190000 XP mission). Infanger level 40
+  (no source).
+- Infanger: a copy of Mason Linier 510010 (male AFS class 3846), server-only package (his id: the client gives 1272 no
+  objective conversation), 4500 HP, armour 300, standing still, rotation 0. TaRapedia names only Boneyard Outpost; the
+  spot (west of Yamamoto's tent, 13 m from Blood) chosen by a probe (2026-11-09) with the set 1 criteria; one client floor
+  in its column (Yamamoto's tent and the outpost's towers have floors over the ground round them).
+- Blood stays where upstream has him (the outpost region's centre, on the client floor, 6 m from a wall, one floor):
+  the set 1 checks pass there, so no move. He keeps upstream's row (level 10, no package): he gives and takes 1262 by id.
+- The Xanx: the World DB's only Ashen Xanx row 540020 (L39, "Xanx Burrower"); any kill of it counts, also in Maji Field
+  and Indra Pass. Three pools of three, radius 0, 120 s respawn, in the open middle and north of the Boneyard (no source
+  for the places or counts; the World DB has no Xanx there), 40 m apart, 25 m and more from a wall. Not burrowing (triage
+  M10).
+- The Desert Stalker: a copy of the World DB's Stalker Overlord - Plains 520073 (class 3781, L40, 4500 HP, armour 400, its
+  attacks, also its egg drop) with the client name 9321; stock look (set 21). Two pools of one, radius 0, 120 s respawn,
+  17.5 m and 18.9 m from TaRapedia's spot (595, -354): that spot's column has a second floor under it (Ashoka's lower level,
+  y 248.7), so the pools stand where the client has one floor. One kill is the client's count.
+- 1263: the six bodies are the client's human soldier corpses (UsableTreasureDispHumCorpseMale V01-V04, 24995, 7865,
+  24989, 24990) with the client's usable name 63 "Fallen Soldier", personal (as Crucible 1143): TaRapedia's five spots
+  (the fourth 2.8 m north-west of (546, -354): from 5 of the 16 places 2 m round that spot a player could not see it) and a
+  sixth (500, -345) among them (the log's six tags). A hidden server-only objective 2 counts the six uses (as Marshes 4695)
+  and completes 1. An abandon takes the tags and the bodies.
+- Rewards: as set 2. 1263's "Kinetic Staff" read as the physical staff; 1272's "Pulse Disperser" as the EMP propellant gun
+  ("Disperser" is the propellant gun, as Pools' Virulent Disperser), "Incendiary Net Gun" the fire net gun of 41-45 (the
+  36-40 band does not hold level 41).
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -175,7 +223,14 @@ All ESTIMATE (set 3):
 - 1249: the mortars shell what comes within their reach (BaneMortars), not Shadow's Edge Post far to the south (the log's
   "firing at Shadow's Edge Post" is flavour).
 
+- 1262: the Xanx "digging tunnels and ambushing" (the offer) do not burrow (MawLurk is keyed by class; triage M10).
+- 1262: the kills count by creature row 540020, so Xanx killed in Maji Field and Indra Pass (the same row) count too.
+- 1272: "Cowards started dropping Stalkers on us" is flavour: no dropship, the pools respawn.
+
 ## Server data that differs from the sources (not changed)
+
+- Lieutenant Jan Blood 510013 is level 10 with 1000 HP (upstream), in a level 40-42 zone. Not changed: he is friendly and
+  stands in the outpost, no hostile pool reaches him.
 
 - The Stonewall Ridge Fithik pool 540066 stands 14 m under the ground. Cosmetic, upstream design: the spawn puts its
   Fithik on the ground (SpawnPoolManager.Anchor, RandomPointAround). Its ground is an unreachable navmesh pocket (upstream
@@ -209,3 +264,7 @@ All ESTIMATE (set 3):
   -636): 15 % of the Fithik came down there, a client surface 3.5-7 m over them, and could not be shot from the shelf; not
   killed, they filled the pool. A full spawn comes on the point and its rings, a single top-up on the point. The point has
   open ground joined to the waypoints 17 m round it (the rings and a 10 m stroll), one navmesh floor in each spot. ESTIMATE: the place. Down puts upstream's pool and set 1's marker back while they are still the fix's.
+
+## Server data changed by set 4 (upstream rows)
+
+- None. Set 4 uses Blood 510013 and the Xanx row 540020 as upstream has them.
