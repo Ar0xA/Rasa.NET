@@ -576,7 +576,7 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>The choice <paramref name="choice"/> of <paramref name="mission"/>'s objective at <paramref name="npc"/> (as CrucibleAwolCampTests.Choose); its packets.</summary>
-        private static List<object> Choose(WildernessRuntimeTestHarness harness, Creature npc, uint mission, uint objective, uint choice)
+        internal static List<object> Choose(WildernessRuntimeTestHarness harness, Creature npc, uint mission, uint objective, uint choice)
         {
             var npcs = new NpcManager(harness, harness.Manager);
             harness.MoveTo(npc.Position);
@@ -590,7 +590,7 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>A talk the NPC hears in this variant, done; the packets it sent.</summary>
-        private static List<object> Say(WildernessRuntimeTestHarness harness, Creature npc, uint mission, uint objective, uint variant)
+        internal static List<object> Say(WildernessRuntimeTestHarness harness, Creature npc, uint mission, uint objective, uint variant)
         {
             harness.MoveTo(npc.Position);
             harness.Drain();
@@ -611,21 +611,21 @@ namespace Rasa.Test.Missions.Ashen
                 : Array.Empty<(uint, uint)>();
 
         /// <summary>The hand-in topics of <paramref name="mission"/> that <paramref name="npc"/> offers now: objective and variant.</summary>
-        private static (uint, uint)[] TopicVariants(WildernessRuntimeTestHarness harness, Creature npc, uint mission) =>
+        internal static (uint, uint)[] TopicVariants(WildernessRuntimeTestHarness harness, Creature npc, uint mission) =>
             Conversation(harness, npc).TryGetValue(ConversationType.ObjectiveComplete, out var value)
                 ? ((List<CompleteableObjectives>)value).Where(topic => topic.MissionId == mission)
                     .Select(topic => ((uint)topic.ObjectiveId, (uint)topic.PlayerFlagId)).ToArray()
                 : Array.Empty<(uint, uint)>();
 
         /// <summary>A player flag as the character database holds it (0: none).</summary>
-        private static uint Flag(WildernessRuntimeTestHarness harness, uint flag)
+        internal static uint Flag(WildernessRuntimeTestHarness harness, uint flag)
         {
             using var unit = harness.CreateChar();
             return unit.CharacterFlags.Get(harness.Client.Player.Id).TryGetValue(flag, out var value) ? value : 0;
         }
 
         /// <summary>A player flag set in the character database, then a reload.</summary>
-        private static void SeedFlag(WildernessRuntimeTestHarness harness, uint flag, uint value)
+        internal static void SeedFlag(WildernessRuntimeTestHarness harness, uint flag, uint value)
         {
             using (var unit = harness.CreateChar())
                 unit.ExecuteTransaction(() => unit.CharacterFlags.Set(harness.Client.Player.Id, flag, value));

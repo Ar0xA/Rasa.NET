@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 23 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 26 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -9,7 +9,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 | Zone | Missions |
 | --- | ---: |
-| Ashen Desert | 23 |
+| Ashen Desert | 26 |
 
 ## Ashen Desert
 
@@ -19,7 +19,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
   - reward: 90000 XP; 6150 credits; choose 1 of: Laser Torqueshell Rifle, Endothermic Polarity Gun, Chaingun, Pulse Shotgun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 90,000 XP; 6,150 credits; Eclipse Laser Torqueshell Rifle; Vextronics Endothermic Polarity Gun; Vextronics Chaingun; Vextronics Pulse Shotgun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Angry_Angry_Atta)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -42,7 +42,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
   - reward: 90000 XP; 6150 credits; choose 1 of: Mech Armor Gloves, Stealth Armor Legs, Reflective Armor Legs, Motor Assist Armor Gloves — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 90,000 XP; 6,150 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Harmful_Mutations)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -65,7 +65,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
   - reward: 90000 XP; 6150 credits; choose 1 of: Motor Assist Armor Boots, Stealth Armor Gloves, Bio Armor Boots, Reflective Armor Gloves — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 90,000 XP; 6,150 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Chemical_Oversight)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -97,7 +97,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
   - reward: 90000 XP; 6150 credits; choose 1 of: Mech Armor Boots, Graviton Armor Gloves, Hazmat Armor Boots, Bio Armor Gloves — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 90,000 XP; 6,150 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Eyes_on_the_Ground)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -119,13 +119,17 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 
 - **Rebuild summary:**
+  - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 180000 XP; 8200 credits; choose 1 of: Electric Torqueshell Rifle, Incendiary Injector Gun, Cryogenic Grenade Launcher, Laser Chaingun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 180,000 XP; 8,200 credits; Vextronics Electric Torqueshell Rifle; Teleract Incendiary Injector Gun; Vextronics Cryogenic RPG Launcher; ChiTech Laser Chaingun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Highway_to_Hell)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** Travel north of Shadow's Edge Post and kill the Thrax invading from the Sheitan Highway. You will need to kill 10 Thrax Soldiers and 10 Thrax Ravagers in order to make a sufficient dent in the Bane military. Return to Captain Karter when you are done killing the enemy.
   - objectives (client): Kill 10 Thrax Ravagers; Kill 10 Thrax Soldiers
+- **This PR:** revision `ashen_1_16_5`, level 41, solo, category 10000016 (Battlefield (Ashen Desert)), giver Captain Sera Karter
+  - reward: 180000 XP; 8200 credits; choose 1 of: Electric Torqueshell Rifle, Incendiary Injector Gun, Cryogenic Grenade Launcher, Laser Chaingun
 - **TaRapedia** [Highway to Hell](https://tabularasa.fandom.com/wiki/Highway_to_Hell): giver: Captain Sera Karter; at: Shadow's Edge Post; zone: Ashen Desert; requires: None; follow-up: None; XP: 180,000; credits: 8,200; items: Vextronics Electric Torqueshell Rifle; Teleract Incendiary Injector Gun; Vextronics Cryogenic RPG Launcher; ChiTech Laser Chaingun; reward from: Captain Sera Karter
   - overview: Travel north of Shadow's Edge Post and kill the Thrax invading from the Sheitan Highway. You will need to kill 10 Thrax Soldiers and 10 Thrax Ravagers in order to make a sufficient dent in the Bane military. Return to Captain Karter when you are done killing the enemy.
   - objectives: • Kill 10 Thrax Ravagers • Thrax Ravagers x/10 • Kill 10 Thrax Soldiers • Thrax Soldiers x/10
@@ -135,13 +139,17 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 
 - **Rebuild summary:**
+  - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 180000 XP; 8200 credits; choose 1 of: Flame Thrower, Electric Rifle, Cryogenic Leech Gun, Electric Chaingun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 180,000 XP; 8,200 credits; Vitalius Flame Thrower; Teleract Electric Rifle; Teleract Cryogenic Leech Gun; Vextronics Electric Chaingun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Air_Superiority)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** Destroy a Desert Predator that is patrolling the Sheitan Highway, north of Shadow's Edge Post. Report back to Lieutenant Colonel Ivan once you are completed.
   - objectives (client): Destroy 1 Desert Predator
+- **This PR:** revision `ashen_1_16_5`, level 42, solo, category 10000016 (Battlefield (Ashen Desert)), giver Lt. Colonel Trent Ivan
+  - reward: 180000 XP; 8200 credits; choose 1 of: Flame Thrower, Electric Rifle, Cryogenic Leech Gun, Electric Chaingun
 - **TaRapedia** [Air Superiority](https://tabularasa.fandom.com/wiki/Air_Superiority): giver: Lt. Colonel Trent Ivan; at: Shadow's Edge Post; zone: Ashen Desert; requires: None; follow-up: None; XP: 180,000; credits: 8,200; items: Vitalius Flame Thrower; Teleract Electric Rifle; Teleract Cryogenic Leech Gun; Vextronics Electric Chaingun; reward from: Lt. Colonel Trent Ivan
   - overview: Destroy a Desert Predator that is patrolling the Sheitan Highway, north of Shadow's Edge Post. Report back to Lieutenant Colonel Ivan once you are completed.
   - objectives: • Destroy 1 Desert Predator • Desert Predators x/1
@@ -151,13 +159,17 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 
 - **Rebuild summary:**
+  - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 90000 XP; 6150 credits; choose 1 of: Graviton Armor Vest, Hazmat Armor Gloves, Reflective Armor Vest, Bio Armor Vest — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 90,000 XP; 6,150 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Artillery_Annihilation)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** Travel to the northern part of the Sheitan Highway and take out the 4 Bane Heavy Mortar that are firing at Shadow's Edge Post. Report back to Lieutenant Colonel Caldwell once you are finished.
   - objectives (client): Destroy Mortar 1; Destroy Mortar 2; Destroy Mortar 3; Destroy Mortar 4
+- **This PR:** revision `ashen_1_16_5`, level 41, solo, category 10000016 (Battlefield (Ashen Desert)), giver Lt. Colonel Dania Caldwell
+  - reward: 90000 XP; 6150 credits; choose 1 of: Graviton Armor Vest, Hazmat Armor Gloves, Reflective Armor Vest, Bio Armor Vest
 - **TaRapedia** [Artillery Annihilation](https://tabularasa.fandom.com/wiki/Artillery_Annihilation): giver: Lt. Colonel Dania Caldwell; at: Shadow's Edge Post; zone: Ashen Desert; requires: None; follow-up: None; XP: 90,000; credits: 6,150; reward from: Lt. Colonel Dania Caldwell
   - overview: Travel to the northern part of the Sheitan Highway and take out the 4 Bane Heavy Mortar that are firing at Shadow's Edge Post. Report back to Lieutenant Colonel Caldwell once you are finished.
   - objectives: • Bane Heavy Mortar 1 • Bane Heavy Mortar 2 • Bane Heavy Mortar 3 • Bane Heavy Mortar 4
@@ -170,7 +182,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 30 — source: [TR MMO DB](https://web.archive.org/web/20081216162356/http://tr.mmodb.com:80/quests/the-dustiest-place-on-earth-641.php)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
   - reward: 42500 XP; 4000 credits; choose 1 of: Class VIII Advanced Med Pack, Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 42,500 XP; 4,000 credits; Class VIII Advanced Med Pack x2; Class VIII EMP Grenade x3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x3 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Dustiest_Place_on_Earth)
   - reward: 4000 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081216162356/http://tr.mmodb.com:80/quests/the-dustiest-place-on-earth-641.php)
@@ -195,30 +207,41 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 
 - **Rebuild summary:**
+  - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade, Class VIII Basic Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 45,000 XP; 4,100 credits; Class VIII EMP Grenade x3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x3; Class VIII Basic Med Pack x6 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Formal_Complaints)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** Speak with Vakiel Latan of the Labbna Syndicate about the tense relationship between Captain Yamamoto and the Labbna Syndicate. You must choose between helping Vakiel Latan, or speaking with Captain Yamamoto to find out his side. Once you make your choice you can not change your mind.
   - objectives (client): Discuss the situation with Vakiel Latan; Speak with Vakiel Latan; Speak with Vakiel Latan
+- **This PR:** revision `ashen_1_16_5`, level 40, solo, category 10000016 (Battlefield (Ashen Desert)), giver Scavenger Vakiel Latan
+  - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII EMP Grenade ×3, Class VIII Res Trauma Kit, Class VIII Concussion Grenade ×3, Class VIII Basic Med Pack ×6
 - **TaRapedia** [Formal Complaints](https://tabularasa.fandom.com/wiki/Formal_Complaints) [stub]: giver: Captain Amandla Botha; at: Ashoka Settlement; zone: Ashen Desert; requires: None; follow-up: The Human Perspective (If Option 2); XP: 45,000; credits: 4,100; items: Class VIII EMP Grenade x3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x3; Class VIII Basic Med Pack x6; reward from: Captain Amandla Botha
   - overview: Speak with Vakiel Latan of the Labbna Syndicate about the tense relationship between Captain Yamamoto and the Labbna Syndicate. You must choose between helping Vakiel Latan, or speaking with Captain Yamamoto to find out his side. Once you make your choice you can not change your mind.
   - objectives: • Discuss the situation with Vakiel Latan • Option 1: Side with Vakiel Latan and speak directly to Colonel Linier • Option 2: Choose to speak with Captain Yamamoto to hear his side of the story
 - **TaRapedia mission list** [Ashoka Settlement mission list](https://tabularasa.fandom.com/wiki/Ashoka_Settlement_mission_list): zone Ashen Desert, area Ashoka Settlement, given by Scavenger Vakiel Latan
 
+- **Chain** (explicit prerequisite links): Formal Complaints chain (8 missions), step 1
+  - Leads to: The Human Perspective (id 1258) — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+
 ### 1258 — The Human Perspective
 
 
 - **Rebuild summary:**
-  - level: <=41 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective)
+  - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); <=41 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade, Class VIII Basic Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 45,000 XP; 4,100 credits; Class VIII Cryogenic Grenade x3; Class VIII Basic Med Pack x3; Class VIII Incendiary Grenade x3; Class VIII Advanced Med Pack x2 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: NPC Shinichiro Ito: Plains, Ashoka Settlement, /loc 556, 248, -320 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Shinichiro_Ito)
 - **Client:** Travel to the Boneyard Outpost and speak with Captain Yamamoto. Once you have spoke with Captain Yamamoto, return to Ashoka Settlement and see what Vakiel Latan has to say.
   - objectives (client): Speak with Captain Yamamoto
+- **This PR:** revision `ashen_1_16_5`, level 41, solo, category 10000016 (Battlefield (Ashen Desert)), giver Shinichiro Ito → Scavenger Vakiel Latan
+  - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII EMP Grenade ×3, Class VIII Res Trauma Kit, Class VIII Concussion Grenade ×3, Class VIII Basic Med Pack ×6
+  - prerequisites: Requires completed mission 1254; Formal Complaints choice 2, Yamamoto first (flag 251)
 - **TaRapedia** [The Human Perspective](https://tabularasa.fandom.com/wiki/The_Human_Perspective): giver: Shinichiro Ito; at: Ashoka Settlement; zone: Ashen Desert; level: <=41; requires: Formal Complaints (If Option 2); follow-up: A Bribe for Your Thoughts; XP: 45,000; credits: 4,100; items: Class VIII Cryogenic Grenade x3; Class VIII Basic Med Pack x3; Class VIII Incendiary Grenade x3; Class VIII Advanced Med Pack x2; reward from: Scavenger Vakiel Latan
   - overview: Travel to the Boneyard Outpost and speak with Captain Yamamoto. Once you have spoke with Captain Yamamoto, return to Ashoka Settlement and see what Vakiel Latan has to say.
   - objectives: • Speak with Captain Yamamoto
@@ -226,21 +249,27 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **NPCs (TaRapedia NPC pages):**
   - [Shinichiro Ito](https://tabularasa.fandom.com/wiki/Shinichiro_Ito): Plains, Ashoka Settlement, /loc 556, 248, -320 (named as giver/receiver)
 
-- **Chain** (explicit prerequisite links): The Human Perspective chain (7 missions), step 1
-  - Leads to: A Bribe for Your Thoughts (id 1259) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts), [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective)
+- **Chain** (explicit prerequisite links): Formal Complaints chain (8 missions), step 2
+  - Requires: Formal Complaints (id 1254) — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: A Bribe for Your Thoughts (id 1259) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts), [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 - **Requires (name not matched to a mission):** Formal Complaints (If Option 2) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective)
 
 ### 1259 — A Bribe for Your Thoughts
 
 
 - **Rebuild summary:**
+  - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade, Class VIII Basic Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 45,000 XP; 4,100 credits; Class VIII EMP Grenade x3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x3; Class VIII Basic Med Pack x6 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: NPC Captain Aiko Yamamoto: Ashen Desert, Boneyard Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto)
 - **Client:** Deliver Latan's Package to Captain Yamamoto so that he can see the contents. Captain Yamamoto is in Boneyard Outpost in eastern Ashen Desert.
   - objectives (client): Delivery Latan's Package to Captain Yamamoto
+- **This PR:** revision `ashen_1_16_5`, level 41, solo, category 10000016 (Battlefield (Ashen Desert)), giver Scavenger Vakiel Latan → Captain Akio Yamamoto
+  - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII EMP Grenade ×3, Class VIII Res Trauma Kit, Class VIII Concussion Grenade ×3, Class VIII Basic Med Pack ×6
+  - prerequisites: Requires completed mission 1258
 - **TaRapedia** [A Bribe for Your Thoughts](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts): giver: Scavenger Vakiel Latan; at: Ashoka Settlement; zone: Ashen Desert; requires: The Human Perspective; follow-up: Court Martial Arts; XP: 45,000; credits: 4,100; items: Class VIII EMP Grenade x3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x3; Class VIII Basic Med Pack x6; reward from: Captain Aiko Yamamoto
   - overview: Travel to the Boneyard Outpost and deliver Vakiel Latan's package to Captain Yamamoto.
   - objectives: • Deliver Latan's Package to Captain Yamamoto
@@ -248,21 +277,26 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **NPCs (TaRapedia NPC pages):**
   - [Captain Aiko Yamamoto](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto): Ashen Desert, Boneyard Outpost (named as giver/receiver)
 
-- **Chain** (explicit prerequisite links): The Human Perspective chain (7 missions), step 2
-  - Requires: The Human Perspective (id 1258) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts), [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective)
-  - Leads to: Court Martial Arts (id 1261) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts), [TaRapedia](https://tabularasa.fandom.com/wiki/Court_Martial_Arts)
+- **Chain** (explicit prerequisite links): Formal Complaints chain (8 missions), step 3
+  - Requires: The Human Perspective (id 1258) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts), [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Court Martial Arts (id 1261) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts), [TaRapedia](https://tabularasa.fandom.com/wiki/Court_Martial_Arts), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
 ### 1261 — Court Martial Arts
 
 
 - **Rebuild summary:**
+  - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII Fragmentation Grenade, Class VIII EMP Bomb, Class VIII Cryogenic Grenade, Class VIII Standard Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 45,000 XP; 4,100 credits; Class VIII Fragmentation Grenade x3; Class VIII EMP Bomb; Class VIII Cryogenic Grenade x3; Class VIII Standard Med Pack x3 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Court_Martial_Arts)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: NPC Captain Aiko Yamamoto: Ashen Desert, Boneyard Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto)
 - **Client:** Deliver Latan's Package to Colonel Linier at Shadow's Edge Post. Shadow's Edge Post can be found in the southern part of the Ashen Desert.
   - objectives (client): Deliver Latan's Package to Colonel Linier
+- **This PR:** revision `ashen_1_16_5`, level 41, solo, category 10000016 (Battlefield (Ashen Desert)), giver Captain Akio Yamamoto → Colonel Mason Linier
+  - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII Fragmentation Grenade ×3, Class VIII EMP Bomb, Class VIII Cryogenic Grenade ×3, Class VIII Standard Med Pack ×3
+  - prerequisites: Requires completed mission 1259
 - **TaRapedia** [Court Martial Arts](https://tabularasa.fandom.com/wiki/Court_Martial_Arts): giver: Captain Aiko Yamamoto; at: Boneyard Outpost; zone: Ashen Desert; requires: A Bribe for Your Thoughts; follow-up: None; XP: 45,000; credits: 4,100; items: Class VIII Fragmentation Grenade x3; Class VIII EMP Bomb; Class VIII Cryogenic Grenade x3; Class VIII Standard Med Pack x3; reward from: Colonel Mason Linier
   - overview: Deliver Latan's Package to Colonel Linier at Shadow's Edge Post. Shadow's Edge Post can be found in the southern part of the Ashen Desert.
   - objectives: • Deliver Latan's Package to Colonel Linier
@@ -270,23 +304,26 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **NPCs (TaRapedia NPC pages):**
   - [Captain Aiko Yamamoto](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto): Ashen Desert, Boneyard Outpost (named as giver/receiver)
 
-- **Chain** (explicit prerequisite links): The Human Perspective chain (7 missions), step 3
-  - Requires: A Bribe for Your Thoughts (id 1259) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts), [TaRapedia](https://tabularasa.fandom.com/wiki/Court_Martial_Arts)
-  - Leads to: Dearly Departed (id 1285) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Dearly_Departed)
+- **Chain** (explicit prerequisite links): Formal Complaints chain (8 missions), step 4
+  - Requires: A Bribe for Your Thoughts (id 1259) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts), [TaRapedia](https://tabularasa.fandom.com/wiki/Court_Martial_Arts), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Dearly Departed (id 1285) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Dearly_Departed), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
 ### 1262 — Xanxless Job
 
 
 - **Rebuild summary:**
-  - level: 30 — source: [TR MMO DB](https://web.archive.org/web/20081216162411/http://tr.mmodb.com:80/quests/xanxless-job-644.php)
+  - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 30 — source: [TR MMO DB](https://web.archive.org/web/20081216162411/http://tr.mmodb.com:80/quests/xanxless-job-644.php)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 95000 XP; 6300 credits; choose 1 of: Bio Armor Legs, Mech Armor Legs, Graviton Armor Boots, Motor Assist Armor Helmet — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 95,000 XP; 6,300 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Xanxless_Job)
   - reward: 6300 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081216162411/http://tr.mmodb.com:80/quests/xanxless-job-644.php)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** Travel to the Boneyard and kill 6 Xanx. Report to Lieutenant Jan Blood at Boneyard Outpost when you are finished.
   - objectives (client): Kill 6 Xanx
+- **This PR:** revision `ashen_1_16_5`, level 40, solo, category 10000016 (Battlefield (Ashen Desert)), giver Lieutenant Jan Blood
+  - reward: 95000 XP; 6300 credits; choose 1 of: Bio Armor Legs, Mech Armor Legs, Graviton Armor Boots, Motor Assist Armor Helmet
 - **TaRapedia** [Xanxless Job](https://tabularasa.fandom.com/wiki/Xanxless_Job): giver: Lieutenant Jan Blood; at: Boneyard Outpost; zone: Ashen Desert; requires: None; follow-up: None; XP: 95,000; credits: 6,300; reward from: Lieutenant Jan Blood
   - overview: Travel to the Boneyard and kill 6 Xanx. Report to Lieutenant Jan Blood at Boneyard Outpost when you are finished.
   - objectives: • Kill 6 Xanx • Xanx Killed x/6
@@ -294,21 +331,25 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **TR MMO DB** [Xanxless Job](https://web.archive.org/web/20081216162411/http://tr.mmodb.com:80/quests/xanxless-job-644.php): level: 30; starts at npc: Lieutenant Jan Blood; starts in zone: Ashen Desert; objectives: Kill 6 Xanx, Return to Lieutenant Jan Blood; reward: 6300
 
 - **Chain** (explicit prerequisite links): Fallen Soldiers chain (9 missions), step 1
-  - Leads to: Death from Above (id 1352) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_from_Above)
-  - Leads to: Turning Out the Lights (id 1354) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights)
-  - Leads to: The Strongest Link (id 1355) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29)
+  - Leads to: Death from Above (id 1352) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_from_Above), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Turning Out the Lights (id 1354) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: The Strongest Link (id 1355) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
 ### 1263 — Fallen Soldiers
 
 
 - **Rebuild summary:**
+  - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 95000 XP; 6300 credits; choose 1 of: Laser Torqueshell Rifle, Kinetic Staff, Virulent Leech Gun, Incendiary Shotgun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 95,000 XP; 6,300 credits; ChiTech Laser Torqueshell Rifle; Vextronics Kinetic Staff; Vextronics Virulent Leech Gun; Teleract Incendiary Shotgun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Fallen_Soldiers)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: NPC Captain Aiko Yamamoto: Ashen Desert, Boneyard Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto)
 - **Client:** Find the bodies of Fallen Soldiers in the Boneyard and recover their dog tags. Return the dog tags to Captain Yamamoto once you have collected 6 Ashen AFS Dog Tags.
   - objectives (client): Recover Dog Tags from Fallen Soldiers
+- **This PR:** revision `ashen_1_16_5`, level 40, solo, category 10000016 (Battlefield (Ashen Desert)), giver Captain Akio Yamamoto
+  - reward: 95000 XP; 6300 credits; choose 1 of: Laser Torqueshell Rifle, Kinetic Staff, Virulent Leech Gun, Incendiary Shotgun
 - **TaRapedia** [Fallen Soldiers](https://tabularasa.fandom.com/wiki/Fallen_Soldiers): giver: Captain Aiko Yamamoto; at: Boneyard Outpost; zone: Ashen Desert; requires: None; follow-up: Death from Above; XP: 95,000; credits: 6,300; items: ChiTech Laser Torqueshell Rifle; Vextronics Kinetic Staff; Vextronics Virulent Leech Gun; Teleract Incendiary Shotgun; reward from: Captain Aiko Yamamoto
   - overview: Find the bodies of Fallen Soldiers in the Boneyard and recover their dog tags. Return the dog tags to Captain Yamamoto once you have collected 6 Ashen AFS Dog Tags.
   - objectives: • Recover Dog Tags from Fallen Soldiers • x/6
@@ -318,21 +359,88 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
   - [Captain Aiko Yamamoto](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto): Ashen Desert, Boneyard Outpost (named as giver/receiver)
 
 - **Chain** (explicit prerequisite links): Fallen Soldiers chain (9 missions), step 1
-  - Leads to: Death from Above (id 1352) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_from_Above), [TaRapedia](https://tabularasa.fandom.com/wiki/Fallen_Soldiers)
-  - Leads to: Turning Out the Lights (id 1354) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights)
-  - Leads to: The Strongest Link (id 1355) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29)
+  - Leads to: Death from Above (id 1352) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_from_Above), [TaRapedia](https://tabularasa.fandom.com/wiki/Fallen_Soldiers), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Turning Out the Lights (id 1354) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: The Strongest Link (id 1355) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+
+### 1264 — Robotic Salvage Recovery
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 95000 XP; 6,300 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Recovery)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Find Nitroglazers and Hominis Machina in the Ashen Desert and recover Intact Salvage for the Labbna. When you have collected 15 Intact Machina Salvage and 15 Intact Nitroglazer Salvage, return them to Vakiel Latan in Ashoka Settlement.
+  - objectives (client): Recover 15 Nitroglazer Salvage; Recover 15 Machina Salvage
+- **TaRapedia** [Robotic Salvage Recovery](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Recovery) [stub]: giver: Scavenger Vakiel Latan; at: Ashoka Settlement; zone: Ashen Desert; follow-up: Weapon Salvage Recovery; XP: 95000; credits: 6,300; reward from: Scavenger Vakiel Latan
+  - overview: Objectives: • Recover 15 Nitroglazer Salvage • Recover 15 Machina Salvage
+  - objectives: • Recover 15 Nitroglazer Salvage • Recover 15 Machina Salvage
+  - walkthrough: Nitroglazers and Hominus Machina Mark XI which will drop the required salvage spawn throughout The Boneyard.
+- **TaRapedia mission list** [Ashoka Settlement mission list](https://tabularasa.fandom.com/wiki/Ashoka_Settlement_mission_list): zone Ashen Desert, area Ashoka Settlement, given by Scavenger Vakiel Latan
+
+- **Chain** (explicit prerequisite links): Robotic Salvage Recovery chain (3 missions), step 1
+  - Leads to: Weapon Salvage Recovery (id 1266) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Recovery), [TaRapedia](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Recovery)
+
+### 1265 — Heavy Salvage Recovery
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 200000 XP; 6,300 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Heavy_Salvage_Recovery)
+  - drops / mission items: Down one of each, Preditor can be found on Sheitan Highway, Stalkers in the Boneyard — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Heavy_Salvage_Recovery)
+  - location: zone Ashen Desert only
+- **Client:** Recover 1 Intact Predator Salvage from Desert Predators along Sheitan Highway and 1 Intact Stalker Salvage from Desert Stalkers in the Boneyard. Return to Vakiel Latan once you are finished.
+  - objectives (client): Recover 1 Stalker Salvage; Recover 1 Predator Salvage
+- **TaRapedia** [Heavy Salvage Recovery](https://tabularasa.fandom.com/wiki/Heavy_Salvage_Recovery) [stub]: giver: Scavenger Vakiel Latan; at: Ashoka Settlement; zone: Ashen Desert; requires: Weapon Salvage Recovery; follow-up: None; XP: 200000; credits: 6,300; reward from: Scavenger Vakiel Latan
+  - overview: Recover 1 Preditor Salvage and 1 Stalker Salvage. Return them to Scavenger Vakiel Latan in Ashoka Settlement once you are done.
+  - objectives: • Recover 1 Preditor Salvage • Recover 1 Stalker Salvage
+  - walkthrough: Down one of each, Preditor can be found on Sheitan Highway, Stalkers in the Boneyard.
+- **TaRapedia mission list** [Ashoka Settlement mission list](https://tabularasa.fandom.com/wiki/Ashoka_Settlement_mission_list): zone Ashen Desert, area Ashoka Settlement, given by Scavenger Vakiel Latan
+- **Drops / item sources:**
+  - Down one of each, Preditor can be found on Sheitan Highway, Stalkers in the Boneyard — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Heavy_Salvage_Recovery)
+
+- **Chain** (explicit prerequisite links): Robotic Salvage Recovery chain (3 missions), step 3
+  - Requires: Weapon Salvage Recovery (id 1266) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Heavy_Salvage_Recovery), [TaRapedia](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Recovery)
+
+### 1266 — Weapon Salvage Recovery
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 95000 XP; 6,300 credits; Audiodyne Incendiary Injector Gun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Recovery)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Recover weapon salvage from Thrax Soldiers and Thrax Ravagers in the Ashen Desert. Return to Vakiel Latan in the Ashoka Settlement when you have collected 15 Thrax Rifle Salvage and 15 Thrax Grenade Launcher Salvage.
+  - objectives (client): Recover 15 Thrax Rifles; Recover 15 Thrax Grenade Launchers
+- **TaRapedia** [Weapon Salvage Recovery](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Recovery) [stub]: giver: Scavenger Vakiel Latan; at: Ashoka Settlement; zone: Ashen Desert; requires: Robotic Salvage Recovery; follow-up: Heavy Salvage Recovery; XP: 95000; credits: 6,300; items: Audiodyne Incendiary Injector Gun; reward from: Scavenger Vakiel Latan
+  - overview: Recover 15 Thrax Rifle Salvage from Thrax Soldiers and 15 Thrax Grenade Launcher Salvage from Thrax Ravagers. Return the requisition order to Scavenger Vakiel Latan in Ashoka Settlement once you are done.
+  - objectives: • Recover 15 Thrax Rifles • Recover 15 Thrax Grenade Launchers
+  - walkthrough: Any Thrax Soldier in Ashen Desert will drop a Rifle. Likewise, any Thrax Ravager will drop a Grenade Launcher.
+- **TaRapedia mission list** [Ashoka Settlement mission list](https://tabularasa.fandom.com/wiki/Ashoka_Settlement_mission_list): zone Ashen Desert, area Ashoka Settlement, given by Scavenger Vakiel Latan
+
+- **Chain** (explicit prerequisite links): Robotic Salvage Recovery chain (3 missions), step 2
+  - Requires: Robotic Salvage Recovery (id 1264) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Recovery), [TaRapedia](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Recovery)
+  - Leads to: Heavy Salvage Recovery (id 1265) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Heavy_Salvage_Recovery), [TaRapedia](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Recovery)
 
 ### 1272 — Stalking the Stalkers
 
 
 - **Rebuild summary:**
+  - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 190000 XP; 8400 credits; choose 1 of: Pulse Disperser, Cryogenic Injector Gun, Incendiary Net Gun, Electric Pistol — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 190,000 XP; 8,400 credits; Vextronics Pulse Disperser; Vextronics Cryogenic Injector Gun; Vextronics Incendiary Net Gun; Vextronics Electric Pistol — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Stalking_the_Stalkers)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** Travel into the Boneyard and destroy a Desert Stalker. Report back to Lieutenant Infanger once you have completed this task.
   - objectives (client): Destroy 1 Desert Stalker
+- **This PR:** revision `ashen_1_16_5`, level 41, solo, category 10000016 (Battlefield (Ashen Desert)), giver Lieutenant Gabriel Infanger
+  - reward: 190000 XP; 8400 credits; choose 1 of: Pulse Disperser, Cryogenic Injector Gun, Incendiary Net Gun, Electric Pistol
 - **TaRapedia** [Stalking the Stalkers](https://tabularasa.fandom.com/wiki/Stalking_the_Stalkers): giver: Lieutenant Gabriel Infanger; at: Boneyard Outpost; zone: Ashen Desert; requires: None; follow-up: None; XP: 190,000; credits: 8,400; items: Vextronics Pulse Disperser; Vextronics Cryogenic Injector Gun; Vextronics Incendiary Net Gun; Vextronics Electric Pistol; reward from: Lieutenant Gabriel Infanger
   - overview: Travel into the Boneyard and destroy a Desert Stalker. Report back to Lieutenant Infanger once you have completed this task.
   - objectives: • Destroy 1 Desert Stalker • Desert Stalkers x/1
@@ -345,7 +453,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 30 — source: [TR MMO DB](https://web.archive.org/web/20081216162338/http://tr.mmodb.com:80/quests/report-to-stonewall-ridge-643.php)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
   - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII Incendiary Grenade, Class VIII Advanced Med Pack, Class VIII EMP Grenade, Class VIII Res Trauma Kit — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 45,000 XP; 4,100 credits; Class VIII Incendiary Grenade x3; Class VIII Advanced Med Pack x2; Class VIII EMP Grenade x3; Class VIII Res Trauma Kit — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Report_to_Stonewall_Ridge)
   - reward: 4100 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081216162338/http://tr.mmodb.com:80/quests/report-to-stonewall-ridge-643.php)
@@ -370,7 +478,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
   - reward: 90000 XP; 6150 credits; choose 1 of: Armor Module: Resist Physical [4], Tool Module: Threat Reduction [4], Weapon Module: Debuff Electric Resist [4], Armor Module: Resist Fire [4] — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 90,000 XP; 6,150 credits; Modification: Physical Resistance; Modification: Threat Reduction; Modification: Debuff to Electric Resist; Modification: Fire Resistance — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Fithik_Infestation)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -390,7 +498,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
   - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII Concussion Grenade, Class VIII Basic Med Pack, Class VIII Fragmentation Grenade, Class VIII EMP Bomb — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 45,000 XP; 4,100 credits; Class VIII Concussion Grenade x3; Class VIII Basic Med Pack x6; Class VIII Fragmentation Grenade x3; Class VIII EMP Bomb — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Good_Day_to_Die)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -412,7 +520,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
   - reward: 47500 XP; 4200 credits; choose 1 of: Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade, Class VIII Basic Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 47,500 XP; 4,200 credits; Class VIII EMP Grenade x3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x3; Class VIII Basic Med Pack x6 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/You_Can%27t_Drink_Ash)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -430,8 +538,10 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 
 - **Rebuild summary:**
+  - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 190000 XP; 8400 credits; choose 1 of: Stealth Armor Boots, Graviton Armor Helmet, Hazmat Armor Legs, Motor Assist Armor Legs — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 190,000 XP; 8,400 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Dearly_Departed)
   - drops / mission items: Yamamoto's Wedding Ring: Overview: Yamamoto's Wedding Ring was lost during a battle with the Bane. Captain Aiko Yamamoto kept it as a memento of his wife, who was slain at their hands. It … — source: [TaRapedia item](https://tabularasa.fandom.com/wiki/Yamamoto%27s_Wedding_Ring)
   - drops / mission items: Yamamoto's Wedding Ring can be found on one of the many Thrax in the region — source: client text
@@ -439,6 +549,9 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
   - location: NPC Megumi Yamamoto: Ashen Desert, Shadow's Edge Post — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Megumi_Yamamoto)
 - **Client:** Recover Captain Yamamoto's lost wedding ring, which was misplaced while he was fighting Thrax in the Boneyard. Yamamoto's Wedding Ring can be found on one of the many Thrax in the region. Return the ring to Captain Yamamoto once you have found it.
   - objectives (client): Recovery Yamamoto's Ring
+- **This PR:** revision `ashen_1_16_5`, level 42, solo, category 10000016 (Battlefield (Ashen Desert)), giver Megumi Yamamoto → Captain Akio Yamamoto
+  - reward: 190000 XP; 8400 credits; choose 1 of: Stealth Armor Boots, Graviton Armor Helmet, Hazmat Armor Legs, Motor Assist Armor Legs
+  - prerequisites: Requires completed mission 1261
 - **TaRapedia** [Dearly Departed](https://tabularasa.fandom.com/wiki/Dearly_Departed): giver: Megumi Yamamoto; at: Shadow's Edge Post; zone: Ashen Desert; requires: Court Martial Arts; follow-up: None; XP: 190,000; credits: 8,400; reward from: Megumi Yamamoto
   - overview: Recover Captain Yamamoto's lost wedding ring, which was misplaced while he was fighting Thrax in the Boneyard. Yamamoto's Wedding Ring can be found on one of the many Thrax in the region. Return the ring to Captain Yamamoto once you have found it.
   - objectives: • Recover Yamamoto's Ring • x/1
@@ -452,21 +565,26 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
   - Yamamoto's Wedding Ring can be found on one of the many Thrax in the region — source: client text
   - The wedding ring is a random drop off Thrax in the area — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Dearly_Departed)
 
-- **Chain** (explicit prerequisite links): The Human Perspective chain (7 missions), step 4
-  - Requires: Court Martial Arts (id 1261) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Dearly_Departed)
+- **Chain** (explicit prerequisite links): Formal Complaints chain (8 missions), step 5
+  - Requires: Court Martial Arts (id 1261) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Dearly_Departed), this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - Leads to: Robotic Salvage Acquisitions (id 1267) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Acquisitions)
 
 ### 1352 — Death from Above
 
 
 - **Rebuild summary:**
+  - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 200000 XP; 8600 credits; choose 1 of: Incendiary Blade, Pulse Cannon, Photonic Shotgun, Cryogenic Injector Gun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 200,000 XP; 8,600 credits; Vextronics Incendiary Blade; Vextronics Pulse Cannon; Vextronics Photonic Shotgun; Vitalius Cryogenic Injector Gun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_from_Above)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: NPC Captain Aiko Yamamoto: Ashen Desert, Boneyard Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto)
 - **Client:** Destroy the 4 Bane Mortars along the trench separating the Boneyard from the Bane Conscription Base. Then head north and destroy the 6 Long Range Missile Launchers using the High Grade Plastic Explosives given to you by Captain Yamamoto. Report back to Captain Yamamoto once all targets have been …
   - objectives (client): Destroy Mortar 1; Destroy Mortar 2; Destroy Mortar 3; Destroy Mortar 4; Destroy Launcher 1; Destroy Launcher 2; Destroy Launcher 3; Destroy Launcher 4; Destroy Launcher 5; Destroy Launcher 6 … (+1 more)
+- **This PR:** revision `ashen_1_16_5`, level 41, solo, category 10000016 (Battlefield (Ashen Desert)), giver Captain Akio Yamamoto
+  - reward: 200000 XP; 8600 credits; choose 1 of: Incendiary Blade, Pulse Cannon, Photonic Shotgun, Cryogenic Injector Gun
+  - prerequisites: Requires completed mission 1263; Requires completed mission 1262
 - **TaRapedia** [Death from Above](https://tabularasa.fandom.com/wiki/Death_from_Above): giver: Captain Aiko Yamamoto; at: Boneyard Outpost; zone: Ashen Desert; requires: Fallen Soldiers; Xanxless Job; follow-up: None; XP: 200,000; credits: 8,600; items: Vextronics Incendiary Blade; Vextronics Pulse Cannon; Vextronics Photonic Shotgun; Vitalius Cryogenic Injector Gun; reward from: Captain Aiko Yamamoto
   - overview: Destroy the 4 Bane Mortars along the trench separating the Boneyard from the Bane Conscription Base. Then head north and destroy the 6 Long Range Missile Launchers using the High Grade Plastic Explosives given to you by Captain Yamamoto. Report back to Captain Yamamoto once all targets have been …
   - objectives: • Destroy Mortar 1 • Destroy Mortar 2 • Destroy Mortar 3 • Destroy Mortar 4 • Destroy Launcher 1 • Destroy Launcher 2 • Destroy Launcher 3 • Destroy Launcher 4 • Destroy Launcher 5 • Destroy Launcher 6
@@ -478,29 +596,34 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
   - [Captain Aiko Yamamoto](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto): Ashen Desert, Boneyard Outpost (named as giver/receiver)
 
 - **Chain** (explicit prerequisite links): Fallen Soldiers chain (9 missions), step 2
-  - Requires: Xanxless Job (id 1262) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_from_Above)
-  - Requires: Fallen Soldiers (id 1263) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_from_Above), [TaRapedia](https://tabularasa.fandom.com/wiki/Fallen_Soldiers)
+  - Requires: Xanxless Job (id 1262) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_from_Above), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Requires: Fallen Soldiers (id 1263) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_from_Above), [TaRapedia](https://tabularasa.fandom.com/wiki/Fallen_Soldiers), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
 ### 1354 — Turning Out the Lights
 
 
 - **Instance mentioned:** Bane Conscription Facility — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
 - **Rebuild summary:**
+  - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 100000 XP; 6450 credits; choose 1 of: Bio Armor Legs, Stealth Armor Helmet, Hazmat Armor Vest, Motor Assist Armor Legs — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 100,000 XP; 6,450 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** Lieutenant Infanger wants you to infiltrate the Bane Conscription Base and destroy the three power generators being used to collect electrical energy from Indra Pass and power the base. Once these generators have been destroyed, report back to Lieutenant Infanger.
   - objectives (client): Destroy Power Generator 1; Destroy Power Generator 2; Destroy Power Generator 3
+- **This PR:** revision `ashen_1_16_5`, level 41, solo, category 10000016 (Battlefield (Ashen Desert)), giver Lieutenant Gabriel Infanger
+  - reward: 100000 XP; 6450 credits; choose 1 of: Bio Armor Legs, Stealth Armor Helmet, Hazmat Armor Vest, Motor Assist Armor Legs
+  - prerequisites: Requires completed mission 1263; Requires completed mission 1262
 - **TaRapedia** [Turning Out the Lights](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights): giver: Lieutenant Gabriel Infanger; at: Boneyard Outpost; zone: Ashen Desert; requires: Fallen Soldiers; Xanxless Job; follow-up: None; XP: 100,000; credits: 6,450; reward from: Lieutenant Gabriel Infanger
   - overview: Lieutenant Infanger wants you to infiltrate the Bane Conscription Base and destroy the three power generators being used to collect electrical energy from Indra Pass and power the base. Once these generators have been destroyed, report back to Lieutenant Infanger.
   - objectives: • Destroy Power Generator 1 • Destroy Power Generator 2 • Destroy Power Generator 3
 - **TaRapedia mission list** [Boneyard Outpost mission list](https://tabularasa.fandom.com/wiki/Boneyard_Outpost_mission_list): zone Ashen Desert, area Boneyard Outpost, given by Lieutenant Gabriel Infanger
 
 - **Chain** (explicit prerequisite links): Fallen Soldiers chain (9 missions), step 2
-  - Requires: Xanxless Job (id 1262) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights)
-  - Requires: Fallen Soldiers (id 1263) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights)
+  - Requires: Xanxless Job (id 1262) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Requires: Fallen Soldiers (id 1263) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
 ### 1355 — The Strongest Link
 
@@ -508,15 +631,19 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 
 - **Rebuild summary:**
-  - level: guide mentions “ers, too, for that matter). The boss and the caretakers are level 30 while the other linkers are level 29. A” (context only; may be a creature or item level) — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/tabula-rasa-energy-center-guide)
+  - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); guide mentions “ers, too, for that matter). The boss and the caretakers are level 30 while the other linkers are level 29. A” (context only; may be a creature or item level) — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/tabula-rasa-energy-center-guide)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 200000 XP; 8600 credits; choose 1 of: Mech Armor Boots, Graviton Armor Vest, Bio Armor Gloves, Reflective Armor Helmet — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 200,000 XP; 8,600 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29)
   - reward: “Wolfe gives you the choice of a Prodigy Graviton Armor Helmet (blue), Pulsar Bio Armor Gloves (blue), Pulsar Mech Armor Legs (purple), and a Vextronics Incendiary Net Gun (blue).” — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/tabula-rasa-energy-center-guide)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: Naxveik (Thrax): /loc 304,83, zone Ashen Desert — source: [Ellatha boss NPC](https://www.ellatha.com/tr/bossnpcview.asp?key=Naxveik&id=58)
 - **Client:** Travel to the Bane Conscription Base, at the north end of the Boneyard, and kill 15 Linkers, along with Overseer Naxveik, who is protecting the power generators. Once you have successfully thinned their numbers, return to Lieutenant Jan Blood and report your success.
   - objectives (client): Kill 15 Linkers; Kill Overseer Naxviek
+- **This PR:** revision `ashen_1_16_5`, level 42, solo, category 10000016 (Battlefield (Ashen Desert)), giver Lieutenant Jan Blood
+  - reward: 200000 XP; 8600 credits; choose 1 of: Mech Armor Boots, Graviton Armor Vest, Bio Armor Gloves, Reflective Armor Helmet
+  - prerequisites: Requires completed mission 1263; Requires completed mission 1262
 - **TaRapedia** [The Strongest Link (Ashen Desert)](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29) (base-title title match): giver: Lieutenant Jan Blood; at: Boneyard Outpost; zone: Ashen Desert; requires: Fallen Soldiers; Xanxless Job; follow-up: None; XP: 200,000; credits: 8,600; reward from: Lieutenant Jan Blood
   - overview: Travel to the Bane Conscription Base, at the north end of the Boneyard, and kill 15 Linkers, along with Overseer Naxveik who is protecting the power generators. Once you have successfully thinned their numbers, return to Lieutenant Blood and report your success.
   - objectives: • Kill 15 Linkers • Kill Overseer Naxviek
@@ -535,7 +662,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Ellatha boss NPC** [Naxveik](https://www.ellatha.com/tr/bossnpcview.asp?key=Naxveik&id=58): Thrax; /loc 304,83; zone Ashen Desert; needed for: Ashen Desert Targets of Opportunity (boss named in client text)
 
 - **Chain** (explicit prerequisite links): Fallen Soldiers chain (9 missions), step 4
-  - Requires: Xanxless Job (id 1262) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29)
-  - Requires: Fallen Soldiers (id 1263) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29)
+  - Requires: Xanxless Job (id 1262) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Requires: Fallen Soldiers (id 1263) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29), this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - Requires: Look Before You Sabotage (id 1296) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Look_Before_You_Sabotage)
 

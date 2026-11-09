@@ -164,6 +164,27 @@ the waypoint's terrace: N18; the client floor does).
   271.9, -219). Turn in at Yamamoto (he takes the ring): 190000 XP, 8400 credits, one of 38823, 23828, 20802, 29093
   (armour). Look: the ring drops and is picked up; the Thrax stand on the ground at the moved points.
 
+Set 7, Latan's side of Formal Complaints (migration `20271110000700_Ashen_scavenger`). New: the Nitroglazer 790240 and
+the Hominis Machina Mk XI 790241 (both level 40) in the Boneyard, pools of three 790243 (700, 282.2, -250) and 790244
+(690, 281.05, -310) (Nitroglazers, east), 790245 (440, 287.89, -320) and 790246 (440, 285.32, -360) (Hominis Machina,
+west); next free id 790247. Only for a character who chose Latan's side (choice 1) and finished Formal Complaints.
+
+- [ ] 1264 Robotic Salvage Recovery (Ligo Ashen Desert): Latan offers it after 1254 done with flag 250 at 1, level 40.
+  Recover 15 Intact Nitroglazer Salvage (97465) and 15 Intact Machina Salvage (97466): personal 75 % drops, one a kill,
+  off the Nitroglazers and the Hominis Machina; markers r20 on the four pools. Turn in at Latan (she takes the 30): 95000
+  XP, 6300 credits, one of 23698, 29093, 20802, 36039 (armour). Look: the robots' look, name and level (Nitroglazer 434,
+  "Hominis Machina Mk XI" 7716), their attacks (the Nitroglazer's mortar), the Machina's revive (upstream action 62059,
+  not tried); a player of choice 2, or one who took choice 1 and abandoned 1254, is not offered it.
+- [ ] 1266 Weapon Salvage Recovery (Ligo Ashen Desert): Latan offers it after 1264, level 41. Recover 15 Thrax Rifle
+  Salvage (97469) off Thrax Soldiers (531008) and 15 Thrax Grenade Launcher Salvage (97470) off Thrax Ravagers (531009):
+  personal 75 % drops anywhere on Ashen Desert; markers r25 on the Boneyard Thrax pools (rifles) and on the Sheitan
+  Highway Ravager pools 790085, 790086 (launchers). Turn in at Latan: 95000 XP, 6300 credits, the Incendiary Injector
+  Gun 45777.
+- [ ] 1265 Heavy Salvage Recovery (Ligo Ashen Desert): Latan offers it after 1266, level 42. Recover 1 Intact Stalker
+  Salvage (97467) off a Desert Stalker (790121, Boneyard pools 790125, 790126) and 1 Intact Predator Salvage (97468) off
+  a Desert Predator (790080, the Sheitan Highway beats): every kill drops it while it is needed; markers as 1272's and
+  1248's. Turn in at Latan: 200000 XP, 6300 credits, one of the 1254 stacks.
+
 ## Assumptions and choices (not from a source)
 
 All ESTIMATE (set 1):
@@ -292,6 +313,21 @@ All ESTIMATE (set 6):
 - 1285: the ring a 15 % drop (triage); kept at an abandon (as 1243's samples). The three Boneyard Thrax pools moved to
   open ground 14-27 m from their points and made point pools (see "Server data changed by set 6").
 
+All ESTIMATE (set 7):
+- 1264: offered after Formal Complaints done and flag 250 at 1 (both, triage D1; TaRapedia's requirement is "??"). The
+  flag alone is not enough: the flags stay at an abandon of 1254.
+- Levels: 1264 40, 1266 41, 1265 42 (the zone band, D5).
+- The Nitroglazer and the Hominis Machina: new rows at level 40 with the Ashen level-40 hit points and armour (8409, 285);
+  the World DB has neither in the band (Nitroglazers L20-28, Machina L8-14). Their attacks are the World DB rows' (the
+  EWC Nitroglazer's weapon and mortar, the Torcastra Machina's weapon and revive) at the Ashen Thrax damage (247-370, the
+  mortar 356-555). The Machina's look is the Torcastra Machina's. Rank Mk XI (TaRapedia "Mark XI").
+- Places: two pools of three of each in the Boneyard (TaRapedia "throughout The Boneyard"; no spot named).
+- Drop rates: 75 % for the 15-count salvage (the Crucible's 50-75 %), 100 % for the one-off heavy salvage. Salvage is kept
+  at an abandon and taken at the turn-in.
+- 1266: the launcher markers on the highway's Ravager pools (three Ravagers each); the Boneyard pools hold at most one.
+- Rewards: 1264 TaRapedia's four kinds at icon 2 (Motor Assist Legs: no Uncommon below V04, so V04 29093); 1266
+  TaRapedia's one item; 1265 TaRapedia names none: the 1254 stacks.
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -331,6 +367,13 @@ All ESTIMATE (set 6):
 - 1285: the ring drops off any Ashen Thrax Soldier or Ravager (a drop is bound to creature rows and the map), not only
   those of the Boneyard: also those of the Sheitan Highway and the Conscription Facility.
 - 1285: Megumi does not stand in the "eastern tent" (TaRapedia): see the assumptions.
+
+- 1265: the Predator salvage comes off the Desert Predators of the Sheitan Highway (the client's log and TaRapedia), not
+  "near Maji Field" (the client's offer text): no Predator stands there.
+- 1264, 1266: the client gives the objectives no counter text: the log shows no n/15 count (the bag shows the stack).
+- 1266: rifles and launchers drop off any Ashen Thrax Soldier or Ravager on Ashen Desert (the drop is bound to the rows and
+  the map), as 1285's ring.
+- 1255-1257 (the client's further flag-250 missions) are not built (triage D2): Latan's side ends with 1265.
 
 ## Server data that differs from the sources (not changed)
 
@@ -400,3 +443,8 @@ All ESTIMATE (set 6):
   heights (the rows stand 1.7-2.75 m under the ground). Round each new point every navmesh floor within 17 m is one floor,
   joined to the Ashoka Settlement waypoint, on a client floor under open sky. Count, creatures and respawn as upstream.
   ESTIMATE: the places. Down puts upstream's rows back (the exact stored values) while they are still set 6's.
+
+## Server data changed by set 7 (upstream rows)
+
+- None. Set 7 adds its own rows only; it uses the Thrax rows 531008 / 531009, set 3's Desert Predator and set 4's Desert
+  Stalker as they are, and upstream's machina_revive action 62059 and the Torcastra Machina's look 660012 by reference.

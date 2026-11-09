@@ -500,7 +500,12 @@ namespace Rasa.Test.Missions.Ashen
                 [AshenHumanPerspectiveV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
                 [AshenBribeForYourThoughtsV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
                 [AshenCourtMartialArtsV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
-                [AshenDearlyDepartedV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
+                [AshenDearlyDepartedV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                // Set 7: Latan's three; the Boneyard's robots, Thrax and Stalkers from the Ashoka waypoint, and so the highway's
+                // Ravagers and Predators (1266's launchers, 1265's Predators: the navmesh joins them).
+                [AshenRoboticSalvageV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                [AshenWeaponSalvageV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                [AshenHeavySalvageV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var desert = AshenLeadInsTests.EnterAshen(harness);
