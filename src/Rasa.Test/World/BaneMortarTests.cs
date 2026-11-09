@@ -109,7 +109,8 @@ namespace Rasa.Test.World
         /// once Devils_den has run (DevilsDenContent), as the rest of its pools are its own rows; the
         /// Sheitan Highway's four on Ashen Desert each hold their own copy of the Ashen mortar once
         /// Ashen_sheitan_highway has run (AshenSheitanHighwayNpcsV1: Artillery Annihilation counts
-        /// each mortar on its own objective). Both run after Bane_mortars: <paramref name="fullyMigrated"/>, the World DB
+        /// each mortar on its own objective), and so do the trench's four once Ashen_conscription_base has run
+        /// (AshenConscriptionBaseNpcsV1: Death from Above's Mortar 1-4). All run after Bane_mortars: <paramref name="fullyMigrated"/>, the World DB
         /// migrated to its last migration (false: to Bane_mortars only).
         /// </summary>
         private static void AssertMortars(WorldContext world, bool fullyMigrated)
@@ -140,8 +141,10 @@ namespace Rasa.Test.World
                 Assert.IsTrue(maps.Contains(pool.MapContextId), $"pool {pool.Id} on a map of the world");
                 Assert.AreEqual((mortar.Map, mortar.X, mortar.Y, mortar.Z, mortar.Rotation), (pool.MapContextId, (double)pool.PosX, (double)pool.PosY, (double)pool.PosZ, (double)pool.Rotation), $"pool {pool.Id}");
                 var highway = Array.FindIndex(Rasa.Services.Preloader.Missions.Ashen.AshenSheitanHighwayNpcsV1.Mortars, entry => entry.Pool == pool.Id);
+                var trench = Array.FindIndex(Rasa.Services.Preloader.Missions.Ashen.AshenConscriptionBaseNpcsV1.Mortars, entry => entry.Pool == pool.Id);
                 var creature = fullyMigrated && pool.MapContextId == DevilsDenContent.Den ? DevilsDenContent.Howitzer
                     : fullyMigrated && highway >= 0 ? Rasa.Services.Preloader.Missions.Ashen.AshenSheitanHighwayNpcsV1.Mortars[highway].Creature
+                    : fullyMigrated && trench >= 0 ? Rasa.Services.Preloader.Missions.Ashen.AshenConscriptionBaseNpcsV1.Mortars[trench].Creature
                     : zone.Creature;
                 Assert.AreEqual((creature, (byte)1, (byte)1, 0u), (pool.Creature1Id, pool.Creature1MinCount, pool.Creature1MaxCount, pool.Creature2Id), $"pool {pool.Id}: one mortar");
                 Assert.AreEqual(0.0, pool.Radius, $"pool {pool.Id}: where its pad is");

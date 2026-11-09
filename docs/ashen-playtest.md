@@ -107,6 +107,36 @@ Boneyard (579, 283, -291).
   12125, 14534 (weapons). Look: the Stalker on the Boneyard floor, not on Ashoka's lower level under it; "Class XI Desert
   Stalker" over it.
 
+Set 5, the Bane Conscription Base (migration `20271110000500_Ashen_conscription_base`). New trench mortar copies
+790160-790163, Linker pools 790164-790168, next free id 790169; Overseer Naxveik's pool 520005 moved. The three need 1262
+and 1263 done. The base and the trench have no waypoint a player holds (the Conscription Garrison is Bane's control point
+16): walk north from the Ashoka Settlement waypoint through the Boneyard.
+
+- [ ] 1352 Death from Above (Ligo Ashen Desert): Captain Akio Yamamoto (790003, Boneyard Outpost) offers it, level 41, and
+  gives 6 High Grade Plastic Explosives (97491) at the accept (a bag with no room refuses the accept). Destroy Mortar 1-4: the trench pools 592199 (440.3, 288.13,
+  -201.0), 592202 (490.1, 281.22, -194.2), 592203 (524.7, 283.71, -170.6), 592204 (550.6, 287.55, -130.5), west to east,
+  each its own mortar copy, a marker r10 on each; objective 11 "Mortars Destroyed" n/4 (the count of Mortar 1-4 done:
+  a mortar killed again does not count again), a marker r75 over the trench.
+  Destroy Launcher 1-6: six personal Missile Launchers (21873) in the walled yard north of the Garrison, two rows of three
+  at x 376, 400, 428 and z 128 / 144; use the Detonation Device 11 m off each launcher's point, south of the south row
+  and north of the north row (devices at (376, 117), (412, 117), (428, 117), (376, 155), (416, 155), (424, 155); each
+  takes one explosive); a marker r10 on each device. Turn in at Yamamoto: 200000 XP, 8600 credits, one of 12099, 15442, 14980, 48108 (weapons).
+  Look: the launcher model, its facing (the model is 22 m long; facing 0 is not verified, the ground is flat for it
+  either way along its row and each device stands outside it either way) and its blown state; the mortar counter.
+- [ ] 1354 Turning Out the Lights (Ligo Ashen Desert): Lieutenant Gabriel Infanger (790120, Boneyard Outpost) offers it,
+  level 41, and gives 3 Electromagnetic Charged Explosives (111184) at the accept. Destroy Power Generator 1-3: three
+  personal small Bane generators (20594, named "Power Generator") on the plateau west of the Garrison, (318, 296.2, -14),
+  (326, 296.7, -34), (314, 296.3, -52); use the Detonation Device 6 m west of each; a marker r8 on each generator. Turn in
+  at Infanger: 100000 XP, 6450 credits, one of 19802, 39081, 20951, 31394 (armour). Look: the generators' look and name,
+  the blown state; Naxveik (L44) stands among them.
+- [ ] 1355 The Strongest Link (Ligo Ashen Desert): Lieutenant Jan Blood (510013, Boneyard Outpost) offers it, level 42,
+  shareable (TaRapedia updates 2007-08-21 list "Mission is not shareable" as a known issue).
+  Kill 15 Linkers (the World DB's Linker - Ashen Desert 531014, "Linker Master", L40; counter "Linkers Killed"): pools of
+  three 790164 (385, 304.31, 82), 790165 (420, 299.37, 95), 790166 (466, 304.06, 132), 790167 (430, 304.13, 160), 790168
+  (358, 304.16, 160) round the walled base, a marker r15 on each. Kill Overseer Naxveik (520005, L44) at (296, 296.49,
+  -30), a marker r15. Turn in at Blood: 200000 XP, 8600 credits, one of 33342, 24086, 19544, 36638 (armour). Look: the
+  Linkers can be hit and killed (to-fix row 2 was an Atta hit problem; Linker class 9751 not yet tried in the client).
+
 ## Assumptions and choices (not from a source)
 
 All ESTIMATE (set 1):
@@ -201,6 +231,27 @@ All ESTIMATE (set 4):
   ("Disperser" is the propellant gun, as Pools' Virulent Disperser), "Incendiary Net Gun" the fire net gun of 41-45 (the
   36-40 band does not hold level 41).
 
+All ESTIMATE (set 5):
+- Levels: 1352 and 1354 41, 1355 42 (the zone band, triage D5).
+- 1352: the four trench mortars are copies of the Ashen Bane Mortar 592011 (as 1249's), Mortar n = pool n west to east.
+  The six launchers (the client's UsableInertDestBaneMissileLauncherV01, no static of it on the map) stand in the walled
+  yard north of the Garrison ("the west side of the Conscription Base"), facing 0, each over flat navmesh ground facing
+  either way along its row; the Detonation Device (7334, as Marshes' Cleaning House) 11 m off the row takes one explosive
+  and blows the launcher. Six explosives, one per launcher. Objective 11 is the count of Mortar 1-4 done (an
+  aggregation, as Wilderness' Survey Says).
+- 1354: the generators are the client's small Bane generator 20594 with the usable name 245 "Power Generator": the Bane
+  outpost generator 3857 is 17 by 27 m, three of it do not fit on the compound's plateau. Three explosives. 106-125 m
+  from control point 16 (objects, not creature pools).
+- 1355: the Linkers are the World DB row 531014, no copy: Linkers killed anywhere count too (the Sheitan Highway pool
+  531034, the Bane Conscription Facility pools 531064, 531072, 531075, 531078, 531083, Indra Caverns 531086, 531089,
+  531092).
+  Five pools of three, 120 s respawn, 147 m and more from control point 16, not linked to it.
+- Naxveik: moved from the World DB spot (305.4, 282.6, 84.4; Ellatha's map value, 14 m under the compound) to the
+  compound's plateau (296, 296.49, -30), 136 m from control point 16: TaRapedia's /loc (300, 20) and (311, 26) have a
+  second navmesh floor under the plateau's edge.
+- Rewards: as set 2. "Incendiary Blade" the fire blade, "Pulse Cannon" the EMP rocket launcher, "Photonic Shotgun" the
+  laser shotgun, "Cryogenic Injector" the ice injection gun.
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -226,6 +277,13 @@ All ESTIMATE (set 4):
 - 1262: the Xanx "digging tunnels and ambushing" (the offer) do not burrow (MawLurk is keyed by class; triage M10).
 - 1262: the kills count by creature row 540020, so Xanx killed in Maji Field and Indra Pass (the same row) count too.
 - 1272: "Cowards started dropping Stalkers on us" is flavour: no dropship, the pools respawn.
+
+- 1354: the explosion of a generator does no damage to a player near it (the offer's warning; not built, triage set 5).
+- 1352, 1354: the launchers and generators cannot be shot: only the Detonation Device blows them. The client lets a player
+  aim at them (their classes' target flag is 1), but they are not interactable and the server drops a hit on a disabled
+  object (PracticeTargetManager.TryGetTarget).
+- 1355: "Hundreds of them": fifteen Linkers in five pools round the base, not a perimeter of hundreds. Linkers killed in
+  the Bane Conscription Facility, Indra Caverns and on the Sheitan Highway count too (same row 531014).
 
 ## Server data that differs from the sources (not changed)
 
@@ -268,3 +326,10 @@ All ESTIMATE (set 4):
 ## Server data changed by set 4 (upstream rows)
 
 - None. Set 4 uses Blood 510013 and the Xanx row 540020 as upstream has them.
+
+## Server data changed by set 5 (upstream rows)
+
+- The trench mortar pools 592199, 592202-592204 (Bane_mortars) hold the copies 790160-790163 for 592011 (BaneMortarTests
+  allows it). Down gives them 592011 back while they still hold the copy.
+- Moved: Overseer Naxveik's pool 520005 from (305.41, 282.61, 84.41) to (296, 296.49, -30) in the generators' compound.
+  Down puts it back (the exact stored values) while it still stands at the new place.

@@ -26,6 +26,7 @@ namespace Rasa.Test.Missions.Ashen
     using B = AshenMaunaBarrensNpcsV1;
     using H = AshenSheitanHighwayNpcsV1;
     using Y = AshenBoneyardNpcsV1;
+    using C = AshenConscriptionBaseNpcsV1;
     using F = MarshesClientFloorTests;
 
     /// <summary>
@@ -94,9 +95,11 @@ namespace Rasa.Test.Missions.Ashen
             }
             var found = SpawnPoolManager.Instance.PoolsTooClose(new List<(uint, Vector3, string)>()).Select(entry => entry.Message).ToList();
             // This batch's own pools (the block's hostile ones too: "spawnpool 79...") and the upstream pools it moves (Exing's 520007,
-            // fix job A's Fithik pool 540067) or relies on (set 3's highway mortars 592191-592194).
+            // fix job A's Fithik pool 540067, set 5's Naxveik 520005) or relies on (set 3's highway mortars 592191-592194, set 5's
+            // trench mortars 592199, 592202-592204).
             Assert.IsFalse(found.Any(message => message.Contains("of pool 790") || message.StartsWith("spawnpool 79") ||
                     message.StartsWith($"spawnpool {AshenMaunaBarrensNpcsV1.Exing}:") || H.Mortars.Any(mortar => message.StartsWith($"spawnpool {mortar.Pool}:")) ||
+                    message.StartsWith($"spawnpool {C.Naxveik}:") || C.Mortars.Any(mortar => message.StartsWith($"spawnpool {mortar.Pool}:")) ||
                     message.StartsWith($"spawnpool {AshenFixAV1.Pool}:") ||
                     npcs.Any(npc => message.Contains($"of pool {npc.DbId}"))),
                 string.Join("\n", found));
@@ -475,7 +478,12 @@ namespace Rasa.Test.Missions.Ashen
                 // Set 4: the Boneyard and Boneyard Outpost have no waypoint; Ashoka Settlement's is the nearest.
                 [AshenXanxlessJobV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
                 [AshenFallenSoldiersV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
-                [AshenStalkingTheStalkersV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
+                [AshenStalkingTheStalkersV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                // Set 5: the givers are at Boneyard Outpost (Ashoka Settlement's waypoint); the Conscription Garrison's waypoint is
+                // the control point's, the Bane's at the start.
+                [AshenDeathFromAboveV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                [AshenTurningOutTheLightsV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                [AshenStrongestLinkV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var desert = AshenLeadInsTests.EnterAshen(harness);
@@ -551,7 +559,10 @@ namespace Rasa.Test.Missions.Ashen
             migrator.Migrate(ids[^1]);
         }
 
-        /// <summary>The sets' NPCs and scene actors with a place (label, place, NPC) on Ashen Desert: set 2's five beacon spots (1245), set 4's six fallen (1263).</summary>
+        /// <summary>
+        /// The sets' NPCs and scene actors with a place (label, place, NPC) on Ashen Desert: set 2's five beacon spots (1245), set 4's
+        /// six fallen (1263), set 5's six missile launchers and their Detonation Devices (1352) and three generators and theirs (1354).
+        /// </summary>
         private static List<(string Label, Vector3 At, bool Npc)> Places(WildernessRuntimeTestHarness harness)
         {
             var places = Npcs().Select(pool => ($"pool {pool.DbId}", pool.Position, true)).ToList();
@@ -559,7 +570,8 @@ namespace Rasa.Test.Missions.Ashen
                 foreach (var actor in scene.Actors.Values.Where(actor => actor.Position != null))
                     places.Add(($"{mission} {actor.Role}", new Vector3(actor.Position.X, actor.Position.Y, actor.Position.Z),
                         actor.Kind == Rasa.Missions.Scenes.SceneActorKind.Creature));
-            Assert.HasCount(NewNpcs.Length + N.Moves.Length + Kept.Length + 5 + 6, places, "the NPCs, 1245's five beacon spots and 1263's six fallen");
+            Assert.HasCount(NewNpcs.Length + N.Moves.Length + Kept.Length + 5 + 6 + 12 + 6, places,
+                "the NPCs, 1245's five beacon spots, 1263's six fallen, 1352's launchers and devices, 1354's generators and devices");
             return places;
         }
 

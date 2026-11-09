@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 15 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 18 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -9,7 +9,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 | Zone | Missions |
 | --- | ---: |
-| Ashen Desert | 15 |
+| Ashen Desert | 18 |
 
 ## Ashen Desert
 
@@ -342,4 +342,87 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
   - overview: Travel to White Oasis Outpost up in Maji Field, in the north end of Ashen Desert. Report to Captain Daris Linier for futher orders.
   - objectives: • Report to Captain Linier
 - **TaRapedia mission list** [Shadow's Edge Post mission list](https://tabularasa.fandom.com/wiki/Shadow%27s_Edge_Post_mission_list): zone Ashen Desert, area Shadow's Edge Post, given by Lt. Colonel Dania Caldwell
+
+### 1352 — Death from Above
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - reward: 200,000 XP; 8,600 credits; Vextronics Incendiary Blade; Vextronics Pulse Cannon; Vextronics Photonic Shotgun; Vitalius Cryogenic Injector Gun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_from_Above)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Captain Aiko Yamamoto: Ashen Desert, Boneyard Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto)
+- **Client:** Destroy the 4 Bane Mortars along the trench separating the Boneyard from the Bane Conscription Base. Then head north and destroy the 6 Long Range Missile Launchers using the High Grade Plastic Explosives given to you by Captain Yamamoto. Report back to Captain Yamamoto once all targets have been …
+  - objectives (client): Destroy Mortar 1; Destroy Mortar 2; Destroy Mortar 3; Destroy Mortar 4; Destroy Launcher 1; Destroy Launcher 2; Destroy Launcher 3; Destroy Launcher 4; Destroy Launcher 5; Destroy Launcher 6 … (+1 more)
+- **TaRapedia** [Death from Above](https://tabularasa.fandom.com/wiki/Death_from_Above): giver: Captain Aiko Yamamoto; at: Boneyard Outpost; zone: Ashen Desert; requires: Fallen Soldiers; Xanxless Job; follow-up: None; XP: 200,000; credits: 8,600; items: Vextronics Incendiary Blade; Vextronics Pulse Cannon; Vextronics Photonic Shotgun; Vitalius Cryogenic Injector Gun; reward from: Captain Aiko Yamamoto
+  - overview: Destroy the 4 Bane Mortars along the trench separating the Boneyard from the Bane Conscription Base. Then head north and destroy the 6 Long Range Missile Launchers using the High Grade Plastic Explosives given to you by Captain Yamamoto. Report back to Captain Yamamoto once all targets have been …
+  - objectives: • Destroy Mortar 1 • Destroy Mortar 2 • Destroy Mortar 3 • Destroy Mortar 4 • Destroy Launcher 1 • Destroy Launcher 2 • Destroy Launcher 3 • Destroy Launcher 4 • Destroy Launcher 5 • Destroy Launcher 6
+- **TaRapedia mission list** [Boneyard Outpost mission list](https://tabularasa.fandom.com/wiki/Boneyard_Outpost_mission_list): zone Ashen Desert, area Boneyard Outpost, given by Captain Aiko Yamamoto
+- **IGN TR boards** [vnboards.ign.com/tabula_rasa_general_board/b22750/106660985/p1/](https://web.archive.org/web/20081013130601/http://vnboards.ign.com/tabula_rasa_general_board/b22750/106660985/p1/): “s Commando Guide, Logos, LvL 50 Crafting Recipes Locations, Main Page, Media, Medic, Paradise Lost, Planets, Player Compiled Cloning Tips, Predator: "Death from Above", Quick Guide, Ranger, Recruit, Roleplay Guides, Rules, Sanctus Grotto, Sandbox, Sapper, Sarah Begins, Skills, Sniper, Soldier, Specialist, Spy, Stalker: "Battlefield Giants", Submissions Page, System Requirements, Tabula Rasa Art Director Creature Concepts, Technical Guides, The …”
+- **IGN TR Vault** [tabularasavault.ign.com/wiki/index.php/Predator:_%22Death_from_Above%2 …](https://web.archive.org/web/20080820092639/http://tabularasavault.ign.com/wiki/index.php/Predator:_%22Death_from_Above%22): “Predator: "Death from Above" -- Tabula Rasa Vault / History: Predator: "Death from Above" / Predator: "Death from Above" / Predators are the mechanical airborne weapons of the Bane army. Whether launched from orbit or from secured ground locations, the Predator is a swing-role (in-flight multi-mission ready) offensive platform that is capable of inflicting aggressive and devastating ground attacks. Equipped with forward-mounted searchlights and …”
+- **RGTR official site** [www.rgtr.com:80/about_the_game/know_your_enemy/know_your_enemy_1.html](https://web.archive.org/web/20080831023519/http://www.rgtr.com:80/about_the_game/know_your_enemy/know_your_enemy_1.html): “ers are rarely deployed in urban or icy environments. Though slow and easily targeted, Stalkers can withstand massive amounts of damage. / Predator: "Death from Above" / Predators are the mechanical airborne weapons of the Bane army. Whether launched from orbit or from secured ground locations, the Predator is a swing-role (in-flight multi-mission ready) offensive platform that is capable of inflicting aggressive and devastating ground attacks. …”
+- **NPCs (TaRapedia NPC pages):**
+  - [Captain Aiko Yamamoto](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto): Ashen Desert, Boneyard Outpost (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Fallen Soldiers chain (9 missions), step 2
+  - Requires: Xanxless Job (id 1262) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_from_Above)
+  - Requires: Fallen Soldiers (id 1263) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_from_Above), [TaRapedia](https://tabularasa.fandom.com/wiki/Fallen_Soldiers)
+
+### 1354 — Turning Out the Lights
+
+
+- **Instance mentioned:** Bane Conscription Facility — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - reward: 100,000 XP; 6,450 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Lieutenant Infanger wants you to infiltrate the Bane Conscription Base and destroy the three power generators being used to collect electrical energy from Indra Pass and power the base. Once these generators have been destroyed, report back to Lieutenant Infanger.
+  - objectives (client): Destroy Power Generator 1; Destroy Power Generator 2; Destroy Power Generator 3
+- **TaRapedia** [Turning Out the Lights](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights): giver: Lieutenant Gabriel Infanger; at: Boneyard Outpost; zone: Ashen Desert; requires: Fallen Soldiers; Xanxless Job; follow-up: None; XP: 100,000; credits: 6,450; reward from: Lieutenant Gabriel Infanger
+  - overview: Lieutenant Infanger wants you to infiltrate the Bane Conscription Base and destroy the three power generators being used to collect electrical energy from Indra Pass and power the base. Once these generators have been destroyed, report back to Lieutenant Infanger.
+  - objectives: • Destroy Power Generator 1 • Destroy Power Generator 2 • Destroy Power Generator 3
+- **TaRapedia mission list** [Boneyard Outpost mission list](https://tabularasa.fandom.com/wiki/Boneyard_Outpost_mission_list): zone Ashen Desert, area Boneyard Outpost, given by Lieutenant Gabriel Infanger
+
+- **Chain** (explicit prerequisite links): Fallen Soldiers chain (9 missions), step 2
+  - Requires: Xanxless Job (id 1262) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights)
+  - Requires: Fallen Soldiers (id 1263) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights)
+
+### 1355 — The Strongest Link
+
+- **Note:** the Ten Ton Hammer lines (Sgt. Wolfe, level 30, Linker Commander Casso) and "Requires: Look Before You Sabotage" below are the Mires mission of the same name (1307), not this one. This mission: Lieutenant Jan Blood; requires Fallen Soldiers and Xanxless Job; 15 Linkers (TaRapedia, PlayTR patch notes 2007-12-11).
+
+
+- **Rebuild summary:**
+  - level: guide mentions “ers, too, for that matter). The boss and the caretakers are level 30 while the other linkers are level 29. A” (context only; may be a creature or item level) — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/tabula-rasa-energy-center-guide)
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–41 (median 40, 10th–90th percentile) — derived from 14 missions in this file with a sourced level
+  - reward: 200,000 XP; 8,600 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29)
+  - reward: “Wolfe gives you the choice of a Prodigy Graviton Armor Helmet (blue), Pulsar Bio Armor Gloves (blue), Pulsar Mech Armor Legs (purple), and a Vextronics Incendiary Net Gun (blue).” — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/tabula-rasa-energy-center-guide)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: Naxveik (Thrax): /loc 304,83, zone Ashen Desert — source: [Ellatha boss NPC](https://www.ellatha.com/tr/bossnpcview.asp?key=Naxveik&id=58)
+- **Client:** Travel to the Bane Conscription Base, at the north end of the Boneyard, and kill 15 Linkers, along with Overseer Naxveik, who is protecting the power generators. Once you have successfully thinned their numbers, return to Lieutenant Jan Blood and report your success.
+  - objectives (client): Kill 15 Linkers; Kill Overseer Naxviek
+- **TaRapedia** [The Strongest Link (Ashen Desert)](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29) (base-title title match): giver: Lieutenant Jan Blood; at: Boneyard Outpost; zone: Ashen Desert; requires: Fallen Soldiers; Xanxless Job; follow-up: None; XP: 200,000; credits: 8,600; reward from: Lieutenant Jan Blood
+  - overview: Travel to the Bane Conscription Base, at the north end of the Boneyard, and kill 15 Linkers, along with Overseer Naxveik who is protecting the power generators. Once you have successfully thinned their numbers, return to Lieutenant Blood and report your success.
+  - objectives: • Kill 15 Linkers • Kill Overseer Naxviek
+  - walkthrough: Overseer Naxviek is located at /loc 311, 26.
+- **TaRapedia mission list** [Boneyard Outpost mission list](https://tabularasa.fandom.com/wiki/Boneyard_Outpost_mission_list): zone Ashen Desert, area Boneyard Outpost, given by Lieutenant Jan Blood
+- **Ten Ton Hammer** [tabula-rasa-energy-center-guide](https://www.tentonhammer.com/guides/tabula-rasa-energy-center-guide): “The Strongest Link where you are to defeat Linker Commander Casso and his minions. If you slowly enter the room, youll notice that the boss doesn't spawn until you are fully in the room with the door locked behind you. Be sure to read the comments from the boss as you clear the room. Ive found that EMP weapons work well against linkers (and howlers, too, for that matter). …”
+- **Ten Ton Hammer** [tabula-rasa-energy-center-guide](https://www.tentonhammer.com/guides/tabula-rasa-energy-center-guide): “The Strongest Link to Sgt. Wolfe gives you the choice of a Prodigy Graviton Armor Helmet (blue), Pulsar Bio Armor Gloves (blue), Pulsar Mech Armor Legs (purple), and a Vextronics Incendiary Net Gun (blue). See the medic to heal up and sell any stuff you dont want before heading out. Note that the area you cleared before entering this instance will likely have respawned by …”
+- **IGN TR boards** [vnboards.ign.com/tabula_rasa_general_board/b22750/106585290/r106594805 …](https://web.archive.org/web/20080518034441/http://vnboards.ign.com/tabula_rasa_general_board/b22750/106585290/r106594805/): “* All pipes inside Turpis Refinery should now be destroyable. / * Pets should no longer keep "The Strongest Link" from completing. / * Pets should now attack the Linker boss properly inside Energy Weapons Center.”
+- **IGN TR boards** [vnboards.ign.com/tabula_rasa_general_board/b22750/107144855/p1/](https://web.archive.org/web/20081012141434/http://vnboards.ign.com/tabula_rasa_general_board/b22750/107144855/p1/): “Weapons Center with mission “The Strongest Link”. This previously would complete with the optional mission “Incursion Invasion,” sometimes breaking the ToO mission.”
+- **IGN TR boards** [vnboards.ign.com:80/tabula_rasa_general_board/b22750/106459602/p1/?](https://web.archive.org/web/20080302101520/http://vnboards.ign.com:80/tabula_rasa_general_board/b22750/106459602/p1/?): “o Any mission that requires the player to loot an item from a corpse will not drop the mission loot needed when killed by a pet. / o Mission: The Strongest Link (Energy Weapons Center:Mires): Pets do not attack Linker Commander Casso or other Linkers in room / o If a player has the "Function" logos in their Tabula already then they cannot complete the objective "Retrieve the Eloh Artifact" (which is to obtain Function from the obelisk) and …”
+- **PlayTR EU** [eu.rgtr.com:80/en/news_article/patch_notes_and_known_issues_11th_decem …](https://web.archive.org/web/20071218075407/http://eu.rgtr.com:80/en/news_article/patch_notes_and_known_issues_11th_december_2007): “ges”: Fixed a bug that prevented players from completing the mission if they got disconnected between setting a bomb and receiving credit / * Mission “The Strongest Link”: Linkers around the Bane Conscription Control Point now properly give player kill credit. / * Mission “The Strongest Link”: The kill requirement of Linkers has been increased from 10 to 15.”
+- **PlayTR EU** [eu.rgtr.com:80/en/news_article/patch_notes_and_known_issues_26th_febru …](https://web.archive.org/web/20080303001652/http://eu.rgtr.com:80/en/news_article/patch_notes_and_known_issues_26th_february_2008): “Any mission that requires the player to loot an item from a corpse will not drop the mission loot needed when killed by a pet. / Mission: The Strongest Link (Energy Weapons Center:Mires): Pets do not attack Linker Commander Casso or other Linkers in room / If a player has the “Function” logos in their Tabula already then they cannot complete the objective “Retrieve the Eloh Artifact” (which is to obtain Function from the obelisk) and cannot …”
+- **PlayTR EU** [eu.rgtr.com:80/en/news_article/patchnotes_and_known_issues_monday_28th …](https://web.archive.org/web/20080501145429/http://eu.rgtr.com:80/en/news_article/patchnotes_and_known_issues_monday_28th_april_2008): “Mires “Targets of Opportunity” – “Complete All Operations” now completes for Energy Weapons Center with mission “The Strongest Link” instead of optional mission “Incursion Invasion,” which was incorrectly used originally, sometimes breaking the ToO mission.”
+- **Where (locations / coordinates):**
+  - Naxveik (Thrax): /loc 304,83, zone Ashen Desert — source: [Ellatha boss NPC](https://www.ellatha.com/tr/bossnpcview.asp?key=Naxveik&id=58)
+- **Ellatha boss NPC** [Naxveik](https://www.ellatha.com/tr/bossnpcview.asp?key=Naxveik&id=58): Thrax; /loc 304,83; zone Ashen Desert; needed for: Ashen Desert Targets of Opportunity (boss named in client text)
+
+- **Chain** (explicit prerequisite links): Fallen Soldiers chain (9 missions), step 4
+  - Requires: Xanxless Job (id 1262) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29)
+  - Requires: Fallen Soldiers (id 1263) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29)
+  - Requires: Look Before You Sabotage (id 1296) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Look_Before_You_Sabotage)
 
