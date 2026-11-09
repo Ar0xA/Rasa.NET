@@ -1,0 +1,540 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Numerics;
+using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Rasa.ClientData;
+using Rasa.Data;
+using Rasa.Managers;
+using Rasa.Services.Preloader.Missions.Ashen;
+using Rasa.Services.Preloader.Missions.Marshes;
+using Rasa.Structures;
+using Rasa.Structures.World;
+using Rasa.Test.Missions.Marshes;
+using Rasa.Test.Missions.Wilderness;
+
+namespace Rasa.Test.Missions.Ashen
+{
+    using N = AshenLeadInNpcsV1;
+    using F = MarshesClientFloorTests;
+
+    /// <summary>
+    /// The Marshes and Crucible playtest lessons (as CrucibleGuardTests holds them for the Crucible), held for Ashen Desert from
+    /// its first set:
+    ///  - every friendly Ashen NPC (pools 790000-790999 and the upstream ones set 1 moved) stands still, outside every hostile
+    ///    automatic pool's circle by a creature's reach, with no floor over its head, and the new ones have their own hit
+    ///    points;
+    ///  - every one of them stands on a client collision floor, is seen from a client floor next to it and from the end of
+    ///    the walk to it from each waypoint that walks to it, and stands clear of the server-placed objects (the client's
+    ///    files, as MarshesClientFloorTests; inconclusive without them);
+    ///  - every talk target stands inside its objective's marker and clear of the map links; every marker has a map, stands
+    ///    on the navmesh and a client floor, off the lava, and clear of the map links;
+    ///  - each Ashen migration's Up and Down are plain SQL, safe to run twice (#205).
+    /// </summary>
+    [TestClass]
+    [DoNotParallelize]
+    public class AshenGuardTests
+    {
+        private const uint Map = AshenMissionDataV1.MapContextId;
+
+        /// <summary>The friendly NPC pools of the Ashen missions on Ashen Desert: the block's and the upstream ones set 1 moved.</summary>
+        private static List<SpawnPool> Npcs()
+        {
+            var moved = N.Moves.Select(move => move.Pool).ToHashSet();
+            bool Friendly(uint creature) => CreatureManager.Instance.LoadedCreatures.TryGetValue(creature, out var c) && c.TargetCategory != TargetCategory.Hostile;
+            var npcs = SpawnPoolManager.Instance.LoadedSpawnPools.Values.Where(pool => pool.MapContextId == Map &&
+                (pool.DbId is >= 790000 and <= 790999 || moved.Contains(pool.DbId)) &&
+                pool.SpawnSlot.Count > 0 && pool.SpawnSlot.TrueForAll(slot => Friendly(slot.CreatureId))).ToList();
+            Assert.HasCount(N.New.Length + N.Moves.Length, npcs, "the Ashen NPCs are read");
+            return npcs;
+        }
+
+        /// <summary>
+        /// To-fix rows 1, 4, 15 (Marshes): a quest giver inside a hostile pool's reach died and blocked its chain; one that can
+        /// walk wandered into one. Every Ashen NPC stands ReachClearance (an 18 m AggroRange and 2 m) outside every hostile
+        /// automatic pool's circle on its map (across: a Fithik pool on a ridge over an NPC counts too), never moves, and the
+        /// start-up check names none of them.
+        /// </summary>
+        [TestMethod]
+        public void TheAshenNpcsStandStillAndClearOfEveryHostilePool()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            AshenLeadInsTests.EnterAshen(harness);
+            var pools = SpawnPoolManager.Instance.LoadedSpawnPools.Values.ToList();
+            bool Hostile(uint creature) => CreatureManager.Instance.LoadedCreatures.TryGetValue(creature, out var c) && c.TargetCategory == TargetCategory.Hostile;
+            var npcs = Npcs();
+            var hostiles = pools.Where(pool => pool.MapContextId == Map && pool.Mode == 0 &&
+                pool.SpawnSlot.Exists(slot => slot.CountMax > 0) && pool.SpawnSlot.TrueForAll(slot => Hostile(slot.CreatureId))).ToList();
+            Assert.IsGreaterThan(20, hostiles.Count, "Ashen Desert's hostile pools");
+            foreach (var npc in npcs)
+            {
+                foreach (var hostile in hostiles)
+                {
+                    var gap = Vector2.Distance(new(npc.Position.X, npc.Position.Z), new(hostile.Position.X, hostile.Position.Z)) - hostile.Radius;
+                    Assert.IsGreaterThanOrEqualTo(MarshesNpcsStandStillV1.ReachClearance, gap, $"NPC pool {npc.DbId} and hostile pool {hostile.DbId}");
+                }
+                foreach (var slot in npc.SpawnSlot)
+                    Assert.IsTrue(BehaviorManager.NeverMoves(CreatureManager.Instance.LoadedCreatures[slot.CreatureId]), $"{slot.CreatureId} stands still");
+            }
+            var found = SpawnPoolManager.Instance.PoolsTooClose(new List<(uint, Vector3, string)>()).Select(entry => entry.Message).ToList();
+            Assert.IsFalse(found.Any(message => message.Contains("of pool 790") || npcs.Any(npc => message.Contains($"of pool {npc.DbId}"))),
+                string.Join("\n", found));
+        }
+
+        /// <summary>To-fix row 17 (Marshes): a quest NPC with no creature_stat row plays with 100 hit points. Each new Ashen NPC has 4500 and armour 300.</summary>
+        [TestMethod]
+        public void EveryNewAshenNpcHasItsOwnHitPoints()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var stats = harness.World.CreatureStatEntries.AsNoTracking().Where(row => row.Id >= 790000 && row.Id <= 790999).ToDictionary(row => row.Id);
+            var npcs = Npcs().Where(pool => pool.DbId >= 790000).SelectMany(pool => pool.SpawnSlot).Select(slot => slot.CreatureId).Distinct().ToList();
+            Assert.HasCount(N.New.Length, npcs);
+            foreach (var npc in npcs)
+            {
+                Assert.IsTrue(stats.TryGetValue(npc, out var stat), $"{npc} has a creature_stat row");
+                Assert.AreEqual(((int)N.HitPoints, (int)N.Armor), (stat.Health, stat.Armor), $"{npc}");
+            }
+        }
+
+        /// <summary>To-fix row 21 (Marshes): an NPC on a lower navmesh layer under a floor could not be talked to. No Ashen NPC has a walkable floor within 2.5 m over its head, and each stands 2 m or more from a wall.</summary>
+        [TestMethod]
+        public void NoAshenNpcStandsUnderAFloor()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var desert = AshenLeadInsTests.EnterAshen(harness);
+            foreach (var npc in Npcs())
+            {
+                var over = desert.NavMesh.GroundHeight(npc.Position + new Vector3(0, 2.5f, 0));
+                Assert.IsNotNull(over, $"navmesh at {npc.DbId}");
+                Assert.IsLessThan(0.5f, over.Value - npc.Position.Y, $"{npc.DbId} at {npc.Position}: no floor over its head ({over})");
+                Assert.IsGreaterThanOrEqualTo(2f, desert.NavMesh.DistanceToWall(npc.Position, 20) ?? 0, $"{npc.DbId} 2 m or more from a wall");
+            }
+        }
+
+        /// <summary>
+        /// To-fix rows 24 and 25 (Marshes): a player next to an NPC that stood where the client has no floor fell through the
+        /// world. Every Ashen NPC has a walkable client collision surface at most MaxOver under it and none from MaxUnder to
+        /// MaxUnder + 0.3 m over it.
+        /// </summary>
+        [TestMethod]
+        public void EveryAshenNpcStandsOnAClientFloor()
+        {
+            var dataDir = F.ClientData();
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var places = Places();
+            using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
+            var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", MapName(harness)), meshes, 1);
+            var (floors, ceilings) = F.Surfaces(geometry, places.Select(place => (place.At, F.Walkable)).ToList());
+            var failures = new List<string>();
+            for (var i = 0; i < places.Count; i++)
+            {
+                var (label, at) = places[i];
+                if (at.Y - floors[i] > F.MaxOver || !float.IsPositiveInfinity(ceilings[i]))
+                    failures.Add(FormattableString.Invariant($"{label} at ({at.X}, {at.Y}, {at.Z}): ") +
+                        (float.IsNegativeInfinity(floors[i]) ? "no floor" : FormattableString.Invariant($"{at.Y - floors[i]:0.00} m over its floor")) +
+                        (float.IsPositiveInfinity(ceilings[i]) ? "" : FormattableString.Invariant($", a surface {ceilings[i] - at.Y:0.00} m over it")));
+            }
+            Assert.IsEmpty(failures, string.Join("; ", failures));
+        }
+
+        /// <summary>
+        /// To-fix rows 27, 32, 33 (Marshes) and 34, 43 (Crucible): a target that no player place round it could see ("You cannot
+        /// see your target from here"). Every Ashen NPC is seen, from the eye of a player on a client floor Ring m round it, at
+        /// its middle, from all RingPlaces places, the server-placed objects with a client model counted in; and none stands
+        /// inside a server-placed object or within the talk reach of one.
+        /// </summary>
+        [TestMethod]
+        public void EveryAshenNpcIsSeenFromAClientFloorRoundIt()
+        {
+            const float TalkReach = 5;
+            var dataDir = F.ClientData();
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var places = Places();
+            using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
+            var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", MapName(harness)), meshes, 1);
+            var near = F.Near(geometry, places.Select(place => place.At).ToList(), F.Ring + 1);
+            var objects = ServerObjects(harness, meshes);
+            var failures = new List<string>();
+            for (var i = 0; i < places.Count; i++)
+            {
+                var (label, at) = places[i];
+                foreach (var placed in objects.Where(placed => placed.Box.Distance2D(at) < TalkReach + 1 && MathF.Abs(at.Y - placed.Box.Min.Y) < 3))
+                    failures.Add(FormattableString.Invariant($"{label}: {placed.Label} {placed.Box.Distance2D(at):0.0} m off"));
+                var aim = at + new Vector3(0, F.NpcMiddle, 0);
+                for (var k = 0; k < F.RingPlaces; k++)
+                {
+                    var angle = k * 2 * MathF.PI / F.RingPlaces;
+                    var stand = at + new Vector3(MathF.Sin(angle) * F.Ring, 0, MathF.Cos(angle) * F.Ring);
+                    if (F.FloorAt(near[i], stand, at.Y - F.MaxOver, at.Y + F.MaxUnder) is not { } y || !F.Clear(near[i], stand with { Y = y + F.Eye }, aim))
+                        failures.Add(FormattableString.Invariant($"{label} not seen from ({stand.X:0.0}, {stand.Z:0.0})"));
+                }
+            }
+            Assert.IsEmpty(failures, string.Join("; ", failures));
+        }
+
+        /// <summary>
+        /// To-fix row 43 (Crucible): an NPC seen from the ring round it was not seen from where the real client's walk to it
+        /// stopped. Every Ashen NPC is seen (eye to its middle, the client files) from each point of the navmesh walk to it
+        /// from its area's waypoint where the walk first comes 5 m to 2 m near it (every 0.5 m); each of those walks is complete.
+        /// </summary>
+        [TestMethod]
+        public void EveryAshenNpcIsSeenFromTheEndOfTheWalkToIt()
+        {
+            var dataDir = F.ClientData();
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var desert = AshenLeadInsTests.EnterAshen(harness);
+            var nav = desert.NavMesh;
+            using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
+            var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", MapName(harness)), meshes, 1);
+            var walks = new (uint Pool, string Label, Vector3 From)[]
+            {
+                (N.Ames, "the Ashen Lookout waypoint", AshenLeadInsTests.LookoutWaypoint),
+                (N.MasonLinier, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                (N.Ivan, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                (N.Caldwell, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                (N.Harris, "the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                (N.Yamamoto, "the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                (N.Emmons, "the Stonewall Ridge waypoint", AshenLeadInsTests.StonewallWaypoint),
+                (N.DarisLinier, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
+            };
+            var npcs = Npcs().ToDictionary(npc => npc.DbId);
+            Assert.HasCount(npcs.Count, walks, "a walk to each NPC");
+            var failures = new List<string>();
+            foreach (var (pool, label, from) in walks)
+            {
+                var at = npcs[pool].Position;
+                var near = F.Near(geometry, new List<Vector3> { at }, 7)[0];
+                var aim = at + new Vector3(0, F.NpcMiddle, 0);
+                var start = nav.Nearest(from) ?? from;
+                var path = nav.FindPath(start, nav.Nearest(at) ?? at, out var complete);
+                if (path == null || !complete)
+                {
+                    failures.Add($"pool {pool}: no walk from {label}");
+                    continue;
+                }
+                var points = path.Prepend(start).ToList();
+                var ends = 0;
+                foreach (var reach in new[] { 5f, 4.5f, 4f, 3.5f, 3f, 2.5f, 2f })
+                {
+                    Vector3? end = null;
+                    for (var k = 0; k + 1 < points.Count && end == null; k++)
+                        for (var s = 0; s <= 40 && end == null; s++)
+                        {
+                            var p = Vector3.Lerp(points[k], points[k + 1], s / 40f);
+                            if (Vector3.Distance(p, at) <= reach)
+                                end = p;
+                        }
+                    if (end is not { } stop)
+                        continue;
+                    ends++;
+                    var floor = F.FloorAt(near, stop, stop.Y - 1.5f, stop.Y + 1) ?? stop.Y;
+                    if (!F.Clear(near, stop with { Y = floor + F.Eye }, aim))
+                        failures.Add(FormattableString.Invariant($"pool {pool} from {label}: not seen at ({stop.X:0.0}, {stop.Y:0.0}, {stop.Z:0.0}), {reach} m off"));
+                }
+                if (ends == 0)
+                    failures.Add($"pool {pool} from {label}: the walk ends more than 5 m off");
+            }
+            Assert.IsEmpty(failures, string.Join("; ", failures));
+        }
+
+        /// <summary>Every talk target (an Ashen Desert NPC pool with the talk's package) stands inside a marker of its objective, so the map points the player at it.</summary>
+        [TestMethod]
+        public void EveryTalkTargetStandsInsideItsObjectivesMarker()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var world = harness.World;
+            var revision = AshenMissionDataV1.Revision;
+            var markers = world.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision).ToList();
+            bool Inside(uint mission, uint objective, Vector3 at) => markers.Any(marker => marker.MissionId == mission && marker.ObjectiveId == objective &&
+                Vector2.Distance(new((float)marker.PosX, (float)marker.PosZ), new(at.X, at.Z)) <= marker.Radius);
+            var packages = world.NpcPackageEntries.AsNoTracking().ToList().ToLookup(entry => entry.PackageId, entry => entry.Id);
+            var pools = world.SpawnPoolEntries.AsNoTracking().Where(pool => pool.MapContextId == Map).ToList();
+            var checkedTargets = 0;
+            var outside = new List<string>();
+            foreach (var talk in world.MissionTriggerEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision &&
+                         entry.Kind == MissionTriggerKind.Conversation).ToList())
+                foreach (var pool in pools.Where(pool => packages[talk.NpcPackageId.Value].Contains(pool.Creature1Id)))
+                {
+                    checkedTargets++;
+                    if (!Inside(talk.MissionId, talk.ObjectiveId, new((float)pool.PosX, (float)pool.PosY, (float)pool.PosZ)))
+                        outside.Add($"{talk.MissionId}.{talk.ObjectiveId} NPC pool {pool.Id}");
+                }
+            Assert.AreEqual(4, checkedTargets, "Mason Linier, Emmons, Yamamoto and Daris Linier");
+            Assert.IsEmpty(outside, string.Join(", ", outside));
+        }
+
+        /// <summary>
+        /// To-fix row 14 (Marshes): a player who walks up to a target in a map link's circle is taken to the other map. No Ashen
+        /// NPC stands within an enabled map link's radius and 5 m on its map, nor 7 m from a waypoint or local teleporter (where
+        /// players arrive; a local teleporter takes a player 2 m from it).
+        /// </summary>
+        [TestMethod]
+        public void NoNpcStandsByAMapLinkOrATeleporter()
+        {
+            const float LinkClearance = 5, PadClearance = 7;
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var links = harness.World.Set<MapLinkEntry>().AsNoTracking().Where(link => link.Enabled != 0 && link.MapContextId == Map).ToList();
+            Assert.IsNotEmpty(links, "Ashen Desert's map links");
+            var pads = harness.World.TeleporterEntries.AsNoTracking().Where(row => row.MapContextId == Map).ToList();
+            Assert.IsGreaterThan(10, pads.Count, "Ashen Desert's waypoints and teleporters");
+            var near = new List<string>();
+            foreach (var (label, at) in Places())
+            {
+                foreach (var link in links)
+                {
+                    var gap = Vector2.Distance(new(at.X, at.Z), new((float)link.PosX, (float)link.PosZ)) - (float)link.Radius;
+                    if (gap < LinkClearance)
+                        near.Add($"{label} {gap:F1} m outside link {link.Id}");
+                }
+                foreach (var pad in pads)
+                {
+                    var gap = Vector2.Distance(new(at.X, at.Z), new((float)pad.PosX, (float)pad.PosZ));
+                    if (gap < PadClearance)
+                        near.Add($"{label} {gap:F1} m from teleporter {pad.Id}");
+                }
+            }
+            Assert.IsEmpty(near, string.Join(", ", near));
+        }
+
+        /// <summary>
+        /// To-fix rows 23 and 25 (Crucible): a player or bot that hunts inside a marker that holds a map link walks into the link.
+        /// Every Ashen marker has a map (MissionMarkerProjection.ResolveMap), and its circle stays MarkerClearance or more outside
+        /// every enabled map link's circle on that map.
+        /// </summary>
+        [TestMethod]
+        public void NoAshenMarkerCircleTouchesAMapLinkCircle()
+        {
+            const float MarkerClearance = 5;
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var catalog = new MissionContentCatalog(harness, new Dictionary<uint, Mission>(), null);
+            catalog.Load();
+            var links = harness.World.Set<MapLinkEntry>().AsNoTracking().Where(link => link.Enabled != 0).ToList();
+            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision).ToList();
+            Assert.HasCount(AshenMissionTests.Indicators, markers, "the Ashen markers");
+            var near = new List<string>();
+            foreach (var marker in markers)
+            {
+                var map = MissionMarkerProjection.ResolveMap(catalog, marker.MissionId, marker.ObjectiveId, new MissionIndicator { IndicatorId = marker.IndicatorId });
+                Assert.AreNotEqual(0U, map, $"{marker.MissionId}.{marker.ObjectiveId}/{marker.IndicatorId} has a map");
+                foreach (var link in links.Where(link => link.MapContextId == map))
+                {
+                    var gap = Vector2.Distance(new((float)marker.PosX, (float)marker.PosZ), new((float)link.PosX, (float)link.PosZ)) -
+                              (float)marker.Radius - (float)link.Radius;
+                    if (gap < MarkerClearance)
+                        near.Add(FormattableString.Invariant($"{marker.MissionId}.{marker.ObjectiveId}/{marker.IndicatorId} {gap:F1} m outside link {link.Id}"));
+                }
+            }
+            Assert.IsEmpty(near, string.Join(", ", near));
+        }
+
+        /// <summary>
+        /// To-fix row 24 (Crucible): markers stood off the navmesh. Every Ashen marker on Ashen Desert has its centre on the
+        /// navmesh (ground at most MarkerHeight from its y), on a client floor (a walkable surface at most MarkerHeight under
+        /// it), and off the lava (LavaDamage.InLava).
+        /// </summary>
+        [TestMethod]
+        public void EveryAshenMarkerStandsOnTheNavmeshAndAClientFloor()
+        {
+            const float MarkerHeight = 2;
+            var dataDir = F.ClientData();
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var desert = AshenLeadInsTests.EnterAshen(harness);
+            var catalog = new MissionContentCatalog(harness, new Dictionary<uint, Mission>(), null);
+            catalog.Load();
+            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision).ToList()
+                .Where(marker => MissionMarkerProjection.ResolveMap(catalog, marker.MissionId, marker.ObjectiveId, new MissionIndicator { IndicatorId = marker.IndicatorId }) == Map)
+                .Select(marker => (Label: $"{marker.MissionId}.{marker.ObjectiveId}/{marker.IndicatorId}", At: new Vector3((float)marker.PosX, (float)marker.PosY, (float)marker.PosZ)))
+                .ToList();
+            Assert.HasCount(AshenMissionTests.Indicators, markers, "the Ashen markers on Ashen Desert");
+            using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
+            var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", MapName(harness)), meshes, 1);
+            var (floors, _) = F.Surfaces(geometry, markers.Select(marker => (marker.At + new Vector3(0, MarkerHeight - F.MaxUnder, 0), F.Walkable)).ToList());
+            var failures = new List<string>();
+            for (var i = 0; i < markers.Count; i++)
+            {
+                var (label, at) = markers[i];
+                var ground = desert.NavMesh.GroundHeight(at + new Vector3(0, MarkerHeight, 0));
+                if (ground is not { } y || MathF.Abs(y - at.Y) > MarkerHeight)
+                    failures.Add(FormattableString.Invariant($"{label} at ({at.X}, {at.Y}, {at.Z}): navmesh {ground}"));
+                if (at.Y - floors[i] > MarkerHeight)
+                    failures.Add(FormattableString.Invariant($"{label} at ({at.X}, {at.Y}, {at.Z}): client floor {floors[i]}"));
+                if (LavaDamage.InLava(desert.MapInfo.MapName, desert.NavMesh.Nearest(at) ?? at) || LavaDamage.InLava(desert.MapInfo.MapName, at))
+                    failures.Add(FormattableString.Invariant($"{label} at ({at.X}, {at.Y}, {at.Z}) on lava"));
+            }
+            foreach (var npc in Npcs().Where(npc => LavaDamage.InLava(desert.MapInfo.MapName, npc.Position)))
+                failures.Add($"pool {npc.DbId} on lava");
+            Assert.IsEmpty(failures, string.Join("; ", failures));
+        }
+
+        /// <summary>
+        /// Set 1 review (2026-11-09): the 1274 marker on Fithik pool 540066 stood on the navmesh and a client floor, but in an
+        /// isolated pocket no player can walk to. Every Ashen marker on Ashen Desert is walked to (a complete path) from its
+        /// mission's area waypoint; every Ashen mission with a marker there has a waypoint here, so a later set must add its own.
+        /// </summary>
+        [TestMethod]
+        public void EveryAshenMarkerIsWalkedToFromItsAreasWaypoint()
+        {
+            var waypoints = new Dictionary<uint, (string Label, Vector3 At)>
+            {
+                [AshenDustiestPlaceV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                [AshenReportToStonewallV1.MissionId] = ("the Stonewall Ridge waypoint", AshenLeadInsTests.StonewallWaypoint),
+                [AshenFithikInfestationV1.MissionId] = ("the Stonewall Ridge waypoint", AshenLeadInsTests.StonewallWaypoint),
+                [AshenGoodDayToDieV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                [AshenCantDrinkAshV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
+            };
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var desert = AshenLeadInsTests.EnterAshen(harness);
+            var nav = desert.NavMesh;
+            var catalog = new MissionContentCatalog(harness, new Dictionary<uint, Mission>(), null);
+            catalog.Load();
+            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision).ToList()
+                .Where(marker => MissionMarkerProjection.ResolveMap(catalog, marker.MissionId, marker.ObjectiveId, new MissionIndicator { IndicatorId = marker.IndicatorId }) == Map)
+                .ToList();
+            Assert.HasCount(AshenMissionTests.Indicators, markers, "the Ashen markers on Ashen Desert");
+            var failures = new List<string>();
+            foreach (var marker in markers)
+            {
+                var label = $"{marker.MissionId}.{marker.ObjectiveId}/{marker.IndicatorId}";
+                if (!waypoints.TryGetValue(marker.MissionId, out var from))
+                {
+                    failures.Add($"{label}: no area waypoint for mission {marker.MissionId}");
+                    continue;
+                }
+                var at = new Vector3((float)marker.PosX, (float)marker.PosY, (float)marker.PosZ);
+                var path = nav.FindPath(nav.Nearest(from.At) ?? from.At, nav.Nearest(at) ?? at, out var complete);
+                if (path == null || !complete)
+                    failures.Add(FormattableString.Invariant($"{label} at ({at.X}, {at.Y}, {at.Z}): no walk from {from.Label}"));
+            }
+            Assert.IsEmpty(failures, string.Join("; ", failures));
+        }
+
+        /// <summary>
+        /// #205: each Ashen World migration, in order: Up, Up again, and the tables it writes are the same; Down (to the migration
+        /// before it, IMigrationsAssembly) and they are as before the Up; Down again and they still are; Up, and they are as after
+        /// the first Up. Its operations are all plain SQL.
+        /// </summary>
+        [TestMethod]
+        public void EachAshenMigrationRunsUpTwiceAndDownTwice()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var world = harness.World;
+            var assembly = world.GetService<IMigrationsAssembly>();
+            var migrator = world.GetService<IMigrator>();
+            var ids = assembly.Migrations.Keys.OrderBy(id => id, StringComparer.Ordinal).ToList();
+            // The batch's migrations from 20271110000000 on (upstream has older ones with "Ashen" in their names).
+            var ashen = ids.Where(id => id.Contains("_Ashen_") && string.CompareOrdinal(id, "20271110000000") >= 0).ToList();
+            Assert.IsGreaterThanOrEqualTo(1, ashen.Count, "the Ashen World migrations");
+
+            migrator.Migrate(ids[ids.IndexOf(ashen[0]) - 1]);
+            foreach (var id in ashen)
+            {
+                var migration = assembly.CreateMigration(assembly.Migrations[id], world.Database.ProviderName);
+                var operations = migration.UpOperations.Concat(migration.DownOperations).ToList();
+                Assert.IsTrue(operations.All(operation => operation is SqlOperation), $"{id}: plain SQL only");
+                var tables = operations.Cast<SqlOperation>()
+                    .SelectMany(operation => Regex.Matches(operation.Sql, @"\b(?:INSERT\s+INTO|UPDATE|DELETE\s+FROM)\s+(\w+)", RegexOptions.IgnoreCase))
+                    .Select(match => match.Groups[1].Value).Distinct().OrderBy(table => table, StringComparer.Ordinal).ToList();
+                Assert.IsNotEmpty(tables, $"{id} writes rows");
+
+                var before = Dump(world, tables);
+                migrator.Migrate(id);
+                var after = Dump(world, tables);
+                Run(world, migration.UpOperations);
+                AssertSame(after, Dump(world, tables), $"{id}: Up twice");
+                migrator.Migrate(ids[ids.IndexOf(id) - 1]);
+                AssertSame(before, Dump(world, tables), $"{id}: Down after Up");
+                Run(world, migration.DownOperations);
+                AssertSame(before, Dump(world, tables), $"{id}: Down twice");
+                migrator.Migrate(id);
+                AssertSame(after, Dump(world, tables), $"{id}: Up after Down");
+            }
+            migrator.Migrate(ids[^1]);
+        }
+
+        /// <summary>The set's NPCs (label, place) on Ashen Desert; set 1 has no scene actor.</summary>
+        private static List<(string Label, Vector3 At)> Places()
+        {
+            var places = Npcs().Select(pool => ($"pool {pool.DbId}", pool.Position)).ToList();
+            Assert.HasCount(N.New.Length + N.Moves.Length, places, "the NPCs");
+            return places;
+        }
+
+        /// <summary>A world box across x and z (and its height).</summary>
+        private readonly record struct Box(Vector3 Min, Vector3 Max)
+        {
+            public float Distance2D(Vector3 at) => new Vector2(MathF.Max(0, MathF.Max(Min.X - at.X, at.X - Max.X)), MathF.Max(0, MathF.Max(Min.Z - at.Z, at.Z - Max.Z))).Length();
+        }
+
+        /// <summary>The server-placed objects on Ashen Desert with a client model (the kraftwerks rows): their box (as CrucibleGuardTests.ServerObjects).</summary>
+        private static List<(string Label, Box Box)> ServerObjects(WildernessRuntimeTestHarness harness, MeshLibrary meshes)
+        {
+            var objects = new List<(string, Box)>();
+            foreach (var row in harness.World.KraftwerksEntries.AsNoTracking().Where(row => row.MapContextId == Map).ToList())
+            {
+                var mesh = meshes.GetForClass((int)row.ClassId);
+                if (mesh == null || !mesh.HasCollision)
+                    continue;
+                var turn = Quaternion.CreateFromAxisAngle(Vector3.UnitY, (float)row.Rotation);
+                var origin = new Vector3((float)row.PosX, (float)row.PosY, (float)row.PosZ);
+                var used = mesh.Triangles.Select(index => Vector3.Transform(mesh.Vertices[index], turn) + origin).ToList();
+                objects.Add(($"kraftwerk {row.Id}", new Box(used.Aggregate(Vector3.Min), used.Aggregate(Vector3.Max))));
+            }
+            return objects;
+        }
+
+        private static string MapName(WildernessRuntimeTestHarness harness) =>
+            harness.World.MapInfoEntries.AsNoTracking().Single(map => map.Id == Map).MapName;
+
+        private static void Run(DbContext world, IReadOnlyList<MigrationOperation> operations)
+        {
+            var connection = world.GetService<IRelationalConnection>();
+            foreach (var command in world.GetService<IMigrationsSqlGenerator>().Generate(operations))
+                command.ExecuteNonQuery(connection);
+        }
+
+        /// <summary>Every row of each table, each value with its type, sorted (as CrucibleGuardTests).</summary>
+        private static Dictionary<string, string[]> Dump(DbContext world, IEnumerable<string> tables)
+        {
+            var connection = world.Database.GetDbConnection();
+            if (connection.State != System.Data.ConnectionState.Open)
+                connection.Open();
+            var dump = new Dictionary<string, string[]>();
+            foreach (var table in tables)
+            {
+                using var command = connection.CreateCommand();
+                command.CommandText = $"SELECT * FROM {table}";
+                using var reader = command.ExecuteReader();
+                var rows = new List<string>();
+                while (reader.Read())
+                    rows.Add(string.Join("|", Enumerable.Range(0, reader.FieldCount).Select(i => reader.IsDBNull(i) ? "NULL" : reader.GetValue(i) switch
+                    {
+                        double number => "R:" + number.ToString("R", System.Globalization.CultureInfo.InvariantCulture),
+                        byte[] bytes => "B:" + Convert.ToHexString(bytes),
+                        string text => "T:" + text,
+                        var value => value.GetType().Name + ":" + Convert.ToString(value, System.Globalization.CultureInfo.InvariantCulture)
+                    })));
+                rows.Sort(StringComparer.Ordinal);
+                dump[table] = rows.ToArray();
+            }
+            return dump;
+        }
+
+        private static void AssertSame(Dictionary<string, string[]> expected, Dictionary<string, string[]> actual, string step)
+        {
+            foreach (var (table, rows) in expected)
+            {
+                var now = actual[table];
+                Assert.IsTrue(rows.SequenceEqual(now),
+                    $"{step}: {table} has {now.Length} rows, {rows.Length} expected; missing {string.Join(" ; ", rows.Except(now).Take(3))}; " +
+                    $"extra {string.Join(" ; ", now.Except(rows).Take(3))}");
+            }
+        }
+    }
+}

@@ -266,6 +266,8 @@ docs/*
 !docs/marshes-mission-crossref.md
 !docs/crucible-playtest.md
 !docs/crucible-mission-crossref.md
+!docs/ashen-playtest.md
+!docs/ashen-mission-crossref.md
 !docs/gm-commands.md
 
 # Local runtime files

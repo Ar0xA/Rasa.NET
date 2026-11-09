@@ -30,10 +30,11 @@ namespace Rasa.Test.Missions.Wilderness
             // (CraterLakeContent), the Energy Weapon Center's five (EnergyWeaponCenterContent), Timora Mines' six and
             // Stolen History (TimoraMinesMissionsV1), Warnet Caverns' eight (WarnetCavernsMissions), the Kardash Atta
             // Colony's ten (KardashAttaColonyContent) and the Phanin Research Facility's seven (PhaninResearchContent),
-            // which are instances'. And the Plateau, Valverde Pools, Valverde Marshes and Ligo Crucible ones.
+            // which are instances'. And the Plateau, Valverde Pools, Valverde Marshes, Ligo Crucible and Ligo Ashen Desert ones.
             var battlefields = Rasa.Services.Preloader.TargetsOfOpportunitySeed.Zones.Select(zone => zone.MissionId)
                 .Concat(Plateau.PlateauMissionTests.MissionIds).Concat(Pools.PoolsMissionTests.MissionIds)
-                .Concat(Marshes.MarshesMissionTests.MissionIds).Concat(Crucible.CrucibleMissionTests.MissionIds).ToArray();
+                .Concat(Marshes.MarshesMissionTests.MissionIds).Concat(Crucible.CrucibleMissionTests.MissionIds)
+                .Concat(Ashen.AshenMissionTests.MissionIds).ToArray();
             var ojasa = Rasa.Services.Preloader.OjasaHiveContent.Missions;
             var donn = Rasa.Services.Preloader.CavesOfDonnContent.Missions;
             var den = Rasa.Services.Preloader.DevilsDenContent.Missions;
