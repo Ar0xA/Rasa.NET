@@ -63,6 +63,10 @@ namespace Rasa.Test.Missions.Ashen
         private static readonly Vector3 ShadowsEdge = AshenLeadInsTests.ShadowsEdgeWaypoint;
         /// <summary>The Ashoka Upper teleporter (613) on Ashoka's lower level (AshenFormalComplaintsTests' start).</summary>
         private static readonly Vector3 AshokaUpper = new(495.27f, 264.5f, -443.25f);
+
+        /// <summary>The Boneyard Thrax pool in a dip (set 6's point) and where the real client walked out of it to (2026-11-09).</summary>
+        private const uint BoneyardDip = 531041;
+        private static readonly Vector3 TesterOutOfTheDip = new(439.0f, 288.3f, -298.7f), WestOfTheHump = new(439.5f, 288.5f, -271.1f);
         private static readonly uint[] NitroPools = S.NitroglazerPools.Select(pool => pool.Pool).ToArray();
         private static readonly uint[] MachinaPools = S.MachinaPools.Select(pool => pool.Pool).ToArray();
         private static readonly uint[] BoneyardThrax = Departed.Pools.Select(pool => pool.Pool).ToArray();
@@ -148,13 +152,13 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>
-        /// The walks on the client's floor (AshenFixBTests.ClientFloorWalk: every half metre, never more than 0.9 m up over a
+        /// The walks on the client's floor (AshenFixBTests.ClientFloorWalk: every half metre, never more than 1.1 m up over a
         /// metre, nothing of the placed meshes in the way at knee, chest or head height), there and back: Ito from the Ashoka
         /// Settlement hospital on his floor and from the Ashoka Upper teleporter (613) on that floor, and from the Ashoka
         /// Settlement waypoint through the Brann corridor under the dome (fix C, AshenFormalComplaintsTests.AshokaWalk: the
         /// straight line to the market ramp is walled off; the navmesh does not join the two, upstream N18); from the Ashoka
-        /// Settlement waypoint the Boneyard's places (the robot pools, two of the Thrax pools, the Desert Stalker pools; the
-        /// third Thrax pool, 531041, is not reached: no 1269 marker on it); from the Shadow's Edge Post waypoint the Sheitan
+        /// Settlement waypoint the Boneyard's places (the robot pools, the three Thrax pools, the Desert Stalker pools; 531041
+        /// climbs 0.99 m in and 1.01 m out over a metre, walked in the real client 2026-11-09); from the Shadow's Edge Post waypoint the Sheitan
         /// Highway's (the Ravager pools and every step of the Desert Predators' beats).
         /// </summary>
         [TestMethod]
@@ -190,12 +194,24 @@ namespace Rasa.Test.Missions.Ashen
 
             foreach (var (pool, at) in S.NitroglazerPools.Concat(S.MachinaPools))
                 Both($"robot pool {pool}", Ashoka, "the Ashoka Settlement waypoint", V(at));
-            foreach (var pool in Departed.Pools.Where(pool => pool.Pool != Weapon.UnwalkedPool))
+            Assert.HasCount(3, Departed.Pools, "the Boneyard's three Thrax pools, 531041 with them");
+            foreach (var pool in Departed.Pools.Where(pool => pool.Pool != BoneyardDip))
                 Both($"Thrax pool {pool.Pool}", Ashoka, "the Ashoka Settlement waypoint", V(pool.At));
-            // 531041 (set 6's point in a dip): the walk meets a rise over 0.9 m a metre: no 1269 marker on it.
-            var dip = V(Departed.Pools.Single(pool => pool.Pool == Weapon.UnwalkedPool).At);
-            Assert.StartsWith("no client floor within", AshenFixBTests.ClientFloorWalk(nav, geometry, Ashoka, nav.Nearest(dip) ?? dip) ?? "reached",
-                "531041 is not reached on the client's floor (why 1269 has no marker on it)");
+            // 531041 (set 6's point in a dip): in from the waypoint; out the way the real client walked it (tester 2026-11-09
+            // 23:41-23:54: from the pool to (439.0, 288.3, -298.7), then on to the waypoint). The navmesh's own way out crosses
+            // the hump at (447.5, -269.1), where a placed mesh stands at knee height; the walk passes west of it, at (439.5,
+            // -271.1) (ESTIMATE: the tester's own line is not logged; the corners 2 m round it pass as well).
+            var dip = nav.Nearest(V(Departed.Pools.Single(pool => pool.Pool == BoneyardDip).At)).Value;
+            var testerOut = nav.Nearest(TesterOutOfTheDip).Value;
+            if (AshenFixBTests.ClientFloorWalk(nav, geometry, Ashoka, dip) is { } into)
+                failures.Add($"Thrax pool {BoneyardDip} from the Ashoka Settlement waypoint: {into}");
+            var west = nav.Nearest(WestOfTheHump).Value;
+            if (AshenFixBTests.ClientFloorWalk(nav, geometry, dip, west) is { } outOf)
+                failures.Add($"Thrax pool {BoneyardDip} out to (439.5, -271.1): {outOf}");
+            if (AshenFixBTests.ClientFloorWalk(nav, geometry, west, testerOut) is { } on)
+                failures.Add($"(439.5, -271.1) on to the tester's (439.0, -298.7): {on}");
+            if (AshenFixBTests.ClientFloorWalk(nav, geometry, testerOut, Ashoka) is { } home)
+                failures.Add($"the tester's (439.0, -298.7) back to the Ashoka Settlement waypoint: {home}");
             foreach (var (pool, at) in AshenBoneyardNpcsV1.StalkerPools)
                 Both($"Desert Stalker pool {pool}", Ashoka, "the Ashoka Settlement waypoint", V(at));
             foreach (var pool in RavagerPools)
@@ -325,7 +341,7 @@ namespace Rasa.Test.Missions.Ashen
             Accept(harness, ito, Weapon.MissionId);
             Assert.IsEmpty(Topics(harness, ito, Weapon.MissionId), "Ito hears no objective");
             var objectives = harness.Manager.BuildStatusSnapshot(harness.Client.Player)[Weapon.MissionId].ObjectivesList;
-            Assert.HasCount(2, objectives.Single(entry => entry.ObjectiveId == 1).IndicatorList, "rifles: two of the Boneyard's Thrax pools (not 531041)");
+            Assert.HasCount(3, objectives.Single(entry => entry.ObjectiveId == 1).IndicatorList, "rifles: the Boneyard's three Thrax pools");
             Assert.HasCount(2, objectives.Single(entry => entry.ObjectiveId == 2).IndicatorList, "launchers: the highway's two Ravager pools");
 
             percentile = 75;

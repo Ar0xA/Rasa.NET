@@ -77,10 +77,9 @@ namespace Rasa.Test.Missions.Ashen
         /// at Latan, 1258's and 1259's at Yamamoto, 1261's at Mason Linier, 1285's three on the Boneyard's Thrax pools); set 7's
         /// thirteen (1264's four on the Nitroglazer and Hominis Machina pools, 1266's three on the Boneyard's Thrax pools and two
         /// on the highway's Ravager pools, 1265's two on the Desert Stalker pools and two on the Desert Predators' beats); set 8's
-        /// twelve (Ito's 1267, 1269 and 1268 on the places of Latan's 1264, 1266 and 1265 but the Thrax pool 531041, which the
-        /// client-floor walk does not reach: AshenWeaponAcquisitionsV1.UnwalkedPool).
+        /// thirteen (Ito's 1267, 1269 and 1268 on the places of Latan's 1264, 1266 and 1265).
         /// </summary>
-        internal const int Indicators = 5 + 12 + 10 + 6 + 20 + 9 + 13 + 12;
+        internal const int Indicators = 5 + 12 + 10 + 6 + 20 + 9 + 13 + 13;
 
         private const string LeadIns = "20271110000000_Ashen_lead_ins";
         private const string MaunaBarrens = "20271110000100_Ashen_mauna_barrens";
@@ -742,7 +741,7 @@ namespace Rasa.Test.Missions.Ashen
                 // Set 8: Ito's twins on the same places as Latan's.
                 (1267, 1, 700, -250, 20), (1267, 1, 690, -310, 20), // the Nitroglazer pools 790243, 790244
                 (1267, 2, 440, -320, 20), (1267, 2, 440, -360, 20), // the Hominis Machina pools 790245, 790246
-                (1269, 1, 566, -136, 25), (1269, 1, 487, -261.3, 25), // rifles: the Boneyard's Thrax pools 531038, 531039 (not 531041)
+                (1269, 1, 566, -136, 25), (1269, 1, 487, -261.3, 25), (1269, 1, 487, -219, 25), // rifles: the Boneyard's Thrax pools 531038, 531039, 531041
                 (1269, 2, -180, -305, 25), (1269, 2, -140, -305, 25), // launchers: the highway's Ravager pools 790085, 790086
                 (1268, 1, 580, -345, 15), (1268, 1, 585, -370, 15), // the Desert Stalker pools 790125, 790126
                 (1268, 2, -174.4, -482.2, 50), (1268, 2, -161.6, -392.2, 40) // the Desert Predators' beats (as 1248's)
@@ -1589,7 +1588,7 @@ namespace Rasa.Test.Missions.Ashen
             void AllUp()
             {
                 Assert.IsTrue(missions.All(Has));
-                Assert.AreEqual((6, 6, 5, 4 + 4 + 4, 12, 3, 9, 7), All());
+                Assert.AreEqual((6, 6, 5, 4 + 4 + 4, 4 + 5 + 4, 3, 9, 7), All());
             }
 
             AllUp();

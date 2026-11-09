@@ -29,11 +29,10 @@ namespace Rasa.Services.Preloader.Missions.Ashen
     ///  - Level 42 (D5, as Robotic Salvage Acquisitions). 95,000 XP (TaRapedia "?": as Latan's twin 1266).
     ///  - The salvage as 1266's: a rifle a personal 75% drop off a Thrax Soldier 531008, a grenade launcher off a Thrax Ravager
     ///    531009, on Ashen Desert while its objective is open (any pool of them); 15 of each at most; taken at the turn-in; kept
-    ///    at an abandon. Markers (r25): the rifles on two of the Boneyard's three Thrax pools (531038, 531039), the launchers
-    ///    on the Sheitan Highway's two Ravager pools (as 1266's). Not on the third, 531041 (set 6's point at (487, 271.9,
-    ///    -219), in a dip): the client-floor walk from the Ashoka Settlement waypoint meets a 0.99 m rise over a metre on the way
-    ///    in and 0.94 m on the way out (the measured client step is 0.9 m; probe 2026-11-09, AshenLogisticianTests). Its Thrax
-    ///    still drop rifles; the pool is left to a fix job (1285 and 1266 mark it too).
+    ///    at an abandon. Markers (r25): the rifles on the Boneyard's three Thrax pools (531038, 531039, 531041), the launchers
+    ///    on the Sheitan Highway's two Ravager pools (as 1266's). 531041 (set 6's point at (487, 271.9, -219), in a dip): the
+    ///    client-floor walk from the Ashoka Settlement waypoint climbs 0.99 m over a metre on the way in and 1.01-1.05 m on
+    ///    the way out; the real client walked in and out (tester 2026-11-09 23:41-23:54), so the walk check allows 1.1 m.
     ///  - The items: the lowest Uncommon template of each kind in the band of level 42 (the manufacturer names are not in the
     ///    client tables): Cryogenic Blade 41-45 12101, Area Healing Disc 40-44 119882 ("Radial" read as the area disc, as the
     ///    Pools' Death Patrol), Sonic Pistol 40-44 14452, Pulse Staff 40-44 15220. One to choose.
@@ -51,9 +50,6 @@ namespace Rasa.Services.Preloader.Missions.Ashen
         public const string RifleKey = "ito-thrax-rifle-salvage", LauncherKey = "ito-thrax-grenade-launcher-salvage";
         public const uint ThraxSoldier = AshenSheitanHighwayNpcsV1.Soldier, ThraxRavager = AshenSheitanHighwayNpcsV1.Ravager;
         public const double MarkerRadius = 25;
-
-        /// <summary>The Boneyard Thrax pool the client-floor walk does not reach (no rifle marker on it).</summary>
-        public const uint UnwalkedPool = 531041;
 
         public const uint Experience = 95000;
         public const uint Credits = 6300;
@@ -78,7 +74,7 @@ namespace Rasa.Services.Preloader.Missions.Ashen
             mission.Progress(Launchers, MissionProgressEventKind.ItemAcquired, LauncherClass, Count);
 
             var marker = 1U;
-            foreach (var pool in System.Array.FindAll(AshenDearlyDepartedV1.Pools, entry => entry.Pool != UnwalkedPool))
+            foreach (var pool in AshenDearlyDepartedV1.Pools)
                 mission.Indicator(Rifles, marker++, pool.Marker.X, pool.Marker.Y, pool.Marker.Z, MarkerRadius);
             foreach (var pool in AshenWeaponSalvageV1.RavagerPools)
             {
@@ -97,7 +93,7 @@ namespace Rasa.Services.Preloader.Missions.Ashen
             mission.Evidence(3, MissionEvidenceSourceKind.Reconstruction, "repository:AshenWeaponAcquisitionsV1",
                 "Level42, 95000XP estimated. A rifle a personal 75% drop off Thrax Soldier 531008, a launcher off Thrax Ravager " +
                 "531009, on Ashen Desert, 15 of each, taken at the turn-in, kept at an abandon. Markers r25 on the Boneyard Thrax " +
-                "pools 531038, 531039 (rifles; not 531041: a 0.99m client-floor step on the walk) and the highway Ravager pools 790085, 790086 (launchers). Items 12101, 119882, " +
+                "pools 531038, 531039, 531041 (rifles) and the highway Ravager pools 790085, 790086 (launchers). Items 12101, 119882, " +
                 "14452, 15220 (lowest Uncommon of each kind at level 42), one to choose.", 0.3);
 
             var scene = new MissionSceneDefinition

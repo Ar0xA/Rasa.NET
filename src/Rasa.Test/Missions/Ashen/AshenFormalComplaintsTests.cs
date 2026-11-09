@@ -171,7 +171,7 @@ namespace Rasa.Test.Missions.Ashen
         };
 
         /// <summary>
-        /// The client-floor walk (AshenFixBTests.ClientFloorLine: 0.5 m samples, at most 0.9 m up over a metre, knee / chest /
+        /// The client-floor walk (AshenFixBTests.ClientFloorLine: 0.5 m samples, at most 1.1 m up over a metre, knee / chest /
         /// head lines clear of the placed meshes on the line and PlayerHalfWidth to each side; the terrain is floor, except
         /// InAshokaCorridor) between the Ashoka Settlement waypoint and
         /// <paramref name="lower"/> on the lower level: AshokaCorridor, then the navmesh's walk. Null when it gets there.

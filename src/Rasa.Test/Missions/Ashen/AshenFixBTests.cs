@@ -26,7 +26,7 @@ namespace Rasa.Test.Missions.Ashen
     /// mesa's south foot, and 1244's marker on him.
     ///
     /// Why these tests: in the real client no walk reached him at set 2's spot on the mesa's slope: every navmesh route ended on
-    /// a flank the client does not climb. A spot that only the navmesh reaches, a walk with a step over 0.9 m or something in
+    /// a flank the client does not climb. A spot that only the navmesh reaches, a walk with a step over 1.1 m (0.9 m in fix B) or something in
     /// the way at chest height, a marker off him, or a Down that does not put set 2's pool and marker back would block 1244 again.
     ///
     /// The map: Ligo Ashen Desert (1734), loaded as AshenLeadInsTests loads it. The client floor checks read the client's files
@@ -38,8 +38,14 @@ namespace Rasa.Test.Missions.Ashen
     {
         private const string FixB = "20271110000610_Ashen_fix_b";
 
-        /// <summary>The most the client's floor rises from one metre to the next on a walk (real client and probe, 2026-11-09).</summary>
-        internal const float MaxClientStep = 0.9f;
+        /// <summary>
+        /// The most the client's floor rises from one metre to the next on a walk. 1.1 m: the real client (tester 2026-11-09
+        /// 23:41-23:54) walked into the Boneyard Thrax pool 531041, stood at (477.5, 272.1, -226.1) and walked out to (439.0,
+        /// 288.3, -298.7). On that walk this check measures 0.99 m over a metre in (from the Ashoka Settlement waypoint) and,
+        /// out, 1.01 m (from the pool's point) to 1.05 m (from the tester's spot) at (470.6, -231.1). 0.9 m before (2026-11-09
+        /// probe). The Exing slopes the fail-proofs use rise 6-9 m, far above it.
+        /// </summary>
+        internal const float MaxClientStep = 1.1f;
 
         /// <summary>The height over the floor that must be clear from one metre to the next.</summary>
         internal const float Chest = 1.2f;
@@ -88,7 +94,7 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>
         /// The play's case, on the client's floor: the navmesh's walks to Exing from the Shadow's Edge Post waypoint and from the
         /// places the real client reached near the mesa (the Barrens basin, the highway camp) keep a client floor all the way,
-        /// one metre at a time, never more than 0.9 m up, with nothing of the placed meshes in the way at chest height; the
+        /// one metre at a time, never more than MaxClientStep (1.1 m) up, with nothing of the placed meshes in the way at chest height; the
         /// Stonewall Ridge waypoint's navmesh walk is complete (the real client walked it to the mesa's foot, 2026-11-09). Set 2's
         /// spot on the mesa is not reached on the client floor from the basin or the camp (why it moved).
         /// </summary>

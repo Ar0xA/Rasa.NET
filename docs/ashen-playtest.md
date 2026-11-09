@@ -199,7 +199,7 @@ Ashoka Upper teleporter (613). The straight line to the market ramp is walled of
   Look: a player of choice 1, or one who took choice 2 and abandoned 1254, is not offered it; Latan offers nothing.
 - [ ] 1269 Weapon Salvage Acquisitions (Ligo Ashen Desert): Ito offers it after 1267, level 42. 15 Thrax Rifle Salvage
   (97469) off Thrax Soldiers and 15 Thrax Grenade Launcher Salvage (97470) off Thrax Ravagers, personal 75 % drops
-  anywhere on Ashen Desert; markers r25 on the Boneyard Thrax pools 531038, 531039 (rifles; not 531041) and the highway
+  anywhere on Ashen Desert; markers r25 on the Boneyard Thrax pools 531038, 531039, 531041 (rifles) and the highway
   Ravager pools 790085, 790086 (launchers). Turn in at Ito: 95000 XP, 6300 credits, one of Cryogenic Blade 12101, Area
   Healing Disc 119882, Sonic Pistol 14452, Pulse Staff 15220.
 - [ ] 1268 Heavy Salvage Acquisitions (Ligo Ashen Desert): Ito offers it after 1269, level 42. 1 Intact Stalker Salvage
@@ -360,9 +360,9 @@ All ESTIMATE (set 8):
 - Rewards: 1267 "Modification: ... Resistance" read as the grade [4] armour modules (as 1274); 1269 the lowest Uncommon of
   each named kind at level 42 ("Radial" = the area healing disc, as the Pools' Death Patrol; the manufacturer names are
   not in the client tables); 1268 none named: the 1254 stacks.
-- 1269: no rifle marker on the Boneyard Thrax pool 531041 (set 6's point in a dip at (487, 271.9, -219)): the client-floor
-  walk from the Ashoka Settlement waypoint meets a 0.99 m rise over a metre in and 0.94 m out (the client steps 0.9 m).
-  Its Thrax still drop rifles. Also marked by 1285 and 1266: a fix job (move the point) is open.
+- 1269: the walk to the Boneyard Thrax pool 531041 (set 6's point in a dip at (487, 271.9, -219)) climbs 0.99 m over a
+  metre in and 1.01-1.05 m out. The real client walked it both ways (tester 2026-11-09 23:41-23:54), so the client-floor
+  check allows 1.1 m a metre (it was 0.9 m) and 1269 marks 531041 too. The pool stays where set 6 put it.
 
 ## Deviations (client/server limits)
 
