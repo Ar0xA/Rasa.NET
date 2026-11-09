@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 26 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 29 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -9,7 +9,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 | Zone | Missions |
 | --- | ---: |
-| Ashen Desert | 26 |
+| Ashen Desert | 29 |
 
 ## Ashen Desert
 
@@ -425,6 +425,74 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Chain** (explicit prerequisite links): Robotic Salvage Recovery chain (3 missions), step 2
   - Requires: Robotic Salvage Recovery (id 1264) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Recovery), [TaRapedia](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Recovery)
   - Leads to: Heavy Salvage Recovery (id 1265) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Heavy_Salvage_Recovery), [TaRapedia](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Recovery)
+
+### 1267 — Robotic Salvage Acquisitions
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 6,300 credits; Modification: Electric Resistance; Modification: Fire Resistance; Modification: Ice Resistance; Modification: Virulent Resistance — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Acquisitions)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Shinichiro Ito: Plains, Ashoka Settlement, /loc 556, 248, -320 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Shinichiro_Ito)
+- **Client:** Kill Bane Nitroglazers and Bane Hominis Machina and recover 15 Intact Nitroglazer Salvage and 15 Intact Machina Salvage from them. Return to Shichiro Ito in Ashoka Settlement once you have filled the requisition order.
+  - objectives (client): Recover 15 Nitroglazer Salvage; Recover 15 Machina Salvage
+- **TaRapedia** [Robotic Salvage Acquisitions](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Acquisitions) [stub]: giver: Shinichiro Ito; at: Ashoka Settlement; zone: Ashen Desert; requires: Dearly Departed ??; follow-up: Weapon Salvage Acquisitions; credits: 6,300; items: Modification: Electric Resistance; Modification: Fire Resistance; Modification: Ice Resistance; Modification: Virulent Resistance; reward from: Shinichiro Ito
+  - overview: Objectives: • Recover 15 Nitroglazer Salvage • Recover 15 Machina Salvage
+  - objectives: • Recover 15 Nitroglazer Salvage • Recover 15 Machina Salvage
+  - walkthrough: Nitroglazers and Hominus Machina Mark XI which will drop the required salvage spawn throughout The Boneyard.
+- **TaRapedia mission list** [Ashoka Settlement mission list](https://tabularasa.fandom.com/wiki/Ashoka_Settlement_mission_list): zone Ashen Desert, area Ashoka Settlement, given by Shinichiro Ito
+- **NPCs (TaRapedia NPC pages):**
+  - [Shinichiro Ito](https://tabularasa.fandom.com/wiki/Shinichiro_Ito): Plains, Ashoka Settlement, /loc 556, 248, -320 (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Formal Complaints chain (8 missions), step 6
+  - Requires: Dearly Departed (id 1285) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Acquisitions)
+  - Leads to: Weapon Salvage Acquisitions (id 1269) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Acquisitions), [TaRapedia](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Acquisitions)
+
+### 1268 — Heavy Salvage Acquisitions
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: not found (not critical)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Shinichiro Ito: Plains, Ashoka Settlement, /loc 556, 248, -320 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Shinichiro_Ito)
+- **Client:** Recover 1 Intact Stalker Salvage from Desert Stalkers in the Boneyard and 1 Intact Predator Salvage from Desert Predators at Sheitan Highway. Return to Shichiro Ito once you have completed the requisition order.
+  - objectives (client): Recover 1 Stalker Salvage; Recover 1 Predator Salvage
+- **TaRapedia** [Heavy Salvage Acquisitions](https://tabularasa.fandom.com/wiki/Heavy_Salvage_Acquisitions) [stub]: giver: Shinichiro Ito; at: Ashoka Settlement; zone: Ashen Desert; requires: Weapon Salvage Acquisitions; follow-up: None; reward from: Shinichiro Ito
+  - overview: The final mission in this chain - collect salvage from one Predator and one Stalker in Ashen Desert.
+  - objectives: Collect 1 Desert Predator Salvage; Collect 1 Desert Stalker Salvage
+  - walkthrough: Desert Stalkers are to be found in the Boneyard, and Predators along Sheitan Highway. Completion gives the Title 'Desert Logistician'
+- **TaRapedia mission list** [Ashoka Settlement mission list](https://tabularasa.fandom.com/wiki/Ashoka_Settlement_mission_list): zone Ashen Desert, area Ashoka Settlement, given by Shinichiro Ito
+- **NPCs (TaRapedia NPC pages):**
+  - [Shinichiro Ito](https://tabularasa.fandom.com/wiki/Shinichiro_Ito): Plains, Ashoka Settlement, /loc 556, 248, -320 (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Formal Complaints chain (8 missions), step 8
+  - Requires: Weapon Salvage Acquisitions (id 1269) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Heavy_Salvage_Acquisitions), [TaRapedia](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Acquisitions)
+
+### 1269 — Weapon Salvage Acquisitions
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 26 missions in this file with a sourced level
+  - reward: 6,300 credits; Shinobi Cryogenic Blade; Astra Radial Healing Disc; ChiTech Sonic Pistol; Teleract Pulse Staff — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Acquisitions)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Shinichiro Ito: Plains, Ashoka Settlement, /loc 556, 248, -320 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Shinichiro_Ito)
+- **Client:** Recover 15 Thrax Rifle Salvage from Thrax Soldiers and 15 Thrax Grenade Launcher Salvage from Thrax Ravagers. Return the requisition order to Shichiro Ito in Ashoka Settlement once you are done.
+  - objectives (client): Recover 15 Thrax Rifles; Recover 15 Thrax Grenade Launchers
+- **TaRapedia** [Weapon Salvage Acquisitions](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Acquisitions) [stub]: giver: Shinichiro Ito; at: Ashoka Settlement; zone: Ashen Desert; requires: Robotic Salvage Acquisitions; follow-up: Heavy Salvage Acquisitions; credits: 6,300; items: Shinobi Cryogenic Blade; Astra Radial Healing Disc; ChiTech Sonic Pistol; Teleract Pulse Staff; reward from: Shinichiro Ito
+  - overview: Recover 15 Thrax Rifle Salvage from Thrax Soldiers and 15 Thrax Grenade Launcher Salvage from Thrax Ravagers. Return the requisition order to Shinichiro Ito in Ashoka Settlement once you are done.
+  - objectives: • Recover 15 Thrax Rifles • Recover 15 Thrax Grenade Launchers
+  - walkthrough: Any Thrax Soldier in Ashen Desert will drop a Rifle. Likewise, any Thrax Ravager will drop a Grenade Launcher.
+- **TaRapedia mission list** [Ashoka Settlement mission list](https://tabularasa.fandom.com/wiki/Ashoka_Settlement_mission_list): zone Ashen Desert, area Ashoka Settlement, given by Shinichiro Ito
+- **NPCs (TaRapedia NPC pages):**
+  - [Shinichiro Ito](https://tabularasa.fandom.com/wiki/Shinichiro_Ito): Plains, Ashoka Settlement, /loc 556, 248, -320 (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Formal Complaints chain (8 missions), step 7
+  - Requires: Robotic Salvage Acquisitions (id 1267) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Acquisitions), [TaRapedia](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Acquisitions)
+  - Leads to: Heavy Salvage Acquisitions (id 1268) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Heavy_Salvage_Acquisitions), [TaRapedia](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Acquisitions)
 
 ### 1272 — Stalking the Stalkers
 

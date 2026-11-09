@@ -451,7 +451,7 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>A kill of a living <paramref name="kind"/> of these pools (respawned when none is left); its corpse.</summary>
-        private static LootDispenser Kill(WildernessRuntimeTestHarness harness, MapChannel desert, uint kind, uint[] pools)
+        internal static LootDispenser Kill(WildernessRuntimeTestHarness harness, MapChannel desert, uint kind, uint[] pools)
         {
             bool Living(Creature candidate) => candidate.DbId == kind && candidate.Npc == null && candidate.SpawnPool != null && pools.Contains(candidate.SpawnPool.DbId);
             if (!Alive(desert).Any(Living))
@@ -468,7 +468,7 @@ namespace Rasa.Test.Missions.Ashen
         /// 62059: CreatureSupport.DefersDeath): it goes down with no corpse, gets up at the recovery's end, and the second kill
         /// is its death.
         /// </summary>
-        private static void KillForGood(WildernessRuntimeTestHarness harness, MapChannel desert, Creature one)
+        internal static void KillForGood(WildernessRuntimeTestHarness harness, MapChannel desert, Creature one)
         {
             one.Attributes[Attributes.Health].Current = 0;
             harness.Creatures.HandleCreatureKill(desert, one, harness.Client.Player);

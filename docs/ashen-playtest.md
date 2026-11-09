@@ -185,6 +185,28 @@ west); next free id 790247. Only for a character who chose Latan's side (choice 
   a Desert Predator (790080, the Sheitan Highway beats): every kill drops it while it is needed; markers as 1272's and
   1248's. Turn in at Latan: 200000 XP, 6300 credits, one of the 1254 stacks.
 
+Set 8, the AFS side of Formal Complaints (migration `20271110000800_Ashen_logistician`). No new world rows: the three
+use set 7's robots and pools, the Thrax rows 531008 / 531009, set 3's Desert Predator and set 4's Desert Stalker. Only for
+a character who chose Yamamoto (choice 2), finished Formal Complaints and the chain up to Dearly Departed (1285). Ito
+stands on Ashoka's lower level: walk to him from the Ashoka hospital or the Ashoka Upper teleporter (613); the ramp from
+the waypoint fails the tightened client-floor walk (head height under the terrain sheet at the ramp top, 0.93 m up onto the
+terrace): try it in the real client.
+
+- [ ] 1267 Robotic Salvage Acquisitions (Ligo Ashen Desert): Ito offers it after 1285 and 1254 done with flag 251 at 1,
+  level 42. Recover 15 Intact Nitroglazer Salvage (97465) and 15 Intact Machina Salvage (97466): personal 75 % drops off
+  set 7's Nitroglazers and Hominis Machina; markers r20 on the four pools. Turn in at Ito (he takes the 30): 95000 XP,
+  6300 credits, one of the Armor Modules Resist Electric / Fire / Ice / Virulent [4] (123016, 123026, 123031, 123071).
+  Look: a player of choice 1, or one who took choice 2 and abandoned 1254, is not offered it; Latan offers nothing.
+- [ ] 1269 Weapon Salvage Acquisitions (Ligo Ashen Desert): Ito offers it after 1267, level 42. 15 Thrax Rifle Salvage
+  (97469) off Thrax Soldiers and 15 Thrax Grenade Launcher Salvage (97470) off Thrax Ravagers, personal 75 % drops
+  anywhere on Ashen Desert; markers r25 on the Boneyard Thrax pools 531038, 531039 (rifles; not 531041) and the highway
+  Ravager pools 790085, 790086 (launchers). Turn in at Ito: 95000 XP, 6300 credits, one of Cryogenic Blade 12101, Area
+  Healing Disc 119882, Sonic Pistol 14452, Pulse Staff 15220.
+- [ ] 1268 Heavy Salvage Acquisitions (Ligo Ashen Desert): Ito offers it after 1269, level 42. 1 Intact Stalker Salvage
+  (97467) off a Desert Stalker (Boneyard pools 790125, 790126) and 1 Intact Predator Salvage (97468) off a Desert Predator
+  (the Sheitan Highway beats), every kill while needed; markers as 1265's. Turn in at Ito: 200000 XP, 6300 credits, one
+  of the 1254 stacks. The chain ends (TaRapedia: title "Desert Logistician", the Targets of Opportunity's, not built).
+
 ## Assumptions and choices (not from a source)
 
 All ESTIMATE (set 1):
@@ -328,6 +350,20 @@ All ESTIMATE (set 7):
 - Rewards: 1264 TaRapedia's four kinds at icon 2 (Motor Assist Legs: no Uncommon below V04, so V04 29093); 1266
   TaRapedia's one item; 1265 TaRapedia names none: the 1254 stacks.
 
+All ESTIMATE (set 8):
+- 1267: offered after Dearly Departed (TaRapedia "Dearly Departed ??"), Formal Complaints done and flag 251 at 1 (triage
+  D1; the chain before it already needs both: the three keep it shut on any other path).
+- Levels: 42 for all three (after Dearly Departed, level 42; the zone's chain top, D5).
+- XP: TaRapedia gives "?" (1267, 1269) or nothing (1268): as Latan's twins (95000, 95000, 200000). Credits 6300
+  (TaRapedia for 1267 and 1269; 1268 as 1265).
+- Drop rates, counts, abandon and turn-in as set 7's twins (75 %, 15; 100 %, 1).
+- Rewards: 1267 "Modification: ... Resistance" read as the grade [4] armour modules (as 1274); 1269 the lowest Uncommon of
+  each named kind at level 42 ("Radial" = the area healing disc, as the Pools' Death Patrol; the manufacturer names are
+  not in the client tables); 1268 none named: the 1254 stacks.
+- 1269: no rifle marker on the Boneyard Thrax pool 531041 (set 6's point in a dip at (487, 271.9, -219)): the client-floor
+  walk from the Ashoka Settlement waypoint meets a 0.99 m rise over a metre in and 0.94 m out (the client steps 0.9 m).
+  Its Thrax still drop rifles. Also marked by 1285 and 1266: a fix job (move the point) is open.
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -374,6 +410,9 @@ All ESTIMATE (set 7):
 - 1266: rifles and launchers drop off any Ashen Thrax Soldier or Ravager on Ashen Desert (the drop is bound to the rows and
   the map), as 1285's ring.
 - 1255-1257 (the client's further flag-250 missions) are not built (triage D2): Latan's side ends with 1265.
+- 1268: the title "Desert Logistician" is not given (it is the Targets of Opportunity's objective 17, not built upstream).
+- 1267, 1269: no n/15 counter in the log (no counter text in the client). 1269's salvage drops off any Ashen Thrax
+  Soldier / Ravager on Ashen Desert.
 
 ## Server data that differs from the sources (not changed)
 
@@ -448,3 +487,7 @@ All ESTIMATE (set 7):
 
 - None. Set 7 adds its own rows only; it uses the Thrax rows 531008 / 531009, set 3's Desert Predator and set 4's Desert
   Stalker as they are, and upstream's machina_revive action 62059 and the Torcastra Machina's look 660012 by reference.
+
+## Server data changed by set 8 (upstream rows)
+
+- None. Set 8 adds mission content only, on the rows of sets 3, 4, 6 and 7 and the Thrax rows 531008 / 531009.

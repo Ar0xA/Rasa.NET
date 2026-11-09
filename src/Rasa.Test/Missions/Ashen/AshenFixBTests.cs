@@ -246,8 +246,18 @@ namespace Rasa.Test.Missions.Ashen
             var path = nav.FindPath(start, to, out var complete);
             if (path == null || !complete)
                 return "no complete navmesh walk";
+            return ClientFloorAlong(geometry, path.Prepend(start).ToList(), to);
+        }
+
+        /// <summary>
+        /// ClientFloorWalk's checks along given <paramref name="corners"/> (a route that is not one navmesh walk, as Ashoka's
+        /// ramp, upstream N18): every Spacing along them, the client's floor never more than MaxClientStep up over a metre, nothing
+        /// of the placed meshes in the way at knee, chest or head height; it ends within 1.5 m of <paramref name="to"/>'s height.
+        /// Null when it gets there, else why not.
+        /// </summary>
+        internal static string ClientFloorAlong(MapGeometry geometry, IReadOnlyList<Vector3> corners, Vector3 to)
+        {
             // Points every Spacing along the corners as one line (a short leg between corners is sampled too), and the last corner.
-            var corners = path.Prepend(start).ToList();
             var points = new List<Vector3> { corners[0] };
             var carried = 0f;
             for (var k = 1; k < corners.Count; k++)
