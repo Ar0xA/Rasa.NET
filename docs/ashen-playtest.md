@@ -172,7 +172,7 @@ west); next free id 790247. Only for a character who chose Latan's side (choice 
 - [ ] 1264 Robotic Salvage Recovery (Ligo Ashen Desert): Latan offers it after 1254 done with flag 250 at 1, level 40.
   Recover 15 Intact Nitroglazer Salvage (97465) and 15 Intact Machina Salvage (97466): personal 75 % drops, one a kill,
   off the Nitroglazers and the Hominis Machina; markers r20 on the four pools. Turn in at Latan (she takes the 30): 95000
-  XP, 6300 credits, one of 23698, 29093, 20802, 36039 (armour). Look: the robots' look, name and level (Nitroglazer 434,
+  XP, 6300 credits, one of 23698, 29113 (fix D; set 7 had 29093), 20802, 36039 (armour). Look: the robots' look, name and level (Nitroglazer 434,
   "Hominis Machina Mk XI" 7716), their attacks (the Nitroglazer's mortar), the Machina's revive (upstream action 62059,
   not tried); a player of choice 2, or one who took choice 1 and abandoned 1254, is not offered it.
 - [ ] 1266 Weapon Salvage Recovery (Ligo Ashen Desert): Latan offers it after 1264, level 41. Recover 15 Thrax Rifle
@@ -487,6 +487,19 @@ All ESTIMATE (set 8):
 
 - None. Set 7 adds its own rows only; it uses the Thrax rows 531008 / 531009, set 3's Desert Predator and set 4's Desert
   Stalker as they are, and upstream's machina_revive action 62059 and the Torcastra Machina's look 660012 by reference.
+
+## Server data changed by fix job D (20271110000710)
+
+- 1264's reward item 2 (Motor Assist Armor Legs): set 7's 29093 (level 38-42) to 29113 (V04 Uncommon 43-47; TaRapedia
+  "Dynamo Motor Assist Armor Legs 2, green, 43"), guarded on set 7's exact row; an evidence row 4 for 1264. Down puts
+  29093 back. A delta on set 7 (live): set 7's data class stays.
+- Teleporter 208 (Hospital: Shadow's Edge Post, upstream row): y 269.3 to 296.5, x, z and rotation unchanged. Upstream's
+  height is 27 m under the hospital's floor (client floors 296.20 / 296.50 / 300.95 / 302.27 / 307.30 at its x/z, navmesh
+  296.68): a hospital return fell under the map and the fall guard put the player back at the death spot. Guarded on the
+  row's exact stored values; Down puts 269.3 back. AshenHospitalTests checks every Ashen hospital and waypoint (195-198,
+  207-209, 317-319, 322) on the client floor and the navmesh, and the walk 208 to and from the Shadow's Edge waypoint.
+  Retest: die in Ashen Desert, take the hospital return (or Respawn at Shadow's Edge Post Hospital): the player stands in
+  the hospital.
 
 ## Server data changed by set 8 (upstream rows)
 

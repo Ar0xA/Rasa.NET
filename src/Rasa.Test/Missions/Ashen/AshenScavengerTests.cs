@@ -288,7 +288,7 @@ namespace Rasa.Test.Missions.Ashen
             Spawn(desert, RobotPools);
 
             var offer = WildernessRanjaGorgeTests.Offer(harness, latan, Robotic.MissionId);
-            CollectionAssert.AreEqual(new[] { Robotic.GravitonGloves, Robotic.MotorAssistLegs, Robotic.HazmatLegs, Robotic.ReflectiveLegs },
+            CollectionAssert.AreEqual(new[] { Robotic.GravitonGloves, 29113U, Robotic.HazmatLegs, Robotic.ReflectiveLegs }, // fix D: the Motor Assist Legs at level 43
                 offer.SelectableReward.Select(item => item.ItemTemplateId).ToArray());
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, ito, Robotic.MissionId), "not Ito's to give");
             Assert.IsFalse(Holds(Kill(harness, desert, S.Nitroglazer, NitroPools), Robotic.NitroTemplate), "no salvage before the mission");

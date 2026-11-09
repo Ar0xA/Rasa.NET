@@ -89,6 +89,7 @@ namespace Rasa.Test.Missions.Ashen
         private const string ConscriptionBase = "20271110000500_Ashen_conscription_base";
         private const string FormalComplaints = "20271110000600_Ashen_formal_complaints";
         private const string Scavenger = "20271110000700_Ashen_scavenger";
+        private const string FixD = "20271110000710_Ashen_fix_d";
         private const string Logistician = "20271110000800_Ashen_logistician";
         private const uint Map = 1734;
 
@@ -572,7 +573,8 @@ namespace Rasa.Test.Missions.Ashen
                         (MissionEvidenceSourceKind.Reconstruction, 0.3)
                     },
                     evidence.Where(entry => entry.MissionId == mission && !(mission == AshenFixAV1.MissionId && entry.EvidenceId == AshenFixAV1.Evidence)
-                        && !(mission == AshenFixBV1.MissionId && entry.EvidenceId == AshenFixBV1.Evidence))
+                        && !(mission == AshenFixBV1.MissionId && entry.EvidenceId == AshenFixBV1.Evidence)
+                        && !(mission == AshenFixDV1.MissionId && entry.EvidenceId == AshenFixDV1.Evidence))
                         .OrderBy(entry => entry.EvidenceId)
                         .Select(entry => (entry.SourceKind, entry.Confidence)).ToArray(), $"{mission} evidence");
         }
@@ -612,7 +614,7 @@ namespace Rasa.Test.Missions.Ashen
                 // Set 7: TaRapedia's XP and credits; 1264 the lowest Uncommon of TaRapedia's four armour kinds (icon 2; Motor Assist
                 // has no Uncommon below V04) at level 40; 1266 TaRapedia's one item (the fire injection gun); 1265 TaRapedia names
                 // none: 1254's stacks (zone median, ESTIMATE).
-                (1264, 95000, 6300, new[] { (23698U, 1U), (29093U, 1U), (20802U, 1U), (36039U, 1U) }),
+                (1264, 95000, 6300, new[] { (23698U, 1U), (29113U, 1U), (20802U, 1U), (36039U, 1U) }), // fix D: Motor Assist Legs 43-47 (TaRapedia "green, 43")
                 (1266, 95000, 6300, new[] { (45777U, 1U) }),
                 (1265, 200000, 6300, new[] { (111029U, 3U), (47600U, 1U), (111019U, 3U), (45063U, 6U) }),
                 // Set 8: TaRapedia's credits (1267, 1269; 1268 none: as 1265); XP as Latan's twins (TaRapedia "?", ESTIMATE); 1267
@@ -1470,6 +1472,80 @@ namespace Rasa.Test.Missions.Ashen
             world.ChangeTracker.Clear();
             AllUp();
             Assert.AreEqual(others, Others(), "no other Ashen pool changes");
+        }
+
+        /// <summary>
+        /// Ashen_fix_d rolls back: Down puts 1264's reward item 2 back to set 7's 29093 and takes out its evidence row; the other
+        /// three items, the other missions' rewards and 1264 itself stay; Up again, 29113 and the evidence are back. A second Up
+        /// (its SQL run again) changes nothing, and a row holding neither value is not touched by Up or Down.
+        /// </summary>
+        [TestMethod]
+        public void FixDRollsBackWithItsMigration()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var world = harness.World;
+            (uint, uint)[] Items() => world.MissionRewardItemEntries.AsNoTracking()
+                .Where(entry => entry.MissionId == 1264 && entry.ContentRevision == AshenMissionDataV1.Revision)
+                .OrderBy(entry => entry.ItemId).AsEnumerable().Select(entry => (entry.ItemTemplateId, entry.Quantity)).ToArray();
+            bool Evidence() => world.MissionEvidenceEntries.AsNoTracking().Any(entry => entry.MissionId == 1264 &&
+                entry.ContentRevision == AshenMissionDataV1.Revision && entry.EvidenceId == 4);
+            string Others() => string.Join("; ", world.MissionRewardItemEntries.AsNoTracking()
+                .Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision && entry.MissionId != 1264 && entry.MissionId < 1267)
+                .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ItemId).AsEnumerable().Select(entry => $"{entry.MissionId}:{entry.ItemTemplateId}x{entry.Quantity}"));
+            (double, double, double, double, byte) Hospital() => world.TeleporterEntries.AsNoTracking().Where(row => row.Id == 208)
+                .AsEnumerable().Select(row => (row.PosX, row.PosY, row.PosZ, row.Rotation, row.Type)).Single();
+            string OtherTeleporters() => string.Join("; ", world.TeleporterEntries.AsNoTracking().Where(row => row.Id != 208)
+                .OrderBy(row => row.Id).AsEnumerable().Select(row => System.FormattableString.Invariant($"{row.Id}:{row.PosX:R},{row.PosY:R},{row.PosZ:R},{row.Rotation:R}")));
+            var fixedHospital = (-94.13672, 296.5, -828.72266, 3.7, (byte)5);
+            var upstreamHospital = (-94.13672, 269.3, -828.72266, 3.7, (byte)5);
+            var fixedItems = new[] { (23698U, 1U), (29113U, 1U), (20802U, 1U), (36039U, 1U) };
+            var others = Others();
+            var otherTeleporters = OtherTeleporters();
+            Assert.AreEqual(fixedHospital, Hospital(), "fix D: hospital 208 at 296.5");
+            CollectionAssert.AreEqual(fixedItems, Items(), "fix D: 29113");
+            Assert.IsTrue(Evidence(), "fix D's evidence");
+
+            world.GetService<IMigrator>().Migrate(Previous(world, FixD));
+            world.ChangeTracker.Clear();
+            CollectionAssert.AreEqual(new[] { (23698U, 1U), (29093U, 1U), (20802U, 1U), (36039U, 1U) }, Items(), "set 7's 29093 back");
+            Assert.IsFalse(Evidence(), "no fix D evidence");
+            Assert.IsTrue(world.MissionContentDefinitionEntries.Any(entry => entry.MissionId == 1264 && entry.ContentRevision == AshenMissionDataV1.Revision && entry.Enabled), "1264 stays (set 7)");
+            Assert.AreEqual(others, Others(), "no other reward changes");
+            Assert.AreEqual(upstreamHospital, Hospital(), "upstream's 269.3 back, exact");
+            Assert.AreEqual(otherTeleporters, OtherTeleporters(), "no other teleporter changes");
+
+            world.GetService<IMigrator>().Migrate(FixD);
+            world.ChangeTracker.Clear();
+            CollectionAssert.AreEqual(fixedItems, Items(), "29113 again");
+            Assert.IsTrue(Evidence(), "fix D's evidence again");
+            foreach (var sql in AshenFixDV1.UpSql())
+                world.Database.ExecuteSqlRaw(sql);
+            CollectionAssert.AreEqual(fixedItems, Items(), "a second Up changes nothing");
+            Assert.AreEqual(fixedHospital, Hospital(), "a second Up leaves the hospital at 296.5");
+            // The guard: a row that holds neither set 7's value nor fix D's is left alone by both directions.
+            const string item2 = "UPDATE mission_reward_item SET item_template_id = {0} WHERE mission_id = 1264 AND content_revision = 'ashen_1_16_5' AND reward_id = 1 AND item_id = 2;";
+            world.Database.ExecuteSqlRaw(string.Format(System.Globalization.CultureInfo.InvariantCulture, item2, 12345));
+            foreach (var sql in AshenFixDV1.UpSql().Concat(AshenFixDV1.DownSql()))
+                world.Database.ExecuteSqlRaw(sql);
+            Assert.AreEqual(12345U, Items()[1].Item1, "a row holding another value is not touched");
+            world.Database.ExecuteSqlRaw(string.Format(System.Globalization.CultureInfo.InvariantCulture, item2, 29113));
+            Assert.AreEqual(others, Others(), "no other reward changes");
+            Assert.AreEqual(upstreamHospital, Hospital(), "the Up-then-Down above put the hospital back at 269.3");
+            foreach (var sql in AshenFixDV1.UpSql())
+                world.Database.ExecuteSqlRaw(sql);
+            Assert.AreEqual(fixedHospital, Hospital(), "Up again: 296.5");
+            CollectionAssert.AreEqual(fixedItems, Items(), "and 1264's items stay");
+            // The same for the hospital: a moved x (or a height that is neither value) is left alone.
+            world.Database.ExecuteSqlRaw("UPDATE teleporter SET pos_x = -94.0 WHERE id = 208;");
+            foreach (var sql in AshenFixDV1.DownSql().Concat(AshenFixDV1.UpSql()))
+                world.Database.ExecuteSqlRaw(sql);
+            Assert.AreEqual((-94.0, 296.5, -828.72266, 3.7, (byte)5), Hospital(), "a hospital row with another x is not touched");
+            world.Database.ExecuteSqlRaw("UPDATE teleporter SET pos_x = -94.13672, pos_y = 280.0 WHERE id = 208;");
+            foreach (var sql in AshenFixDV1.UpSql().Concat(AshenFixDV1.DownSql()))
+                world.Database.ExecuteSqlRaw(sql);
+            Assert.AreEqual((-94.13672, 280.0, -828.72266, 3.7, (byte)5), Hospital(), "a hospital row at another height is not touched");
+            world.Database.ExecuteSqlRaw("UPDATE teleporter SET pos_y = 296.5 WHERE id = 208;");
+            Assert.AreEqual(otherTeleporters, OtherTeleporters(), "no other teleporter changes");
         }
 
         /// <summary>
