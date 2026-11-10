@@ -237,6 +237,33 @@ knee-high rise at (21.6, -437.0) (e.g. by (18.5, -429.6) and (32.8, -438.1)).
   crash at a turret kill (C23: kill_swap_delay is live on the server, not on this branch); a lost turret's public one comes
   back for the player at once.
 
+Set 10, Ida Hayner's orders (migration `20271110001000_Ashen_designer_hides`). New world rows 790360-790377: four bosses
+(Sally, Molly, Trudy, Wendy, level 44, 4900 HP, one each, 50 s respawn) and three hide creatures (Lasher 790362, Beam
+Manta 790367, Granitour 790373, 3 per pool, 120 s respawn) in 11 pools. Ida Hayner (pool 510011) moved 6 m off the weapon
+vendor 500018, at whose x/z she stood (-161, 296.57, -710). Hides and carapaces are personal drops while objective 1 is
+open (75 %, 10 at most); the pristine piece is a 100 % drop off the boss; Ida takes all at the turn-in, an abandon keeps
+them. All places walked both ways on the client floor; corners in AshenDesignerHidesTests.Places.
+
+- [ ] 1287 Designer Jewelry Gone Wrong (Ligo Ashen Desert): Ida offers it (no requirement), level 41. 10 Shiny Atta
+  Carapace (97483) off set 2's Ashen Atta Soldiers / Workers (Mauna Barrens pools 790046-790049) and the Pristine Atta
+  Carapace (97487) off Sally (-439, 299.63, -258) (TaRapedia's place). Turn in at Ida: 180000 XP, 8200 credits, one of
+  Motor Assist legs 45986, Mech legs 35019, Bio legs 46069, Graviton legs 13043. Risk: Sally (L44) stands 20.6 m from
+  Atta pool 790047 and 22.8 m from 790049 (aggro about 18 m): she may join level-40 fights there in 1242.
+- [ ] 1293 All the Latest Rage! (Ligo Ashen Desert): Ida offers it after 1287, level 42. 10 Shiny Granitour Carapace
+  (97484) off the Granitours of Coheri Pools (-185, 520), (-215, 525) and the Pristine Granitour Carapace (97488) off Wendy
+  (-180, 286.25, 570) (TaRapedia -190, 580). Walk from the White Oasis Post waypoint. Turn in: 200000 XP, 8600 credits, one
+  of Sonic Torqueshell Rifle 45773, Virulent Disperser 12077, Electric Polarity Gun 15550, Laser Pistol 14492.
+- [ ] 1289 I Wouldn't Wear It, But... (Ligo Ashen Desert): Ida offers it (no requirement), level 41. 10 Lasher Leather
+  Hides (97486) off the Lashers by the road west of Ashoka (330, -585), (280, -578) and the Pristine Lasher Hide (97489) off
+  Molly (299, 295.08, -658), 24 m east of TaRapedia's notch (275, -659). Turn in: 180000 XP, 8200 credits, one of Cryogenic
+  Injector Gun 48108, Laser Cannon 49108, Pulse Chaingun 15154, Pistol 14409.
+- [ ] 1291 A New Fad (Ligo Ashen Desert): Ida offers it after 1289, level 42. 10 Beam Manta Leather Hides (97485) off the
+  Beam Manta in the eastern Boneyard (764, -322), the Indra Pass (216, 486) and northeast Maji Field (-189, 635), and the
+  Pristine Beam Manta Leather (97490) off Trudy (-198, 299.48, 648), at the north end of the ridge floor (TaRapedia's
+  hilltop -242, 771 is not joined to the navmesh). Turn in: 190000 XP, 8400 credits, one of Electric Polarity Gun
+  15550, Electric Net Gun 12131, Sonic Cannon 49172, Electric Chaingun 15111. Look: Trudy 16 m from the NE Manta pool (she
+  may pull its three).
+
 ## Assumptions and choices (not from a source)
 
 All ESTIMATE (set 1):
@@ -407,6 +434,17 @@ All ESTIMATE (set 9):
   the accept. The hold 180 s (the triage; TaRapedia's 3:00 is 1's countdown). Waves at 0 / 45 / 90 / 135 s, 3 / 3 / 4 / 4
   members, from the four sides (TaRapedia: "a few stalkers and some Bane"). 1's area r60 over the four platforms.
 
+All ESTIMATE (set 10):
+- Levels 41 / 42 / 41 / 42 (D5); bosses level 44, 4900 HP, armour 420 (the Ashen boss rows 520002-520007'); hide creatures copy
+  the World DB rows 770008 (Lasher), 540040 (Beam Manta), 540031 (Granitour); bosses take the client classes 22627
+  (Sally), 10331 (Molly), 10317 (Trudy), 25620 (Wendy) and names 9359-9362.
+- Drop rates 75 % / 100 % (no source; as sets 7 and 8).
+- Places: the hide pools where the client log names the area, on open floor 60 m from other hostiles and 85 m from NPCs;
+  Molly 24 m east of TaRapedia's notch (stacked floor there, a Fithik pool 22 m off); Trudy at the north end of the
+  reachable ridge (TaRapedia's hilltop not joined to the navmesh); the Indra Pass Manta on the floor joined to the White Oasis side
+  (the Indra Pass waypoint's floor is joined to nothing); Ida 6 m off the vendor 500018.
+- Rewards: the lowest Uncommon of TaRapedia's kinds at each level (1287 legs with TaRapedia's version numbers).
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -464,6 +502,11 @@ All ESTIMATE (set 9):
   fails 2.
 - 1278: the client's wave helpers 3-6 ("Wave 1", "Spawn 2".."4") and 1277's 5 ("Ambushes") are not written.
 - 1278: a lost turret's public copy is shown again to the player at once (the hide is held by the turret copy).
+
+- 1287, 1289, 1291, 1293: the drops are bound to the creature rows and the map, so a hide drops off any of the set's
+  hide creatures on Ashen Desert (1287: off any set 2 Atta Soldier / Worker), not only in the named area.
+- 1287, 1289, 1291, 1293: no n/10 counter in the log (no counter text in the client).
+- 1291: Trudy not on TaRapedia's hilltop (-242, 771): it is not reachable on the navmesh.
 
 ## Server data that differs from the sources (not changed)
 
@@ -561,3 +604,8 @@ All ESTIMATE (set 9):
 - None. Set 9 adds mission content only: its objects and creatures are scene actors on existing rows (the AFS Turret
   550001, the Thrax 531008 / 531009, set 4's Desert Stalker 790121, the client classes 7904 and 9478). The public turret
   pools 550001-550004 are not changed (hidden per player while the run's copies stand).
+
+## Server data changed by set 10 (upstream rows)
+
+- Ida Hayner's pool 510011 moved from (-167.1, 296.27, -709.0) to (-161, 296.57, -710): she stood at the x/z of the
+  weapon vendor 500018 (upstream data). Down restores the exact stored value.

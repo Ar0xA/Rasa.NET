@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 32 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 36 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -9,7 +9,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 | Zone | Missions |
 | --- | ---: |
-| Ashen Desert | 32 |
+| Ashen Desert | 36 |
 
 ## Ashen Desert
 
@@ -732,6 +732,88 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Chain** (explicit prerequisite links): Formal Complaints chain (11 missions), step 5
   - Requires: Court Martial Arts (id 1261) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Dearly_Departed), this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - Leads to: Robotic Salvage Acquisitions (id 1267) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Acquisitions), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+
+### 1287 — Designer Jewelry Gone Wrong
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 32 missions in this file with a sourced level
+  - reward: 180,000 XP; 8,200 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Designer_Jewelry_Gone_Wrong)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Travel to the Mauna Barrens northwest of Shadow's Edge Post and recover 10 Shiny Atta Carapace from the Ashen Atta Soldiers and Ashen Atta Harvesters in the Ashen Desert, and recover the Pristine Atta Carapace from the Ashen Atta Soldier called Sally. Once you have filled the order, return them to …
+  - objectives (client): Recover 10 Shiny Atta Carapace; Recover a Pristine Atta Carapace
+- **TaRapedia** [Designer Jewelry Gone Wrong](https://tabularasa.fandom.com/wiki/Designer_Jewelry_Gone_Wrong): giver: Ida Hayner; at: Shadow's Edge Post; zone: Ashen Desert; requires: None; follow-up: All the Latest Rage!; XP: 180,000; credits: 8,200; reward from: Ida Hayner
+  - overview: Travel to the Mauna Barrens northwest of Shadow's Edge Post and recover 10 Shiny Atta Carapace from the Ashen Atta Soldiers and Ashen Atta Harvesters in the Ashen Desert, and recover the Pristine Atta Carapace from the Ashen Atta Soldier named Sally. Once you have filled the order, return them to …
+  - objectives: • Recover 10 Shiny Atta Carapaces • x/10 • Recover a Pristine Atta Carapace • x/1
+  - walkthrough: Sally can be found around -439, -258.
+- **TaRapedia mission list** [Shadow's Edge Post mission list](https://tabularasa.fandom.com/wiki/Shadow%27s_Edge_Post_mission_list): zone Ashen Desert, area Shadow's Edge Post, given by Ida Hayner
+
+- **Chain** (explicit prerequisite links): Designer Jewelry Gone Wrong chain (2 missions), step 1
+  - Leads to: All the Latest Rage! (id 1293) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/All_the_Latest_Rage%21), [TaRapedia](https://tabularasa.fandom.com/wiki/Designer_Jewelry_Gone_Wrong)
+
+### 1289 — I Wouldn't Wear It, But...
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 32 missions in this file with a sourced level
+  - reward: 180,000 XP; 8,200 credits; Vextronics Cryogenic Injector Gun; Vextronics Laser Cannon; Vextronics Pulse Chaingun; Vextronics Pistol — source: [TaRapedia](https://tabularasa.fandom.com/wiki/I_Wouldn%27t_Wear_It%2C_But...)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: (275, -659) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/I_Wouldn%27t_Wear_It%2C_But...)
+- **Client:** Recover 10 Lasher Leather Hides from the Lashers in the Ashen Desert, as well as 1 Pristine Lasher Hide from the Lasher named Molly. Molly can be found just west of Ashoka along the road. Once you have filled the order, return them to Ida Hayner in Shadow's Edge Post so she can create designer …
+  - objectives (client): Recover 10 Lasher Leather Hides; Recover 1 Pristine Lasher Hide
+- **TaRapedia** [I Wouldn't Wear It, But...](https://tabularasa.fandom.com/wiki/I_Wouldn%27t_Wear_It%2C_But...): giver: Ida Hayner; at: Shadow's Edge Post; zone: Ashen Desert; requires: None; follow-up: A New Fad; XP: 180,000; credits: 8,200; items: Vextronics Cryogenic Injector Gun; Vextronics Laser Cannon; Vextronics Pulse Chaingun; Vextronics Pistol; reward from: Ida Hayner
+  - overview: Recover 10 Lasher Leather Hides from the Lashers in the Ashen Desert, as well as 1 Pristine Lasher Hide from the Lasher named Molly. Molly can be found just southwest of Ashoka teleport pad up in the hills at 290, -600. Once you have filled the order, return them to Ida Hayner in Shadow's Edge Post …
+  - objectives: • Recover 10 Lasher Leather Hides • x/10 • Recover a Pristine Lasher Hide • x/1
+  - walkthrough: Molly is in a little notch in the hillside directly SW of the Ashoka teleport pad. (275, -659)
+- **TaRapedia mission list** [Shadow's Edge Post mission list](https://tabularasa.fandom.com/wiki/Shadow%27s_Edge_Post_mission_list): zone Ashen Desert, area Shadow's Edge Post, given by Ida Hayner
+- **Where (locations / coordinates):**
+  - (275, -659) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/I_Wouldn%27t_Wear_It%2C_But...)
+
+- **Chain** (explicit prerequisite links): I Wouldn't Wear It, But... chain (2 missions), step 1
+  - Leads to: A New Fad (id 1291) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_New_Fad), [TaRapedia](https://tabularasa.fandom.com/wiki/I_Wouldn%27t_Wear_It%2C_But...)
+
+### 1291 — A New Fad
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 32 missions in this file with a sourced level
+  - reward: 190,000 XP; 8,400 credits; ChiTech Electric Polarity Gun; Vextronics Electric Net Gun; Vextronics Sonic Cannon; Vextronics Electric Chaingun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_New_Fad)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Recover 10 Beam Manta Leather Hides from the Beam Manta in the Ashen Desert, and 1 Pristine Beam Manta Hide from the Beam Manta named Trudy. You can find Beam Manta along the eastern side of the Boneyard, the Indra Pass, and the northeast part of Maji Field. You can find Trudy along the northeast …
+  - objectives (client): Recover 10 Beam Manta Hides; Recover 1 Pristine Beam Manta Hide
+- **TaRapedia** [A New Fad](https://tabularasa.fandom.com/wiki/A_New_Fad) [stub]: giver: Ida Hayner; at: Shadow's Edge Post; zone: Ashen Desert; requires: I Wouldn't Wear It, But...; XP: 190,000; credits: 8,400; items: ChiTech Electric Polarity Gun; Vextronics Electric Net Gun; Vextronics Sonic Cannon; Vextronics Electric Chaingun; reward from: Ida Hayner
+  - overview: Recover 10 Beam Manta Leather Hides from the Beam Manta in the Ashen Desert, and 1 Pristine Beam Manta Hide from the Beam Manta named Trudy. You can find Beam Manta along the eastern side of The Boneyard, the Indra Pass, and the northeast part of Maji Field. You can find Trudy along the northeast …
+  - objectives: • Recover 10 Beam Manta Hides • x/10 • Recover 1 Pristine Beam Manta Hide • x/1
+  - walkthrough: Trudy can be found in the very nothern most area. -242.2 771.1
+- **TaRapedia mission list** [Shadow's Edge Post mission list](https://tabularasa.fandom.com/wiki/Shadow%27s_Edge_Post_mission_list): zone Ashen Desert, area Shadow's Edge Post, given by Ida Hayner
+
+- **Chain** (explicit prerequisite links): I Wouldn't Wear It, But... chain (2 missions), step 2
+  - Requires: I Wouldn't Wear It, But... (id 1289) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_New_Fad), [TaRapedia](https://tabularasa.fandom.com/wiki/I_Wouldn%27t_Wear_It%2C_But...)
+
+### 1293 — All the Latest Rage!
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 32 missions in this file with a sourced level
+  - reward: 200,000 XP; 8,600 credits; AccuMax Sonic Torqueshell Rifle; Eclipse Virulent Disperser; Vextronics Electric Polarity Gun; Vextronics Laser Pistol — source: [TaRapedia](https://tabularasa.fandom.com/wiki/All_the_Latest_Rage%21)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Recover 10 Shiny Granitour Carapace from the Granitour and 1 Pristine Granitour Carapace from Wendy, all of which can be found in the eastern part of Maji Field known as Coheri Pools. Return them all to Ida Hayner in Shadow's Edge Post so she can create designer jewelry for her patrons.
+  - objectives (client): Recover 10 Shiny Granitour Carapace; Recover a Pristine Granitour Carapace
+- **TaRapedia** [All the Latest Rage!](https://tabularasa.fandom.com/wiki/All_the_Latest_Rage%21): giver: Ida Hayner; at: Shadow's Edge Post; zone: Ashen Desert; requires: Designer Jewelry Gone Wrong; follow-up: None; XP: 200,000; credits: 8,600; items: AccuMax Sonic Torqueshell Rifle; Eclipse Virulent Disperser; Vextronics Electric Polarity Gun; Vextronics Laser Pistol; reward from: Ida Hayner
+  - overview: Recover 10 Shiny Granitour Carapace from the Granitour and 1 Pristine Granitour Carapace from Wendy, all of which can be found in the eastern part of Maji Field known as Coheri Pools. Return them all to Ida Hayner in Shadow's Edge Post so she can create designer jewelry for her patrons.
+  - objectives: • Recover 10 Shiny Granitour Carapace • x/10 • Recover a Pristine Granitour Carapace • x/1
+  - walkthrough: Wendy is found at /loc -190 580, near the marker for Coheri Pools. This is in the northern tip of the zone map.
+- **TaRapedia mission list** [Shadow's Edge Post mission list](https://tabularasa.fandom.com/wiki/Shadow%27s_Edge_Post_mission_list): zone Ashen Desert, area Shadow's Edge Post, given by Ida Hayner
+
+- **Chain** (explicit prerequisite links): Designer Jewelry Gone Wrong chain (2 missions), step 2
+  - Requires: Designer Jewelry Gone Wrong (id 1287) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/All_the_Latest_Rage%21), [TaRapedia](https://tabularasa.fandom.com/wiki/Designer_Jewelry_Gone_Wrong)
 
 ### 1352 — Death from Above
 

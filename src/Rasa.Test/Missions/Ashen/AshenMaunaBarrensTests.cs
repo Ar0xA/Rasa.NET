@@ -98,7 +98,8 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.IsTrue(Walked(Shadow, npc.Position), $"{pool} is walked to from the Shadow's Edge Post waypoint");
             }
 
-            var markers = harness.World.MissionIndicatorEntries.AsEnumerable().Where(row => row.ContentRevision == AshenMissionDataV1.Revision).ToList();
+            // Set 2's own markers (set 10's 1287 marks the same Atta pools).
+            var markers = harness.World.MissionIndicatorEntries.AsEnumerable().Where(row => row.ContentRevision == AshenMissionDataV1.Revision && row.MissionId != AshenDesignerJewelryV1.MissionId).ToList();
             Spawn(desert, AttaPools.Append(B.Exing).ToArray());
             foreach (var (poolId, creature, at) in B.AttaPools)
             {

@@ -39,7 +39,10 @@ namespace Rasa.Test.Missions.Ashen
     /// in the Boneyard (Ashen_scavenger); set 8, the AFS side (flag 251), Shinichiro Ito's Robotic Salvage Acquisitions (1267),
     /// Weapon Salvage Acquisitions (1269) and Heavy Salvage Acquisitions (1268), on the creatures of sets 3, 4 and 7
     /// (Ashen_logistician); set 9, Stonewall Ridge, Captain Marcus Emmons' Cycled Frequencies (1275), On The Same Frequency
-    /// (1277) and King of the Hill (1278), scene actors on existing rows (Ashen_stonewall_ridge).
+    /// (1277) and King of the Hill (1278), scene actors on existing rows (Ashen_stonewall_ridge); set 10, Ida Hayner's orders,
+    /// Designer Jewelry Gone Wrong (1287), All the Latest Rage! (1293), I Wouldn't Wear It, But... (1289) and A New Fad (1291),
+    /// with Sally, Molly, Trudy, Wendy and the Lasher, Beam Manta and Granitour pools new and Ida Hayner moved off the weapon
+    /// vendor (Ashen_designer_hides).
     ///
     /// Why these tests: the client's text ids and packages are written out here from the client tables, not taken from the
     /// data classes, so a wrong id fails; the NPC rows, rewards, prerequisites and markers are pinned; the migration rolls back
@@ -65,7 +68,8 @@ namespace Rasa.Test.Missions.Ashen
             AshenCourtMartialArtsV1.MissionId, AshenDearlyDepartedV1.MissionId,
             AshenRoboticSalvageV1.MissionId, AshenWeaponSalvageV1.MissionId, AshenHeavySalvageV1.MissionId,
             AshenRoboticAcquisitionsV1.MissionId, AshenWeaponAcquisitionsV1.MissionId, AshenHeavyAcquisitionsV1.MissionId,
-            AshenCycledFrequenciesV1.MissionId, AshenOnTheSameFrequencyV1.MissionId, AshenKingOfTheHillV1.MissionId
+            AshenCycledFrequenciesV1.MissionId, AshenOnTheSameFrequencyV1.MissionId, AshenKingOfTheHillV1.MissionId,
+            AshenDesignerJewelryV1.MissionId, AshenLatestRageV1.MissionId, AshenWouldntWearItV1.MissionId, AshenNewFadV1.MissionId
         };
 
         /// <summary>
@@ -80,9 +84,11 @@ namespace Rasa.Test.Missions.Ashen
         /// thirteen (1264's four on the Nitroglazer and Hominis Machina pools, 1266's three on the Boneyard's Thrax pools and two
         /// on the highway's Ravager pools, 1265's two on the Desert Stalker pools and two on the Desert Predators' beats); set 8's
         /// thirteen (Ito's 1267, 1269 and 1268 on the places of Latan's 1264, 1266 and 1265); set 9's seven (1275's on the salvage
-        /// crate, 1277's four at the towers' ground teleporters, 1278's two over the four batteries).
+        /// crate, 1277's four at the towers' ground teleporters, 1278's two over the four batteries); set 10's fifteen (1287's four
+        /// on set 2's Atta Soldier and Worker pools and one on Sally, 1293's two on the Granitour pools and one on Wendy, 1289's two
+        /// on the Lasher pools and one on Molly, 1291's three on the Beam Manta pools and one on Trudy).
         /// </summary>
-        internal const int Indicators = 5 + 12 + 10 + 6 + 20 + 9 + 13 + 13 + 7;
+        internal const int Indicators = 5 + 12 + 10 + 6 + 20 + 9 + 13 + 13 + 7 + 15;
 
         private const string LeadIns = "20271110000000_Ashen_lead_ins";
         private const string MaunaBarrens = "20271110000100_Ashen_mauna_barrens";
@@ -94,6 +100,7 @@ namespace Rasa.Test.Missions.Ashen
         private const string FixD = "20271110000710_Ashen_fix_d";
         private const string Logistician = "20271110000800_Ashen_logistician";
         private const string StonewallRidge = "20271110000900_Ashen_stonewall_ridge";
+        private const string DesignerHides = "20271110001000_Ashen_designer_hides";
         private const uint Map = 1734;
         private const double CrateX = 537, CrateZ = -267;     // 1275's crate by the Boneyard wreck at (537, 282, -279) (the probe of 2026-11-10)
 
@@ -113,6 +120,7 @@ namespace Rasa.Test.Missions.Ashen
         private const uint Linker = 531014, Naxveik = 520005;
         private const uint Latan = 790200, Ito = 790201, Megumi = 790202;
         private const uint Nitroglazer = 790240, Machina = 790241;
+        private const uint Ida = 510011, Sally = 790360, Lasher = 790362, Molly = 790365, Manta = 790367, Trudy = 790371, Granitour = 790373, Wendy = 790376;
         private static readonly uint[] NitroPools = { 790243, 790244 };
         private static readonly uint[] MachinaPools = { 790245, 790246 };
 
@@ -151,7 +159,8 @@ namespace Rasa.Test.Missions.Ashen
                 (1285, Megumi, Yamamoto, 42),
                 (1264, Latan, Latan, 40), (1266, Latan, Latan, 41), (1265, Latan, Latan, 42),
                 (1267, Ito, Ito, 42), (1269, Ito, Ito, 42), (1268, Ito, Ito, 42),
-                (1275, Emmons, Emmons, 40), (1277, Emmons, Emmons, 41), (1278, Emmons, Emmons, 42)
+                (1275, Emmons, Emmons, 40), (1277, Emmons, Emmons, 41), (1278, Emmons, Emmons, 42),
+                (1287, Ida, Ida, 41), (1293, Ida, Ida, 42), (1289, Ida, Ida, 41), (1291, Ida, Ida, 42)
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var enabled = harness.World.MissionContentDefinitionEntries.AsNoTracking()
@@ -281,7 +290,12 @@ namespace Rasa.Test.Missions.Ashen
                 (1277, 10265, new (uint, uint, uint, uint?)[] { (1, 10270, 10271, null), (2, 10272, 10273, null), (3, 10274, 10275, null), (4, 10276, 10277, null) }),
                 // 1278's 7 is server-only and hidden (the losses' tally): it carries 2's texts; 2 has no counter text (a counter
                 // rule only completes an objective, so the client's 10295 "Towers Lost" is not written: a deviation).
-                (1278, 10286, new (uint, uint, uint, uint?)[] { (1, 10291, 10292, null), (2, 10293, 10294, null), (7, 10293, 10294, null) })
+                (1278, 10286, new (uint, uint, uint, uint?)[] { (1, 10291, 10292, null), (2, 10293, 10294, null), (7, 10293, 10294, null) }),
+                // Set 10: no counter texts (missionobjective 1287-1293 have none).
+                (1287, 10384, new (uint, uint, uint, uint?)[] { (1, 10389, 10390, null), (2, 11045, 11046, null) }),
+                (1289, 10398, new (uint, uint, uint, uint?)[] { (1, 10403, 10404, null), (2, 11056, 11057, null) }),
+                (1291, 10412, new (uint, uint, uint, uint?)[] { (1, 10417, 10418, null), (2, 11058, 11059, null) }),
+                (1293, 10426, new (uint, uint, uint, uint?)[] { (1, 10431, 10432, null), (2, 11054, 11055, null) })
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             foreach (var (mission, title, objectives) in expected)
@@ -536,6 +550,40 @@ namespace Rasa.Test.Missions.Ashen
             var codes = Scenes(harness).Single(entry => entry.MissionId == 1275).Scene.Items.Single();
             Assert.AreEqual((97475U, 1U, Rasa.Missions.Scenes.MissionItemScope.AssignmentIssued), (codes.ItemTemplateId, codes.MaximumQuantity, codes.Scope),
                 "Bane Radar Frequency Codes (client item class 25473), one");
+
+            // Set 10: each objective picks up its client item class (itemclass stack 10 and 1), a personal drop on Ashen Desert:
+            // 1287 Shiny Atta Carapace (25482, template 97483) off set 2's Ashen Atta Soldier 790043 and Worker 790044 (the
+            // client's "Ashen Atta Soldiers and Ashen Atta Harvesters"), Pristine Atta Carapace (25486, 97487) off Sally; 1293
+            // Shiny Granitour Carapace (25483, 97484) off the Granitour, Pristine (25487, 97488) off Wendy; 1289 Lasher Leather
+            // Hide (25485, 97486) off the Lasher, Pristine (25488, 97489) off Molly; 1291 Beam Manta Leather Hide (25484, 97485)
+            // off the Beam Manta, Pristine (25489, 97490) off Trudy. Ten at 75% and one at 100% (ESTIMATE rates), kept at an
+            // abandon, taken at the turn-in.
+            var hides = harness.World.Set<MissionTriggerEntry>().AsNoTracking()
+                .Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision && entry.MissionId >= 1287 && entry.MissionId <= 1293 &&
+                                entry.Kind == MissionTriggerKind.ProgressEvent).AsEnumerable()
+                .Select(entry => (entry.MissionId, entry.ObjectiveId, entry.EventKind, entry.SubjectId, entry.TargetValue))
+                .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ObjectiveId).ToArray();
+            CollectionAssert.AreEqual(new (uint, uint, byte?, uint?, uint?)[]
+            {
+                (1287, 1, acquired, 25482, 10), (1287, 2, acquired, 25486, 1),
+                (1289, 1, acquired, 25485, 10), (1289, 2, acquired, 25488, 1),
+                (1291, 1, acquired, 25484, 10), (1291, 2, acquired, 25489, 1),
+                (1293, 1, acquired, 25483, 10), (1293, 2, acquired, 25487, 1)
+            }, hides);
+            foreach (var (mission, drops) in new (uint, (uint Template, uint Objective, uint[] Creatures, int Chance, uint Count)[])[]
+            {
+                (1287, new[] { (97483U, 1U, new[] { AttaSoldier, AttaWorker }, 75, 10U), (97487U, 2U, new[] { Sally }, 100, 1U) }),
+                (1289, new[] { (97486U, 1U, new[] { Lasher }, 75, 10U), (97489U, 2U, new[] { Molly }, 100, 1U) }),
+                (1291, new[] { (97485U, 1U, new[] { Manta }, 75, 10U), (97490U, 2U, new[] { Trudy }, 100, 1U) }),
+                (1293, new[] { (97484U, 1U, new[] { Granitour }, 75, 10U), (97488U, 2U, new[] { Wendy }, 100, 1U) })
+            })
+            {
+                var items = Scenes(harness).Single(entry => entry.MissionId == mission).Scene.Items.OrderBy(item => item.ItemTemplateId).ToArray();
+                CollectionAssert.AreEqual(drops.Select(drop => (drop.Template, drop.Objective, string.Join(",", drop.Creatures), drop.Chance, drop.Count, drop.Count, 1U, Map,
+                        Rasa.Missions.Scenes.MissionItemScope.CharacterOwned, Rasa.Missions.Definitions.MissionItemCleanupDisposition.Retain)).ToArray(),
+                    items.Select(item => (item.ItemTemplateId, item.Drop.ObjectiveId, string.Join(",", item.Drop.CreatureIds), item.Drop.ChancePercent, item.MaximumQuantity,
+                        item.TurnInQuantity, item.Drop.Quantity, item.Drop.MapContextId, item.Scope, item.Abandonment)).ToArray(), $"{mission} drops");
+            }
         }
 
         /// <summary>
@@ -604,6 +652,8 @@ namespace Rasa.Test.Missions.Ashen
                 // Set 9 (TaRapedia): 1275 none, 1277 after 1275, 1278 after 1277.
                 (1277, MissionPrerequisiteKind.MissionCompleted, 1275, done), (1278, MissionPrerequisiteKind.MissionCompleted, 1277, done),
                 (1285, MissionPrerequisiteKind.MissionCompleted, 1261, done),
+                // Set 10 (TaRapedia): 1287 and 1289 none, 1291 after 1289, 1293 after 1287.
+                (1291, MissionPrerequisiteKind.MissionCompleted, 1289, done), (1293, MissionPrerequisiteKind.MissionCompleted, 1287, done),
                 (1352, MissionPrerequisiteKind.MissionCompleted, 1262, done), (1352, MissionPrerequisiteKind.MissionCompleted, 1263, done),
                 (1354, MissionPrerequisiteKind.MissionCompleted, 1262, done), (1354, MissionPrerequisiteKind.MissionCompleted, 1263, done),
                 (1355, MissionPrerequisiteKind.MissionCompleted, 1262, done), (1355, MissionPrerequisiteKind.MissionCompleted, 1263, done)
@@ -685,7 +735,13 @@ namespace Rasa.Test.Missions.Ashen
                 // armour with TaRapedia's version numbers V03, V02, V05, V09).
                 (1275, 95000, 6300, new[] { (14658U, 1U), (48712U, 1U), (49172U, 1U), (15025U, 1U) }),
                 (1277, 190000, 8400, new[] { (12101U, 1U), (11953U, 1U), (48300U, 1U), (14409U, 1U) }),
-                (1278, 190000, 8400, new[] { (19673U, 1U), (20504U, 1U), (37985U, 1U), (45843U, 1U) })
+                (1278, 190000, 8400, new[] { (19673U, 1U), (20504U, 1U), (37985U, 1U), (45843U, 1U) }),
+                // Set 10: TaRapedia's XP and credits; the lowest template of TaRapedia's four kinds at levels 41 (1287, 1289) and 42
+                // (1291, 1293); 1287's armour with TaRapedia's version numbers V11, V05, V05, V01.
+                (1287, 180000, 8200, new[] { (45986U, 1U), (35019U, 1U), (46069U, 1U), (13043U, 1U) }),
+                (1289, 180000, 8200, new[] { (48108U, 1U), (49108U, 1U), (15154U, 1U), (14409U, 1U) }),
+                (1291, 190000, 8400, new[] { (15550U, 1U), (12131U, 1U), (49172U, 1U), (15111U, 1U) }),
+                (1293, 200000, 8600, new[] { (45773U, 1U), (12077U, 1U), (15550U, 1U), (14492U, 1U) })
             })
             {
                 var reward = harness.World.Set<MissionRewardDefinitionEntry>().AsNoTracking()
@@ -745,12 +801,12 @@ namespace Rasa.Test.Missions.Ashen
                 .Select(entry => new { entry.MissionId, entry.ObjectiveId }).ToList()
                 .Select(entry => (entry.MissionId, entry.ObjectiveId)).ToHashSet();
             var scenes = Scenes(harness);
-            CollectionAssert.AreEquivalent(new uint[] { 1243, 1245, 1263, 1352, 1354, 1254, 1259, 1261, 1285, 1264, 1265, 1266, 1267, 1268, 1269, 1275, 1277, 1278 }, scenes.Select(scene => scene.MissionId).ToArray(), "the scenes");
+            CollectionAssert.AreEquivalent(new uint[] { 1243, 1245, 1263, 1352, 1354, 1254, 1259, 1261, 1285, 1264, 1265, 1266, 1267, 1268, 1269, 1275, 1277, 1278, 1287, 1289, 1291, 1293 }, scenes.Select(scene => scene.MissionId).ToArray(), "the scenes");
             var hidden = scenes.SelectMany(scene => (scene.Scene.HiddenObjectiveIds ?? new()).Select(objective => (scene.MissionId, objective))).ToHashSet();
             CollectionAssert.AreEquivalent(new[] { (1263U, 2U), (1254U, 4U), (1278U, 7U) }, hidden.ToArray(), "1263's tally, 1254's outcome and 1278's losses, hidden");
             var objectives = world.MissionObjectiveDefinitionEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision)
                 .Select(entry => new { entry.MissionId, entry.ObjectiveId }).ToList();
-            Assert.HasCount(5 + 2 + 1 + 1 + 5 + 2 + 1 + 4 + 1 + 2 + 1 + 11 + 3 + 2 + 4 + 1 + 1 + 1 + 1 + 2 + 2 + 2 + 2 + 2 + 2 + 1 + 4 + 3, objectives, "the objectives are read");
+            Assert.HasCount(5 + 2 + 1 + 1 + 5 + 2 + 1 + 4 + 1 + 2 + 1 + 11 + 3 + 2 + 4 + 1 + 1 + 1 + 1 + 2 + 2 + 2 + 2 + 2 + 2 + 1 + 4 + 3 + 2 + 2 + 2 + 2, objectives, "the objectives are read");
             var missing = objectives.Select(entry => (entry.MissionId, entry.ObjectiveId)).Where(key => !marked.Contains(key) && !hidden.Contains(key))
                 .OrderBy(key => key).ToArray();
             Assert.IsFalse(hidden.Any(marked.Contains), "no marker on a hidden objective");
@@ -813,7 +869,16 @@ namespace Rasa.Test.Missions.Ashen
                 // the four batteries.
                 (1275, 1, CrateX, CrateZ, 8),
                 (1277, 1, -62.80, -400.71, 8), (1277, 2, -3.80, -533.49, 8), (1277, 3, 59.41, -474.90, 8), (1277, 4, 146.75, -602.82, 8),
-                (1278, 1, 108, -510, 70), (1278, 2, 108, -510, 70)
+                (1278, 1, 108, -510, 70), (1278, 2, 108, -510, 70),
+                // Set 10: Ida Hayner's orders, 1 on the hide pools (r20), 2 on the boss (r15).
+                (1287, 1, -493, -240, 20), (1287, 1, -429, -240, 20), (1287, 1, -461, -216, 20), (1287, 1, -461, -264, 20), // the Atta pools 790046-790049
+                (1287, 2, -439, -258, 15),                          // Sally
+                (1289, 1, 330, -585, 20), (1289, 1, 280, -578, 20), // the Lasher pools 790363, 790364
+                (1289, 2, 299, -658, 15),                           // Molly
+                (1291, 1, 764, -322, 20), (1291, 1, 216, 486, 20), (1291, 1, -189, 635, 20), // the Beam Manta pools 790368-790370
+                (1291, 2, -198, 648, 15),                      // Trudy
+                (1293, 1, -185, 520, 20), (1293, 1, -215, 525, 20), // the Granitour pools 790374, 790375
+                (1293, 2, -180, 570, 15)                            // Wendy
             };
             Assert.HasCount(Indicators, expected);
             foreach (var (mission, objective, x, z, radius) in expected)
@@ -1738,6 +1803,150 @@ namespace Rasa.Test.Missions.Ashen
             world.ChangeTracker.Clear();
             AllUp();
             Assert.AreEqual(others, Others(), "no Ashen pool changes");
+        }
+
+        /// <summary>
+        /// Set 10's creatures, written out: the normals copy the World DB rows of their kind (all of the row but id and comment:
+        /// the Lasher 770008, the Beam Manta 540040 "Beam Manta Pilot", the Granitour 540031, with their stats), in pools of
+        /// three (radius 0, 120 s respawn, automatic): two Lasher, three Beam Manta, two Granitour pools. The bosses the client's
+        /// names (9359 Sally, 9360 Molly, 9361 Trudy, 9362 Wendy) on the boss classes (22627, 10331, 10317, 25620), level 44,
+        /// 4900 hit points, armour 420 (the Ashen boss rows' 520002-520007), the actions of the rows they copy (520002, 770034,
+        /// 520049, 540031), each in a pool of one (radius 0, 50 s). All hostile, on Ashen Desert, the only pools that hold them.
+        /// </summary>
+        [TestMethod]
+        public void TheHideCreaturesCopyTheirWorldRows()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var world = harness.World;
+            var creatures = world.CreatureEntries.AsNoTracking().ToDictionary(row => row.Id);
+            var stats = world.CreatureStatEntries.AsNoTracking().ToDictionary(row => row.Id);
+            foreach (var (creature, copy, cls, name, pools) in new (uint, uint, uint, uint, uint[])[]
+            {
+                (Lasher, 770008, 7477, 0, new uint[] { 790363, 790364 }), (Manta, 540040, 6441, 8023, new uint[] { 790368, 790369, 790370 }),
+                (Granitour, 540031, 10164, 0, new uint[] { 790374, 790375 })
+            })
+            {
+                var row = creatures[creature];
+                var source = creatures[copy];
+                Assert.AreEqual((cls, name, 0U), (row.ClassId, row.NameId, row.Faction), $"{creature}");
+                Assert.AreEqual((source.ClassId, source.Level, source.MaxHitPoints, source.NameId, source.Action1, source.Action2, source.Action3, source.RunSpeed, source.WalkSpeed),
+                    (row.ClassId, row.Level, row.MaxHitPoints, row.NameId, row.Action1, row.Action2, row.Action3, row.RunSpeed, row.WalkSpeed), $"{creature} copies {copy}");
+                Assert.AreEqual((stats[copy].Health, stats[copy].Armor), (stats[creature].Health, stats[creature].Armor), $"{creature} stats");
+                Assert.IsTrue(CreatureManager.Instance.LoadedCreatures.TryGetValue(creature, out var loaded) && loaded.TargetCategory == TargetCategory.Hostile, $"{creature} hostile");
+                CollectionAssert.AreEquivalent(pools, world.SpawnPoolEntries.AsNoTracking().Where(pool => pool.Creature1Id == creature).Select(pool => pool.Id).ToArray(), $"{creature}'s pools");
+                foreach (var pool in pools)
+                {
+                    var entry = world.SpawnPoolEntries.AsNoTracking().Single(candidate => candidate.Id == pool);
+                    Assert.AreEqual((Map, (byte)3, (byte)3, 0U, 0.0, 1200U, (byte)0), (entry.MapContextId, entry.Creature1MinCount, entry.Creature1MaxCount,
+                        entry.Creature2Id, entry.Radius, entry.RespawnTime, entry.Mode), $"pool {pool}");
+                }
+            }
+            foreach (var (boss, copy, cls, name, pool) in new (uint, uint, uint, uint, uint)[]
+            {
+                (Sally, 520002, 22627, 9359, 790361), (Molly, 770034, 10331, 9360, 790366), (Trudy, 520049, 10317, 9361, 790372), (Wendy, 540031, 25620, 9362, 790377)
+            })
+            {
+                var row = creatures[boss];
+                var source = creatures[copy];
+                Assert.AreEqual((cls, name, 44U, 4900U, 0U), (row.ClassId, row.NameId, row.Level, row.MaxHitPoints, row.Faction), $"{boss}");
+                Assert.AreEqual((source.Action1, source.Action2, source.Action3, source.RunSpeed, source.WalkSpeed), (row.Action1, row.Action2, row.Action3, row.RunSpeed, row.WalkSpeed), $"{boss}: {copy}'s actions");
+                Assert.AreEqual((4900, 420), (stats[boss].Health, stats[boss].Armor), $"{boss} stats");
+                Assert.IsTrue(CreatureManager.Instance.LoadedCreatures.TryGetValue(boss, out var loaded) && loaded.TargetCategory == TargetCategory.Hostile, $"{boss} hostile");
+                CollectionAssert.AreEqual(new[] { pool }, world.SpawnPoolEntries.AsNoTracking().Where(entry => entry.Creature1Id == boss).Select(entry => entry.Id).ToArray(), $"{boss}'s pool");
+                var entry = world.SpawnPoolEntries.AsNoTracking().Single(candidate => candidate.Id == pool);
+                Assert.AreEqual((Map, (byte)1, (byte)1, 0U, 0.0, 500U, (byte)0), (entry.MapContextId, entry.Creature1MinCount, entry.Creature1MaxCount,
+                    entry.Creature2Id, entry.Radius, entry.RespawnTime, entry.Mode), $"pool {pool}");
+            }
+            Assert.AreEqual(0, world.CreatureAppearanceEntries.AsNoTracking().Count(row => row.Id >= 790360 && row.Id <= 790399), "no look rows (the rows copied have none)");
+        }
+
+        /// <summary>
+        /// Ashen_designer_hides takes out Ida Hayner's four missions, the seven creatures (creature, stats) and their eleven
+        /// pools, and puts Ida's pool back on the weapon vendor's spot, exact; the rows it copies or uses (Ida, set 2's Atta, the
+        /// World DB's 520002, 770008, 770034, 540040, 520049, 540031) stay, no other Ashen pool changes, sets 1-9 stay. Up again,
+        /// all of it is back. Every table the migration writes is counted (set 10's ids and missions only); a second Down and Up
+        /// (the SQL run again) change nothing, and Ida's update leaves a pool that stands elsewhere alone.
+        /// </summary>
+        [TestMethod]
+        public void DesignerHidesRollsBackWithItsMigration()
+        {
+            var missions = new[] { AshenDesignerJewelryV1.MissionId, AshenLatestRageV1.MissionId, AshenWouldntWearItV1.MissionId, AshenNewFadV1.MissionId };
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var world = harness.World;
+            bool Has(uint mission) => world.MissionContentDefinitionEntries.AsNoTracking()
+                .Any(entry => entry.MissionId == mission && entry.ContentRevision == AshenMissionDataV1.Revision);
+            int Count(string sql) => world.Database.SqlQueryRaw<int>(sql).AsEnumerable().Single();
+            const string ids = "1287, 1289, 1291, 1293";
+            const string creatures = "790360, 790362, 790365, 790367, 790371, 790373, 790376";
+            const string pools = "790361, 790363, 790364, 790366, 790368, 790369, 790370, 790372, 790374, 790375, 790377";
+            // Every table the migration writes (its Up and its Down: AshenMissionDataV1.Remove clears all eighteen mission tables).
+            var tables = new[]
+            {
+                "mission_content_definition", "mission_objective_definition", "mission_objective_transition", "mission_trigger", "mission_action",
+                "mission_prerequisite", "mission_reward_definition", "mission_reward_item", "mission_indicator", "mission_scene_binding", "mission_evidence",
+                "mission_scenario", "mission_scenario_step", "mission_channel_policy", "mission_repeat_policy", "mission_spawn", "mission_spawn_group", "mission_area"
+            };
+            string All() => string.Join(", ", tables.Select(table => $"{table} {Count($"SELECT COUNT(*) AS Value FROM {table} WHERE content_revision = 'ashen_1_16_5' AND mission_id IN ({ids})")}")
+                .Append($"creature {Count($"SELECT COUNT(*) AS Value FROM creature WHERE id IN ({creatures})")}")
+                .Append($"creature_stat {Count($"SELECT COUNT(*) AS Value FROM creature_stat WHERE id IN ({creatures})")}")
+                .Append($"spawnpool {Count($"SELECT COUNT(*) AS Value FROM spawnpool WHERE id IN ({pools})")}")
+                .Append($"kept {Count($"SELECT COUNT(*) AS Value FROM creature WHERE id IN ({Ida}, {AttaSoldier}, {AttaWorker}, 520002, 770008, 770034, 540040, 520049, 540031)")}"));
+            (double X, double Y, double Z) IdaAt()
+            {
+                var row = world.SpawnPoolEntries.AsNoTracking().Single(entry => entry.Id == Ida);
+                return (row.PosX, row.PosY, row.PosZ);
+            }
+            var later = PoolsOfLaterMigrations(world, DesignerHides);
+            string Others() => string.Join("; ", world.SpawnPoolEntries.AsNoTracking()
+                .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && entry.Id != Ida && !(entry.Id >= 790360 && entry.Id <= 790399) && !later.Contains(entry.Id))
+                .OrderBy(entry => entry.Id).Select(entry => new { entry.Id, entry.PosX, entry.PosY, entry.PosZ, entry.Radius, entry.Creature1Id }).AsEnumerable().Select(entry => entry.ToString()));
+            var others = Others();
+            var upstream = (-167.10000610351562, 296.27, -709.0);
+            // Each mission: two objectives, one transition and one trigger each, one reward action, one reward (four items),
+            // its markers (5, 3, 4, 3), a scene, three evidence rows; 1291 and 1293 one prerequisite each. No scenarios, no
+            // channel or repeat policy, spawns or areas.
+            const string up = "mission_content_definition 4, mission_objective_definition 8, mission_objective_transition 8, mission_trigger 8, " +
+                "mission_action 4, mission_prerequisite 2, mission_reward_definition 4, mission_reward_item 16, mission_indicator 15, " +
+                "mission_scene_binding 4, mission_evidence 12, mission_scenario 0, mission_scenario_step 0, mission_channel_policy 0, " +
+                "mission_repeat_policy 0, mission_spawn 0, mission_spawn_group 0, mission_area 0, creature 7, creature_stat 7, spawnpool 11, kept 9";
+            const string down = "mission_content_definition 0, mission_objective_definition 0, mission_objective_transition 0, mission_trigger 0, " +
+                "mission_action 0, mission_prerequisite 0, mission_reward_definition 0, mission_reward_item 0, mission_indicator 0, " +
+                "mission_scene_binding 0, mission_evidence 0, mission_scenario 0, mission_scenario_step 0, mission_channel_policy 0, " +
+                "mission_repeat_policy 0, mission_spawn 0, mission_spawn_group 0, mission_area 0, creature 0, creature_stat 0, spawnpool 0, kept 9";
+            void AllUp()
+            {
+                Assert.IsTrue(missions.All(Has));
+                Assert.AreEqual(up, All());
+                Assert.AreEqual(AshenDesignerHidesNpcsV1.IdaAt, IdaAt(), "Ida moved");
+            }
+
+            AllUp();
+            world.GetService<IMigrator>().Migrate(Previous(world, DesignerHides));
+            world.ChangeTracker.Clear();
+            Assert.IsFalse(missions.Any(Has));
+            Assert.AreEqual(down, All());
+            Assert.AreEqual(upstream, IdaAt(), "Ida back on upstream's spot, exact");
+            Assert.AreEqual(others, Others(), "no other Ashen pool changes");
+            Assert.IsTrue(MissionIds.Take(32).All(Has), "sets 1-9 stay");
+            foreach (var sql in AshenDesignerHidesNpcsV1.Down())
+                world.Database.ExecuteSqlRaw(CrucibleSql.Guard(sql));
+            Assert.AreEqual(down, All(), "a second Down changes nothing");
+            Assert.AreEqual(upstream, IdaAt(), "a second Down leaves Ida on upstream's spot");
+
+            world.GetService<IMigrator>().Migrate(DesignerHides);
+            world.ChangeTracker.Clear();
+            AllUp();
+            foreach (var sql in AshenDesignerHidesNpcsV1.Up())
+                world.Database.ExecuteSqlRaw(CrucibleSql.Guard(sql));
+            AllUp();
+            Assert.AreEqual(others, Others(), "no other Ashen pool changes");
+            // The guard: a pool that stands neither where upstream nor where set 10 put it is left alone by both directions.
+            world.Database.ExecuteSqlRaw($"UPDATE spawnpool SET pos_x = -150.5 WHERE id = {Ida};");
+            foreach (var sql in AshenDesignerHidesNpcsV1.Down().Take(1).Concat(AshenDesignerHidesNpcsV1.Up().TakeLast(1)))
+                world.Database.ExecuteSqlRaw(sql);
+            Assert.AreEqual(-150.5, IdaAt().X, "a pool moved elsewhere is not touched");
+            world.Database.ExecuteSqlRaw(System.FormattableString.Invariant($"UPDATE spawnpool SET pos_x = {AshenDesignerHidesNpcsV1.IdaAt.X:R} WHERE id = {Ida};"));
+            AllUp();
         }
 
         /// <summary>

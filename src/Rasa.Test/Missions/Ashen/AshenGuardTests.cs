@@ -53,8 +53,8 @@ namespace Rasa.Test.Missions.Ashen
         private static readonly uint[] NewNpcs = N.New.Select(npc => npc.Id).Concat(B.New.Select(npc => npc.Id)).Append(Y.Infanger)
             .Concat(K.New.Select(npc => npc.Id)).ToArray();
 
-        /// <summary>The upstream NPCs the sets use where upstream has them: set 4's Lieutenant Jan Blood (1262).</summary>
-        private static readonly uint[] Kept = { Y.Blood };
+        /// <summary>The upstream NPCs the sets use where upstream has them (set 4's Lieutenant Jan Blood, 1262), and those a later set moved (set 10's Ida Hayner, off the weapon vendor).</summary>
+        private static readonly uint[] Kept = { Y.Blood, AshenDesignerHidesNpcsV1.IdaHayner };
 
         /// <summary>The friendly NPC pools of the Ashen missions on Ashen Desert: the block's, the upstream ones set 1 moved and those kept.</summary>
         private static List<SpawnPool> Npcs()
@@ -293,7 +293,9 @@ namespace Rasa.Test.Missions.Ashen
                 // upstream N18); Megumi in Shadow's Edge Post.
                 (K.Latan, "the Ashoka Settlement hospital", AshenFormalComplaintsTests.AshokaHospital),
                 (K.Ito, "the Ashoka Settlement hospital", AshenFormalComplaintsTests.AshokaHospital),
-                (K.Megumi, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint)
+                (K.Megumi, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                // Set 10: Ida Hayner in the Shadow's Edge weapon shop.
+                (AshenDesignerHidesNpcsV1.IdaHayner, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint)
             };
             var npcs = Npcs().ToDictionary(npc => npc.DbId);
             Assert.HasCount(npcs.Count, walks, "a walk to each NPC");
@@ -525,7 +527,20 @@ namespace Rasa.Test.Missions.Ashen
                 // Ridge's.
                 [AshenCycledFrequenciesV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
                 [AshenOnTheSameFrequencyV1.MissionId] = ("the Stonewall Ridge waypoint", AshenLeadInsTests.StonewallWaypoint),
-                [AshenKingOfTheHillV1.MissionId] = ("the Stonewall Ridge waypoint", AshenLeadInsTests.StonewallWaypoint)
+                [AshenKingOfTheHillV1.MissionId] = ("the Stonewall Ridge waypoint", AshenLeadInsTests.StonewallWaypoint),
+                // Set 10: 1287's Atta and Sally in the Mauna Barrens from Shadow's Edge Post's (as set 2's); 1289's Lashers and
+                // Molly west of Ashoka from Ashoka Settlement's; 1293's Coheri Pools and 1291's north-east Maji Field from White
+                // Oasis Post's (1291's eastern Boneyard Beam Manta from Ashoka's: Also; its Indra Pass one from White Oasis Post's, the Indra Pass
+                // waypoint's navmesh region being joined to nothing).
+                [AshenDesignerJewelryV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                [AshenWouldntWearItV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                [AshenLatestRageV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
+                [AshenNewFadV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
+            };
+            // A mission whose markers stand in more than one area: the other areas' waypoints (any one walks to the marker).
+            var also = new Dictionary<uint, (string Label, Vector3 At)[]>
+            {
+                [AshenNewFadV1.MissionId] = new[] { ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint) }
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var desert = AshenLeadInsTests.EnterAshen(harness);
@@ -546,8 +561,8 @@ namespace Rasa.Test.Missions.Ashen
                     continue;
                 }
                 var at = new Vector3((float)marker.PosX, (float)marker.PosY, (float)marker.PosZ);
-                var path = nav.FindPath(nav.Nearest(from.At) ?? from.At, nav.Nearest(at) ?? at, out var complete);
-                if (path == null || !complete)
+                bool Walked(Vector3 start) => nav.FindPath(nav.Nearest(start) ?? start, nav.Nearest(at) ?? at, out var complete) != null && complete;
+                if (!Walked(from.At) && !(also.TryGetValue(marker.MissionId, out var others) && others.Any(other => Walked(other.At))))
                     failures.Add(FormattableString.Invariant($"{label} at ({at.X}, {at.Y}, {at.Z}): no walk from {from.Label}"));
             }
             Assert.IsEmpty(failures, string.Join("; ", failures));
