@@ -270,6 +270,41 @@ them. All places walked both ways on the client floor; corners in AshenDesignerH
   west ridge (-300, 620), not past the Fithik pools 540075 / 540077. Turn in: 190000 XP, 8400 credits, one of Electric Polarity Gun
   15550, Electric Net Gun 12131, Sonic Cannon 49172, Electric Chaingun 15111.
 
+Set 11, White Oasis Post (migration `20271110001100_Ashen_white_oasis`). New world rows 790400 Doctor Harold Meeks (-498,
+282.39, 164) and 790401 Agent Hale (-516, 282.78, 176), both in the post. Lieutenant Dania Fontecilla (pool 510012) moved
+7.9 m west to (-519, 283.71, 164), off the White Oasis control point's console (she stood on its spot). All four White Oasis
+givers (Daris Linier, Fontecilla, Meeks, Hale) stand within 130 m of control point 17: they are gone while the Bane hold the
+post, and come back when the AFS take it again. Every place is walked both ways on the client floor from the White Oasis
+Post waypoint, 30 m or more outside every hostile pool's circle that is not the mission's own; corners in
+AshenWhiteOasisTests.Places.
+
+- [ ] 1295 Analyzing the Harvesters (Ligo Ashen Desert): Daris Linier offers it (no requirement), level 41. The Harvester
+  Diagnostic Tool (97477) at the accept. Use the four Harvester Control Panels (your own monitors) at Maji Field's
+  harvesters, any order: 1 (-305.7, 284.0, 198.1), 2 (-292, 290.71, 305), 3 (-375.5, 297.29, 394.1), 4 (-367, 298.49,
+  514). Walk to 2 via (-305.7, 198.1); to 3 and 4 west round the field via (-439.1, 204.8), (-430, 300) (4 also (-425,
+  470)). Turn in at Meeks: 100000 XP, 6450 credits, one of Flame Thrower 48752, Incendiary Net Gun 12125, Cryogenic Leech
+  Gun 47772, Pulse Rifle 11957; Meeks takes the tool.
+- [ ] 1298 Murky Waters (Ligo Ashen Desert): Meeks offers it after 1295, level 41. Talk to Hale: choice 1 ("I can't do
+  that", the repair) sets flag 258 and opens 3; choice 2 ("I agree", the poison) sets flag 257 and opens 2. Hale answers in
+  that side's text and pays: 50000 XP, 4300 credits, one of Basic Med Pack x6 45063, EMP Bomb 111233, Frag Grenade x3
+  45447, Cryogenic Grenade x3 111049. The choice is for good (set 12's 1299 needs 258, 1300 needs 257). Check: the client
+  shows the choice dialogue and the right answer text for each flag.
+- [ ] 1303 Prying Eyes (Ligo Ashen Desert): Daris Linier offers it (no requirement), level 41. Kill Overseer Ulovik
+  (upstream boss 520006, level 44, 4900 HP) at (-235, 291.2, 335) between the first two harvesters; straight walk from the
+  waypoint. Turn in at Daris: 95000 XP, 6300 credits, one of EMP Grenade x3, Res Trauma Kit, Concussion Grenade x3, Basic
+  Med Pack x6. Risk: a level 44 boss against a level 41 player (as 1244's Exing); the nearest other pool (Fithik 540075) is
+  46 m off.
+- [ ] 1356 Gas Shortages (Ligo Ashen Desert): Fontecilla offers it (no requirement), level 41. Three Shaped Charges
+  (111185) at the accept. On the Sheitan Embankment, three Raw Fuel Pumps (your own, class 10190) at (-76, 282.67, 125),
+  (-76, 282.75, 150), (-95, 282.8, 145), each with a Detonation Device 8.1 m off it: (-76, 133.1), (-67.9, 150), (-95,
+  136.9). Use a device: it takes one charge and blows its pump. Walk east via (-260, 200), (-160, 200), (-100, 180). Turn in
+  at Fontecilla: 95000 XP, 6300 credits, the same four stacks as 1303. Risk: the pumps stand inside the Embankment's Thrax
+  garrison (pool 531032, radius 30, 2-3 Soldiers and Ravagers): a fight there is the mission; its dropship lands on the
+  pads 6.1 m and more from the pump models and 5.6 m from the devices (the pads' models as the client places them).
+- [ ] White Oasis Post control point 17 (real client): Daris Linier (set 1's place, -507.4, 162.4) stands 4.2 m from the
+  point, about 2.3 m inside the console model's box (not moved). Click the console from the east side and look for
+  Daris clipping into the model or taking the click.
+
 ## Assumptions and choices (not from a source)
 
 All ESTIMATE (set 1):
@@ -453,6 +488,23 @@ All ESTIMATE (set 10):
   (the Indra Pass waypoint's floor is joined to nothing); Ida 6 m off the vendor 500018.
 - Rewards: the lowest Uncommon of TaRapedia's kinds at each level (1287 legs with TaRapedia's version numbers).
 
+All ESTIMATE (set 11):
+- Levels 41 for all four (D5). 1295's XP 100000 (TaRapedia "?": the zone's 6450-credit missions pay it). 1303 and 1356 have no
+  reward source (D6): 95000 XP, 6300 credits (the zone median) and Formal Complaints' four stacks.
+- No prerequisite for 1295, 1303 and 1356 (none named); 1298 after 1295 (TaRapedia).
+- 1298: giver Meeks (the client's offer text is his voice), receiver Hale (TaRapedia's infobox names Hale as giver; its
+  "Murky Waters Lead In" has no client id and is not built). Choice 1 = the repair (flag 258), choice 2 = the poison (flag 257),
+  from the client's choice texts and variants; flags kept at an abandon (as 1254).
+- Meeks and Hale: copies of Captain Flynn Harris' and Captain Marcus Emmons' rows and looks, level 40, 4500 HP. Meeks has a
+  server-only package (790400).
+- 1295: the panels are the client's human monitor 9478 named 69 "Harvester Control Panel"; 1 and 3 at TaRapedia's 1302
+  spots, 2 moved 33 m to the harvester's west side (TaRapedia's spot is 25 m from Fithik pool 540075 and 26 m from Ulovik),
+  4 moved 4 m (seen from 16 of 16 there). The tool is given at the accept; the panels do not check it (a mission item
+  cannot be destroyed).
+- 1356: the pump class 10190 "Raw Fuel Pump" (the client places none); the three pump places and their devices (no
+  source); three charges (the stack is 6); markers r10 (each takes in its device).
+- Fontecilla 7.9 m west of the control point's spot.
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -515,6 +567,13 @@ All ESTIMATE (set 10):
   hide creatures on Ashen Desert (1287: off any set 2 Atta Soldier / Worker), not only in the named area.
 - 1287, 1289, 1291, 1293: no n/10 counter in the log (no counter text in the client).
 - 1291: Trudy not on TaRapedia's hilltop (-242, 771): it is not reachable on the navmesh.
+- 1295: the panels do not check that the player holds the diagnostic tool.
+- 1295: panel 2 is 33 m and panel 4 4 m off TaRapedia's 1302 spots (a hostile camp and the view).
+- 1298: the client's empty choice 3 (10486) is not offered. The repair branch (1299) and the poison chain (1300, 1302) come
+  in set 12; 1297 and 1301 are not built (triage D3).
+- 1298: "Murky Waters Lead In" (TaRapedia, no client id) is not built: Meeks gives 1298 himself.
+- White Oasis Post: Daris Linier, Fontecilla, Meeks and Hale are gone while the Bane hold control point 17 (the server's
+  existing rule for service NPCs within 130 m of a point).
 
 ## Server data that differs from the sources (not changed)
 
@@ -638,3 +697,9 @@ All ESTIMATE (set 10):
 
 - Ida Hayner's pool 510011 moved from (-167.1, 296.27, -709.0) to (-161, 296.57, -710): she stood at the x/z of the
   weapon vendor 500018 (upstream data). Down restores the exact stored value.
+
+## Server data changed by set 11 (upstream rows)
+
+- Lieutenant Dania Fontecilla's pool 510012 moved from (-511.1, 281.76, 164.4) to (-519, 283.71, 164): she stood on the
+  White Oasis control point's own spot (control point 17, -511.08, 283.43, 164.35), inside the console a player uses
+  (upstream data). Down restores the exact stored value.

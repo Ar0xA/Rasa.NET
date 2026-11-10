@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 36 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 40 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -9,7 +9,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 | Zone | Missions |
 | --- | ---: |
-| Ashen Desert | 36 |
+| Ashen Desert | 40 |
 
 ## Ashen Desert
 
@@ -815,6 +815,67 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Chain** (explicit prerequisite links): Designer Jewelry Gone Wrong chain (2 missions), step 2
   - Requires: Designer Jewelry Gone Wrong (id 1287) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/All_the_Latest_Rage%21), [TaRapedia](https://tabularasa.fandom.com/wiki/Designer_Jewelry_Gone_Wrong)
 
+### 1295 — Analyzing the Harvesters
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 32 missions in this file with a sourced level
+  - reward: 6,450 credits; Vextronics Flame Thrower; Vextronics Incendiary Net Gun; Vextronics Cryogenic Leech Gun; Vextronics Pulse Rifle — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Analyzing_the_Harvesters)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Find the Harvester Processor at each of the four Water Harvesters in Maji Field. Run the diagnostic program at each harvester, then return to Dr. Harold Meeks at White Oasis Outpost with the results.
+  - objectives (client): Analyze Harvester 1; Analyze Harvester 2; Analyze Harvester 3; Analyze Harvester 4
+- **TaRapedia** [Analyzing the Harvesters](https://tabularasa.fandom.com/wiki/Analyzing_the_Harvesters) [stub]: giver: Captain Daris Linier; at: White Oasis Post; zone: Ashen Desert; requires: None; follow-up: Murky Waters; credits: 6,450; items: Vextronics Flame Thrower; Vextronics Incendiary Net Gun; Vextronics Cryogenic Leech Gun; Vextronics Pulse Rifle; reward from: Dr. Harold Meeks
+  - overview: Find the Harvester Processor at each of the four Water Harvesters in Maji Field. Run the diagnostic program at each harvester, then return to Dr. Harold Meeks at White Oasis Post with the results.
+  - objectives: • Analyze Harvester 1 • Analyze Harvester 2 • Analyze Harvester 3 • Analyze Harvester 4
+- **TaRapedia mission list** [White Oasis Post mission list](https://tabularasa.fandom.com/wiki/White_Oasis_Post_mission_list): zone Ashen Desert, area White Oasis Post, given by Captain Daris Linier
+
+- **Chain** (explicit prerequisite links): Analyzing the Harvesters chain (5 missions), step 1
+  - Leads to: Murky Waters (id 1298) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Analyzing_the_Harvesters), [TaRapedia](https://tabularasa.fandom.com/wiki/Murky_Waters)
+
+### 1298 — Murky Waters
+
+
+- **Instance mentioned:** Bane Conscription Facility — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 32 missions in this file with a sourced level
+  - reward: 50000 XP; 4300 credits; Class VIII Basic Med Pack (6); Class VIII EMP Bomb; Class VIII Frag Grenade (3); Class VIII Cryogenic Grenade (3) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Murky_Waters)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Agent Hale wants urgently wants to speak with you concerning the water harvesters at Maji Field. He can be found at White Oasis Base.
+  - objectives (client): Speak with Agent Hale; Poison; Repair
+- **TaRapedia** [Murky Waters](https://tabularasa.fandom.com/wiki/Murky_Waters): giver: Agent Hale; at: White Oasis Post; zone: Ashen Desert; requires: Analyzing the Harvesters; follow-up: Neurotoxins,Water Purification; XP: 50000; credits: 4300; items: Class VIII Basic Med Pack (6); Class VIII EMP Bomb; Class VIII Frag Grenade (3); Class VIII Cryogenic Grenade (3); reward from: Agent Hale
+  - overview: Choose to help Agent Hale or the Colonel at White Oasis Post.
+  - objectives: • Choose to help Agent Hale or the Colonel
+- **TaRapedia mission list** [White Oasis Post mission list](https://tabularasa.fandom.com/wiki/White_Oasis_Post_mission_list): zone Ashen Desert, area White Oasis Post, given by Agent Hale
+
+- **Chain** (explicit prerequisite links): Analyzing the Harvesters chain (5 missions), step 2
+  - Requires: Analyzing the Harvesters (id 1295) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Analyzing_the_Harvesters), [TaRapedia](https://tabularasa.fandom.com/wiki/Murky_Waters)
+  - Leads to: Water Purification (id 1299) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Murky_Waters)
+  - Leads to: Neurotoxins (id 1300) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Murky_Waters)
+
+### 1303 — Prying Eyes
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 32 missions in this file with a sourced level
+  - reward: not found (not critical)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: Ulovik: /loc -235, 335, zone Ashen Desert — source: [Ellatha boss NPC](https://www.ellatha.com/tr/bossnpcview.asp?key=Ulovik&id=63)
+- **Client:** Find Overseer Ulovik in Maji Field, who appears to be analyzing the processing units of the four Water Harvesters. Report back to Captain Daris Linier at White Oasis Outpost once he is dead.
+  - objectives (client): Kill Overseer Ulovik
+- **TaRapedia** [Prying Eyes](https://tabularasa.fandom.com/wiki/Prying_Eyes): zone: Ashen Desert
+  - overview: •; Find Overseer Ulovik in Maji Field, who appears to be analyzing the processing units of the four Water Harvesters. Report back to Captain Daris Linier at White Oasis Outpost once he is dead.
+  - objectives: • Kill Overseer Ulovik
+  - walkthrough: In between the first and second water harvester going from south to north order. (runway looking thing)
+- **TaRapedia mission list** [White Oasis Post mission list](https://tabularasa.fandom.com/wiki/White_Oasis_Post_mission_list): zone Ashen Desert, area White Oasis Post, given by Captain Daris Linier
+- **Where (locations / coordinates):**
+  - Ulovik: /loc -235, 335, zone Ashen Desert — source: [Ellatha boss NPC](https://www.ellatha.com/tr/bossnpcview.asp?key=Ulovik&id=63)
+- **Ellatha boss NPC** [Ulovik](https://www.ellatha.com/tr/bossnpcview.asp?key=Ulovik&id=63): /loc -235, 335; zone Ashen Desert; needed for: Ashen Desert Targets of Opportunity (boss named in client text)
+
 ### 1352 — Death from Above
 
 
@@ -911,4 +972,20 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
   - Requires: Xanxless Job (id 1262) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29), this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - Requires: Fallen Soldiers (id 1263) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29), this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - Requires: Look Before You Sabotage (id 1296) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Look_Before_You_Sabotage)
+
+### 1356 — Gas Shortages
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 32 missions in this file with a sourced level
+  - reward: not found (not critical)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Travel to the Shietan Embankment, east of White Oasis Post, and destroy the 3 Fuel Pumps that the Bane are using to refuel their vehicles. Once you have destroyed this position, report back to Lieutenant Dania Fontecilla at White Oasis Post.
+  - objectives (client): Destroy Fuel Station 1; Destroy Fuel Station 2; Destroy Fuel Station 3
+- **Web:** zone: Arieki / Ligo / Ashen Desert — Ashen Desert mission; known issue (2007-11-29) that it could not be completed due to faulty bomb receptacles on gas pumps after a disconnect, fixed 2007-12-11. Sources: [Updates/2007-11-29 - TaRapedia](https://tabularasa.fandom.com/wiki/Updates/2007-11-29), [Updates/2007-12-11 - TaRapedia](https://tabularasa.fandom.com/wiki/Updates/2007-12-11)
+- **PlayTR EU** [eu.rgtr.com:80/en/news_article/patch_notes_and_known_issues_11th_decem …](https://web.archive.org/web/20071218075407/http://eu.rgtr.com:80/en/news_article/patch_notes_and_known_issues_11th_december_2007): “Ligo Ashen Desert: / * Mission “Gas Shortages”: Fixed a bug that prevented players from completing the mission if they got disconnected between setting a bomb and receiving credit / * Mission “The Strongest Link”: Linkers around the Bane Conscription Control Point now properly give player kill credit.”
+- **PlayTR EU** [eu.rgtr.com:80/en/news_article/patch_notes_and_known_issues_29th_novem …](https://web.archive.org/web/20071201203306/http://eu.rgtr.com:80/en/news_article/patch_notes_and_known_issues_29th_november_2007): “Mission Error:Ashen Desert: “Gas Shortages” mission cannot be completed due to faulty bomb receptacles on gas pumps if you are disconnected from the server during the mission.”
+- **Stratics TR forum** [boards.stratics.com:80/php-bin/tr/showflat.php?Cat=&Number=11987&page= …](https://web.archive.org/web/20071221003621/http://boards.stratics.com:80/php-bin/tr/showflat.php?Cat=&Number=11987&page=0&view=collapsed&sb=5&o=&fpart=1): “dropships do not always give mission items. / Mission Error:Ashen Desert: "Gas Shortages" mission cannot be completed due / to faulty bomb receptacles on gas pumps if you are disconnected from the server”
 

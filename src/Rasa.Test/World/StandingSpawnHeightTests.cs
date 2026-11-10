@@ -152,7 +152,8 @@ namespace Rasa.Test.World
             // Crucible_kardash_and_prometheus, Captain Tiersky by Crucible_khulago_strikes, Supervisor Sheira and Larai Sigal
             // Tempa by Crucible_incurables_ward, Special Agent Capriulo and Viddea Scientist Eugin by Crucible_hybrid_arc); the Ashen
             // Desert NPCs Ashen_lead_ins moves (Colonel Mason Linier, Captain Flynn Harris, Captain Marcus Emmons, Captain Daris Linier)
-            // and Ida Hayner, whom Ashen_designer_hides moves off the weapon vendor's spot.
+            // and Ida Hayner, whom Ashen_designer_hides moves off the weapon vendor's spot, and Lieutenant Dania Fontecilla, whom
+            // Ashen_white_oasis moves off the White Oasis control point's console.
             void AssertCorrected(bool expected, params uint[] movedSince)
             {
                 harness.World.ChangeTracker.Clear();
@@ -198,7 +199,8 @@ namespace Rasa.Test.World
                 .Concat(Rasa.Services.Preloader.Missions.Crucible.CrucibleIncurablesWardNpcsV1.Moves.Select(move => move.Pool))
                 .Concat(Rasa.Services.Preloader.Missions.Crucible.CrucibleHybridArcNpcsV1.Moves.Select(move => move.Pool))
                 .Concat(Rasa.Services.Preloader.Missions.Ashen.AshenLeadInNpcsV1.Moves.Select(move => move.Pool))
-                .Append(Rasa.Services.Preloader.Missions.Ashen.AshenDesignerHidesNpcsV1.IdaHayner).ToArray());
+                .Append(Rasa.Services.Preloader.Missions.Ashen.AshenDesignerHidesNpcsV1.IdaHayner)
+                .Append(Rasa.Services.Preloader.Missions.Ashen.AshenWhiteOasisNpcsV1.Fontecilla).ToArray());
 
             // The vendor of Torcastra Prison was 5.69 m over the floor of the hall; Private
             // Parsons a metre in the ground. General Beacham, in the sandbags beside Cimoch, has
