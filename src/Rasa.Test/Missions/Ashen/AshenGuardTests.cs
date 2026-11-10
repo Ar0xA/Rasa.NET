@@ -561,12 +561,18 @@ namespace Rasa.Test.Missions.Ashen
                 [AshenAnalyzingHarvestersV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
                 [AshenMurkyWatersV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
                 [AshenPryingEyesV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
-                [AshenGasShortagesV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
+                [AshenGasShortagesV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
+                // Set 12: 1299's Coheri Pools Granitour, 1300's ridge Lashers west of the post (its Ashoka Lashers from Ashoka
+                // Settlement's: Also) and 1302's panels, from White Oasis Post's.
+                [AshenWaterPurificationV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
+                [AshenNeurotoxinsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
+                [AshenPoisoningTheWellwaterV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
             };
             // A mission whose markers stand in more than one area: the other areas' waypoints (any one walks to the marker).
             var also = new Dictionary<uint, (string Label, Vector3 At)[]>
             {
-                [AshenNewFadV1.MissionId] = new[] { ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint) }
+                [AshenNewFadV1.MissionId] = new[] { ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint) },
+                [AshenNeurotoxinsV1.MissionId] = new[] { ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint) }
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var desert = AshenLeadInsTests.EnterAshen(harness);
@@ -646,7 +652,7 @@ namespace Rasa.Test.Missions.Ashen
         /// The sets' NPCs and scene actors with a place (label, place, NPC) on Ashen Desert: set 2's five beacon spots (1245), set 4's
         /// six fallen (1263), set 5's six missile launchers and their Detonation Devices (1352) and three generators and theirs (1354),
         /// set 9's salvage crate (1275), consoles and ambushers (1277), turrets and wave members (1278), set 11's panels (1295) and
-        /// fuel pumps and their Detonation Devices (1356).
+        /// fuel pumps and their Detonation Devices (1356), set 12's panels (1302, on 1295's places).
         /// </summary>
         private static List<(string Label, Vector3 At, bool Npc)> Places(WildernessRuntimeTestHarness harness)
         {
@@ -655,10 +661,10 @@ namespace Rasa.Test.Missions.Ashen
                 foreach (var actor in scene.Actors.Values.Where(actor => actor.Position != null))
                     places.Add(($"{mission} {actor.Role}", new Vector3(actor.Position.X, actor.Position.Y, actor.Position.Z),
                         actor.Kind == Rasa.Missions.Scenes.SceneActorKind.Creature));
-            Assert.HasCount(NewNpcs.Length + N.Moves.Length + Kept.Length + 5 + 6 + 12 + 6 + 1 + 4 + 9 + 4 + 14 + 4 + 6, places,
+            Assert.HasCount(NewNpcs.Length + N.Moves.Length + Kept.Length + 5 + 6 + 12 + 6 + 1 + 4 + 9 + 4 + 14 + 4 + 6 + 4, places,
                 "the NPCs, 1245's five beacon spots, 1263's six fallen, 1352's launchers and devices, 1354's generators and devices, " +
                 "1275's crate, 1277's four consoles and nine ambushers, 1278's four turrets and fourteen wave members, 1295's four " +
-                "panels, 1356's pumps and devices");
+                "panels, 1356's pumps and devices, 1302's four panels");
             return places;
         }
 

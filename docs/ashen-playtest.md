@@ -305,6 +305,29 @@ AshenWhiteOasisTests.Places.
   point, about 2.3 m inside the console model's box (not moved). Click the console from the east side and look for
   Daris clipping into the model or taking the click.
 
+Set 12, Murky Waters' two sides (migration `20271110001200_Ashen_murky_waters`). New world rows: two pools of set 10's
+Lasher (790362, three each) on the ridge west of White Oasis Post, 790440 (-648, 336.06, 314) and 790441 (-655, 345.48,
+360) (the client's 1300 log: "including the ridge west of White Oasis"). No NPC is new or moved. The side is for good: 1299
+needs Murky Waters done with choice 1 (flag 258), 1300 and 1302 with choice 2 (flag 257); a player gets one side only.
+Every place is walked both ways on the client floor, 30 m or more outside every hostile pool's circle that is not the
+mission's own; corners in AshenMurkyWatersTests.Places.
+
+- [ ] 1299 Water Purification (Ligo Ashen Desert): Meeks offers it after 1298 done by choice 1 (the repair), level 42. 12
+  Granitour Water Glands (97479) off set 10's Coheri Pools Granitour (pools 790374 (-185, 520), 790375 (-215, 525)); Wendy
+  drops none. Walk from the White Oasis Post waypoint round the west of Maji Field: (-439.1, 204.8), (-430, 300), (-425,
+  470), the ridge (-300, 620), and to the first pool by (-250, 540) (the straight way passes Wendy and the Xanx / Tree Mite
+  camps). Turn in at Meeks: 95000 XP, 6300 credits, one of EMP Grenade x3, Res Trauma Kit, Concussion Grenade x3, Basic Med
+  Pack x6.
+- [ ] 1300 Neurotoxins (Ligo Ashen Desert): Hale offers it after 1298 done by choice 2 (the poison), level 42. 12 Lasher
+  Poison Glands (97480) off any of set 10's Lashers: the ridge pools west of the post (straight walk from the waypoint,
+  about 350 m: the navmesh goes round to the north) or set 10's two pools west of Ashoka; Molly drops none. Turn in at Hale:
+  100000 XP, 6450 credits, one of Mech V04 Legs 34374, Graviton V02 Vest 24086, Bio V04 Vest 46037, Stealth V04 Vest 40631.
+  Look: the ridge Lashers stand on a slope (the player comes from below: check that the abilities reach them).
+- [ ] 1302 Poisoning the Wellwater (Ligo Ashen Desert): Hale offers it after 1300 (flag 257), level 42. Four Water
+  Filtration Systems (97495) at the accept. Use the four Harvester Control Panels (your own, on 1295's four places; 1295's
+  own panels are gone after its turn-in): each takes one system. Same walks as 1295. Turn in at Hale: 45000 XP, 4000
+  credits, one of the Resist Fire / Ice / Virulent / Electric [4] armour modules.
+
 ## Assumptions and choices (not from a source)
 
 All ESTIMATE (set 1):
@@ -505,6 +528,20 @@ All ESTIMATE (set 11):
   source); three charges (the stack is 6); markers r10 (each takes in its device).
 - Fontecilla 7.9 m west of the control point's spot.
 
+All ESTIMATE (set 12):
+- Levels 42 (D5). 1299 has no reward source (D6): 95000 XP, 6300 credits and Formal Complaints' four stacks. 1300's XP
+  100000 (TaRapedia "Unknown": the zone's 6450-credit missions), 1302's 45000 (the zone's 4000-4100-credit missions).
+- 1299 is Murky Waters' repair side (inferred from Neurotoxins' "Choice A" and the client's variant 258); Meeks gives and
+  takes it (the client's log). 1302 also checks flag 257 (1300 already needs it).
+- Gland drops 75 % (as set 10's parts), 12 at most, kept at an abandon; off the normal Granitour / Lasher only, anywhere on
+  Ashen Desert.
+- The ridge pools' places (probe 2026-11-10: 17 m single joined floor, client floor, open sky, 60 m from other hostile
+  kinds, 85 m from NPCs) and three Lashers each (set 10's pools').
+- 1302: four systems (the client's stack of 25494 is 4); the panels are 1295's monitor 9478 named 69 "Harvester Control
+  Panel" (TaRapedia's 1302 page) on 1295's places, not the client's name 70 "Harvester Filtration Unit" (MAJI_WATERREPAIR,
+  read as the cut repair mission 1301's). Rewards in TaRapedia's order.
+- 1300 items: the lowest template of TaRapedia's kinds and version numbers in the 40-44 band.
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -574,6 +611,11 @@ All ESTIMATE (set 11):
 - 1298: "Murky Waters Lead In" (TaRapedia, no client id) is not built: Meeks gives 1298 himself.
 - White Oasis Post: Daris Linier, Fontecilla, Meeks and Hale are gone while the Bane hold control point 17 (the server's
   existing rule for service NPCs within 130 m of a point).
+
+- 1299, 1300: no n/12 counter in the log (no client counter text); the glands drop anywhere on Ashen Desert, not only at
+  Coheri Pools / on the ridge.
+- 1302: the panels do not check the systems by kind (each use takes one; a mission item cannot be destroyed).
+- 1297, 1301 (the repair side's follow-ups, client only) are not built (D3): the repair side ends at 1299.
 
 ## Server data that differs from the sources (not changed)
 
