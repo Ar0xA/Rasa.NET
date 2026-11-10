@@ -281,7 +281,7 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>The pools of each set 10 order's own targets (its hides' kind and its boss; 1287's also set 2's Atta it takes the carapace off).</summary>
         private static readonly (uint Mission, uint[] Pools)[] OrderPools =
         {
-            (AshenDesignerJewelryV1.MissionId, new uint[] { AshenDesignerHidesNpcsV1.SallyPool, 790046, 790047, 790048, 790049 }),
+            (AshenDesignerJewelryV1.MissionId, new uint[] { AshenDesignerHidesNpcsV1.SallyPool, 790046, 790047, 790048, 790049, AshenFixFV1.AttaPool }), // fix F's pool
             (AshenWouldntWearItV1.MissionId, AshenDesignerHidesNpcsV1.LasherPools.Select(pool => pool.Pool).Append(AshenDesignerHidesNpcsV1.MollyPool).ToArray()),
             (AshenNewFadV1.MissionId, AshenDesignerHidesNpcsV1.MantaPools.Select(pool => pool.Pool).Append(AshenDesignerHidesNpcsV1.TrudyPool).ToArray()),
             (AshenLatestRageV1.MissionId, AshenDesignerHidesNpcsV1.GranitourPools.Select(pool => pool.Pool).Append(AshenDesignerHidesNpcsV1.WendyPool).ToArray())
@@ -352,7 +352,7 @@ namespace Rasa.Test.Missions.Ashen
                 if (clear < X.WalkClearancePools)
                     failures.Add(FormattableString.Invariant($"{label}: the walk comes {clear:0.0} m from hostile pool {near}"));
             }
-            Assert.AreEqual(11, walked, "the eleven set 10 hostile pools are walked to");
+            Assert.AreEqual(11 + 1, walked, "the eleven set 10 hostile pools and fix F's are walked to");
             Assert.IsEmpty(failures, string.Join("; ", failures));
 
             // Set 10's places of the pools fix E moves fail it.

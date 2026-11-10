@@ -63,7 +63,9 @@ namespace Rasa.Test.Missions.Ashen
         private const uint PanelOff = 55, PanelOn = 56;
         private const uint ClientToolTemplate = 97477;     // client item class 25476 "Harvester Diagnostic Tool"
         private const uint ClientChargeTemplate = 111185;  // client item class 26442 "Shaped Charge"
-        private const uint ClientPumpClass = 10190;        // UsableInertDestBaneRawFuelPumpHouseV01
+        // Fix F (to-fix row 23): the V02 pump 21007 (UsableInertDestBaneRawFuelPumpHouseV02), set 11's V01 10190 showed no wreck;
+        // the two models' bounds are the same.
+        private const uint ClientPumpClass = AshenFixFV1.PumpClass;
         private const uint ClientDeviceClass = 7334;       // UsableItemAccHumBombV01 "Detonation Device"
         private const uint ClientDeviceUseArgument = 1;    // usabledata lookup[7334][0]
         private const uint DeviceReady = 119, DevicePlanted = 121, Intact = 110, Destroyed = 2;
@@ -71,7 +73,7 @@ namespace Rasa.Test.Missions.Ashen
         private const uint Fithik = 540018;
         private const uint WhiteOasisPoint = 17;           // ControlPointSeed / control_point 17 "White Oasis Post"
 
-        /// <summary>The client's model bounds (MeshLibrary, entity_meshes.csv, 2026-11-10): the control point 3814 x +-6.0, z +-8.6; the fuel pump 10190 x +-4.9, z +-2.95.</summary>
+        /// <summary>The client's model bounds (MeshLibrary, entity_meshes.csv, 2026-11-10): the control point 3814 x +-6.0, z +-8.6; the fuel pump 10190 (and fix F's 21007, the same bounds) x +-4.9, z +-2.95.</summary>
         private const float PointHalfX = 6.0f, PointHalfZ = 8.6f, PumpHalfX = 4.9f, PumpHalfZ = 2.95f;
         private const int ClientPadClass = 20750;          // ArchBaneObjLandingpadv02, the Sheitan Embankment's three pads (client statics)
         private const float DeviceClear = 3;               // a Detonation Device stands this far outside every pump's model

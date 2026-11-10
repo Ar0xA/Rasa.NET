@@ -97,7 +97,7 @@ namespace Rasa.Test.Missions.Ashen
         [TestMethod]
         public void DesignerJewelryComesOffTheAttaAndSally() => Order(new(Jewelry.MissionId, Array.Empty<uint>(), Jewelry.Droppers, AttaPools, D.Sally, D.SallyPool,
             Jewelry.ShinyTemplate, Jewelry.PristineTemplate, new[] { Jewelry.MotorAssistLegs, Jewelry.MechLegs, Jewelry.BioLegs, Jewelry.GravitonLegs },
-            Jewelry.Experience, Jewelry.Credits, ArmorFiller, 4, Rage.MissionId, Abandon: false));
+            Jewelry.Experience, Jewelry.Credits, ArmorFiller, 4 + 1, Rage.MissionId, Abandon: false)); // fix F: a marker on its own pool too
 
         [TestMethod]
         public void TheLatestRageComesOffTheGranitourAndWendy() => Order(new(Rage.MissionId, new[] { Jewelry.MissionId }, new[] { D.Granitour }, GranitourPools, D.Wendy, D.WendyPool,
@@ -475,6 +475,8 @@ namespace Rasa.Test.Missions.Ashen
             (D.IdaHayner, "Ida Hayner from the Shadow's Edge Post waypoint", ShadowsEdge,
                 (new[] { new Vector3(-139.60f, 296.13f, -770.86f), new Vector3(-143.20f, 297.05f, -759.80f) }, new[] { new Vector3(-145.00f, 296.13f, -754.80f) })),
             (D.SallyPool, "Sally from the Shadow's Edge Post waypoint", ShadowsEdge, Straight),
+            // Fix F: 1287's own Ashen Atta Soldier pool on the slope east of the camp, out of its Workers' warcry (AshenFixFTests).
+            (AshenFixFV1.AttaPool, "1287's Ashen Atta Soldier pool from the Shadow's Edge Post waypoint", ShadowsEdge, Straight),
             (LasherPools[0], "the first Lasher pool from the Ashoka Settlement waypoint", Ashoka, Straight),
             (LasherPools[1], "the second Lasher pool from the Ashoka Settlement waypoint", Ashoka, Straight),
             (D.MollyPool, "Molly from the Ashoka Settlement waypoint", Ashoka, (Array.Empty<Vector3>(), new[] { new Vector3(380.61f, 281.49f, -493.00f) })),

@@ -126,7 +126,10 @@ namespace Rasa.Services.Preloader.Missions.Ashen
         }
 
         /// <summary>The three charges issued at the accept and the player's own three pumps, each with its Detonation Device.</summary>
-        public static MissionSceneDefinition Scene()
+        public static MissionSceneDefinition Scene() => Scene(PumpClass);
+
+        /// <summary>The scene with the pumps of class <paramref name="pumpClass"/> (fix F: the V02 pump, AshenFixFV1).</summary>
+        public static MissionSceneDefinition Scene(uint pumpClass)
         {
             var scene = new MissionSceneDefinition
             {
@@ -146,7 +149,7 @@ namespace Rasa.Services.Preloader.Missions.Ashen
                 var device = DeviceRole(number);
                 var sequence = (uint)number;
                 var objective = Destroy(number);
-                scene.Actors[pump] = new SceneActorDefinition(pump, SceneActorKind.Object, PumpClass, PumpsAt[number - 1],
+                scene.Actors[pump] = new SceneActorDefinition(pump, SceneActorKind.Object, pumpClass, PumpsAt[number - 1],
                     InitiallyInteractable: false, InitialObjectState: IntactState,
                     Destruction: new SceneObjectDestruction(MissionId, objective, sequence, PumpHitPoints, DestroyedState));
                 scene.Actors[device] = new SceneActorDefinition(device, SceneActorKind.Object, DeviceClass, DevicesAt[number - 1],

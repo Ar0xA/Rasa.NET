@@ -251,24 +251,34 @@ them. All places walked both ways on the client floor; corners in AshenDesignerH
   Carapace (97487) off Sally (-439, 298.47, -298) (fix E, to-fix row 18: 40 m south of TaRapedia's (-439, -258), where
   she stood 20.6 m from Atta pool 790047 and joined the Atta fights; now 40 m and more from every other hostile pool). Turn
   in at Ida: 180000 XP, 8200 credits, one of Motor Assist legs 45986, Mech legs 35019, Bio legs 46069, Graviton legs
-  13043. Retest: pull the Atta of 790049 / 790047; Sally should not come.
+  13043. Retest: pull the Atta of 790049 / 790047; Sally should not come. Fix F (to-fix row 22): the camp's Workers call two
+  more hostiles within 80 m (the Atta harvester warcry), so a pull at the camp is a group fight; farm the carapaces at
+  1287's own pool of three Ashen Atta Soldiers 790378 (-355, 328.97, -210) on the slope east of the camp (marker 1/6), 80 m
+  from the camp's pools. Sally (fix F, row 18) comes back 300 s after her death (was 50 s). Immunities (row 20): Sally takes
+  nothing from Fire and Electrical (class 22627), nor do the Ashen Atta Soldiers (class 7081; the Workers take all): use
+  another type (a Sonic rifle killed her, 2026-11-10).
 - [ ] 1293 All the Latest Rage! (Ligo Ashen Desert): Ida offers it after 1287, level 42. 10 Shiny Granitour Carapace
   (97484) off the Granitours of Coheri Pools (-185, 520), (-215, 525) and the Pristine Granitour Carapace (97488) off Wendy
   (-180, 286.25, 570) (TaRapedia -190, 580). Walk from the White Oasis Post waypoint. Turn in: 200000 XP, 8600 credits, one
   of Sonic Torqueshell Rifle 45773, Virulent Disperser 12077, Electric Polarity Gun 15550, Laser Pistol 14492.
+  Immunities (row 20): Wendy (class 25620) and the Granitours (10164) take nothing from Fire. Wendy comes back after 300 s
+  (fix F).
 - [ ] 1289 I Wouldn't Wear It, But... (Ligo Ashen Desert): Ida offers it (no requirement), level 41. 10 Lasher Leather
   Hides (97486) off the Lashers by the road west of Ashoka (330, -585), (280, -578) and the Pristine Lasher Hide (97489) off
   Molly (315, 283.02, -622) (fix E, to-fix row 17: set 10 had (299, 295.08, -658), reached only past the Fithik pool
   540067; now 47 m north-east of TaRapedia's notch (275, -659), the walk from the Ashoka Settlement waypoint 30 m and
   more from other hostile pools). Turn in: 180000 XP, 8200 credits, one of Cryogenic
-  Injector Gun 48108, Laser Cannon 49108, Pulse Chaingun 15154, Pistol 14409.
+  Injector Gun 48108, Laser Cannon 49108, Pulse Chaingun 15154, Pistol 14409. Immunities (row 20): Molly (class 10331)
+  and the Lashers (7477) take nothing from Virulent and Laser. Molly comes back after 300 s (fix F).
 - [ ] 1291 A New Fad (Ligo Ashen Desert): Ida offers it after 1289, level 42. 10 Beam Manta Leather Hides (97485) off the
   Beam Manta in the eastern Boneyard (770, -400; fix E: set 10's (764, -322) was walked to past the Nitroglazer pool
   790244), the Indra Pass (216, 486) and northeast Maji Field (-189, 635), and the Pristine Beam Manta Leather (97490) off
   Trudy (-250, 302.74, 632) (fix E: set 10's (-198, 299.48, 648) was 16 m from the Manta pool 790370; TaRapedia's hilltop
   -242, 771 is not joined to the navmesh). Walk to Coheri Pools and Maji Field from the White Oasis Post waypoint by the
   west ridge (-300, 620), not past the Fithik pools 540075 / 540077. Turn in: 190000 XP, 8400 credits, one of Electric Polarity Gun
-  15550, Electric Net Gun 12131, Sonic Cannon 49172, Electric Chaingun 15111.
+  15550, Electric Net Gun 12131, Sonic Cannon 49172, Electric Chaingun 15111. Immunities (row 20): Trudy (class 10317) and
+  the Beam Manta (6441) take nothing from Electrical: of the four reward weapons only the Sonic Cannon hurts them. Trudy
+  comes back after 300 s (fix F).
 
 Set 11, White Oasis Post (migration `20271110001100_Ashen_white_oasis`). New world rows 790400 Doctor Harold Meeks (-498,
 282.39, 164) and 790401 Agent Hale (-516, 282.78, 176), both in the post. Lieutenant Dania Fontecilla (pool 510012) moved
@@ -283,7 +293,9 @@ AshenWhiteOasisTests.Places.
   harvesters, any order: 1 (-305.7, 284.0, 198.1), 2 (-292, 290.71, 305), 3 (-375.5, 297.29, 394.1), 4 (-367, 298.49,
   514). Walk to 2 via (-305.7, 198.1); to 3 and 4 west round the field via (-439.1, 204.8), (-430, 300) (4 also (-425,
   470)). Turn in at Meeks: 100000 XP, 6450 credits, one of Flame Thrower 48752, Incendiary Net Gun 12125, Cryogenic Leech
-  Gun 47772, Pulse Rifle 11957; Meeks takes the tool.
+  Gun 47772, Pulse Rifle 11957; Meeks takes the tool. Do not walk straight from panel 3 (or 2) to panel 4: the line passes
+  through the Xanx pool 540076 (-363.9, 447.9; to-fix row 21, fix F: they notice a player within 33 m of its point and
+  follow a pull up to 60 m from home, webbing from 40 m); go by (-425, 470).
 - [ ] 1298 Murky Waters (Ligo Ashen Desert): Meeks offers it after 1295, level 41. Talk to Hale: choice 1 ("I can't do
   that", the repair) sets flag 258 and opens 3; choice 2 ("I agree", the poison) sets flag 257 and opens 2. Hale answers in
   that side's text and pays: 50000 XP, 4300 credits, one of Basic Med Pack x6 45063, EMP Bomb 111233, Frag Grenade x3
@@ -295,12 +307,14 @@ AshenWhiteOasisTests.Places.
   Med Pack x6. Risk: a level 44 boss against a level 41 player (as 1244's Exing); the nearest other pool (Fithik 540075) is
   46 m off.
 - [ ] 1356 Gas Shortages (Ligo Ashen Desert): Fontecilla offers it (no requirement), level 41. Three Shaped Charges
-  (111185) at the accept. On the Sheitan Embankment, three Raw Fuel Pumps (your own, class 10190) at (-76, 282.67, 125),
+  (111185) at the accept. On the Sheitan Embankment, three Raw Fuel Pumps (your own, class 21007, fix F; set 11 had 10190) at (-76, 282.67, 125),
   (-76, 282.75, 150), (-95, 282.8, 145), each with a Detonation Device 8.1 m off it: (-76, 133.1), (-67.9, 150), (-95,
   136.9). Use a device: it takes one charge and blows its pump. Walk east via (-260, 200), (-160, 200), (-100, 180). Turn in
   at Fontecilla: 95000 XP, 6300 credits, the same four stacks as 1303. Risk: the pumps stand inside the Embankment's Thrax
   garrison (pool 531032, radius 30, 2-3 Soldiers and Ravagers): a fight there is the mission; its dropship lands on the
   pads 6.1 m and more from the pump models and 5.6 m from the devices (the pads' models as the client places them).
+  Retest (to-fix row 23, fix F): after the use the pump should show the explosion and then its wreck (set 11's class 10190
+  kept its intact model).
 - [ ] White Oasis Post control point 17 (real client): Daris Linier (set 1's place, -507.4, 162.4) stands 4.2 m from the
   point, about 2.3 m inside the console model's box (not moved). Click the console from the east side and look for
   Daris clipping into the model or taking the click.
@@ -323,6 +337,7 @@ mission's own; corners in AshenMurkyWatersTests.Places.
   about 350 m: the navmesh goes round to the north) or set 10's two pools west of Ashoka; Molly drops none. Turn in at Hale:
   100000 XP, 6450 credits, one of Mech V04 Legs 34374, Graviton V02 Vest 24086, Bio V04 Vest 46037, Stealth V04 Vest 40631.
   Look: the ridge Lashers stand on a slope (the player comes from below: check that the abilities reach them).
+  Immunities (row 20, fix F): the Lashers (class 7477) take nothing from Virulent and Laser.
 - [ ] 1302 Poisoning the Wellwater (Ligo Ashen Desert): Hale offers it after 1300 (flag 257), level 42. Four Water
   Filtration Systems (97495) at the accept. Use the four Harvester Control Panels (your own, on 1295's four places; 1295's
   own panels are gone after its turn-in): each takes one system. Same walks as 1295. Turn in at Hale: 45000 XP, 4000
@@ -550,7 +565,7 @@ All ESTIMATE (set 11):
   spots, 2 moved 33 m to the harvester's west side (TaRapedia's spot is 25 m from Fithik pool 540075 and 26 m from Ulovik),
   4 moved 4 m (seen from 16 of 16 there). The tool is given at the accept; the panels do not check it (a mission item
   cannot be destroyed).
-- 1356: the pump class 10190 "Raw Fuel Pump" (the client places none); the three pump places and their devices (no
+- 1356: the pump class "Raw Fuel Pump", set 11's 10190, fix F's V02 21007 (the client places none); the three pump places and their devices (no
   source); three charges (the stack is 6); markers r10 (each takes in its device).
 - Fontecilla 7.9 m west of the control point's spot.
 
@@ -768,6 +783,42 @@ All ESTIMATE (set 13):
   (AshenFixETests); set 10's places failed it (Sally 20.6 m, Trudy 15.8 m; the walks to Molly 22.3 m, to the Boneyard
   Manta 2.2 m). Wendy and the other pools stay. Guarded on the rows' exact stored values; Down puts set 10's back.
   Evidence rows 4 for 1287, 1289, 1291. ESTIMATE: the places (TaRapedia's spots for Sally and Molly are 40 and 47 m off).
+
+## Server data changed by fix job F (20271110001310)
+
+- Set 10's boss pools (live, migration 20271110001000; to-fix row 18): Sally 790361, Molly 790366, Trudy 790372, Wendy
+  790377 respawn in 3000 tenths (300 s), not set 10's 500 (50 s, the value of every upstream boss pool); Sally came back
+  about 50 s after her death by the camp a player farms. ESTIMATE: 300 s, the World DB's most common respawn. Guarded on
+  the rows' exact stored values (and their boss); Down puts 500 back.
+- New pool 790378 (to-fix row 22): three Ashen Atta Soldiers (set 2's 790043), radius 0, 120 s, at (-355, 328.97, -210) on
+  the slope east of the Mauna Barrens camp, with a marker of 1287's objective 1 (indicator 6, r20). The camp's Ashen Atta
+  Workers (790044, a copy of the Thunderhead harvester) have the Atta harvester warcry (477: the two nearest hostile
+  creatures within 80 m that are not fighting join, once a minute a Worker), which reaches every camp pool, Sally and the
+  Mutated pools: each pull there became a group fight. The new pool is 79.6 m from the nearest hostile pool, 106 m from the
+  Worker pools, walked both ways from the Shadow's Edge Post waypoint (ESTIMATE: the place). Its Soldiers count for 1242
+  and drop 1287's carapace. Down takes the pool and the marker out. Evidence rows 5 for 1287, 1289, 1291, row 4 for 1293.
+- No change at White Oasis's panel 4 (to-fix row 21): the Xanx of upstream pool 540076 (radius 15) notice a player within
+  33 m of its point (its radius and the 18 m aggro range); panel 4 is 66 m off. A Xanx pulled on the way follows the fight
+  up to 60 m from its home and webs from 40 m, so it reaches the panel; the straight walk from panel 3 passes 7.8 m from the
+  pool's point. Moving the panel out of that reach (115 m) would put it 50 m off its harvester: the walk by (-425, 470)
+  keeps out of the Xanx's notice instead (playtest note above).
+- 1356's pumps (set 11's scene, live; to-fix row 23): class 10190 (UsableInertDestBaneRawFuelPumpHouseV01) to 21007
+  (V02), the same model bounds, augmentation 41, wreck mesh 26121 on state 2 and explosion 24019 (usabledata); 10190 alone
+  loops an intact animation (usabledata.animation (10190, 110, NULL) = 53), and a blown 10190 kept its model in the real
+  client although the server sends the destroy path 110 -> 185 -> 186 -> 2; 21007's wreck showed in 1053. ESTIMATE: the
+  cause (not checked in the client). The scene row is swapped only where it holds set 11's exact JSON; Down puts it back.
+  Evidence row 4 for 1356.
+- Set 10's and set 12's creatures' damage immunities (to-fix row 20; no change): the classes' IMMUNE_* flags (World DB
+  creature_class_flag, CreatureImmunities) make Sally 22627 take nothing from Fire and Electrical, Molly 10331 from
+  Virulent and Laser, Trudy 10317 from Electrical, Wendy 25620 from Fire; the hide creatures alike: Lasher 7477 (set 10's
+  pools and set 12's ridge pools 790440 / 790441) Virulent and Laser, Beam Manta 6441 Electrical, Granitour 10164 Fire,
+  Ashen Atta Soldier 7081 (and set 2's Mutated Atta Soldier, same class) Fire and Electrical, Ashen Atta Worker 7078 none.
+  A hit of such a type shows "absorbs all the damage". The classes are reconstructions (triage D8, MS10 10.4), and the rule
+  is to switch to an immune-free class of the same kind: the client has none. Every Creature_Atta_Soldier_* class (7081,
+  22627, 25612, 26024, 26025) has Fire and Electrical, both Lasher classes (7477, 10331) Virulent and Laser, both Beam Manta
+  classes (6441, 10317) Electrical, every Granitour class (10164, 25610, 25620) Fire; the immune-free Atta classes are
+  Harvesters and Queens, another kind. So the classes stay; bring a weapon of another type (a Sonic rifle killed Sally;
+  of 1291's rewards only the Sonic Cannon hurts the Mantas and Trudy). Pinned in AshenFixFTests.
 
 ## Server data changed by set 8 (upstream rows)
 

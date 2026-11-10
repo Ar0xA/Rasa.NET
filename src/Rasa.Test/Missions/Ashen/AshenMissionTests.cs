@@ -96,9 +96,9 @@ namespace Rasa.Test.Missions.Ashen
         /// on the Lasher pools and one on Molly, 1291's three on the Beam Manta pools and one on Trudy); set 11's eleven (1295's
         /// four on the panels, 1298's three at Hale, 1303's on Ulovik, 1356's three on the fuel pumps); set 12's ten (1299's two
         /// on set 10's Granitour pools, 1300's four on the Lasher pools, 1302's four on the panels); set 13's thirteen (1280's on Veyon's body, 1281's ten on the resistors, 1282's on
-        /// Maiek's body and at Endala).
+        /// Maiek's body and at Endala); fix F's one (1287's on its own Ashen Atta Soldier pool 790378).
         /// </summary>
-        internal const int Indicators = 5 + 12 + 10 + 6 + 20 + 9 + 13 + 13 + 7 + 15 + 11 + 10 + 13;
+        internal const int Indicators = 5 + 12 + 10 + 6 + 20 + 9 + 13 + 13 + 7 + 15 + 11 + 10 + 13 + 1;
 
         private const string LeadIns = "20271110000000_Ashen_lead_ins";
         private const string MaunaBarrens = "20271110000100_Ashen_mauna_barrens";
@@ -744,7 +744,8 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.IsTrue(world.CreatureClassFlagEntries.AsNoTracking().Any(flag => flag.ClassId == cls && flag.FlagId == 82),
                     $"class {cls} has the Atta flag 82");
                 var pools = world.SpawnPoolEntries.AsNoTracking().Where(pool => pool.Creature1Id == atta).ToList();
-                Assert.HasCount(2, pools, $"{atta}'s two pools");
+                // Fix F adds a third Soldier pool, 1287's own (790378).
+                Assert.HasCount(atta == AshenFixFV1.AttaSoldier ? 3 : 2, pools, $"{atta}'s pools");
                 foreach (var pool in pools)
                     Assert.AreEqual((Map, (byte)3, (byte)3, 0.0, 1200U), (pool.MapContextId, pool.Creature1MinCount, pool.Creature1MaxCount,
                         pool.Radius, pool.RespawnTime), $"pool {pool.Id}");
@@ -824,7 +825,8 @@ namespace Rasa.Test.Missions.Ashen
                     evidence.Where(entry => entry.MissionId == mission && !(mission == AshenFixAV1.MissionId && entry.EvidenceId == AshenFixAV1.Evidence)
                         && !(mission == AshenFixBV1.MissionId && entry.EvidenceId == AshenFixBV1.Evidence)
                         && !(mission == AshenFixDV1.MissionId && entry.EvidenceId == AshenFixDV1.Evidence)
-                        && !(AshenFixEV1.Evidences.Any(fix => fix.Mission == mission) && entry.EvidenceId == AshenFixEV1.Evidence))
+                        && !(AshenFixEV1.Evidences.Any(fix => fix.Mission == mission) && entry.EvidenceId == AshenFixEV1.Evidence)
+                        && !AshenFixFV1.Evidences.Any(fix => fix.Mission == mission && fix.Evidence == entry.EvidenceId && entry.SourceUri == AshenFixFV1.Source))
                         .OrderBy(entry => entry.EvidenceId)
                         .Select(entry => (entry.SourceKind, entry.Confidence)).ToArray(), $"{mission} evidence");
         }
@@ -1034,6 +1036,7 @@ namespace Rasa.Test.Missions.Ashen
                 (1278, 1, 108, -510, 70), (1278, 2, 108, -510, 70),
                 // Set 10: Ida Hayner's orders, 1 on the hide pools (r20), 2 on the boss (r15).
                 (1287, 1, -493, -240, 20), (1287, 1, -429, -240, 20), (1287, 1, -461, -216, 20), (1287, 1, -461, -264, 20), // the Atta pools 790046-790049
+                (1287, 1, -355, -210, 20),                          // fix F: 1287's own Ashen Atta Soldier pool 790378
                 (1287, 2, -439, -298, 15),                          // Sally (moved by fix E)
                 (1289, 1, 330, -585, 20), (1289, 1, 280, -578, 20), // the Lasher pools 790363, 790364
                 (1289, 2, 315, -622, 15),                           // Molly (moved by fix E)
@@ -2037,7 +2040,7 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.IsTrue(CreatureManager.Instance.LoadedCreatures.TryGetValue(boss, out var loaded) && loaded.TargetCategory == TargetCategory.Hostile, $"{boss} hostile");
                 CollectionAssert.AreEqual(new[] { pool }, world.SpawnPoolEntries.AsNoTracking().Where(entry => entry.Creature1Id == boss).Select(entry => entry.Id).ToArray(), $"{boss}'s pool");
                 var entry = world.SpawnPoolEntries.AsNoTracking().Single(candidate => candidate.Id == pool);
-                Assert.AreEqual((Map, (byte)1, (byte)1, 0U, 0.0, 500U, (byte)0), (entry.MapContextId, entry.Creature1MinCount, entry.Creature1MaxCount,
+                Assert.AreEqual((Map, (byte)1, (byte)1, 0U, 0.0, AshenFixFV1.BossRespawnTenths, (byte)0), (entry.MapContextId, entry.Creature1MinCount, entry.Creature1MaxCount,
                     entry.Creature2Id, entry.Radius, entry.RespawnTime, entry.Mode), $"pool {pool}");
             }
             Assert.AreEqual(0, world.CreatureAppearanceEntries.AsNoTracking().Count(row => row.Id >= 790360 && row.Id <= 790399), "no look rows (the rows copied have none)");
@@ -2096,11 +2099,12 @@ namespace Rasa.Test.Missions.Ashen
                 "mission_action 0, mission_prerequisite 0, mission_reward_definition 0, mission_reward_item 0, mission_indicator 0, " +
                 "mission_scene_binding 0, mission_evidence 0, mission_scenario 0, mission_scenario_step 0, mission_channel_policy 0, " +
                 "mission_repeat_policy 0, mission_spawn 0, mission_spawn_group 0, mission_area 0, creature 0, creature_stat 0, spawnpool 0, kept 9";
-            // Fix E (a later migration) adds an evidence row on 1287, 1289 and 1291 while it is up (all migrations).
+            // Fix E (a later migration) adds an evidence row on 1287, 1289 and 1291 while it is up (all migrations); fix F one on
+            // each of the four and 1287's marker on its own Atta pool.
             void AllUp(bool fixE = false)
             {
                 Assert.IsTrue(missions.All(Has));
-                Assert.AreEqual(fixE ? up.Replace("mission_evidence 12", "mission_evidence 15") : up, All());
+                Assert.AreEqual(fixE ? up.Replace("mission_evidence 12", "mission_evidence 19").Replace("mission_indicator 15", "mission_indicator 16") : up, All());
                 Assert.AreEqual(AshenDesignerHidesNpcsV1.IdaAt, IdaAt(), "Ida moved");
             }
 
@@ -2189,14 +2193,15 @@ namespace Rasa.Test.Missions.Ashen
                 "mission_scene_binding 0, mission_evidence 0, mission_scenario 0, mission_scenario_step 0, mission_channel_policy 0, " +
                 "mission_repeat_policy 0, mission_spawn 0, mission_spawn_group 0, mission_area 0, creature 0, creature_stat 0, " +
                 "creature_appearance 0, npc_package 0, spawnpool 0, kept 5";
-            void AllUp()
+            // Fix F (a later migration) adds an evidence row on 1356 while it is up (all migrations).
+            void AllUp(bool fixF = false)
             {
                 Assert.IsTrue(missions.All(Has));
-                Assert.AreEqual(up, All());
+                Assert.AreEqual(fixF ? up.Replace("mission_evidence 12", "mission_evidence 13") : up, All());
                 Assert.AreEqual(AshenWhiteOasisNpcsV1.FontecillaAt, FontecillaAt(), "Fontecilla moved");
             }
 
-            AllUp();
+            AllUp(fixF: true);
             world.GetService<IMigrator>().Migrate(Previous(world, WhiteOasis));
             world.ChangeTracker.Clear();
             Assert.IsFalse(missions.Any(Has));
@@ -2256,7 +2261,8 @@ namespace Rasa.Test.Missions.Ashen
                 .Append($"kept {Count($"SELECT COUNT(*) AS Value FROM creature WHERE id IN ({Lasher}, {Granitour}, {Meeks}, {Hale})")}")
                 .Append($"murky {Count("SELECT COUNT(*) AS Value FROM mission_content_definition WHERE content_revision = 'ashen_1_16_5' AND mission_id = 1298")}"));
             static string Others(DbContext db) => string.Join("; ", db.Set<SpawnPoolEntry>().AsNoTracking()
-                    .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && entry.Id != 790440 && entry.Id != 790441).OrderBy(entry => entry.Id).AsEnumerable()
+                    // Fix F (a later migration) adds 1287's Atta pool and its marker: not set 12's.
+                    .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && entry.Id != 790440 && entry.Id != 790441 && entry.Id != AshenFixFV1.AttaPool).OrderBy(entry => entry.Id).AsEnumerable()
                     .Select(entry => System.FormattableString.Invariant($"{entry.Id}:{entry.PosX:R},{entry.PosY:R},{entry.PosZ:R},{entry.Radius:R},{entry.Creature1Id},{entry.Creature1MaxCount}")))
                 + " | " + string.Join("; ", db.Set<MissionContentDefinitionEntry>().AsNoTracking()
                     .Where(entry => entry.MissionId != 1299 && entry.MissionId != 1300 && entry.MissionId != 1302).OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ContentRevision)
@@ -2264,6 +2270,7 @@ namespace Rasa.Test.Missions.Ashen
                 + " | " + string.Join("; ", db.Set<MissionIndicatorEntry>().AsNoTracking()
                     .Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision && entry.MissionId != 1299 && entry.MissionId != 1300 && entry.MissionId != 1302)
                     .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ObjectiveId).ThenBy(entry => entry.IndicatorId).AsEnumerable()
+                    .Where(entry => !(entry.MissionId == AshenDesignerJewelryV1.MissionId && entry.IndicatorId == AshenFixFV1.MarkerIndicator))
                     .Select(entry => System.FormattableString.Invariant($"{entry.MissionId}.{entry.ObjectiveId}/{entry.IndicatorId}:{entry.PosX:R},{entry.PosZ:R}")));
             string others;
             using (var atMurky = WildernessRuntimeTestHarness.Create(targetWorldMigration: MurkyWaters))
