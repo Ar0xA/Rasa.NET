@@ -207,6 +207,36 @@ Ashoka Upper teleporter (613). The straight line to the market ramp is walled of
   (the Sheitan Highway beats), every kill while needed; markers as 1265's. Turn in at Ito: 200000 XP, 6300 credits, one
   of the 1254 stacks. The chain ends (TaRapedia: title "Desert Logistician", the Targets of Opportunity's, not built).
 
+Set 9, Stonewall Ridge (migration `20271110000900_Ashen_stonewall_ridge`). No new world rows: the salvage crate, the
+consoles, the ambushers, the turret copies and the waves are scene actors on existing rows (Bane crate 7904, human monitor
+9478, Thrax Soldier 531008, Thrax Ravager 531009, Desert Stalker 790121, AFS Turret 550001). Emmons stands by the
+Stonewall Command tower (-62, 350.5, -414), 13 m from its ground teleporter 539. Walks east of the waypoint go round the
+knee-high rise at (21.6, -437.0) (e.g. by (18.5, -429.6) and (32.8, -438.1)).
+
+- [ ] 1275 Cycled Frequencies (Ligo Ashen Desert): Emmons offers it (no requirement), level 40. Search the Bane Dropship
+  Salvage crate (537, 283.9, -267) by the Boneyard wreck at (537, 282, -279) (walk from the Ashoka Settlement waypoint):
+  the Bane Radar Frequency Codes (97475). Turn in at Emmons: 95000 XP, 6300 credits, one of Sonic Rifle 14658,
+  Endothermic Polarity Gun 48712, Sonic RPG Launcher 49172, Pulse Shotgun 15025. Look: the crate's look and name
+  ("Bane Dropship Salvage"), the open animation, the use with a full bag (codes stay in the crate).
+- [ ] 1277 On The Same Frequency (Ligo Ashen Desert): Emmons offers it after 1275, level 41. On each tower's second floor
+  (ground teleporter -> upper: 539 -> 823 Command, 538 -> 824 Operations, 537 -> 825 Artillery Control 1, 540 -> 826
+  Artillery Control 2) use the Radar Operations Console 4 m off the upper pad; any order. Towers 2-4: three
+  Thrax Soldiers come at the tower's foot and attack. Markers at the ground teleporters. Turn in at Emmons: 190000 XP,
+  8400 credits, one of Cryogenic Blade 12101, Electric Rifle 11953, Chaingun 48300, Pistol 14409. Look: each console's
+  look (human monitor), name, on-state; the teleporters both ways. Risk: the ambushers spawn at the tower's foot and may
+  be unable to reach a player on the second floor (about 13.4 m up, teleporter only, no stairs): they may stand below
+  until the player comes down (ESTIMATE).
+- [ ] 1278 King of the Hill (Ligo Ashen Desert): Emmons offers it after 1277, level 42. Four AFS Turrets of the player's
+  own stand at the four batteries (the public ones hidden for the player). 1: reach the batteries (area r60 round (100.5,
+  -528.4)) within 3:00 (countdown), else it fails. Then four waves: 0 s three Thrax Soldiers between batteries 2 and 3, 45 s two
+  Desert Stalkers and a Ravager by battery 1, 90 s two Soldiers and two Ravagers below battery 3, 135 s two Stalkers
+  and two Soldiers below battery 4; they attack the turrets. At 180 s 2 completes; the fourth turret lost (before or after the top: each loss counts) fails the mission. Turn in
+  at Emmons: 190000 XP, 8400 credits, one of Bio Helmet 19673, Hazmat Gloves 20504, Reflective Gloves 37985, Motor Assist
+  Boots 45843. Look: the copies over the public turrets (no doubled turret for the player; others see the public ones);
+  do the waves reach and hurt the turrets on their platforms (navmesh islands); do the turrets shoot the waves; the client
+  crash at a turret kill (C23: kill_swap_delay is live on the server, not on this branch); a lost turret's public one comes
+  back for the player at once.
+
 ## Assumptions and choices (not from a source)
 
 All ESTIMATE (set 1):
@@ -364,6 +394,19 @@ All ESTIMATE (set 8):
   metre in and 1.01-1.05 m out. The real client walked it both ways (tester 2026-11-09 23:41-23:54), so the client-floor
   check allows 1.1 m a metre (it was 0.9 m) and 1269 marks 531041 too. The pool stays where set 6 put it.
 
+All ESTIMATE (set 9):
+- Levels 40, 41, 42 (the zone band, D5). The three not shareable.
+- Rewards: the lowest Uncommon of TaRapedia's four kinds at each level; 1278's armour with TaRapedia's version numbers
+  (V03, V02, V05, V09).
+- 1275: one crate, the wreck nearest the Boneyard's middle of the five (the triage); its spot 12 m off the wreck's middle,
+  seen from all 32 places round it.
+- 1277: tower 1 = Command (Emmons': "Start with this tower here"), 2 Operations, 3 and 4 the artillery control towers; any
+  order. The consoles 4 m off the upper pad (the second floors are about 11 m across; spots seen from all 16 places round them), facing not checked. The ambushes
+  (the client's helper 5 "Ambushes", not written): three Thrax Soldiers at towers 2-4, none at Emmons' tower 1.
+- 1278: the turrets are personal copies of the AFS Turret 550001 at the public pools' places and facings; they stand from
+  the accept. The hold 180 s (the triage; TaRapedia's 3:00 is 1's countdown). Waves at 0 / 45 / 90 / 135 s, 3 / 3 / 4 / 4
+  members, from the four sides (TaRapedia: "a few stalkers and some Bane"). 1's area r60 over the four platforms.
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -413,6 +456,14 @@ All ESTIMATE (set 8):
 - 1268: the title "Desert Logistician" is not given (it is the Targets of Opportunity's objective 17, not built upstream).
 - 1267, 1269: no n/15 counter in the log (no counter text in the client). 1269's salvage drops off any Ashen Thrax
   Soldier / Ravager on Ashen Desert.
+
+- 1278: no fail when the player leaves Stonewall Ridge (the client's body of 2): the server has no area-leave event
+  (triage M2, D17; NOTES-missing-mechanics "Fail on leaving an area").
+- 1278: the client's "Towers Lost" counter (10295) is not shown: a counter rule can only complete its objective
+  (MissionRuntime.Evaluate), so the losses are counted on a hidden server-only objective 7 whose completion (the fourth)
+  fails 2.
+- 1278: the client's wave helpers 3-6 ("Wave 1", "Spawn 2".."4") and 1277's 5 ("Ambushes") are not written.
+- 1278: a lost turret's public copy is shown again to the player at once (the hide is held by the turret copy).
 
 ## Server data that differs from the sources (not changed)
 
@@ -504,3 +555,9 @@ All ESTIMATE (set 8):
 ## Server data changed by set 8 (upstream rows)
 
 - None. Set 8 adds mission content only, on the rows of sets 3, 4, 6 and 7 and the Thrax rows 531008 / 531009.
+
+## Server data changed by set 9 (upstream rows)
+
+- None. Set 9 adds mission content only: its objects and creatures are scene actors on existing rows (the AFS Turret
+  550001, the Thrax 531008 / 531009, set 4's Desert Stalker 790121, the client classes 7904 and 9478). The public turret
+  pools 550001-550004 are not changed (hidden per player while the run's copies stand).

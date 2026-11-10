@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 29 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 32 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -9,7 +9,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 | Zone | Missions |
 | --- | ---: |
-| Ashen Desert | 29 |
+| Ashen Desert | 32 |
 
 ## Ashen Desert
 
@@ -592,6 +592,69 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
   - overview: Captain Emmons of Stonewall Ridge wants you to kill 10 Fithik. Report back to him once you are finished.
   - objectives: • Kill 10 Fithik • Kill Fithik x/10
 - **TaRapedia mission list** [Stonewall Ridge mission list](https://tabularasa.fandom.com/wiki/Stonewall_Ridge_mission_list): zone Ashen Desert, area Stonewall Ridge, given by Captain Marcus Emmons
+
+### 1275 — Cycled Frequencies
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 32 missions in this file with a sourced level
+  - reward: 95,000 XP; 6,300 credits; ChiTech Sonic Rifle; Vextronics Endothermic Polarity Gun; Vextronics Sonic RPG Launcher; Vextronics Pulse Shotgun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Cycled_Frequencies)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Captain Emmons of Stonewall Ridge wants you to go into the Boneyard and recover Bane Radar Frequency Codes from one of the downed dropships there. Report back to him once you have found them so that he can decode them.
+  - objectives (client): Recover Bane Radar Frequency Codes
+- **TaRapedia** [Cycled Frequencies](https://tabularasa.fandom.com/wiki/Cycled_Frequencies): giver: Captain Marcus Emmons; at: Stonewall Ridge; zone: Ashen Desert; requires: None; follow-up: On The Same Frequency; XP: 95,000; credits: 6,300; items: ChiTech Sonic Rifle; Vextronics Endothermic Polarity Gun; Vextronics Sonic RPG Launcher; Vextronics Pulse Shotgun; reward from: Captain Marcus Emmons
+  - overview: Captain Emmons of Stonewall Ridge wants you to go into The Boneyard and recover Bane Radar Frequency Codes from one of the downed dropships there. Report back to him once you have found them so that he can decode them.
+  - objectives: • Recover Bane Radar Frequency Codes • x/1
+- **TaRapedia mission list** [Stonewall Ridge mission list](https://tabularasa.fandom.com/wiki/Stonewall_Ridge_mission_list): zone Ashen Desert, area Stonewall Ridge, given by Captain Marcus Emmons
+
+- **Chain** (explicit prerequisite links): Cycled Frequencies chain (3 missions), step 1
+  - Leads to: On The Same Frequency (id 1277) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Cycled_Frequencies), [TaRapedia](https://tabularasa.fandom.com/wiki/On_The_Same_Frequency)
+
+### 1277 — On The Same Frequency
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 32 missions in this file with a sourced level
+  - reward: 190,000 XP; 8,400 credits; Vextronics Cryogenic Blade; Vextronics Electric Rifle; Vextronics Chaingun; Vextronics Pistol — source: [TaRapedia](https://tabularasa.fandom.com/wiki/On_The_Same_Frequency)
+  - drops / mission items: The Radar Operations Console for each tower can be found on the top floor, through the teleporter — source: [TaRapedia](https://tabularasa.fandom.com/wiki/On_The_Same_Frequency)
+  - location: zone Ashen Desert only
+- **Client:** Travel to the four radar towers on top of Stonewall Ridge and input the new radar frequency codes into the Radar Operations Consoles at the top of each tower. Report back to Captain Emmons once you are finished.
+  - objectives (client): Program Radar Tower 1; Program Radar Tower 2; Program Radar Tower 3; Program Radar Tower 4; Ambushes
+- **TaRapedia** [On The Same Frequency](https://tabularasa.fandom.com/wiki/On_The_Same_Frequency): giver: Captain Marcus Emmons; at: Stonewall Ridge; zone: Ashen Desert; requires: Cycled Frequencies; follow-up: King of the Hill; XP: 190,000; credits: 8,400; items: Vextronics Cryogenic Blade; Vextronics Electric Rifle; Vextronics Chaingun; Vextronics Pistol; reward from: Captain Marcus Emmons
+  - overview: Travel to the four radar towers on top of Stonewall Ridge and input the new radar frequency codes into the Radar Operations Consoles at the top of each tower. Report back to Captain Emmons once you are finished.
+  - objectives: • Program Radar Tower 1 • Program Radar Tower 2 • Program Radar Tower 3 • Program Radar Tower 4
+- **TaRapedia mission list** [Stonewall Ridge mission list](https://tabularasa.fandom.com/wiki/Stonewall_Ridge_mission_list): zone Ashen Desert, area Stonewall Ridge, given by Captain Marcus Emmons
+- **Drops / item sources:**
+  - The Radar Operations Console for each tower can be found on the top floor, through the teleporter — source: [TaRapedia](https://tabularasa.fandom.com/wiki/On_The_Same_Frequency)
+
+- **Chain** (explicit prerequisite links): Cycled Frequencies chain (3 missions), step 2
+  - Requires: Cycled Frequencies (id 1275) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Cycled_Frequencies), [TaRapedia](https://tabularasa.fandom.com/wiki/On_The_Same_Frequency)
+  - Leads to: King of the Hill (id 1278) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/King_of_the_Hill), [TaRapedia](https://tabularasa.fandom.com/wiki/On_The_Same_Frequency)
+
+### 1278 — King of the Hill
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 30–42 (median 41, 10th–90th percentile) — derived from 32 missions in this file with a sourced level
+  - reward: 190,000 XP; 8,400 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/King_of_the_Hill)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Travel to the top of Stonewall Ridge and defend the four anti-air turret emplacements until AFS reinforcements arrive. If all of the turrets are destroyed, or if you leave Stonewall Ridge before reinforcements arrive, you will fail the mission.
+  - objectives (client): Hurry to the top of Stonewall Ridge — A Bane assault force is coming to take out the Anti-Air Batteries. Run up the road to the top of Stonewall Ridge, to where the Anti-Air Batteries are.; Defend Stonewall Ridge — Defend Stonewall Ridge from a Bane Assault. If all four Anti-Air Batteries are destroyed before AFS reinforcements arrive, or if you leave Stonewall Ridge, …; Wave 1; Spawn 2; Spawn 3; Spawn 4
+- **TaRapedia** [King of the Hill](https://tabularasa.fandom.com/wiki/King_of_the_Hill) [stub]: giver: Captain Marcus Emmons; at: Stonewall Ridge; zone: Ashen Desert; requires: On The Same Frequency; follow-up: None; XP: 190,000; credits: 8,400; reward from: Captain Marcus Emmons
+  - overview: Travel to the top of Stonewall Ridge and defend the four anti-air turret emplacements until AFS reinforcements arrive.
+  - objectives: • Hurry to the top of Stonewall Ridge • A Bane assault force is coming to take out the Anti-Air Batteries. Run up to the road to the top of Stonewall Ridge, to where the Anti-Air Batteries are. • Time remaining: 00:03:00 • Defend Stonewall Ridge • Defend Stonewall Ridge from a Bane Assault. If all four Anti-Air Batteries are destroyed before AFS reinforcements arrive, or if you leave Stonewall …
+  - walkthrough: Just go to the marker and the Bane will attack. There will be a few stalkers and some Bane.
+- **TaRapedia mission list** [Stonewall Ridge mission list](https://tabularasa.fandom.com/wiki/Stonewall_Ridge_mission_list): zone Ashen Desert, area Stonewall Ridge, given by Captain Marcus Emmons
+- **PlanetTR** [www.planettr.com:80/forums/showthread.php?mode=hybrid&t=8421](https://web.archive.org/web/20081014123022/http://www.planettr.com:80/forums/showthread.php?mode=hybrid&t=8421): “A stiff contender for the title of most frantic, the Gauntlet gave King of the Hill pause. Teams of knowledgeable and talented AFS joined forces for a run though the tunnels of Abyss. It soon became evident this was not an ordinary run as shouts rang out through the caves of Atta and other threats. After clearing seemingly ordinary groupings of bane soldiers, AFS troops were confronted with very hostile Atta groups – with several Queens in …”
+- **PlayTR EU** [eu.playtr.com:80/en/news/news_article/weekend_wrap_up_9th_february_200 …](https://web.archive.org/web/20090215174217/http://eu.playtr.com:80/en/news/news_article/weekend_wrap_up_9th_february_2009): “p your calendars clear and join us as members of the TR Development team will log in and slug it out with TR Players. That night will also see a Dev “King of the Hill” fight and a chance for players to team with Developers in the “Epic Pride & Trust Challenge”.”
+
+- **Chain** (explicit prerequisite links): Cycled Frequencies chain (3 missions), step 3
+  - Requires: On The Same Frequency (id 1277) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/King_of_the_Hill), [TaRapedia](https://tabularasa.fandom.com/wiki/On_The_Same_Frequency)
 
 ### 1283 — Good Day to Die
 

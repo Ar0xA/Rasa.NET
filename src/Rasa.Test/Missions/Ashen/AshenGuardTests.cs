@@ -221,7 +221,10 @@ namespace Rasa.Test.Missions.Ashen
         /// To-fix rows 27, 32, 33 (Marshes) and 34, 43 (Crucible): a target that no player place round it could see ("You cannot
         /// see your target from here"). Every Ashen NPC is seen, from the eye of a player on a client floor Ring m round it, at
         /// its middle, from all RingPlaces places, the server-placed objects with a client model counted in; and none stands
-        /// inside a server-placed object or within the talk reach of one.
+        /// inside a server-placed object or within the talk reach of one. Set 9: 1278's own turrets (ward-M: no player's target,
+        /// on their platforms, which wall them in at 2 m) and wave members (wave-K-M: sent at the turrets at once, they do not
+        /// wait on their spots, which are on the batteries' steep slopes) are not held to the ring (only the ring: the server-placed objects check stays); they stand on a client
+        /// floor (EveryAshenNpcStandsOnAClientFloor) and their walks are checked (AshenStonewallRidgeTests).
         /// </summary>
         [TestMethod]
         public void EveryAshenNpcIsSeenFromAClientFloorRoundIt()
@@ -240,6 +243,9 @@ namespace Rasa.Test.Missions.Ashen
                 var (label, at, npc) = places[i];
                 foreach (var placed in objects.Where(placed => placed.Box.Distance2D(at) < TalkReach + 1 && MathF.Abs(at.Y - placed.Box.Min.Y) < 3))
                     failures.Add(FormattableString.Invariant($"{label}: {placed.Label} {placed.Box.Distance2D(at):0.0} m off"));
+                if (label.StartsWith($"{AshenKingOfTheHillV1.MissionId} ward-", StringComparison.Ordinal) ||
+                    label.StartsWith($"{AshenKingOfTheHillV1.MissionId} wave-", StringComparison.Ordinal))
+                    continue;
                 var aim = at + new Vector3(0, npc ? F.NpcMiddle : F.ObjectMiddle, 0);
                 for (var k = 0; k < F.RingPlaces; k++)
                 {
@@ -358,12 +364,16 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>
         /// To-fix row 14 (Marshes): a player who walks up to a target in a map link's circle is taken to the other map. No Ashen
         /// NPC stands within an enabled map link's radius and 5 m on its map, nor 7 m from a waypoint or local teleporter (where
-        /// players arrive; a local teleporter takes a player 2 m from it).
+        /// players arrive; a local teleporter takes a player 2 m from it). Set 9: 1277's consoles stand on the radar towers' second
+        /// floors, about 11 m across round the upper teleporter (ControlTowerTeleporters, no stairs), so they keep TopFloorClearance
+        /// (3.4 m: off the teleporter's 2 m, the player at the console outside it) from the towers' teleporters instead; any other
+        /// pad still 7 m.
         /// </summary>
         [TestMethod]
         public void NoNpcStandsByAMapLinkOrATeleporter()
         {
-            const float LinkClearance = 5, PadClearance = 7;
+            const float LinkClearance = 5, PadClearance = 7, TopFloorClearance = 3.4f;
+            var towerPads = AshenOnTheSameFrequencyV1.Towers.SelectMany(tower => new[] { tower.Ground, tower.Upper }).ToHashSet();
             using var harness = WildernessRuntimeTestHarness.Create();
             var links = harness.World.Set<MapLinkEntry>().AsNoTracking().Where(link => link.Enabled != 0 && link.MapContextId == Map).ToList();
             Assert.IsNotEmpty(links, "Ashen Desert's map links");
@@ -378,10 +388,11 @@ namespace Rasa.Test.Missions.Ashen
                     if (gap < LinkClearance)
                         near.Add($"{label} {gap:F1} m outside link {link.Id}");
                 }
+                var console = label.Contains(" stonewall-radar-console-", StringComparison.Ordinal);
                 foreach (var pad in pads)
                 {
                     var gap = Vector2.Distance(new(at.X, at.Z), new((float)pad.PosX, (float)pad.PosZ));
-                    if (gap < PadClearance)
+                    if (gap < (console && towerPads.Contains(pad.Id) ? TopFloorClearance : PadClearance))
                         near.Add($"{label} {gap:F1} m from teleporter {pad.Id}");
                 }
             }
@@ -509,7 +520,12 @@ namespace Rasa.Test.Missions.Ashen
                 // Set 8: Ito's three, on the places of Latan's three.
                 [AshenRoboticAcquisitionsV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
                 [AshenWeaponAcquisitionsV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
-                [AshenHeavyAcquisitionsV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
+                [AshenHeavyAcquisitionsV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                // Set 9: 1275's crate in the Boneyard from the Ashoka waypoint; 1277's towers and 1278's batteries from Stonewall
+                // Ridge's.
+                [AshenCycledFrequenciesV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                [AshenOnTheSameFrequencyV1.MissionId] = ("the Stonewall Ridge waypoint", AshenLeadInsTests.StonewallWaypoint),
+                [AshenKingOfTheHillV1.MissionId] = ("the Stonewall Ridge waypoint", AshenLeadInsTests.StonewallWaypoint)
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var desert = AshenLeadInsTests.EnterAshen(harness);
@@ -587,7 +603,8 @@ namespace Rasa.Test.Missions.Ashen
 
         /// <summary>
         /// The sets' NPCs and scene actors with a place (label, place, NPC) on Ashen Desert: set 2's five beacon spots (1245), set 4's
-        /// six fallen (1263), set 5's six missile launchers and their Detonation Devices (1352) and three generators and theirs (1354).
+        /// six fallen (1263), set 5's six missile launchers and their Detonation Devices (1352) and three generators and theirs (1354),
+        /// set 9's salvage crate (1275), consoles and ambushers (1277), turrets and wave members (1278).
         /// </summary>
         private static List<(string Label, Vector3 At, bool Npc)> Places(WildernessRuntimeTestHarness harness)
         {
@@ -596,8 +613,9 @@ namespace Rasa.Test.Missions.Ashen
                 foreach (var actor in scene.Actors.Values.Where(actor => actor.Position != null))
                     places.Add(($"{mission} {actor.Role}", new Vector3(actor.Position.X, actor.Position.Y, actor.Position.Z),
                         actor.Kind == Rasa.Missions.Scenes.SceneActorKind.Creature));
-            Assert.HasCount(NewNpcs.Length + N.Moves.Length + Kept.Length + 5 + 6 + 12 + 6, places,
-                "the NPCs, 1245's five beacon spots, 1263's six fallen, 1352's launchers and devices, 1354's generators and devices");
+            Assert.HasCount(NewNpcs.Length + N.Moves.Length + Kept.Length + 5 + 6 + 12 + 6 + 1 + 4 + 9 + 4 + 14, places,
+                "the NPCs, 1245's five beacon spots, 1263's six fallen, 1352's launchers and devices, 1354's generators and devices, " +
+                "1275's crate, 1277's four consoles and nine ambushers, 1278's four turrets and fourteen wave members");
             return places;
         }
 
