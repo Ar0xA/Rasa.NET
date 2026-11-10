@@ -462,6 +462,10 @@ namespace Rasa.Test.Missions.Ashen
 
         private static (Vector3[] There, Vector3[] Back) Straight => (Array.Empty<Vector3>(), Array.Empty<Vector3>());
 
+        /// <summary>Fix E: the corner on the ridge west of Coheri Pools, and the way to it from the White Oasis Post waypoint (probe 2026-11-10, ESTIMATE of a player's line).</summary>
+        private static Vector3[] WestRidge => new[] { new Vector3(-300.00f, 308.19f, 620.00f) };
+        private static Vector3[] ByTheWestRidge => new[] { new Vector3(-439.10f, 284.34f, 204.80f) }.Concat(WestRidge).ToArray();
+
         /// <summary>
         /// The places a player walks to, each from its waypoint, with the corners of the walk there and back where the navmesh's
         /// straight walk takes a step the client's floor does not (the probe of 2026-11-10).
@@ -477,12 +481,15 @@ namespace Rasa.Test.Missions.Ashen
             (MantaPools[0], "the eastern Boneyard's Beam Manta from the Ashoka Settlement waypoint", Ashoka, Straight),
             (MantaPools[1], "the Indra Pass Beam Manta from the White Oasis Post waypoint (the Indra Pass waypoint's floor is joined to nothing)", WhiteOasis,
                 (new[] { new Vector3(152.82f, 312.80f, 459.30f), new Vector3(195.75f, 320.57f, 477.30f), new Vector3(208.74f, 321.33f, 488.89f) }, Array.Empty<Vector3>())),
-            (MantaPools[2], "the north-east Maji Field Beam Manta from the White Oasis Post waypoint", WhiteOasis,
-                (new[] { new Vector3(-417.10f, 284.90f, 234.80f), new Vector3(-246.00f, 295.48f, 525.08f) }, Array.Empty<Vector3>())),
-            (D.TrudyPool, "Trudy from the White Oasis Post waypoint", WhiteOasis, (new[] { new Vector3(-439.10f, 284.34f, 204.80f) }, Array.Empty<Vector3>())),
-            (GranitourPools[0], "the first Coheri Pools Granitour from the White Oasis Post waypoint", WhiteOasis, (Array.Empty<Vector3>(), new[] { new Vector3(-210.94f, 296.83f, 481.60f), new Vector3(-213.50f, 298.27f, 476.50f) })),
-            (GranitourPools[1], "the second Coheri Pools Granitour from the White Oasis Post waypoint", WhiteOasis, (new[] { new Vector3(-282.68f, 295.42f, 427.70f) }, Array.Empty<Vector3>())),
-            (D.WendyPool, "Wendy from the White Oasis Post waypoint", WhiteOasis, (Array.Empty<Vector3>(), new[] { new Vector3(-240.25f, 298.65f, 486.00f) }))
+            // Fix E: the Coheri Pools and Maji Field walks go by the west ridge (-300, 620), off the Fithik pools 540075 and 540077
+            // (the last 100 m of each walk 30 m and more from every hostile pool not of its mission: AshenFixETests).
+            (MantaPools[2], "the north-east Maji Field Beam Manta from the White Oasis Post waypoint", WhiteOasis, (ByTheWestRidge, WestRidge)),
+            (D.TrudyPool, "Trudy from the White Oasis Post waypoint", WhiteOasis, (ByTheWestRidge, WestRidge)),
+            (GranitourPools[0], "the first Coheri Pools Granitour from the White Oasis Post waypoint", WhiteOasis,
+                (ByTheWestRidge, new[] { new Vector3(-220.00f, 287.59f, 580.00f) }.Concat(WestRidge).ToArray())),
+            (GranitourPools[1], "the second Coheri Pools Granitour from the White Oasis Post waypoint", WhiteOasis, (ByTheWestRidge, WestRidge)),
+            (D.WendyPool, "Wendy from the White Oasis Post waypoint", WhiteOasis,
+                (ByTheWestRidge.Append(new Vector3(-300.00f, 295.45f, 550.00f)).ToArray(), new[] { new Vector3(-300.00f, 295.45f, 550.00f) }.Concat(WestRidge).ToArray()))
         };
     }
 }

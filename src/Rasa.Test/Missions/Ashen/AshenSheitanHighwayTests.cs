@@ -86,7 +86,9 @@ namespace Rasa.Test.Missions.Ashen
                 var pool = desert.SpawnPools.Single(loaded => loaded.DbId == poolId);
                 Assert.IsTrue(SpawnPoolManager.HasWalkableGround(desert, pool), $"{poolId} has walkable ground");
                 var here = Alive(desert).Where(candidate => candidate.SpawnPool?.DbId == poolId).Distinct().ToArray();
-                Assert.HasCount((int)H.PoolCreatures, here, $"pool {poolId}: three");
+                // Fix E: the Ravager pools hold two (AshenFixEV1.Ravagers), the Soldier pools three (set 3).
+                var count = creature == H.Ravager ? (int)AshenFixEV1.Ravagers : (int)H.PoolCreatures;
+                Assert.HasCount(count, here, $"pool {poolId}: {count}");
                 foreach (var one in here)
                 {
                     Assert.AreEqual((creature, TargetCategory.Hostile), (one.DbId, one.TargetCategory), $"pool {poolId}");

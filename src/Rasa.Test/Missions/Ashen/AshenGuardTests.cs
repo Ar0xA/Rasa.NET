@@ -224,11 +224,13 @@ namespace Rasa.Test.Missions.Ashen
         /// inside a server-placed object or within the talk reach of one. Set 9: 1278's own turrets (ward-M: no player's target,
         /// on their platforms, which wall them in at 2 m) and wave members (wave-K-M: sent at the turrets at once, they do not
         /// wait on their spots, which are on the batteries' steep slopes) are not held to the ring (only the ring: the server-placed objects check stays); they stand on a client
-        /// floor (EveryAshenNpcStandsOnAClientFloor) and their walks are checked (AshenStonewallRidgeTests).
+        /// floor (EveryAshenNpcStandsOnAClientFloor) and their walks are checked (AshenStonewallRidgeTests). Fix E: 1277's
+        /// consoles at their top floor's rim are held to the ring places on the floor (TopFloorRingPlaces or more of them).
         /// </summary>
         [TestMethod]
         public void EveryAshenNpcIsSeenFromAClientFloorRoundIt()
         {
+            const int TopFloorRingPlaces = 8;
             const float TalkReach = 5;
             var dataDir = F.ClientData();
             using var harness = WildernessRuntimeTestHarness.Create();
@@ -247,13 +249,24 @@ namespace Rasa.Test.Missions.Ashen
                     label.StartsWith($"{AshenKingOfTheHillV1.MissionId} wave-", StringComparison.Ordinal))
                     continue;
                 var aim = at + new Vector3(0, npc ? F.NpcMiddle : F.ObjectMiddle, 0);
+                // Fix E: 1277's consoles stand at their top floor's rim (5-6 m off the upper pad, the floor about 11 m across): the
+                // ring places past the rim are in the air, not where a player stands. They are seen from every ring place on the
+                // floor, and at least TopFloorRingPlaces of them are on it.
+                var rim = label.StartsWith($"{AshenOnTheSameFrequencyV1.MissionId} stonewall-radar-console-", StringComparison.Ordinal);
+                var onFloor = 0;
                 for (var k = 0; k < F.RingPlaces; k++)
                 {
                     var angle = k * 2 * MathF.PI / F.RingPlaces;
                     var stand = at + new Vector3(MathF.Sin(angle) * F.Ring, 0, MathF.Cos(angle) * F.Ring);
-                    if (F.FloorAt(near[i], stand, at.Y - F.MaxOver, at.Y + F.MaxUnder) is not { } y || !F.Clear(near[i], stand with { Y = y + F.Eye }, aim))
+                    var floor = F.FloorAt(near[i], stand, at.Y - F.MaxOver, at.Y + F.MaxUnder);
+                    if (floor == null && rim)
+                        continue;
+                    onFloor++;
+                    if (floor is not { } y || !F.Clear(near[i], stand with { Y = y + F.Eye }, aim))
                         failures.Add(FormattableString.Invariant($"{label} not seen from ({stand.X:0.0}, {stand.Z:0.0})"));
                 }
+                if (rim && onFloor < TopFloorRingPlaces)
+                    failures.Add($"{label}: {onFloor} of the ring places on its floor, under {TopFloorRingPlaces}");
             }
             Assert.IsEmpty(failures, string.Join("; ", failures));
         }
@@ -368,13 +381,16 @@ namespace Rasa.Test.Missions.Ashen
         /// NPC stands within an enabled map link's radius and 5 m on its map, nor 7 m from a waypoint or local teleporter (where
         /// players arrive; a local teleporter takes a player 2 m from it). Set 9: 1277's consoles stand on the radar towers' second
         /// floors, about 11 m across round the upper teleporter (ControlTowerTeleporters, no stairs), so they keep TopFloorClearance
-        /// (3.4 m: off the teleporter's 2 m, the player at the console outside it) from the towers' teleporters instead; any other
-        /// pad still 7 m.
+        /// (fix E: 5 m, so the walk from the lift's exit to the console stays off the pad's 2 m trigger; set 9 had 3.4 m) from the
+        /// towers' teleporters instead, and fix E's ambushers on the top floors AmbushClearance (3.2 m); any other pad still 7 m.
         /// </summary>
         [TestMethod]
         public void NoNpcStandsByAMapLinkOrATeleporter()
         {
-            const float LinkClearance = 5, PadClearance = 7, TopFloorClearance = 3.4f;
+            // Fix E (to-fix rows 12, 14): the consoles 5 m and more off their towers' pads (the walk from the lift's exit stays off
+            // the pad: AshenFixETests), the ambushers on the top floors 3.2 m and more (out of the pad's 2 m trigger; the 2D
+            // distance counts the ground pad under it too).
+            const float LinkClearance = 5, PadClearance = 7, TopFloorClearance = 5, AmbushClearance = 3.2f;
             var towerPads = AshenOnTheSameFrequencyV1.Towers.SelectMany(tower => new[] { tower.Ground, tower.Upper }).ToHashSet();
             using var harness = WildernessRuntimeTestHarness.Create();
             var links = harness.World.Set<MapLinkEntry>().AsNoTracking().Where(link => link.Enabled != 0 && link.MapContextId == Map).ToList();
@@ -391,10 +407,11 @@ namespace Rasa.Test.Missions.Ashen
                         near.Add($"{label} {gap:F1} m outside link {link.Id}");
                 }
                 var console = label.Contains(" stonewall-radar-console-", StringComparison.Ordinal);
+                var ambusher = label.Contains(" stonewall-ambush-", StringComparison.Ordinal);
                 foreach (var pad in pads)
                 {
                     var gap = Vector2.Distance(new(at.X, at.Z), new((float)pad.PosX, (float)pad.PosZ));
-                    if (gap < (console && towerPads.Contains(pad.Id) ? TopFloorClearance : PadClearance))
+                    if (gap < (console && towerPads.Contains(pad.Id) ? TopFloorClearance : ambusher && towerPads.Contains(pad.Id) ? AmbushClearance : PadClearance))
                         near.Add($"{label} {gap:F1} m from teleporter {pad.Id}");
                 }
             }

@@ -69,7 +69,8 @@ walk north from Shadow's Edge Post along the road; the Bane camp is at (-160, 30
 - [ ] 1247 Highway to Hell (Ligo Ashen Desert): Captain Sera Karter (790042, Shadow's Edge dropship pad) offers it, no
   requirement, level 41. Kill 10 Thrax Ravagers (counter "Thrax Ravagers"; the Ashen Thrax Grenadier 531009, L39, now
   named "Thrax Ravager") and 10 Thrax Soldiers (counter "Thrax Soldiers"; Thrax Soldier Mark VI 531008, L39). Ravager
-  pools 790085 (-180, 306.57, -305) and 790086 (-140, 306.34, -305) in the camp, Soldier pools 790087 (-160, 304.19, -260)
+  pools of two 790085 (-213, 307.87, -302) and 790086 (-125, 314.27, -359) on the camp's west and south-east edge (fix E;
+  set 3 had three each at (-180, -305) and (-140, -305), inside the camp), Soldier pools 790087 (-160, 304.19, -260)
   and 790088 (-120, 304.81, -225) at and north of its north end; a marker r20 on each. The camp's own pool 531034
   (Soldiers and others) counts too. Turn in at Karter: 180000 XP, 8200 credits, one of 49576, 45777, 47948, 45762
   (weapons). Look: the "Thrax Ravager" name over the grenadiers (also in the Bane Conscription Facility and Indra Caverns).
@@ -178,7 +179,7 @@ west); next free id 790247. Only for a character who chose Latan's side (choice 
 - [ ] 1266 Weapon Salvage Recovery (Ligo Ashen Desert): Latan offers it after 1264, level 41. Recover 15 Thrax Rifle
   Salvage (97469) off Thrax Soldiers (531008) and 15 Thrax Grenade Launcher Salvage (97470) off Thrax Ravagers (531009):
   personal 75 % drops anywhere on Ashen Desert; markers r25 on the Boneyard Thrax pools (rifles) and on the Sheitan
-  Highway Ravager pools 790085, 790086 (launchers). Turn in at Latan: 95000 XP, 6300 credits, the Incendiary Injector
+  Highway Ravager pools 790085, 790086 (launchers; fix E: on the camp's edge, two each). Turn in at Latan: 95000 XP, 6300 credits, the Incendiary Injector
   Gun 45777.
 - [ ] 1265 Heavy Salvage Recovery (Ligo Ashen Desert): Latan offers it after 1266, level 42. Recover 1 Intact Stalker
   Salvage (97467) off a Desert Stalker (790121, Boneyard pools 790125, 790126) and 1 Intact Predator Salvage (97468) off
@@ -200,7 +201,7 @@ Ashoka Upper teleporter (613). The straight line to the market ramp is walled of
 - [ ] 1269 Weapon Salvage Acquisitions (Ligo Ashen Desert): Ito offers it after 1267, level 42. 15 Thrax Rifle Salvage
   (97469) off Thrax Soldiers and 15 Thrax Grenade Launcher Salvage (97470) off Thrax Ravagers, personal 75 % drops
   anywhere on Ashen Desert; markers r25 on the Boneyard Thrax pools 531038, 531039, 531041 (rifles) and the highway
-  Ravager pools 790085, 790086 (launchers). Turn in at Ito: 95000 XP, 6300 credits, one of Cryogenic Blade 12101, Area
+  Ravager pools 790085, 790086 (launchers; fix E: on the camp's edge, two each). Turn in at Ito: 95000 XP, 6300 credits, one of Cryogenic Blade 12101, Area
   Healing Disc 119882, Sonic Pistol 14452, Pulse Staff 15220.
 - [ ] 1268 Heavy Salvage Acquisitions (Ligo Ashen Desert): Ito offers it after 1269, level 42. 1 Intact Stalker Salvage
   (97467) off a Desert Stalker (Boneyard pools 790125, 790126) and 1 Intact Predator Salvage (97468) off a Desert Predator
@@ -220,12 +221,13 @@ knee-high rise at (21.6, -437.0) (e.g. by (18.5, -429.6) and (32.8, -438.1)).
   ("Bane Dropship Salvage"), the open animation, the use with a full bag (codes stay in the crate).
 - [ ] 1277 On The Same Frequency (Ligo Ashen Desert): Emmons offers it after 1275, level 41. On each tower's second floor
   (ground teleporter -> upper: 539 -> 823 Command, 538 -> 824 Operations, 537 -> 825 Artillery Control 1, 540 -> 826
-  Artillery Control 2) use the Radar Operations Console 4 m off the upper pad; any order. Towers 2-4: three
-  Thrax Soldiers come at the tower's foot and attack. Markers at the ground teleporters. Turn in at Emmons: 190000 XP,
-  8400 credits, one of Cryogenic Blade 12101, Electric Rifle 11953, Chaingun 48300, Pistol 14409. Look: each console's
-  look (human monitor), name, on-state; the teleporters both ways. Risk: the ambushers spawn at the tower's foot and may
-  be unable to reach a player on the second floor (about 13.4 m up, teleporter only, no stairs): they may stand below
-  until the player comes down (ESTIMATE).
+  Artillery Control 2) use the Radar Operations Console 5-6 m off the upper pad, on the side the lift opens to (fix E:
+  tower 1 east, 2 east, 3 north-west, 4 west; walk off the pad on that side and straight to the console, not back over
+  the pad); any order. The console is used only from its own floor (fix E: not from the floor under it). Towers 2-4:
+  three Thrax Soldiers come on the top floor by the lift's exit and attack (fix E; set 9 had them at the tower's foot).
+  Markers at the ground teleporters. Turn in at Emmons: 190000 XP, 8400 credits, one of Cryogenic Blade 12101, Electric
+  Rifle 11953, Chaingun 48300, Pistol 14409. Look: each console's look (human monitor), name, on-state; the teleporters
+  both ways; the console's use right after the ride up (to-fix row 12).
 - [ ] 1278 King of the Hill (Ligo Ashen Desert): Emmons offers it after 1277, level 42. Four AFS Turrets of the player's
   own stand at the four batteries (the public ones hidden for the player). 1: reach the batteries (area r60 round (100.5,
   -528.4)) within 3:00 (countdown), else it fails. Then four waves: 0 s three Thrax Soldiers between batteries 2 and 3, 45 s two
@@ -246,23 +248,27 @@ them. All places walked both ways on the client floor; corners in AshenDesignerH
 
 - [ ] 1287 Designer Jewelry Gone Wrong (Ligo Ashen Desert): Ida offers it (no requirement), level 41. 10 Shiny Atta
   Carapace (97483) off set 2's Ashen Atta Soldiers / Workers (Mauna Barrens pools 790046-790049) and the Pristine Atta
-  Carapace (97487) off Sally (-439, 299.63, -258) (TaRapedia's place). Turn in at Ida: 180000 XP, 8200 credits, one of
-  Motor Assist legs 45986, Mech legs 35019, Bio legs 46069, Graviton legs 13043. Risk: Sally (L44) stands 20.6 m from
-  Atta pool 790047 and 22.8 m from 790049 (aggro about 18 m): she may join level-40 fights there in 1242.
+  Carapace (97487) off Sally (-439, 298.47, -298) (fix E, to-fix row 18: 40 m south of TaRapedia's (-439, -258), where
+  she stood 20.6 m from Atta pool 790047 and joined the Atta fights; now 40 m and more from every other hostile pool). Turn
+  in at Ida: 180000 XP, 8200 credits, one of Motor Assist legs 45986, Mech legs 35019, Bio legs 46069, Graviton legs
+  13043. Retest: pull the Atta of 790049 / 790047; Sally should not come.
 - [ ] 1293 All the Latest Rage! (Ligo Ashen Desert): Ida offers it after 1287, level 42. 10 Shiny Granitour Carapace
   (97484) off the Granitours of Coheri Pools (-185, 520), (-215, 525) and the Pristine Granitour Carapace (97488) off Wendy
   (-180, 286.25, 570) (TaRapedia -190, 580). Walk from the White Oasis Post waypoint. Turn in: 200000 XP, 8600 credits, one
   of Sonic Torqueshell Rifle 45773, Virulent Disperser 12077, Electric Polarity Gun 15550, Laser Pistol 14492.
 - [ ] 1289 I Wouldn't Wear It, But... (Ligo Ashen Desert): Ida offers it (no requirement), level 41. 10 Lasher Leather
   Hides (97486) off the Lashers by the road west of Ashoka (330, -585), (280, -578) and the Pristine Lasher Hide (97489) off
-  Molly (299, 295.08, -658), 24 m east of TaRapedia's notch (275, -659). Turn in: 180000 XP, 8200 credits, one of Cryogenic
+  Molly (315, 283.02, -622) (fix E, to-fix row 17: set 10 had (299, 295.08, -658), reached only past the Fithik pool
+  540067; now 47 m north-east of TaRapedia's notch (275, -659), the walk from the Ashoka Settlement waypoint 30 m and
+  more from other hostile pools). Turn in: 180000 XP, 8200 credits, one of Cryogenic
   Injector Gun 48108, Laser Cannon 49108, Pulse Chaingun 15154, Pistol 14409.
 - [ ] 1291 A New Fad (Ligo Ashen Desert): Ida offers it after 1289, level 42. 10 Beam Manta Leather Hides (97485) off the
-  Beam Manta in the eastern Boneyard (764, -322), the Indra Pass (216, 486) and northeast Maji Field (-189, 635), and the
-  Pristine Beam Manta Leather (97490) off Trudy (-198, 299.48, 648), at the north end of the ridge floor (TaRapedia's
-  hilltop -242, 771 is not joined to the navmesh). Turn in: 190000 XP, 8400 credits, one of Electric Polarity Gun
-  15550, Electric Net Gun 12131, Sonic Cannon 49172, Electric Chaingun 15111. Look: Trudy 16 m from the NE Manta pool (she
-  may pull its three).
+  Beam Manta in the eastern Boneyard (770, -400; fix E: set 10's (764, -322) was walked to past the Nitroglazer pool
+  790244), the Indra Pass (216, 486) and northeast Maji Field (-189, 635), and the Pristine Beam Manta Leather (97490) off
+  Trudy (-250, 302.74, 632) (fix E: set 10's (-198, 299.48, 648) was 16 m from the Manta pool 790370; TaRapedia's hilltop
+  -242, 771 is not joined to the navmesh). Walk to Coheri Pools and Maji Field from the White Oasis Post waypoint by the
+  west ridge (-300, 620), not past the Fithik pools 540075 / 540077. Turn in: 190000 XP, 8400 credits, one of Electric Polarity Gun
+  15550, Electric Net Gun 12131, Sonic Cannon 49172, Electric Chaingun 15111.
 
 ## Assumptions and choices (not from a source)
 
@@ -428,8 +434,10 @@ All ESTIMATE (set 9):
 - 1275: one crate, the wreck nearest the Boneyard's middle of the five (the triage); its spot 12 m off the wreck's middle,
   seen from all 32 places round it.
 - 1277: tower 1 = Command (Emmons': "Start with this tower here"), 2 Operations, 3 and 4 the artillery control towers; any
-  order. The consoles 4 m off the upper pad (the second floors are about 11 m across; spots seen from all 16 places round them), facing not checked. The ambushes
-  (the client's helper 5 "Ambushes", not written): three Thrax Soldiers at towers 2-4, none at Emmons' tower 1.
+  order. The consoles 5-6 m off the upper pad on the lift's exit side, at the top floor's rim (fix E; the floors are about
+  11 m across; seen from every place round them that is on the floor), facing not checked; used only within 3 m of their
+  floor (fix E, ESTIMATE). The ambushes (the client's helper 5 "Ambushes", not written): three Thrax Soldiers at towers
+  2-4 on the top floor 3.2-4 m off the pad by the exit (fix E), none at Emmons' tower 1.
 - 1278: the turrets are personal copies of the AFS Turret 550001 at the public pools' places and facings; they stand from
   the accept. The hold 180 s (the triage; TaRapedia's 3:00 is 1's countdown). Waves at 0 / 45 / 90 / 135 s, 3 / 3 / 4 / 4
   members, from the four sides (TaRapedia: "a few stalkers and some Bane"). 1's area r60 over the four platforms.
@@ -594,6 +602,27 @@ All ESTIMATE (set 10):
   207-209, 317-319, 322) on the client floor and the navmesh, and the walk 208 to and from the Shadow's Edge waypoint.
   Retest: die in Ashen Desert, take the hospital return (or Respawn at Shadow's Edge Post Hospital): the player stands in
   the hospital.
+
+## Server data changed by fix job E (20271110001010)
+
+- 1277's scene (set 9, live): the four consoles 5-6 m off their upper pads on the lift's exit side, so the walk from the
+  exit keeps 2.5 m off the pad's 2 m trigger (to-fix row 12); each console's use only within 3 m of its floor
+  (SceneObjectAction.MaxUseHeight, an opt-in field no other scene sets; row 13); the ambushes on the top floors (row 14).
+  The scene's row is swapped only where it holds set 9's exact JSON; Down puts it back. Evidence row 4 for 1277.
+- The Sheitan Highway Ravager pools (set 3's rows, live): 790085 (-180, 306.57, -305) to (-213, 307.87, -302) and 790086
+  (-140, 306.34, -305) to (-125, 314.27, -359), three Ravagers each to two (the encounter tuning, user 2026-11-10: a solo
+  player died twice; the pools stood 24-27 m from the camp's upstream pool 531034, radius 30, and pulled with its Linker
+  and Caretaker; now 53-55 m off it, ESTIMATE). The markers of 1247 (r20), 1266 and 1269 (r25) on them move with them.
+  Guarded on the rows' exact stored values; Down puts set 3's places and counts back. Evidence rows 4 for 1247, 1266, 1269.
+  Retest: 1266 / 1269 launchers and 1247's Ravagers solo at the new places; the camp's Linker and Caretaker should not join.
+- Set 10's pools (live, migration 20271110001000; to-fix rows 17, 18): Sally 790361 (-439, 299.63, -258) to (-439, 298.47,
+  -298), Molly 790366 (299, 295.08, -658) to (315, 283.02, -622), Trudy 790372 (-198, 299.48, 648) to (-250, 302.74, 632),
+  the eastern Boneyard Beam Manta 790368 (764, 305.49, -322) to (770, 327.21, -400); the markers on them (1287 2, 1289 2,
+  1291 2 and 1291 1's first) move with them. Each boss is now 38 m and more from every other hostile pool, and the last
+  100 m of each walk to a set 10 pool from its waypoint keep 30 m and more from the hostile pools not of its order
+  (AshenFixETests); set 10's places failed it (Sally 20.6 m, Trudy 15.8 m; the walks to Molly 22.3 m, to the Boneyard
+  Manta 2.2 m). Wendy and the other pools stay. Guarded on the rows' exact stored values; Down puts set 10's back.
+  Evidence rows 4 for 1287, 1289, 1291. ESTIMATE: the places (TaRapedia's spots for Sally and Molly are 40 and 47 m off).
 
 ## Server data changed by set 8 (upstream rows)
 

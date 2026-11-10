@@ -79,7 +79,10 @@ namespace Rasa.Services.Preloader.Missions.Ashen
         /// <summary>Radius 0: rings round the pool's point (SpawnPoolManager.SpawnPoint), as set 2's Atta pools.</summary>
         public const uint PoolCreatures = 3, RespawnTenths = 1200, PoolRadius = 0;
 
-        /// <summary>The Thrax pools: pool, creature, centre.</summary>
+        /// <summary>
+        /// The Thrax pools: pool, creature, centre (as set 3 wrote them). Fix job E (AshenFixEV1.RavagerPools, migration
+        /// 20271110001010) moves the two Ravager pools out of the camp pool 531034's reach and makes them pools of two.
+        /// </summary>
         public static readonly (uint Pool, uint Creature, (double X, double Y, double Z) At)[] ThraxPools =
         {
             (790085, Ravager, (-180, 306.57, -305)),

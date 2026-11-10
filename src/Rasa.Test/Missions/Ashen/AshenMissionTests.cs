@@ -682,7 +682,8 @@ namespace Rasa.Test.Missions.Ashen
                     },
                     evidence.Where(entry => entry.MissionId == mission && !(mission == AshenFixAV1.MissionId && entry.EvidenceId == AshenFixAV1.Evidence)
                         && !(mission == AshenFixBV1.MissionId && entry.EvidenceId == AshenFixBV1.Evidence)
-                        && !(mission == AshenFixDV1.MissionId && entry.EvidenceId == AshenFixDV1.Evidence))
+                        && !(mission == AshenFixDV1.MissionId && entry.EvidenceId == AshenFixDV1.Evidence)
+                        && !(AshenFixEV1.Evidences.Any(fix => fix.Mission == mission) && entry.EvidenceId == AshenFixEV1.Evidence))
                         .OrderBy(entry => entry.EvidenceId)
                         .Select(entry => (entry.SourceKind, entry.Confidence)).ToArray(), $"{mission} evidence");
         }
@@ -832,7 +833,7 @@ namespace Rasa.Test.Missions.Ashen
                 (1243, 1, -533, -256, 20), (1243, 1, -405, -272, 20), // the Mutated Atta Soldier pools 790050, 790051
                 (1244, 1, -260, -310, 15),                          // Exing, moved (set 2, fix B)
                 (1245, 1, -431, -203, 8), (1245, 2, -554, -230, 8), (1245, 3, -596, -83, 8), (1245, 4, -476, -17, 8), (1245, 5, -338, -80, 8),
-                (1247, 1, -180, -305, 20), (1247, 1, -140, -305, 20), // the Thrax Ravager pools 790085, 790086
+                (1247, 1, -213, -302, 20), (1247, 1, -125, -359, 20), // the Thrax Ravager pools 790085, 790086 (moved by fix E)
                 (1247, 3, -160, -260, 20), (1247, 3, -120, -225, 20), // the Thrax Soldier pools 790087, 790088
                 (1248, 1, -174.4, -482.2, 50), (1248, 1, -161.6, -392.2, 40), // the Desert Predators' south and north beats
                 (1249, 1, -210.888, -409.662, 10), (1249, 2, -195.561, -337.739, 10), // the mortar pools 592191, 592192
@@ -855,14 +856,14 @@ namespace Rasa.Test.Missions.Ashen
                 (1264, 1, 700, -250, 20), (1264, 1, 690, -310, 20), // the Nitroglazer pools 790243, 790244
                 (1264, 2, 440, -320, 20), (1264, 2, 440, -360, 20), // the Hominis Machina pools 790245, 790246
                 (1266, 1, 566, -136, 25), (1266, 1, 487, -261.3, 25), (1266, 1, 487, -219, 25), // rifles: the Boneyard's Thrax pools
-                (1266, 2, -180, -305, 25), (1266, 2, -140, -305, 25), // launchers: the highway's Ravager pools 790085, 790086
+                (1266, 2, -213, -302, 25), (1266, 2, -125, -359, 25), // launchers: the highway's Ravager pools 790085, 790086 (fix E)
                 (1265, 1, 580, -345, 15), (1265, 1, 585, -370, 15), // the Desert Stalker pools 790125, 790126
                 (1265, 2, -174.4, -482.2, 50), (1265, 2, -161.6, -392.2, 40), // the Desert Predators' beats (as 1248's)
                 // Set 8: Ito's twins on the same places as Latan's.
                 (1267, 1, 700, -250, 20), (1267, 1, 690, -310, 20), // the Nitroglazer pools 790243, 790244
                 (1267, 2, 440, -320, 20), (1267, 2, 440, -360, 20), // the Hominis Machina pools 790245, 790246
                 (1269, 1, 566, -136, 25), (1269, 1, 487, -261.3, 25), (1269, 1, 487, -219, 25), // rifles: the Boneyard's Thrax pools 531038, 531039, 531041
-                (1269, 2, -180, -305, 25), (1269, 2, -140, -305, 25), // launchers: the highway's Ravager pools 790085, 790086
+                (1269, 2, -213, -302, 25), (1269, 2, -125, -359, 25), // launchers: the highway's Ravager pools 790085, 790086 (fix E)
                 (1268, 1, 580, -345, 15), (1268, 1, 585, -370, 15), // the Desert Stalker pools 790125, 790126
                 (1268, 2, -174.4, -482.2, 50), (1268, 2, -161.6, -392.2, 40), // the Desert Predators' beats (as 1248's)
                 // Set 9: 1275 on the salvage crate; 1277 at the towers' ground teleporters 539, 538, 537, 540 (World DB); 1278 over
@@ -872,11 +873,11 @@ namespace Rasa.Test.Missions.Ashen
                 (1278, 1, 108, -510, 70), (1278, 2, 108, -510, 70),
                 // Set 10: Ida Hayner's orders, 1 on the hide pools (r20), 2 on the boss (r15).
                 (1287, 1, -493, -240, 20), (1287, 1, -429, -240, 20), (1287, 1, -461, -216, 20), (1287, 1, -461, -264, 20), // the Atta pools 790046-790049
-                (1287, 2, -439, -258, 15),                          // Sally
+                (1287, 2, -439, -298, 15),                          // Sally (moved by fix E)
                 (1289, 1, 330, -585, 20), (1289, 1, 280, -578, 20), // the Lasher pools 790363, 790364
-                (1289, 2, 299, -658, 15),                           // Molly
-                (1291, 1, 764, -322, 20), (1291, 1, 216, 486, 20), (1291, 1, -189, 635, 20), // the Beam Manta pools 790368-790370
-                (1291, 2, -198, 648, 15),                      // Trudy
+                (1289, 2, 315, -622, 15),                           // Molly (moved by fix E)
+                (1291, 1, 770, -400, 20), (1291, 1, 216, 486, 20), (1291, 1, -189, 635, 20), // the Beam Manta pools 790368 (moved by fix E)-790370
+                (1291, 2, -250, 632, 15),                      // Trudy (moved by fix E)
                 (1293, 1, -185, 520, 20), (1293, 1, -215, 525, 20), // the Granitour pools 790374, 790375
                 (1293, 2, -180, 570, 15)                            // Wendy
             };
@@ -1082,7 +1083,8 @@ namespace Rasa.Test.Missions.Ashen
             foreach (var (pool, creature) in new (uint, uint)[] { (790085, Ravager), (790086, Ravager), (790087, ThraxSoldier), (790088, ThraxSoldier) })
             {
                 var row = world.SpawnPoolEntries.AsNoTracking().Single(entry => entry.Id == pool);
-                Assert.AreEqual((Map, creature, (byte)3, (byte)3, 0U, 0.0, 1200U), (row.MapContextId, row.Creature1Id, row.Creature1MinCount,
+                var count = creature == Ravager ? (byte)AshenFixEV1.Ravagers : (byte)3; // fix E: the Ravager pools of two
+                Assert.AreEqual((Map, creature, count, count, 0U, 0.0, 1200U), (row.MapContextId, row.Creature1Id, row.Creature1MinCount,
                     row.Creature1MaxCount, row.Creature2Id, row.Radius, row.RespawnTime), $"pool {pool}");
             }
         }
@@ -1714,7 +1716,10 @@ namespace Rasa.Test.Missions.Ashen
             string Twins() => string.Join("; ", world.MissionIndicatorEntries.AsNoTracking()
                 .Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision && entry.MissionId >= 1264 && entry.MissionId <= 1266)
                 .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ObjectiveId).ThenBy(entry => entry.IndicatorId)
-                .Select(entry => new { entry.MissionId, entry.ObjectiveId, entry.IndicatorId, entry.PosX, entry.PosZ }).AsEnumerable().Select(entry => entry.ToString()))
+                .Select(entry => new { entry.MissionId, entry.ObjectiveId, entry.IndicatorId, entry.PosX, entry.PosZ }).AsEnumerable()
+                // 1266's launcher markers move with fix E (a later migration), down and up with it: AshenFixETests.
+                .Where(entry => !AshenFixEV1.Markers.Any(marker => marker.Mission == entry.MissionId && marker.Objective == entry.ObjectiveId && marker.Indicator == entry.IndicatorId))
+                .Select(entry => entry.ToString()))
                 + "|" + string.Join("; ", Scenes(harness).Where(entry => entry.MissionId >= 1264 && entry.MissionId <= 1266).OrderBy(entry => entry.MissionId)
                     .SelectMany(entry => entry.Scene.Items.Select(item => $"{entry.MissionId}:{item.ItemTemplateId}:{item.Drop.ChancePercent}")));
             var later = PoolsOfLaterMigrations(world, Logistician);
@@ -1724,13 +1729,14 @@ namespace Rasa.Test.Missions.Ashen
             var others = Others();
             var twins = Twins();
             Assert.Contains("1264:97465:75", twins, "Latan's twins read");
-            void AllUp()
+            // Evidence: 9, and fix E's row on 1269 while fix E is up (all migrations).
+            void AllUp(int evidence = 9)
             {
                 Assert.IsTrue(missions.All(Has));
-                Assert.AreEqual((6, 6, 5, 4 + 4 + 4, 4 + 5 + 4, 3, 9, 7), All());
+                Assert.AreEqual((6, 6, 5, 4 + 4 + 4, 4 + 5 + 4, 3, evidence, 7), All());
             }
 
-            AllUp();
+            AllUp(9 + 1);
             world.GetService<IMigrator>().Migrate(Previous(world, Logistician));
             world.ChangeTracker.Clear();
             Assert.IsFalse(missions.Any(Has));
@@ -1783,15 +1789,16 @@ namespace Rasa.Test.Missions.Ashen
                 .OrderBy(entry => entry.Id).Select(entry => new { entry.Id, entry.PosX, entry.PosY, entry.PosZ, entry.Radius, entry.Creature1Id }).AsEnumerable().Select(entry => entry.ToString()));
             var others = Others();
             Assert.Contains("Id = 550004", others, "the batteries' pools read");
-            void AllUp()
+            void AllUp(int evidence = 9)
             {
                 Assert.IsTrue(missions.All(Has));
                 // Actions: 1275 its reward; 1277 tower 1's reward; 1278 1's reveal, open and start, 2's reward. Scenarios 1 + 1 + 3,
-                // their steps 1 + 4 + (0 + 1 + 4). Transitions 1 + 4 + (3 + 2 + 1). Reward definitions one each.
-                Assert.AreEqual((1 + 4 + 3, 1 + 4 + 9, 2, 4 + 4 + 4, 1 + 4 + 2, 3, 9, 1, 5, (1 + 1 + 4, 1 + 1 + 3, 1 + 4 + 5, 1 + 4 + 6, 3)), All());
+                // their steps 1 + 4 + (0 + 1 + 4). Transitions 1 + 4 + (3 + 2 + 1). Reward definitions one each. Evidence 9, and
+                // fix E's row on 1277 while fix E is up (all migrations).
+                Assert.AreEqual((1 + 4 + 3, 1 + 4 + 9, 2, 4 + 4 + 4, 1 + 4 + 2, 3, evidence, 1, 5, (1 + 1 + 4, 1 + 1 + 3, 1 + 4 + 5, 1 + 4 + 6, 3)), All());
             }
 
-            AllUp();
+            AllUp(9 + 1);
             world.GetService<IMigrator>().Migrate(Previous(world, StonewallRidge));
             world.ChangeTracker.Clear();
             Assert.IsFalse(missions.Any(Has));
@@ -1913,14 +1920,15 @@ namespace Rasa.Test.Missions.Ashen
                 "mission_action 0, mission_prerequisite 0, mission_reward_definition 0, mission_reward_item 0, mission_indicator 0, " +
                 "mission_scene_binding 0, mission_evidence 0, mission_scenario 0, mission_scenario_step 0, mission_channel_policy 0, " +
                 "mission_repeat_policy 0, mission_spawn 0, mission_spawn_group 0, mission_area 0, creature 0, creature_stat 0, spawnpool 0, kept 9";
-            void AllUp()
+            // Fix E (a later migration) adds an evidence row on 1287, 1289 and 1291 while it is up (all migrations).
+            void AllUp(bool fixE = false)
             {
                 Assert.IsTrue(missions.All(Has));
-                Assert.AreEqual(up, All());
+                Assert.AreEqual(fixE ? up.Replace("mission_evidence 12", "mission_evidence 15") : up, All());
                 Assert.AreEqual(AshenDesignerHidesNpcsV1.IdaAt, IdaAt(), "Ida moved");
             }
 
-            AllUp();
+            AllUp(fixE: true);
             world.GetService<IMigrator>().Migrate(Previous(world, DesignerHides));
             world.ChangeTracker.Clear();
             Assert.IsFalse(missions.Any(Has));

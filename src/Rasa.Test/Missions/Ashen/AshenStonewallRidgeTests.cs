@@ -27,6 +27,7 @@ namespace Rasa.Test.Missions.Ashen
     using F = MarshesClientFloorTests;
     using Codes = AshenCycledFrequenciesV1;
     using Radar = AshenOnTheSameFrequencyV1;
+    using Fix = AshenFixEV1;
     using King = AshenKingOfTheHillV1;
     using D = MarshesDefenceScene;
 
@@ -230,7 +231,7 @@ namespace Rasa.Test.Missions.Ashen
                     $"tower {tower + 1}'s marker at its ground teleporter {ground}");
                 var console = consoles[tower];
                 var off = Vector2.Distance(new(console.Position.X, console.Position.Z), new(pads[upper].X, pads[upper].Z));
-                Assert.IsTrue(off is >= 3.4f and <= 6f, $"console {tower + 1} {off:0.0} m off its upper teleporter {upper}");
+                Assert.IsTrue(off is >= 5f and <= 6f, $"console {tower + 1} {off:0.0} m off its upper teleporter {upper} (fix E)");
                 Assert.IsLessThan(1f, MathF.Abs(console.Position.Y - pads[upper].Y), $"console {tower + 1} on the second floor");
                 var nav = desert.NavMesh;
                 Assert.IsTrue(nav.FindPath(nav.Nearest(pads[upper]).Value, nav.Nearest(console.Position).Value, out var walked) != null && walked,
@@ -272,9 +273,12 @@ namespace Rasa.Test.Missions.Ashen
                         Assert.AreEqual((ThraxSoldier, TargetCategory.Hostile), (thrax.DbId, thrax.TargetCategory));
                         Assert.IsTrue(thrax.SceneAttackPastLeash, $"tower {tower + 1}: sent at the player");
                         AssertOnGround(desert, thrax.Position, $"tower {tower + 1}'s ambusher");
-                        var foot = Vector2.Distance(new(thrax.Position.X, thrax.Position.Z), new(pads[TowerPads[tower].Ground].X, pads[TowerPads[tower].Ground].Z));
-                        Assert.IsTrue(foot is >= 7f and <= 15f, $"tower {tower + 1}'s ambusher {foot:0.0} m from its ground teleporter");
-                        Assert.IsLessThan(4f, MathF.Abs(thrax.Position.Y - pads[TowerPads[tower].Ground].Y), $"tower {tower + 1}'s ambusher at the tower's foot");
+                        // Fix E (to-fix row 14): on the top floor, where the player is, out of the upper pad's 2 m trigger.
+                        var upper = pads[TowerPads[tower].Upper];
+                        var off = Vector2.Distance(new(thrax.Position.X, thrax.Position.Z), new(upper.X, upper.Z));
+                        Assert.IsTrue(off is >= 3f and <= 5f, $"tower {tower + 1}'s ambusher {off:0.0} m from its upper teleporter");
+                        Assert.IsLessThan(1.5f, MathF.Abs(thrax.Position.Y - upper.Y), $"tower {tower + 1}'s ambusher on the top floor");
+                        Assert.AreEqual(harness.Client.Player.EntityId, Target(thrax), $"tower {tower + 1}'s ambusher fights the player");
                     }
                     foreach (var thrax in ambush)
                         E.Die(harness, desert, thrax);
@@ -295,6 +299,54 @@ namespace Rasa.Test.Missions.Ashen
             Assert.AreEqual(1U, WildernessRanjaGorgeTests.Held(harness, 12101), "the Cryogenic Blade chosen");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, emmons, Radar.MissionId), "done once");
             Assert.IsTrue(PlateauRetreadCampTests.Offers(harness, emmons, King.MissionId), "then King of the Hill");
+        }
+
+        /// <summary>
+        /// Fix E (to-fix row 13): a console is used only from its own floor. From the ground floor straight under console 2 (the
+        /// ground teleporter's height, 13.5 m under, within the 20 m use reach) the use is refused, "out of range", and nothing
+        /// comes of it: the objective stays open, the console off, no ambush; 3.5 m over the floor too. On the top floor by it,
+        /// the use completes 2. The limit is the consoles' own (opt-in): 1275's crate is still used from 10 m over it.
+        /// </summary>
+        [TestMethod]
+        public void OnTheSameFrequencysConsolesAreUsedOnlyFromTheirFloor()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            AshenRuntime.SeedCompleted(harness, Codes.MissionId);
+            var desert = AshenLeadInsTests.EnterAshen(harness, Stonewall);
+            var emmons = Npc(desert, AshenLeadInNpcsV1.Emmons);
+            Accept(harness, emmons, Radar.MissionId);
+            var console = Consoles(harness, desert)[1];
+            var ground = harness.World.TeleporterEntries.AsNoTracking().Single(row => row.Id == TowerPads[1].Ground);
+            foreach (var (y, where) in new[] { ((float)ground.PosY, "the ground floor"), (console.Position.Y + 3.5f, "3.5 m over the floor") })
+            {
+                harness.MoveTo(console.Position with { Y = y, Z = console.Position.Z + 1 });
+                harness.Drain();
+                var count = desert.PerformRecovery.Count;
+                harness.Objects.RequestUseObjectPacket(harness.Client, new Rasa.Packets.MapChannel.Client.RequestUseObjectPacket
+                {
+                    EntityId = console.EntityId, ActionId = ActionId.UseObject, ActionArgId = Radar.UseArgument
+                });
+                Assert.AreEqual(PlayerMessage.PmTargetOutOfRange, harness.Drain().OfType<Rasa.Packets.MapChannel.Server.UserActionFailedPacket>().Single().MsgId, $"from {where}: out of range");
+                Assert.AreEqual(count, desert.PerformRecovery.Count, $"from {where}: no use begins");
+                E.Tick(harness, desert, 250);
+                Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Radar.MissionId, 2), $"from {where}: tower 2 open");
+                Assert.AreEqual((UseObjectState)Radar.OffState, console.StateId, $"from {where}: the console off");
+                Assert.IsTrue(Ambushers(harness, desert, 1).All(creature => creature == null), $"from {where}: no ambush");
+            }
+            var log = new List<PythonPacket>();
+            Program(harness, desert, console, log);
+            Assert.AreEqual(MissionObjectiveState.Completed, Objective(harness, Radar.MissionId, 2), "on its floor: tower 2 programmed");
+            Assert.AreEqual(1, log.OfType<ObjectiveCompletedPacket>().Count(packet => packet.MissionId == Radar.MissionId && packet.ObjectiveId == 2), "once");
+
+            // Opt-in: 1275's crate has no floor limit.
+            using var other = WildernessRuntimeTestHarness.Create();
+            var desert2 = AshenLeadInsTests.EnterAshen(other, Stonewall);
+            Accept(other, Npc(desert2, AshenLeadInNpcsV1.Emmons), Codes.MissionId);
+            var crate = Crate(other, desert2);
+            other.MoveTo(crate.Position + new Vector3(0, 10, 1));
+            other.Drain();
+            Use(other, desert2, crate, Codes.UseArgument, recovers: true);
+            Assert.AreEqual(MissionObjectiveState.Completed, Objective(other, Codes.MissionId, Codes.Recover), "the crate from 10 m over it");
         }
 
         /// <summary>
@@ -570,8 +622,9 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>
         /// The walks on the client's floor (AshenFixBTests.ClientFloorWalk: every half metre, never more than 1.1 m up over a
         /// metre, nothing of the placed meshes in the way at knee, chest or head height), there and back: from the Stonewall
-        /// Ridge waypoint (197) Emmons, the four towers' ground teleporters, every ambush spot, each battery's foot and every wave
-        /// member's spot; on each tower's second floor from its upper teleporter to its console; from the Ashoka Settlement
+        /// Ridge waypoint (197) Emmons, the four towers' ground teleporters, each battery's foot and every wave member's spot; on
+        /// each tower's second floor from its upper teleporter by the lift's exit to its console, and from every ambush spot by
+        /// the exit to the console (fix E: the ambushes on the top floor); from the Ashoka Settlement
         /// waypoint the salvage crate. Where the straight navmesh walk meets a step the client's floor does not take (a knee-high
         /// rise at (21.6, -437.0) on the way east, a 1.12-1.20 m step at (35.9, -502.1) and (-39.5, -450.4)), the walk goes by
         /// the corners Route names (the probe of 2026-11-10; ESTIMATE of a player's line).
@@ -614,11 +667,17 @@ namespace Rasa.Test.Missions.Ashen
             {
                 var (ground, upper) = TowerPads[tower];
                 FromStonewall($"tower {tower + 1}'s ground teleporter {ground}", pads[ground]);
-                var console = Radar.Towers[tower].ConsoleAt;
+                // Fix E: from the upper teleporter off by the lift's exit and on to the console, not back over the pad; the ambushers
+                // come on the top floor and walk to the exit and the console (AshenFixETests).
+                var console = Fix.Towers[tower].ConsoleAt;
                 var at = new Vector3(console.X, console.Y, console.Z);
-                Walk($"console {tower + 1} from its upper teleporter {upper}", new[] { pads[upper], at }, new[] { at, pads[upper] });
-                foreach (var spot in Radar.Towers[tower].AmbushAt)
-                    FromStonewall(FormattableString.Invariant($"tower {tower + 1}'s ambush spot ({spot.X}, {spot.Z})"), new(spot.X, spot.Y, spot.Z));
+                var exit = new Vector3(Fix.ExitAt[tower].X, Fix.ExitAt[tower].Y, Fix.ExitAt[tower].Z);
+                Walk($"console {tower + 1} from its upper teleporter {upper} by the lift's exit", new[] { pads[upper], exit, at }, new[] { at, exit });
+                foreach (var spot in Fix.Towers[tower].AmbushAt)
+                {
+                    var from = new Vector3(spot.X, spot.Y, spot.Z);
+                    Walk(FormattableString.Invariant($"tower {tower + 1}'s ambush spot ({spot.X}, {spot.Z})"), new[] { from, exit, at }, new[] { at, from });
+                }
             }
             for (var battery = 0; battery < 4; battery++)
                 FromStonewall($"battery {battery + 1}'s foot", BatteryFeet[battery]);

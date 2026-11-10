@@ -58,7 +58,9 @@ namespace Rasa.Services.Preloader.Missions.Ashen
         /// The towers in objective order: objective, ground teleporter, upper teleporter, the ground pad (marker), the console
         /// (the second floor's navmesh, 4 m off the upper pad, seen from the 16 places 2 m round it, ESTIMATE), its facing
         /// (ESTIMATE), and the ambush spots at the tower's foot, 9-13 m off the ground pad on the navmesh joined to the
-        /// waypoint, seen from the 16 places round them (none at tower 1; the probes of 2026-11-10).
+        /// waypoint, seen from the 16 places round them (none at tower 1; the probes of 2026-11-10). As set 9 wrote them (live);
+        /// fix job E (migration 20271110001010, AshenFixEV1.Towers) moves the consoles 5-6 m off the upper pads and the ambushes
+        /// onto the top floors, and keeps each console's use on its floor: the game reads the scene from the World DB.
         /// </summary>
         public static readonly (uint Objective, uint Ground, uint Upper, ScenePosition PadAt, ScenePosition ConsoleAt, double Facing,
             ScenePosition[] AmbushAt)[] Towers =
@@ -118,8 +120,15 @@ namespace Rasa.Services.Preloader.Missions.Ashen
             mission.Enable(Scene());
         }
 
-        /// <summary>The player's own consoles on the four top floors; the ambushes at towers 2-4.</summary>
-        public static MissionSceneDefinition Scene()
+        /// <summary>The player's own consoles on the four top floors; the ambushes at towers 2-4 (as set 9 wrote it).</summary>
+        public static MissionSceneDefinition Scene() => Scene(Towers);
+
+        /// <summary>
+        /// The scene for <paramref name="towers"/>, each console used only within <paramref name="maxUseHeight"/> m of its floor
+        /// (SceneObjectAction.MaxUseHeight; 0: no limit, as set 9). Fix job E (AshenFixEV1) builds its scene with this.
+        /// </summary>
+        internal static MissionSceneDefinition Scene((uint Objective, uint Ground, uint Upper, ScenePosition PadAt, ScenePosition ConsoleAt,
+            double Facing, ScenePosition[] AmbushAt)[] towers, float maxUseHeight = 0)
         {
             var scene = new MissionSceneDefinition
             {
@@ -127,14 +136,14 @@ namespace Rasa.Services.Preloader.Missions.Ashen
                 MapContextId = AshenMissionDataV1.MapContextId
             };
             scene.Sequences[0] = new SceneSequenceDefinition();
-            for (var index = 0; index < Towers.Length; index++)
+            for (var index = 0; index < towers.Length; index++)
             {
-                var tower = Towers[index];
+                var tower = towers[index];
                 var role = ConsoleRole(index);
                 var sequence = ConsoleSequence(index);
                 scene.Actors[role] = new SceneActorDefinition(role, SceneActorKind.Object, ConsoleClass, tower.ConsoleAt,
                     Orientation: tower.Facing, InitialObjectState: OffState, NameOverrideId: ConsoleName,
-                    UseAction: new SceneObjectAction(MissionId, tower.Objective, sequence, UseArgument));
+                    UseAction: new SceneObjectAction(MissionId, tower.Objective, sequence, UseArgument, maxUseHeight));
                 scene.Sequences[0].World.Add(new EnsureActorIntent($"create-{role}", role));
                 var programmed = new SceneSequenceDefinition
                 {

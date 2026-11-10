@@ -214,9 +214,10 @@ namespace Rasa.Test.Missions.Ashen
                 failures.Add($"the tester's (439.0, -298.7) back to the Ashoka Settlement waypoint: {home}");
             foreach (var (pool, at) in AshenBoneyardNpcsV1.StalkerPools)
                 Both($"Desert Stalker pool {pool}", Ashoka, "the Ashoka Settlement waypoint", V(at));
+            // The Ravager pools where fix E put them, on the camp's edge (AshenFixETests).
             foreach (var pool in RavagerPools)
                 Both($"Ravager pool {pool}", ShadowsEdge, "the Shadow's Edge Post waypoint",
-                    V(Array.Find(AshenSheitanHighwayNpcsV1.ThraxPools, entry => entry.Pool == pool).At));
+                    V(Array.Find(AshenFixEV1.RavagerPools, entry => entry.Pool == pool).Now));
             foreach (var (pool, _, way) in AshenSheitanHighwayNpcsV1.PredatorPools)
                 for (var step = 0; step < way.Length; step++)
                     Both($"Desert Predator beat {pool} step {step}", ShadowsEdge, "the Shadow's Edge Post waypoint", V(way[step]));
