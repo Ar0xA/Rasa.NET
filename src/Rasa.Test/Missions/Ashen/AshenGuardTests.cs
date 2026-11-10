@@ -49,9 +49,9 @@ namespace Rasa.Test.Missions.Ashen
     {
         private const uint Map = AshenMissionDataV1.MapContextId;
 
-        /// <summary>The friendly NPCs new in the block: set 1's, set 2's, set 4's (Infanger), set 6's (Latan, Ito, Megumi) and set 11's (Meeks, Hale).</summary>
+        /// <summary>The friendly NPCs new in the block: set 1's, set 2's, set 4's (Infanger), set 6's (Latan, Ito, Megumi), set 11's (Meeks, Hale) and set 13's (Odesha, Endala).</summary>
         private static readonly uint[] NewNpcs = N.New.Select(npc => npc.Id).Concat(B.New.Select(npc => npc.Id)).Append(Y.Infanger)
-            .Concat(K.New.Select(npc => npc.Id)).Concat(AshenWhiteOasisNpcsV1.New.Select(npc => npc.Id)).ToArray();
+            .Concat(K.New.Select(npc => npc.Id)).Concat(AshenWhiteOasisNpcsV1.New.Select(npc => npc.Id)).Concat(AshenIndraPassNpcsV1.New.Select(npc => npc.Id)).ToArray();
 
         /// <summary>The upstream NPCs the sets use where upstream has them (set 4's Lieutenant Jan Blood, 1262), and those a later set moved (set 10's Ida Hayner, off the weapon vendor; set 11's Dania Fontecilla, off the White Oasis control point's console).</summary>
         private static readonly uint[] Kept = { Y.Blood, AshenDesignerHidesNpcsV1.IdaHayner, AshenWhiteOasisNpcsV1.Fontecilla };
@@ -312,7 +312,10 @@ namespace Rasa.Test.Missions.Ashen
                 // Set 11: Meeks, Hale and Fontecilla in White Oasis Post.
                 (AshenWhiteOasisNpcsV1.Meeks, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
                 (AshenWhiteOasisNpcsV1.Hale, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
-                (AshenWhiteOasisNpcsV1.Fontecilla, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
+                (AshenWhiteOasisNpcsV1.Fontecilla, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
+                // Set 13: Odesha and Endala by the Indra Pass waypoint.
+                (AshenIndraPassNpcsV1.Odesha, "the Indra Pass waypoint", AshenIndraPassTests.IndraWaypoint),
+                (AshenIndraPassNpcsV1.Endala, "the Indra Pass waypoint", AshenIndraPassTests.IndraWaypoint)
             };
             var npcs = Npcs().ToDictionary(npc => npc.DbId);
             Assert.HasCount(npcs.Count, walks, "a walk to each NPC");
@@ -376,7 +379,7 @@ namespace Rasa.Test.Missions.Ashen
                     if (!Inside(talk.MissionId, talk.ObjectiveId, new((float)pool.PosX, (float)pool.PosY, (float)pool.PosZ)))
                         outside.Add($"{talk.MissionId}.{talk.ObjectiveId} NPC pool {pool.Id}");
                 }
-            Assert.AreEqual(4 + 4 + 3 + 4, checkedTargets, "Mason Linier, Emmons, Yamamoto and Daris Linier; set 6's Latan (1254's four talks), Yamamoto (1258, 1259), Mason Linier (1261); set 11's Hale (1298's four talks)");
+            Assert.AreEqual(4 + 4 + 3 + 4 + 1, checkedTargets, "Mason Linier, Emmons, Yamamoto and Daris Linier; set 6's Latan (1254's four talks), Yamamoto (1258, 1259), Mason Linier (1261); set 11's Hale (1298's four talks); set 13's Endala (1282.2)");
             Assert.IsEmpty(outside, string.Join(", ", outside));
         }
 
@@ -566,13 +569,22 @@ namespace Rasa.Test.Missions.Ashen
                 // Settlement's: Also) and 1302's panels, from White Oasis Post's.
                 [AshenWaterPurificationV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
                 [AshenNeurotoxinsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
-                [AshenPoisoningTheWellwaterV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
+                [AshenPoisoningTheWellwaterV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
+                // Set 13: Veyon and the resistors in the Indra Pass valley from White Oasis Post's (the Indra Pass waypoint's
+                // navmesh region is joined to nothing, upstream N23; the client's floor joins them: AshenIndraPassTests); Maiek
+                // in the Conscription Base from Ashoka Settlement's; Endala's marker and resistors 1-3 (on the waypoint's navmesh island)
+                // from the Indra Pass waypoint's: Also.
+                [AshenMissingScientistsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
+                [AshenGodOfStormsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
+                [AshenBondsOfBloodV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
             };
             // A mission whose markers stand in more than one area: the other areas' waypoints (any one walks to the marker).
             var also = new Dictionary<uint, (string Label, Vector3 At)[]>
             {
                 [AshenNewFadV1.MissionId] = new[] { ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint) },
-                [AshenNeurotoxinsV1.MissionId] = new[] { ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint) }
+                [AshenNeurotoxinsV1.MissionId] = new[] { ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint) },
+                [AshenGodOfStormsV1.MissionId] = new[] { ("the Indra Pass waypoint", AshenIndraPassTests.IndraWaypoint) },
+                [AshenBondsOfBloodV1.MissionId] = new[] { ("the Indra Pass waypoint", AshenIndraPassTests.IndraWaypoint) }
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var desert = AshenLeadInsTests.EnterAshen(harness);
@@ -652,7 +664,8 @@ namespace Rasa.Test.Missions.Ashen
         /// The sets' NPCs and scene actors with a place (label, place, NPC) on Ashen Desert: set 2's five beacon spots (1245), set 4's
         /// six fallen (1263), set 5's six missile launchers and their Detonation Devices (1352) and three generators and theirs (1354),
         /// set 9's salvage crate (1275), consoles and ambushers (1277), turrets and wave members (1278), set 11's panels (1295) and
-        /// fuel pumps and their Detonation Devices (1356), set 12's panels (1302, on 1295's places).
+        /// fuel pumps and their Detonation Devices (1356), set 12's panels (1302, on 1295's places), set 13's bodies (1280, 1282) and
+        /// resistors (1281).
         /// </summary>
         private static List<(string Label, Vector3 At, bool Npc)> Places(WildernessRuntimeTestHarness harness)
         {
@@ -661,10 +674,10 @@ namespace Rasa.Test.Missions.Ashen
                 foreach (var actor in scene.Actors.Values.Where(actor => actor.Position != null))
                     places.Add(($"{mission} {actor.Role}", new Vector3(actor.Position.X, actor.Position.Y, actor.Position.Z),
                         actor.Kind == Rasa.Missions.Scenes.SceneActorKind.Creature));
-            Assert.HasCount(NewNpcs.Length + N.Moves.Length + Kept.Length + 5 + 6 + 12 + 6 + 1 + 4 + 9 + 4 + 14 + 4 + 6 + 4, places,
+            Assert.HasCount(NewNpcs.Length + N.Moves.Length + Kept.Length + 5 + 6 + 12 + 6 + 1 + 4 + 9 + 4 + 14 + 4 + 6 + 4 + 1 + 10 + 1, places,
                 "the NPCs, 1245's five beacon spots, 1263's six fallen, 1352's launchers and devices, 1354's generators and devices, " +
                 "1275's crate, 1277's four consoles and nine ambushers, 1278's four turrets and fourteen wave members, 1295's four " +
-                "panels, 1356's pumps and devices, 1302's four panels");
+                "panels, 1356's pumps and devices, 1302's four panels, 1280's Veyon, 1281's ten resistors, 1282's Maiek");
             return places;
         }
 

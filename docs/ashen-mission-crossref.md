@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 43 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 46 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -9,7 +9,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 | Zone | Missions |
 | --- | ---: |
-| Ashen Desert | 43 |
+| Ashen Desert | 46 |
 
 ## Ashen Desert
 
@@ -669,6 +669,72 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 - **Chain** (explicit prerequisite links): Cycled Frequencies chain (3 missions), step 3
   - Requires: On The Same Frequency (id 1277) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/King_of_the_Hill), [TaRapedia](https://tabularasa.fandom.com/wiki/On_The_Same_Frequency), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+
+### 1280 — Missing Scientists
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - reward: 95,000 XP; 6,300 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Missing_Scientists)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Find the body of Researcher Veyon in Indra Pass and recover the Indra Lightning Resistor Codes. Return to Surveyor Odesh in Indra Caves once you have recovered the codes.
+  - objectives (client): Recover Resistor Codes
+- **TaRapedia** [Missing Scientists](https://tabularasa.fandom.com/wiki/Missing_Scientists): giver: Surveyor Malya Odesha; at: Indra Pass; zone: Ashen Desert; requires: None; follow-up: God of Storms; XP: 95,000; credits: 6,300; reward from: Surveyor Malya Odesha
+  - overview: Find the body of Researcher Veyon in Indra Pass and recover the Indra Lightning Resistor Codes. Return to Surveyor Odesh in Indra Caves once you have recovered the codes.
+  - objectives: • Recover Resistor Codes • x/1
+- **TaRapedia mission list** [Indra Pass mission list](https://tabularasa.fandom.com/wiki/Indra_Pass_mission_list): zone Ashen Desert, area Indra Pass, given by Surveyor Malya Odesha
+
+- **Chain** (explicit prerequisite links): Missing Scientists chain (3 missions), step 1
+  - Leads to: God of Storms (id 1281) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_of_Storms), [TaRapedia](https://tabularasa.fandom.com/wiki/Missing_Scientists)
+  - Leads to: The Bonds of Blood (id 1282) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Bonds_of_Blood)
+
+### 1281 — God of Storms
+
+
+- **Instance mentioned:** Bane Conscription Facility — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level: <=42 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_of_Storms)
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - reward: 190,000 XP; 8,400 credits; Vextronics Rocket Launcher; Vitalius Electric Staff; AccuMax Incendiary Injector Gun; AccuMax Shotgun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_of_Storms)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Find the 10 Indra Lightning Resistors and reprogram them so they create a feedback loop to disrupt the Bane Conscription Facility. If you finish programming all 10 Resistors, then you will lose the opportunity to find Maiek. Report back to Surveyor Odesha once you are finished so he can finish the …
+  - objectives (client): Sabotage Resistor 1; Sabotage Resistor 2; Sabotage Resistor 3; Sabotage Resistor 4; Sabotage Resistor 5; Sabotage Resistor 6; Sabotage Resistor 7; Sabotage Resistor 8; Sabotage Resistor 9; Sabotage Resistor 10 … (+1 more)
+- **TaRapedia** [God of Storms](https://tabularasa.fandom.com/wiki/God_of_Storms): giver: Surveyor Malya Odesha; at: Indra Pass; zone: Ashen Desert; level: <=42; requires: Missing Scientists; follow-up: None; XP: 190,000; credits: 8,400; items: Vextronics Rocket Launcher; Vitalius Electric Staff; AccuMax Incendiary Injector Gun; AccuMax Shotgun; reward from: Surveyor Malya Odesha
+  - overview: Find the 10 Indra Lightning Resistors and reprogram them so they create a feedback loop to disrupt the Bane Conscription Facility. If you finish programming all 10 Resistors, then you will loose the ooportunity to find Maiek. Report back to Surveyor Odesha once you are finished so he can finish the …
+  - objectives: • Sabotage Resistor 1 • Sabotage Resistor 2 • Sabotage Resistor 3 • Sabotage Resistor 4 • Sabotage Resistor 5 • Sabotage Resistor 6 • Sabotage Resistor 7 • Sabotage Resistor 8 • Sabotage Resistor 9 • Sabotage Resistor 10
+  - walkthrough: NOTE: Surveyer Endala Berish will offer you a competing quest to rescue her brother. Once you accept "god of storms" you cannot get see or accept her quest.
+- **TaRapedia mission list** [Indra Pass mission list](https://tabularasa.fandom.com/wiki/Indra_Pass_mission_list): zone Ashen Desert, area Indra Pass, given by Surveyor Malya Odesha
+
+- **Chain** (explicit prerequisite links): Missing Scientists chain (3 missions), step 2
+  - Requires: Missing Scientists (id 1280) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_of_Storms), [TaRapedia](https://tabularasa.fandom.com/wiki/Missing_Scientists)
+
+### 1282 — The Bonds of Blood [instance]
+
+
+- **Instance:** Indra Caverns — NPC Researcher Endala Berish (NPC page lists this mission) is in Indra Caverns — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Researcher_Endala_Berish)
+- **Instance mentioned:** Bane Conscription Facility — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - reward: 200,000 XP XP; 8,600 credits; Vitalius Leech Gun (Lvl44); Vextronics Electric Net Gun (Lvl41); ChiTech Pistol (Lvl40); Teleract Incendiary RPG Launcher (Lvl40) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Bonds_of_Blood)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Researcher Endala Berish: Ashen Desert, Indra Caverns, /loc 312, 324, 293 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Researcher_Endala_Berish)
+- **Client:** Infiltrate the Bane Conscription Base and find where they are holding Researcher Maiek Berish. If you find Maiek, then you will lose the opportunity to reprogram the Lightning Resistors and damage the Bane Conscription Facility. Return to Endala Berish in Indra Caves once you have found him.
+  - objectives (client): Find Researcher Maiek Barish; Talk to Endala Berish; Flag Reader
+- **TaRapedia** [The Bonds of Blood](https://tabularasa.fandom.com/wiki/The_Bonds_of_Blood): giver: Researcher Endala Berish; at: Indra Pass; zone: Ashen Desert; requires: Missing Scientists; follow-up: None; XP: 200,000 XP; credits: 8,600; items: Vitalius Leech Gun (Lvl44); Vextronics Electric Net Gun (Lvl41); ChiTech Pistol (Lvl40); Teleract Incendiary RPG Launcher (Lvl40); reward from: Researcher Endala Berish
+  - overview: • Find Researcher Endala Berish's brother in the Bane Conscription Base before it's too late.
+  - objectives: • Find Researcher Maiek Barish
+  - walkthrough: The body of Researcher Maiek Barish is located in the Bane Conscription Base base with the power generators. The body is very near Overseer Naxveik.
+- **TaRapedia mission list** [Indra Pass mission list](https://tabularasa.fandom.com/wiki/Indra_Pass_mission_list): zone Ashen Desert, area Indra Pass, given by Researcher Endala Berish
+- **NPCs (TaRapedia NPC pages):**
+  - [Researcher Endala Berish](https://tabularasa.fandom.com/wiki/Researcher_Endala_Berish): Ashen Desert, Indra Caverns, /loc 312, 324, 293 (NPC page lists this mission)
+
+- **Chain** (explicit prerequisite links): Missing Scientists chain (3 missions), step 2
+  - Requires: Missing Scientists (id 1280) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Bonds_of_Blood)
 
 ### 1283 — Good Day to Die
 

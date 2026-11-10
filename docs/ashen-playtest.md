@@ -328,6 +328,32 @@ mission's own; corners in AshenMurkyWatersTests.Places.
   own panels are gone after its turn-in): each takes one system. Same walks as 1295. Turn in at Hale: 45000 XP, 4000
   credits, one of the Resist Fire / Ice / Virulent / Electric [4] armour modules.
 
+Set 13, Indra Pass (migration `20271110001300_Ashen_indra_pass`). New NPCs: Surveyor Malya Odesha 790480 (258, 315.49,
+325) and Researcher Endala Berish 790481 (266, 316.46, 337), both by the Indra Pass waypoint, outside the Indra Caverns cave
+mouth (copies of Raji Lasat's Brann row, level 43). No hostile creature is new or moved; no upstream row changed. Next free
+id 790482. God of Storms and The Bonds of Blood are exclusive: a player gets one side. The Indra Pass waypoint's navmesh
+joins nothing (upstream N23): every walk below is the client's floor, checked both ways, 30 m or more outside every hostile
+pool's circle (AshenIndraPassTests.Walks). The way from the waypoint into the valley goes west round the rocks north of the
+cave mouth: (193, 363), (168, 376), (137, 372), (105, 380), north to (100, 428), west to (79, 433), down by (78, 453),
+(86, 469), (99, 482), then east into the valley (about 330-420 m).
+
+- [ ] 1280 Missing Scientists (Ligo Ashen Desert): Odesha offers it, level 41. Search Researcher Veyon's body ("Corpse of
+  Researcher Veyon", your own) in the valley at (178, 315.73, 536): it gives the Indra Lightning Resistor Codes (97476).
+  A full bag leaves the codes on the body (free a slot and search again). Turn in at Odesha: 95000 XP, 6300 credits, one
+  of Bio Vest 19286, Stealth Gloves 38952, Graviton Gloves 23698, Hazmat Helmet 20653; she takes the codes.
+- [ ] 1281 God of Storms (Ligo Ashen Desert): Odesha offers it after 1280, level 42 (not while 1282 is held or done). Use
+  the ten Indra Lightning Resistors (your own, any order): 1 (200, 352), 2 (158, 362), 3 (237, 348), 4 (174, 462), 5 (130,
+  500), 6 (176, 496), 7 (246, 309), 8 (96, 462), 9 (124, 532), 10 (96, 554); each turns on and completes its objective.
+  Turn in at Odesha: 190000 XP, 8400 credits, one of four weapons. Look: the resistor model (class 10196) on the ground
+  and its on state; the tenth resistor fails an open 1282.
+- [ ] 1282 The Bonds of Blood (Ligo Ashen Desert): Endala offers it after 1280, level 42 (not while 1281 is held or done).
+  Find Maiek's body (a Brann corpse, your own) in the Bane Conscription Base by the power generators at (344, 288.75, -72),
+  walked from the Ashoka Settlement waypoint north. The search opens "Talk to Endala Berish"; talk to her: 200000 XP, 8600
+  credits, one of four weapons. Finding Maiek fails an open 1281.
+- [ ] Indra Pass walk (real client): the way from the waypoint into the valley (above) is the client-floor check's, not
+  a navmesh path: check that a player can walk it, and whether a shorter way through the rocks north of the cave mouth
+  exists. The cave pocket at the Indra Caverns link cannot be checked (N26).
+
 ## Assumptions and choices (not from a source)
 
 All ESTIMATE (set 1):
@@ -542,6 +568,18 @@ All ESTIMATE (set 12):
   read as the cut repair mission 1301's). Rewards in TaRapedia's order.
 - 1300 items: the lowest template of TaRapedia's kinds and version numbers in the 40-44 band.
 
+All ESTIMATE (set 13):
+- Odesha and Endala outside the cave mouth by the Indra Pass waypoint, not at TaRapedia's /loc (312, 324, 293) in the
+  cave: the client floor we read has no way into the cave pocket (N26). Both copy Raji Lasat's row and look (no female
+  Brann NPC look on the World DB); level 43 (TaRapedia's Endala); Odesha has a server-only package (790480).
+- Levels 41 (1280), 42 (1281, 1282). Rewards: TaRapedia's XP and credits; the items are the lowest Uncommon template of
+  each named kind in the mission's band.
+- Veyon's body (the client's Brann corpse 7928 with the client's name 67) and the ten resistors (the client's class 10196
+  named 68) in the valley: places of no source; Maiek's body (7928, the client's own name) 36 m from the third generator
+  and 64 m from Overseer Naxveik (TaRapedia "very near Naxveik"; kept 34 m and more outside every hostile pool's circle).
+- The fork: each side's end (the tenth resistor, Maiek found) fails the other if it is held (the client logs); the offers
+  are exclusive (TaRapedia, God of Storms). Markers r8.
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -616,6 +654,12 @@ All ESTIMATE (set 12):
   Coheri Pools / on the ridge.
 - 1302: the panels do not check the systems by kind (each use takes one; a mission item cannot be destroyed).
 - 1297, 1301 (the repair side's follow-ups, client only) are not built (D3): the repair side ends at 1299.
+- 1280-1282: Odesha and Endala stand outside the Indra Caverns cave mouth, not in the cave (TaRapedia): N26.
+- 1282: Maiek 64 m from Overseer Naxveik, not "very near" him (the 34 m keep-out of the base's hostile pools).
+- 1281 / 1282: the exclusive offers and the fork are offer/accept rules and a scene signal; a GM-given pair still fails
+  the other side at either end.
+- 1281 / 1282: the failed side keeps its own objects (resistors or Maiek's body) until the player abandons it; a use of
+  them then counts nothing.
 
 ## Server data that differs from the sources (not changed)
 

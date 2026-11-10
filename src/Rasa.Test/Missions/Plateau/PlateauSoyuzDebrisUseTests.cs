@@ -35,7 +35,9 @@ namespace Rasa.Test.Missions.Plateau
             [29286] = 1, [29287] = 1, [29783] = 1, [29784] = 1,
             // Crucible (usabledata.lookup, 1.16.5.0): 7007 (3, 0, 0, 0, 0.0); the others' first entry is None.
             [7007] = 3, [7865] = 1, [7931] = 1, [7934] = 1, [10749] = 1, [24980] = 1, [24989] = 1, [24990] = 1, [24995] = 1,
-            [26578] = 1, [26580] = 1
+            [26578] = 1, [26580] = 1,
+            // Ashen set 13 (usabledata.lookup, 1.16.5.0): the first entry None.
+            [7928] = 1, [10196] = 1
         };
 
         [TestMethod]
