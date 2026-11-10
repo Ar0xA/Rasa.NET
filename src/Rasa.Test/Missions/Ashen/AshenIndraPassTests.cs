@@ -341,9 +341,37 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>
+        /// The Bonds of Blood abandoned after Maiek is found: Odesha offers God of Storms again; taken again, Maiek's body is whole
+        /// (closed, usable) and 2 waits again (Inactive), 1 open.
+        /// </summary>
+        [TestMethod]
+        public void TheBondsOfBloodAbandonedAfterMaiekStartsOver()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            AshenRuntime.SeedCompleted(harness, Missing.MissionId);
+            var desert = AshenLeadInsTests.EnterAshen(harness, IndraWaypoint);
+            var odesha = Npc(desert, N.Odesha);
+            var endala = Npc(desert, N.Endala);
+            Accept(harness, endala, Bonds.MissionId);
+            FindMaiek(harness, desert);
+            Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Bonds.MissionId, Bonds.Talk), "2 open");
+            Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, odesha, Storms.MissionId), "held: God of Storms not offered");
+            Assert.IsTrue(harness.Manager.TryAbandon(harness.Client, Bonds.MissionId));
+            harness.Manager.Scenes.Tick(desert);
+            harness.Drain();
+            Assert.IsFalse(desert.DynamicObjects.Any(obj => obj.SceneMissionId == Bonds.MissionId && obj.IsInWorld), "the body goes");
+            Assert.IsTrue(PlateauRetreadCampTests.Offers(harness, odesha, Storms.MissionId), "abandoned: Odesha offers God of Storms again");
+            Accept(harness, endala, Bonds.MissionId);
+            var body = Body(harness, desert, Bonds.MissionId, Bonds.CorpseRole, Bonds.MaiekAt, 0);
+            Assert.AreEqual(((UseObjectState)Closed, true), (body.StateId, body.IsEnabled), "a whole body");
+            Assert.AreEqual((MissionObjectiveState.Incomplete, MissionObjectiveState.Inactive),
+                (Objective(harness, Bonds.MissionId, Bonds.Find), Objective(harness, Bonds.MissionId, Bonds.Talk)), "1 open, 2 waits again");
+        }
+
+        /// <summary>
         /// The closing both ways, with both missions held (a GM's gift: the offers keep a player from holding both): nine
         /// resistors leave an open The Bonds of Blood alone; the tenth fails it (the client's log: "you will lose the opportunity
-        /// to find Maiek"), a search of its body then counts nothing, and God of Storms stays completeable. The other way: Maiek found fails an open God of
+        /// to find Maiek"), a search of its body (kept for good: a failed mission cannot be abandoned) then counts nothing, and God of Storms stays completeable. The other way: Maiek found fails an open God of
         /// Storms ("you will lose the opportunity to reprogram the Lightning Resistors") and The Bonds of Blood goes on. A closing
         /// signal to a mission not held changes nothing (God of Storms done alone above).
         /// </summary>
@@ -367,7 +395,8 @@ namespace Rasa.Test.Missions.Ashen
             harness.Manager.Scenes.Tick(desert);
             harness.Drain();
             Assert.IsTrue(!harness.Client.Player.Missions.TryGetValue(Bonds.MissionId, out var bonds) || bonds.State == MissionState.Failed, "the tenth fails The Bonds of Blood");
-            // A failed mission keeps its scene until it is abandoned (SceneApplication.Execute admits Failed); a search then counts nothing.
+            // A failed mission keeps its scene for good (SceneApplication.Execute admits Failed; TryAbandon takes only an Active
+            // mission, MissionApplication.TryAbandon): a search then counts nothing. Only a GM's gift holds both sides.
             var maiek = desert.DynamicObjects.Single(obj => obj.SceneMissionId == Bonds.MissionId && obj.SceneActorRole == Bonds.CorpseRole && obj.IsInWorld);
             TrySearch(harness, desert, maiek);
             Assert.AreEqual((MissionObjectiveState.Failed, MissionObjectiveState.Failed), (Objective(harness, Bonds.MissionId, Bonds.Find), Objective(harness, Bonds.MissionId, Bonds.FlagReader)),

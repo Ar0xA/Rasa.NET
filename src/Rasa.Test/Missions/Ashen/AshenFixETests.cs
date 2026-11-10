@@ -393,12 +393,12 @@ namespace Rasa.Test.Missions.Ashen
                 .Concat(X.Set10Moves.Select(move => (move.Mission, move.Objective, move.Indicator))).ToList();
             (double, double, double) PoolAt(uint id) => world.SpawnPoolEntries.AsNoTracking().Where(entry => entry.Id == id).AsEnumerable()
                 .Select(entry => (entry.PosX, entry.PosY, entry.PosZ)).Single();
-            string Others() => string.Join("; ", world.SpawnPoolEntries.AsNoTracking()
+            string Others(Rasa.Context.World.SqliteWorldContext db) => string.Join("; ", db.SpawnPoolEntries.AsNoTracking()
                     .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && !poolIds.Contains(entry.Id)).OrderBy(entry => entry.Id).AsEnumerable()
                     .Select(entry => FormattableString.Invariant($"{entry.Id}:{entry.PosX:R},{entry.PosY:R},{entry.PosZ:R},{entry.Creature1MaxCount}")))
-                + " | " + string.Join("; ", world.Set<MissionSceneBindingEntry>().AsNoTracking().Where(entry => entry.MissionId != X.MissionId)
+                + " | " + string.Join("; ", db.Set<MissionSceneBindingEntry>().AsNoTracking().Where(entry => entry.MissionId != X.MissionId)
                     .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ContentRevision).AsEnumerable().Select(entry => $"{entry.MissionId}:{entry.Bindings.GetHashCode()}"))
-                + " | " + string.Join("; ", world.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision)
+                + " | " + string.Join("; ", db.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision)
                     .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ObjectiveId).ThenBy(entry => entry.IndicatorId).AsEnumerable()
                     .Where(entry => !movedMarkers.Contains((entry.MissionId, entry.ObjectiveId, entry.IndicatorId)))
                     .Select(entry => FormattableString.Invariant($"{entry.MissionId}.{entry.ObjectiveId}/{entry.IndicatorId}:{entry.PosX:R},{entry.PosY:R},{entry.PosZ:R}")));
@@ -419,7 +419,11 @@ namespace Rasa.Test.Missions.Ashen
                 }
                 Assert.AreEqual(X.Evidences.Length, Evidence(), $"{when}: fix E's evidence rows");
             }
-            var others = Others();
+            // The other Ashen rows as a database migrated only up to fix E holds them: a Down to the migration before fix E also
+            // takes out the later sets (set 11 sorts after it), and the Up goes only to fix E.
+            string others;
+            using (var atFixE = WildernessRuntimeTestHarness.Create(targetWorldMigration: FixE))
+                others = Others(atFixE.World);
             Assert.AreNotEqual(X.SceneBefore(), X.SceneNow(), "fix E changes the scene");
             Fixed("all migrations");
 
@@ -439,7 +443,7 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.AreEqual((move.Before.X, move.Before.Y, move.Before.Z), Marker((move.Mission, move.Objective, move.Indicator, move.Pool)), $"set 10's marker of {move.Pool}, exact");
             }
             Assert.AreEqual(0, Evidence(), "no fix E evidence");
-            Assert.AreEqual(others, Others(), "nothing else changes");
+            Assert.AreEqual(others, Others(world), "nothing else changes");
             using (var fresh = WildernessRuntimeTestHarness.Create(targetWorldMigration: AshenMissionTests.Previous(world, FixE)))
                 Assert.AreEqual(fresh.World.Set<MissionSceneBindingEntry>().AsNoTracking()
                     .Single(entry => entry.MissionId == X.MissionId && entry.ContentRevision == AshenMissionDataV1.Revision).Bindings, Scene(),
@@ -465,7 +469,7 @@ namespace Rasa.Test.Missions.Ashen
             Run(FormattableString.Invariant($"UPDATE spawnpool SET pos_x = {X.RavagerPools[0].Now.X} WHERE id = 790085;"));
             world.ChangeTracker.Clear();
             Fixed("restored");
-            Assert.AreEqual(others, Others(), "nothing else changes");
+            Assert.AreEqual(others, Others(world), "nothing else changes");
         }
     }
 }

@@ -2294,7 +2294,7 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.AreEqual(others, Others(world), $"{when}: nothing else changes");
             }
 
-            AllUp("all migrations");
+            AllUp("at its migration");
             world.GetService<IMigrator>().Migrate(Previous(world, MurkyWaters));
             world.ChangeTracker.Clear();
             Assert.IsFalse(missions.Any(Has));
@@ -2381,7 +2381,7 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.AreEqual(others, Others(world), $"{when}: nothing else changes");
             }
 
-            AllUp("all migrations");
+            AllUp("at its migration");
             world.GetService<IMigrator>().Migrate(Previous(world, IndraPass));
             world.ChangeTracker.Clear();
             Assert.IsFalse(missions.Any(Has));

@@ -15,17 +15,18 @@ namespace Rasa.Services.Preloader.Missions.Ashen
     /// Sourced:
     ///  - Names (client creaturenamelanguage, 1.0): 9355 "Surveyor Malya Odesha", 9354 "Researcher Endala Berish". Endala's
     ///    package 1475 (client objectiveconversation 1282,2); Odesha has no objective conversation in the client (she gives and
-    ///    takes 1280 and 1281 by mission only): a server-only package (her id), as set 11's Meeks.
+    ///    takes 1280 and 1281 by mission only).
     ///  - Places: TaRapedia Researcher Endala Berish: Brann, female, level 43, "in the cave directly outside of the Indra Caverns",
     ///    /loc 312, 324, 293 (0.5); Missing Scientists / God of Storms: Odesha at Indra Pass (0.5); the client's 1280 log "Return to
     ///    Surveyor Odesh in Indra Caves", 1282 "Return to Endala Berish in Indra Caves". World DB: the map link to Indra Caverns at
     ///    (321.87, 318.96, 319.60) r6 and the Indra Pass waypoint (262.19, 315.10, 344.38).
     ///
     /// Reconstructed (ESTIMATE, confidence 0.3):
+    ///  - Odesha's package: a server-only one (her id, 790480), as set 11's Meeks (a design choice: the client has none for her).
     ///  - Both a copy of Mechanic Raji Lasat's row and look (Brann, class 7776; the World DB has no female Brann NPC look); level
     ///    43 (TaRapedia's Endala; Odesha the same). 4500 hit points and armour 300, friendly, standing still, rotation 0 (as set 1).
     ///  - Each spot outside the cave, at its mouth by the Indra Pass waypoint, not at TaRapedia's /loc in the cave: the client
-    ///    collision files have no floor through the cave mouth (the terrain runs over the cave's floor from (277, -337); the
+    ///    collision files have no floor through the cave mouth (the terrain runs over the cave's floor from about x 277, z 337; the
     ///    client's terrain holes are not in them), so a walk from the waypoint to the cave cannot be checked (probe of 2026-11-10;
     ///    NOTES-upstream-bugs N26). Outside, each stands on the client's floor, one floor, under open sky, 7 m or more from the
     ///    waypoint, about 25 m from the cave mouth, walked to on the client's floor from the waypoint and back.
