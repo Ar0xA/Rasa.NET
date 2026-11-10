@@ -337,7 +337,8 @@ namespace Rasa.Test.Missions.Ashen
         /// metre, nothing of the placed meshes in the way at knee, chest or head height on the line and a player's half width to
         /// each side), there and back, from each place's waypoint (Places): Ida Hayner, the new pools and the bosses. Where the
         /// navmesh's straight walk meets a step the client's floor does not take, the walk goes by the corners Places names (the
-        /// probe of 2026-11-10; ESTIMATE of a player's line).
+        /// probe of 2026-11-10; ESTIMATE of a player's line). Set 12: every walk, all of it, keeps AshenWhiteOasisTests.
+        /// HostileClearance (30 m, 2D) outside the circle of every automatic hostile Ashen Desert pool not of its order.
         /// </summary>
         [TestMethod]
         public void TheOrdersPlacesAreWalkedToOnTheClientsFloor()
@@ -349,19 +350,33 @@ namespace Rasa.Test.Missions.Ashen
             using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
             var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", harness.World.MapInfoEntries.AsNoTracking()
                 .Single(map => map.Id == AshenMissionDataV1.MapContextId).MapName), meshes, 1);
+            var hostile = AshenWhiteOasisTests.HostilePools(harness);
+            Assert.IsGreaterThan(50, hostile.Count, "the Ashen hostile pools are read");
             var failures = new List<string>();
             var walked = 0;
             foreach (var (poolId, label, from, way) in Places)
             {
                 var row = harness.World.SpawnPoolEntries.AsNoTracking().Single(entry => entry.Id == poolId);
                 var at = nav.Nearest(new Vector3((float)row.PosX, (float)row.PosY, (float)row.PosZ)).Value;
+                // Set 12: the whole walk (not only its last 100 m, AshenFixETests) keeps HostileClearance outside every hostile
+                // pool's circle that is not of its order (Ida's: none of hers).
+                var own = AshenFixETests.OrderPools.SingleOrDefault(order => order.Pools.Contains(poolId)).Pools ?? Array.Empty<uint>();
                 foreach (var (legs, direction) in new[] { (way.There.Prepend(from).Append(at).ToList(), "there"), (way.Back.Prepend(at).Append(from).ToList(), "back") })
+                {
+                    var line = new List<Vector3>();
                     for (var leg = 0; leg + 1 < legs.Count; leg++)
                     {
                         walked++;
                         if (Walk(nav, geometry, legs[leg], legs[leg + 1]) is { } why)
                             failures.Add(FormattableString.Invariant($"{label} (pool {poolId}) {direction}, leg {leg + 1} ({legs[leg].X:0.0}, {legs[leg].Z:0.0}) to ({legs[leg + 1].X:0.0}, {legs[leg + 1].Z:0.0}): {why}"));
+                        var start = nav.Nearest(legs[leg]) ?? legs[leg];
+                        var path = nav.FindPath(start, nav.Nearest(legs[leg + 1]) ?? legs[leg + 1], out _);
+                        if (path != null)
+                            line.AddRange(path.Prepend(start));
                     }
+                    if (AshenWhiteOasisTests.Clearance(line, hostile.Where(pool => !own.Contains(pool.Id)).ToList()) is { } close)
+                        failures.Add(FormattableString.Invariant($"{label} (pool {poolId}) {direction}: {close.Gap:0.0} m outside hostile pool {close.Pool}'s circle at ({close.At.X:0.0}, {close.At.Y:0.0})"));
+                }
             }
             Assert.IsGreaterThanOrEqualTo(2 * Places.Length, walked, "the legs are walked");
             Assert.IsEmpty(failures, $"{failures.Count}: " + string.Join("; ", failures));
@@ -462,9 +477,22 @@ namespace Rasa.Test.Missions.Ashen
 
         private static (Vector3[] There, Vector3[] Back) Straight => (Array.Empty<Vector3>(), Array.Empty<Vector3>());
 
-        /// <summary>Fix E: the corner on the ridge west of Coheri Pools, and the way to it from the White Oasis Post waypoint (probe 2026-11-10, ESTIMATE of a player's line).</summary>
-        private static Vector3[] WestRidge => new[] { new Vector3(-300.00f, 308.19f, 620.00f) };
-        private static Vector3[] ByTheWestRidge => new[] { new Vector3(-439.10f, 284.34f, 204.80f) }.Concat(WestRidge).ToArray();
+        /// <summary>Fix E: the corner on the ridge west of Coheri Pools (probe 2026-11-10, ESTIMATE of a player's line).</summary>
+        internal static Vector3[] WestRidge => new[] { new Vector3(-300.00f, 308.19f, 620.00f) };
+        /// <summary>
+        /// Set 12: the way from the White Oasis Post waypoint round the west side of Maji Field (set 11's way to Harvester Control
+        /// Panel 4, AshenWhiteOasisTests.Places). Fix E's straight leg from (-439.1, 204.8) to the ridge passed 2.2 m outside the
+        /// Xanx pool 540076's circle and 2.4 m outside the Tree Mite pool 540078's (the whole-walk clearance, set 12's probe).
+        /// </summary>
+        internal static Vector3[] WestOfMaji => new[] { new Vector3(-439.10f, 284.34f, 204.80f), new Vector3(-430f, 285f, 300f), new Vector3(-425f, 290f, 470f) };
+        /// <summary>The shared way to the ridge west of Coheri Pools: round the west of Maji Field, then the ridge corner; and back.</summary>
+        internal static Vector3[] ByTheWestRidge => WestOfMaji.Concat(WestRidge).ToArray();
+        internal static Vector3[] BackByTheWestRidge => WestRidge.Concat(Enumerable.Reverse(WestOfMaji)).ToArray();
+        /// <summary>Set 12: west of Coheri Pools, the way between the ridge corner and the first Granitour pool, off Wendy's pool 790377 and Trudy's 790372 (ESTIMATE of a player's line, probe 2026-11-10).</summary>
+        internal static readonly Vector3 CoheriWest = new(-250f, 295f, 540f);
+        /// <summary>Set 12: the way east from the White Oasis Post waypoint south of Maji Field's camps (set 11's to the Sheitan Embankment, without its last corner by the garrison 531032), off Overseer Ulovik 520006.</summary>
+        internal static Vector3[] SouthOfMaji => new[] { new Vector3(-260f, 283f, 200f), new Vector3(-160f, 283f, 200f) };
+        private static Vector3[] ToIndraPass => new[] { new Vector3(152.82f, 312.80f, 459.30f), new Vector3(195.75f, 320.57f, 477.30f), new Vector3(208.74f, 321.33f, 488.89f) };
 
         /// <summary>
         /// The places a player walks to, each from its waypoint, with the corners of the walk there and back where the navmesh's
@@ -482,16 +510,19 @@ namespace Rasa.Test.Missions.Ashen
             (D.MollyPool, "Molly from the Ashoka Settlement waypoint", Ashoka, (Array.Empty<Vector3>(), new[] { new Vector3(380.61f, 281.49f, -493.00f) })),
             (MantaPools[0], "the eastern Boneyard's Beam Manta from the Ashoka Settlement waypoint", Ashoka, Straight),
             (MantaPools[1], "the Indra Pass Beam Manta from the White Oasis Post waypoint (the Indra Pass waypoint's floor is joined to nothing)", WhiteOasis,
-                (new[] { new Vector3(152.82f, 312.80f, 459.30f), new Vector3(195.75f, 320.57f, 477.30f), new Vector3(208.74f, 321.33f, 488.89f) }, Array.Empty<Vector3>())),
+                // Set 12: by the south of Maji Field first (the straight way passed 5.3 m outside Overseer Ulovik's pool 520006).
+                (SouthOfMaji.Concat(ToIndraPass).ToArray(), Enumerable.Reverse(SouthOfMaji.Concat(ToIndraPass)).ToArray())),
             // Fix E: the Coheri Pools and Maji Field walks go by the west ridge (-300, 620), off the Fithik pools 540075 and 540077
             // (the last 100 m of each walk 30 m and more from every hostile pool not of its mission: AshenFixETests).
-            (MantaPools[2], "the north-east Maji Field Beam Manta from the White Oasis Post waypoint", WhiteOasis, (ByTheWestRidge, WestRidge)),
-            (D.TrudyPool, "Trudy from the White Oasis Post waypoint", WhiteOasis, (ByTheWestRidge, WestRidge)),
+            // Set 12: and round the west of Maji Field first (WestOfMaji), off the Xanx and Tree Mite pools 540076 and 540078.
+            (MantaPools[2], "the north-east Maji Field Beam Manta from the White Oasis Post waypoint", WhiteOasis, (ByTheWestRidge, BackByTheWestRidge)),
+            (D.TrudyPool, "Trudy from the White Oasis Post waypoint", WhiteOasis, (ByTheWestRidge, BackByTheWestRidge)),
             (GranitourPools[0], "the first Coheri Pools Granitour from the White Oasis Post waypoint", WhiteOasis,
-                (ByTheWestRidge, new[] { new Vector3(-220.00f, 287.59f, 580.00f) }.Concat(WestRidge).ToArray())),
-            (GranitourPools[1], "the second Coheri Pools Granitour from the White Oasis Post waypoint", WhiteOasis, (ByTheWestRidge, WestRidge)),
+                // Set 12: by CoheriWest both ways (fix E's back corner (-220, 580) passed 25.2 m outside Trudy's pool 790372).
+                (ByTheWestRidge.Append(CoheriWest).ToArray(), BackByTheWestRidge.Prepend(CoheriWest).ToArray())),
+            (GranitourPools[1], "the second Coheri Pools Granitour from the White Oasis Post waypoint", WhiteOasis, (ByTheWestRidge, BackByTheWestRidge)),
             (D.WendyPool, "Wendy from the White Oasis Post waypoint", WhiteOasis,
-                (ByTheWestRidge.Append(new Vector3(-300.00f, 295.45f, 550.00f)).ToArray(), new[] { new Vector3(-300.00f, 295.45f, 550.00f) }.Concat(WestRidge).ToArray()))
+                (ByTheWestRidge.Append(new Vector3(-300.00f, 295.45f, 550.00f)).ToArray(), new[] { new Vector3(-300.00f, 295.45f, 550.00f) }.Concat(BackByTheWestRidge).ToArray()))
         };
     }
 }

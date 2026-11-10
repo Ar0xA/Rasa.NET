@@ -69,6 +69,10 @@ namespace Rasa.Test.Missions.Ashen
         private const uint ClientPoisonFlag = 257, ClientRepairFlag = 258;   // objectiveconversation 1298,2 / 1298,3 variants
         private const int Respawns = 4;                    // the rounds of respawns sampled after the first spawn
         private const float FloorReach = 1, PoolHeight = 2;
+        private const float ChestHeight = 1.3f;             // a player's chest over the floor (ESTIMATE)
+        private const float LasherMiddle = 1.0f;            // a Lasher's middle over its ground (ESTIMATE)
+        /// <summary>The ridge pools the line-of-sight sample finds hidden from the walk up (TheRidgeLashersAreSeenFromTheWalkUp): a playtest watch point, reported 2026-11-10.</summary>
+        private static readonly uint[] KnownHidden = { 790440 };
 
         private static readonly Vector3 WhiteOasis = AshenLeadInsTests.WhiteOasisWaypoint;
         private static readonly uint[] GranitourPools = D.GranitourPools.Select(pool => pool.Pool).ToArray();
@@ -437,8 +441,8 @@ namespace Rasa.Test.Missions.Ashen
         /// Round each point every navmesh floor is one floor (AshenFixAV1.ClearRadius), joined to the White Oasis Post waypoint's
         /// ground, within 1 m of a client floor and under open sky; at the first spawn and after each of four rounds of kills and
         /// respawns every Lasher stands on the navmesh, on the point or its rings, within 1 m of the client's floor and 2 m of
-        /// its pool's height, and inside its 1300 marker. Each pool stands 60 m or more from every Ashen Desert pool of another
-        /// hostile kind (the Lasher pools of set 10 and Molly aside) and 85 m or more from every friendly NPC's pool.
+        /// its pool's height, and inside its 1300 marker. Each pool stands 60 m or more outside the circle of every Ashen Desert pool of
+        /// another hostile kind (the Lasher pools of set 10 and Molly aside) and 85 m or more from every friendly NPC's pool.
         /// </summary>
         [TestMethod]
         public void TheRidgeLashersComeDownAndBackOnTheFloorPlayersWalk()
@@ -524,15 +528,124 @@ namespace Rasa.Test.Missions.Ashen
             foreach (var poolId in RidgePools)
             {
                 var pool = pools.Single(row => row.Id == poolId);
-                float Across(Rasa.Structures.World.SpawnPoolEntry other) => Vector2.Distance(new((float)pool.PosX, (float)pool.PosZ), new((float)other.PosX, (float)other.PosZ));
+                // To the other pool's circle (centre less radius, 2D), as AshenWhiteOasisTests.Clearance measures.
+                float Across(Rasa.Structures.World.SpawnPoolEntry other) =>
+                    Vector2.Distance(new((float)pool.PosX, (float)pool.PosZ), new((float)other.PosX, (float)other.PosZ)) - (float)other.Radius;
                 var nearestHostile = hostile.Where(row => !family.Contains(row.Id)).MinBy(Across);
                 if (Across(nearestHostile) < R.HostileGap)
-                    failures.Add(FormattableString.Invariant($"pool {poolId}: hostile pool {nearestHostile.Id} {Across(nearestHostile):0.0} m across"));
+                    failures.Add(FormattableString.Invariant($"pool {poolId}: {Across(nearestHostile):0.0} m outside hostile pool {nearestHostile.Id}'s circle"));
                 var nearestNpc = npcs.MinBy(Across);
                 if (Across(nearestNpc) < R.NpcGap)
-                    failures.Add(FormattableString.Invariant($"pool {poolId}: NPC pool {nearestNpc.Id} {Across(nearestNpc):0.0} m across"));
+                    failures.Add(FormattableString.Invariant($"pool {poolId}: {Across(nearestNpc):0.0} m outside NPC pool {nearestNpc.Id}'s circle"));
             }
             Assert.IsEmpty(failures, string.Join("; ", failures));
+        }
+
+        /// <summary>
+        /// Line of sight to the ridge Lashers (the set 11 review: a target in a dip or behind a slope edge cannot be hit from
+        /// below or above; the client refuses the ability without a chat line). From the walk up from the White Oasis Post
+        /// waypoint (the navmesh's path), where it comes 30, 25 and 20 m (2D) from the pool's point, a player's chest (ChestHeight
+        /// over the client's floor) sees each Lasher's middle (LasherMiddle over the navmesh ground) at the point and at eight
+        /// places on the ring of AshenFixAV1.PointSpread round it: no triangle of the client's terrain or placed meshes on the
+        /// line (ESTIMATE heights). Finding of 2026-11-10 (reported to the coordinator, no data change): pool 790440 is hidden
+        /// from all three places (21 of 27 rays; each ray meets the client's surfaces 3-9 m in front of the chest and leaves them
+        /// again further on), so it stands in KnownHidden and the test pins that it still is; 790441 is seen from all three.
+        /// </summary>
+        [TestMethod]
+        public void TheRidgeLashersAreSeenFromTheWalkUp()
+        {
+            var dataDir = F.ClientData();
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var desert = AshenLeadInsTests.EnterAshen(harness);
+            var nav = desert.NavMesh;
+            using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
+            var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", harness.World.MapInfoEntries.AsNoTracking()
+                .Single(map => map.Id == AshenMissionDataV1.MapContextId).MapName), meshes, 1);
+            var failures = new List<string>();
+            var hidden = new Dictionary<uint, int>();
+            var rays = 0;
+            foreach (var (pool, at) in R.RidgePools)
+            {
+                var centre = P.ToVector(at);
+                var start = nav.Nearest(WhiteOasis).Value;
+                var path = nav.FindPath(start, nav.Nearest(centre).Value, out var complete);
+                Assert.IsTrue(path != null && complete, $"pool {pool}: a walk up");
+                var line = new List<Vector3>();
+                var corners = path.Prepend(start).ToList();
+                for (var k = 0; k + 1 < corners.Count; k++)
+                    for (var step = 0f; step < 1; step += 0.02f)
+                        line.Add(Vector3.Lerp(corners[k], corners[k + 1], step));
+                var targets = new List<Vector3> { centre };
+                for (var k = 0; k < 8; k++)
+                {
+                    var angle = k * MathF.PI / 4;
+                    var ring = centre + new Vector3(MathF.Sin(angle) * (float)AshenFixAV1.PointSpread, 0, MathF.Cos(angle) * (float)AshenFixAV1.PointSpread);
+                    targets.Add(nav.Nearest(ring) ?? ring);
+                }
+                foreach (var distance in new[] { 30f, 25f, 20f })
+                {
+                    // The first place of the walk (from the waypoint) that comes within this distance of the point.
+                    var stand = line.First(point => Vector2.Distance(new(point.X, point.Z), new(centre.X, centre.Z)) <= distance);
+                    var near = F.Near(geometry, new List<Vector3> { stand }, distance + (float)AshenFixAV1.PointSpread + 2)[0];
+                    if (F.FloorAt(near, stand, stand.Y - 2, stand.Y + 2) is not { } floor)
+                    {
+                        failures.Add(FormattableString.Invariant($"pool {pool}, {distance} m: no client floor at ({stand.X:0.0}, {stand.Z:0.0})"));
+                        continue;
+                    }
+                    var eye = stand with { Y = floor + ChestHeight };
+                    foreach (var target in targets)
+                    {
+                        rays++;
+                        if (F.Clear(near, eye, target + new Vector3(0, LasherMiddle, 0)))
+                            continue;
+                        hidden[pool] = hidden.GetValueOrDefault(pool) + 1;
+                        if (!KnownHidden.Contains(pool))
+                            failures.Add(FormattableString.Invariant($"pool {pool}, {distance} m from ({eye.X:0.0}, {eye.Y:0.0}, {eye.Z:0.0}): ({target.X:0.0}, {target.Y:0.0}, {target.Z:0.0}) hidden"));
+                    }
+                }
+            }
+            Assert.AreEqual(R.RidgePools.Length * 3 * 9, rays, "the rays are cast");
+            foreach (var pool in KnownHidden)
+                Assert.IsGreaterThan(0, hidden.GetValueOrDefault(pool), $"pool {pool} is seen now: take it out of KnownHidden");
+            Assert.IsEmpty(failures, $"{failures.Count}: " + string.Join("; ", failures));
+        }
+
+        /// <summary>
+        /// One kill, two missions: with All the Latest Rage! (1293) and Water Purification (1299) both open, one Coheri Pools
+        /// Granitour's corpse holds a Shiny Granitour Carapace and a Granitour Water Gland (each its own binding, each rolled at
+        /// 74 under 75); one pickup gives both, each counts on its own mission's objective 1 once; a kill at 75 drops neither.
+        /// </summary>
+        [TestMethod]
+        public void OneGranitourDropsForBothOpenMissions()
+        {
+            var percentile = 74;
+            using var harness = WildernessRuntimeTestHarness.Create(lootRoll: (minimum, maximum) => maximum == 100 ? percentile : minimum);
+            AshenRuntime.SeedCompleted(harness, AshenDesignerJewelryV1.MissionId, Harvesters.MissionId, Murky.MissionId);
+            FC.SeedFlag(harness, ClientRepairFlag, 1);
+            var desert = AshenLeadInsTests.EnterAshen(harness, WhiteOasis);
+            Accept(harness, Npc(desert, W.Meeks), Purification.MissionId);
+            Accept(harness, Npc(desert, D.IdaHayner), AshenLatestRageV1.MissionId);
+            Spawn(desert, GranitourPools);
+            var loot = AshenScavengerTests.Kill(harness, desert, D.Granitour, GranitourPools);
+            Assert.IsTrue(Holds(loot, ClientGranitourGland) && Holds(loot, AshenLatestRageV1.ShinyTemplate), "one corpse: the gland and the carapace");
+            PickUp(harness, loot);
+            harness.Drain();
+            Assert.AreEqual((1U, 1U), (Held(harness, ClientGranitourGland), Held(harness, AshenLatestRageV1.ShinyTemplate)), "both picked up");
+            percentile = 75;
+            var miss = AshenScavengerTests.Kill(harness, desert, D.Granitour, GranitourPools);
+            Assert.IsFalse(Holds(miss, ClientGranitourGland) || Holds(miss, AshenLatestRageV1.ShinyTemplate), "75: neither");
+            Assert.AreEqual((MissionObjectiveState.Incomplete, MissionObjectiveState.Incomplete),
+                (Objective(harness, Purification.MissionId, 1), Objective(harness, AshenLatestRageV1.MissionId, 1)), "each counts on its own");
+            percentile = 74;
+            for (var count = 2; count <= 10; count++)
+            {
+                var next = AshenScavengerTests.Kill(harness, desert, D.Granitour, GranitourPools);
+                PickUp(harness, next);
+                harness.Drain();
+            }
+            Assert.AreEqual((10U, 10U), (Held(harness, ClientGranitourGland), Held(harness, AshenLatestRageV1.ShinyTemplate)), "ten of each");
+            Assert.AreEqual((MissionObjectiveState.Incomplete, MissionObjectiveState.Completed),
+                (Objective(harness, Purification.MissionId, 1), Objective(harness, AshenLatestRageV1.MissionId, 1)), "1293's ten done, 1299's twelve not");
         }
 
         /// <summary>
@@ -609,9 +722,9 @@ namespace Rasa.Test.Missions.Ashen
             foreach (var pool in GranitourPools)
             {
                 var place = AshenDesignerHidesTests.Places.Single(entry => entry.Pool == pool);
-                var last = pool == GranitourPools[0] ? new[] { CoheriWest } : Array.Empty<Vector3>();
-                var there = WestOfMaji.Concat(WestRidge).Concat(last).ToArray();
-                var back = last.Concat(WestRidge).Concat(Enumerable.Reverse(WestOfMaji)).ToArray();
+                var last = pool == GranitourPools[0] ? new[] { AshenDesignerHidesTests.CoheriWest } : Array.Empty<Vector3>();
+                var there = AshenDesignerHidesTests.ByTheWestRidge.Concat(last).ToArray();
+                var back = last.Concat(AshenDesignerHidesTests.BackByTheWestRidge).ToArray();
                 places.Add((place.Label, WhiteOasis, P.ToVector(D.GranitourPools.Single(entry => entry.Pool == pool).At), there, back, GranitourPools));
             }
             for (var number = 1; number <= Wellwater.PanelsAt.Length; number++)
@@ -622,11 +735,6 @@ namespace Rasa.Test.Missions.Ashen
             return places;
         }
 
-        /// <summary>Set 11's way round the west side of Maji Field (AshenWhiteOasisTests.Places, panel 4) and fix E's corner on the ridge west of Coheri Pools.</summary>
-        internal static readonly Vector3[] WestOfMaji = { new(-439.1f, 284.34f, 204.8f), new(-430f, 285f, 300f), new(-425f, 290f, 470f) };
-        internal static readonly Vector3[] WestRidge = { new(-300.00f, 308.19f, 620.00f) };
-        /// <summary>West of Coheri Pools, the way into the first Granitour pool off Wendy's (ESTIMATE of a player's line, probe 2026-11-10).</summary>
-        internal static readonly Vector3 CoheriWest = new(-250f, 295f, 540f);
 
         private static uint Held(WildernessRuntimeTestHarness harness, uint template) => WildernessRanjaGorgeTests.Held(harness, template);
 

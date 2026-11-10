@@ -18,13 +18,15 @@ namespace Rasa.Services.Preloader.Missions.Ashen
     /// the glands of the Lasher. ...", turn-in "With this poison, we can make a permanent mark on the Bane. ...", reminder
     /// 10504; objective 1 "Recover 12 Lasher Poison Glands" 10505/10506, no counter (missionobjective); no objective
     /// conversation. Item class 25479 Mis_Ligo_Ashen_Maji_LasherGland "Lasher Poison Gland" (template 97480, stack 12:
-    /// itemclass). The variant 257 of Murky Waters' 2 (objectiveconversation 1298,2) is the poison's flag.
+    /// itemclass). Murky Waters' 2 is heard in variant 257 (objectiveconversation 1298,2).
     ///
     /// Sourced: TaRapedia Neurotoxins: giver and reward giver Agent Hale; requires Murky Waters (Choice A); follow-up Poisoning
     /// the Wellwater; 6,450 credits, XP "Unknown"; 12 glands; one of Astra Mech Armor Legs 4, Wellcare Graviton Armor Vest 2,
     /// Phoenix Bio Armor Vest 4, Wellcare Stealth Armor Vest 4; "The Lasher are all throughout the desert."
     ///
     /// Reconstructed (ESTIMATE, confidence 0.3):
+    ///  - Flag 257 is the poison's (triage D3: the reading of the client's variant 257 of 1298,2 "You are wise, indeed" after
+    ///    choice 2 "I agree with you").
     ///  - Offered after Murky Waters is done with flag 257 at 1 (choice 2, "Choice A" on TaRapedia: Hale's side): the flags stay
     ///    at an abandon of 1298, so a gate on the flag alone would open it before 1298 is done (as Water Purification). Level 42
     ///    (D5). 100,000 XP (TaRapedia "Unknown": the zone's 6,450-credit missions, as Analyzing the Harvesters).

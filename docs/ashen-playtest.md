@@ -341,7 +341,16 @@ mission's own; corners in AshenMurkyWatersTests.Places.
 - [ ] 1302 Poisoning the Wellwater (Ligo Ashen Desert): Hale offers it after 1300 (flag 257), level 42. Four Water
   Filtration Systems (97495) at the accept. Use the four Harvester Control Panels (your own, on 1295's four places; 1295's
   own panels are gone after its turn-in): each takes one system. Same walks as 1295. Turn in at Hale: 45000 XP, 4000
-  credits, one of the Resist Fire / Ice / Virulent / Electric [4] armour modules.
+  credits, one of the Resist Fire / Ice / Virulent / Electric [4] armour modules. Do not GM-reset 1295 (`.resetmission`)
+  while 1302 is open: both missions' own panels would then stand at each place (two own panels per place).
+- [ ] 1300 ridge pool 790440 (-648, 336.06, 314): watch point. A line-of-sight sample from the walk up (20, 25 and 30 m
+  off, chest height) finds it hidden (the slope's surfaces 3-9 m in front of the player); 790441 is seen. Check in the
+  real client that the Lashers there can be targeted from below, or from where a player stands.
+- Set 10's walks (tests only, no place moved): with the whole walk now kept 30 m off other camps, the north-east Maji
+  Field Beam Manta, Trudy, both Coheri Pools Granitour and Wendy go round the west of Maji Field first ((-439.1, 204.8),
+  (-430, 300), (-425, 470), then the ridge (-300, 620)); the first Granitour pool by (-250, 540) both ways (off Trudy);
+  the Indra Pass Beam Manta east by the south of Maji Field ((-260, 200), (-160, 200)) before set 10's Indra Pass corners
+  (the straight way passed 5.3 m from Overseer Ulovik).
 
 Set 13, Indra Pass (migration `20271110001300_Ashen_indra_pass`). New NPCs: Surveyor Malya Odesha 790480 (258, 315.49,
 325) and Researcher Endala Berish 790481 (266, 316.46, 337), both by the Indra Pass waypoint, outside the Indra Caverns cave

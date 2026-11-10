@@ -18,14 +18,15 @@ namespace Rasa.Services.Preloader.Missions.Ashen
     /// glands from the Granitour in Coheri Pools ...", turn-in "Thank you. This looks like it will be enough to do the job.
     /// ...", reminder 10497; objective 1 "Recover 12 Granitour Water Glands" 10498/10499, no counter (missionobjective); no
     /// objective conversation. Item class 25478 Mis_Ligo_Ashen_Maji_GranitourGland "Granitour Water Gland" (template 97479,
-    /// stack 12: itemclass). The variant 258 of Murky Waters' 3 (objectiveconversation 1298,3) is the repair's flag.
+    /// stack 12: itemclass). Murky Waters' 3 is heard in variant 258 (objectiveconversation 1298,3).
     ///
     /// Sourced: TaRapedia has no page for it; Murky Waters' page names it a follow-up; Neurotoxins "requires Murky Waters (Choice
     /// A)". TaRapedia Granitour: "Granitour spit can be used as a highly efficient filtration medium".
     ///
     /// Reconstructed (ESTIMATE, confidence 0.3):
-    ///  - Water Purification is Murky Waters' other choice, the repair (research group 1: inferred from Neurotoxins' Choice A;
-    ///    the client's variant 258 of 1298,3 "Well, that is your choice").
+    ///  - Water Purification is Murky Waters' other choice, the repair, and flag 258 is the repair's (triage D3: the reading of
+    ///    the client's variant 258 of 1298,3 "Well, that is your choice" after choice 1 "I can't do that"; research group 1
+    ///    infers the branch from Neurotoxins' Choice A).
     ///  - Giver and receiver Meeks (the client's log and offer). Offered after Murky Waters is done with flag 258 at 1 (choice 1,
     ///    the repair): the flags stay at an abandon of 1298, so a gate on the flag alone would open it before 1298 is done
     ///    (auditor note on set 11; as set 7's 1264 and set 6's 1258). Level 42 (triage D5: the follow-up of a level-41
