@@ -378,6 +378,10 @@ to the valley's south rim by (139, 450), (145, 456), (170, 479), then down).
   walked from the Ashoka Settlement waypoint: off the pad to the west, north up the road, east of the hump at (394, -186)
   (fix G: the real client stopped there) by (402, -200), (402, -187), (396, -177), then (352, -137), (352, -84). The search opens "Talk to Endala Berish"; talk to her: 200000 XP, 8600
   credits, one of four weapons. Finding Maiek fails an open 1281.
+- [ ] Fix H lift pads (real client, to-fix row 33): walk from the valley's south entry (152.8, 312.8, 459.3) straight to the
+  pad 913 (121, 305.97, 443) by Odesha; stand on it: after 3 s you are on the island pad 914 (258, 315.49, 325), not sent
+  straight back; step off and on again: back down to 913. From 914 walk to the Indra Pass waypoint (262.2, 315.1, 344.4)
+  (19 m north): the waypoint is gained (then it is a way back too). Look: is the pad drawn (ArchHumTeleporterV02)?
 - [ ] Fix G walks (real client): from the valley's south entry west down to Odesha and Endala by (126, 451); from Odesha
   to the resistors up east to the rim by (139, 450), (145, 456), (170, 479), then down by (171, 494); Maiek's new way east
   of the hump at (394, -186). The Indra Pass waypoint itself is not reached on foot (N23: no way in found).
@@ -466,8 +470,10 @@ below is the client's floor, checked both ways with the client's slope limit (As
 navmesh of the caverns is islands (upstream, N-row in NOTES-upstream-bugs), so the walk tests use the client floor only.
 
 - [ ] 1559 Indra Caverns (Ligo Ashen Desert): Surveyor Odesha (Indra Pass) offers it after Missing Scientists (1280), level
-  42. Marker before the door (305, 319.9, 326). Walk from Odesha east: (278, 337), (286, 331), (293, 324), (306, 322), into
-  the door's circle at (320, 320.5). Arriving in the caverns completes 1; walk within 10 m of Diren (marker on him): 2, the
+  42. The door's island has no walk-in (N23, N26; to-fix row 33): fix H's lift pad (local teleporter 913, marker 1559.1 r4)
+  stands 9 m south-east of Odesha at (121, 305.97, 443); stand on it 3 s and it sets you down on the island pad 914 (258,
+  315.49, 325). Marker before the door (305, 319.9, 326). Walk from the island pad east: (278, 337), (286, 331), (293, 324),
+  (306, 322), into the door's circle at (320, 320.5). Arriving in the caverns completes 1; walk within 10 m of Diren (marker on him): 2, the
   reward. Turn in at Diren: 60000 XP, 6750 credits, one of Class IX Concussion Grenade 111020 x3, Basic Med Pack 45066 x2,
   Fragmentation Grenade 45448 x3, EMP Bomb 111234 x1.
 - [ ] 1360 Threshold (Ligo Ashen Desert): Diren offers it after 1559, level 43. The accept gives the Supply Package
@@ -626,6 +632,9 @@ All ESTIMATE (set 15):
 - 1360 / 1395: the doors and the cell are personal objects: a player without the mission is not shown them at all, and
   creatures walk through them shut (the server has no door collision).
 - 1559: the Ashen navmesh does not join the door's pocket (N26): the marker before the door is checked on the client floor.
+- 1559 (fix H): a lift pad pair (local teleporters 913 in the valley by Odesha, 914 on the door's island) that retail did not
+  have as far as we know: the island has no walk-in on the client floor (N23, N26). Both places ESTIMATE; 1559.1 has a second,
+  unnamed marker on the valley pad. Not gated: any player may ride it.
   The caverns' navmesh is islands (upstream): creatures may not path between rooms; Kuutk and the Watch Post stand still.
 - 1395: the Power Supply is taken at the turn-in; Doomed Expedition (1447) asks to keep it: set 16 issues one at its accept.
 
@@ -790,6 +799,14 @@ All ESTIMATE (set 15):
   Atta Soldiers, Workers, Mutated Atta Soldiers) and fix F's 790378 put down 1, not 3 (ESTIMATE); respawn 120 s, places and
   creatures stay. Evidence rows 4 for 1242, 1243, row 6 for 1287.
 - Every UPDATE is guarded on the row's exact stored values (markers within 0.001); Down puts them back.
+
+## Server data changed by fix job H (20271110001510)
+
+- No upstream row changes. New rows: local teleporters 913 "Local Teleporter: Indra Pass valley (fix H)" (121, 305.97, 443)
+  and 914 "Local Teleporter: Indra Caverns door (fix H)" (258, 315.49, 325) on Ashen Desert (type 1, class 29648
+  ArchHumTeleporterV02), local_teleporter_link 913 -> 914 and 914 -> 913; 1559's objective 1 marker 1000000001 (r4) on 913;
+  1559's evidence row 4. Cause: to-fix row 33 (the Indra Caverns door's island has no walk-in: upstream N23, N26; set 15
+  could not be started). Inserts guarded; Down deletes exactly these rows.
 
 ## Server data changed by set 8 (upstream rows)
 

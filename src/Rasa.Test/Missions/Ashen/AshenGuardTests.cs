@@ -590,7 +590,7 @@ namespace Rasa.Test.Missions.Ashen
                 [AshenPreciousToolsV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
                 [AshenEchoesInTheSandV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
                 // Set 15: 1559's marker before the Indra Caverns door, from White Oasis Post's (as set 13's valley); it stands in
-                // the door's navmesh pocket (InTheDoorPocket).
+                // the door's navmesh pocket (InTheDoorPocket). Fix H: its second marker on the valley's lift pad, from White Oasis Post's.
                 [AshenIndraCavernsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
             };
             // A mission whose markers stand in more than one area: the other areas' waypoints (any one walks to the marker).
@@ -619,7 +619,7 @@ namespace Rasa.Test.Missions.Ashen
             foreach (var marker in markers)
             {
                 var label = $"{marker.MissionId}.{marker.ObjectiveId}/{marker.IndicatorId}";
-                if (InTheDoorPocket.Contains((marker.MissionId, marker.ObjectiveId)))
+                if (InTheDoorPocket.Contains((marker.MissionId, marker.ObjectiveId, marker.IndicatorId)))
                 {
                     var pocket = new Vector3((float)marker.PosX, (float)marker.PosY, (float)marker.PosZ);
                     if (nav.FindPath(nav.Nearest(AshenLeadInsTests.WhiteOasisWaypoint) ?? AshenLeadInsTests.WhiteOasisWaypoint, nav.Nearest(pocket) ?? pocket, out var joined) != null && joined)
@@ -642,9 +642,11 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>
         /// Markers in the Indra Caverns door's navmesh pocket (upstream N26: the cave mouth's navmesh is joined to nothing): 1559's
         /// before the door. The navmesh walk the guard asks for can not be had; the client floor's walk from Odesha to the door
-        /// is checked instead (AshenIndraFacilityTests.TheCavernsDoorIsWalkedToFromOdesha).
+        /// is checked instead (AshenIndraFacilityTests.TheCavernsDoorIsWalkedToFromTheUpperPad, from fix H's island pad). 1559.1's
+        /// second marker (fix H, on the valley's lift pad) is walked to from White Oasis Post as any other.
         /// </summary>
-        internal static readonly (uint Mission, uint Objective)[] InTheDoorPocket = { (AshenIndraCavernsV1.MissionId, AshenIndraCavernsV1.Locate) };
+        internal static readonly (uint Mission, uint Objective, uint Indicator)[] InTheDoorPocket =
+            { (AshenIndraCavernsV1.MissionId, AshenIndraCavernsV1.Locate, AshenIndraCavernsV1.DoorIndicator) };
 
         /// <summary>
         /// #205: each Ashen World migration, in order: Up, Up again, and the tables it writes are the same; Down (to the migration

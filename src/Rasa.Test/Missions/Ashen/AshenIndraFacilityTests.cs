@@ -125,12 +125,14 @@ namespace Rasa.Test.Missions.Ashen
                     entry.MissionId == Vindication.MissionId)).AsEnumerable()
                 .Select(entry => (entry.MissionId, entry.ObjectiveId, entry.IndicatorId,
                     Map: MissionMarkerProjection.ResolveMap(catalog, entry.MissionId, entry.ObjectiveId, new MissionIndicator { IndicatorId = entry.IndicatorId })))
-                .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ObjectiveId).ToArray();
+                .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ObjectiveId).ThenBy(entry => entry.IndicatorId).ToArray();
             CollectionAssert.AreEqual(new (uint, uint, uint, uint)[]
             {
                 (1360, 1, 224, Map), (1360, 2, 222, Map), (1360, 3, 223, Map),
                 (1395, 2, 225, Map), (1395, 3, 226, Map), (1395, 4, 227, Map), (1395, 5, 228, Map), (1395, 6, MissionIndicator.UnnamedFrom + 1, Map),
-                (1559, 1, 261, AshenMissionDataV1.MapContextId), (1559, 2, 260, Map)
+                (1559, 1, 261, AshenMissionDataV1.MapContextId),
+                // Fix H: 1559.1's second marker, on the Indra Pass valley's lift pad 913 (unnamed).
+                (1559, 1, MissionIndicator.UnnamedFrom + AshenFixHV1.Marker, AshenMissionDataV1.MapContextId), (1559, 2, 260, Map)
             }, markers, "the markers, their client names and maps");
         }
 
@@ -364,23 +366,31 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>
-        /// 1559's way in on Ashen Desert: from Surveyor Odesha to inside the Indra Caverns door's circle (map link 58), there and
-        /// back on the client's floor (AshenFixBTests.ClientFloorLine with a player's half width), past 1559.1's marker before
-        /// the door, HostileClearance (30 m, 2D) outside every hostile Ashen Desert pool's circle. The Ashen navmesh does not join
-        /// the door's pocket (upstream N26), so the guard's navmesh walk (AshenGuardTests.InTheDoorPocket) is this one instead.
+        /// The door walk on Ashen Desert: from fix H's island pad 914 (AshenFixHV1; set 13's old Odesha place, which the valley
+        /// pad 913 by Odesha takes a player to: the island has no walk-in, upstream N23, to-fix row 33) east by (278, 337),
+        /// (286, 331), (293, 324), (306, 322) into the door's circle (map link 58).
+        /// </summary>
+        internal static readonly Vector3[] DoorWalk =
+        {
+            AshenFixHTests.UpperPad, new(278f, 318.87f, 337f), new(286f, 318.31f, 331f), new(293f, 319.86f, 324f),
+            new(306f, 318.97f, 322f), new(319f, 320.15f, 320f), new(320f, 319.1f, 320.5f)
+        };
+
+        /// <summary>
+        /// 1559's way in on Ashen Desert: from fix H's island pad (DoorWalk) to inside the Indra Caverns door's circle (map link
+        /// 58), there and back on the client's floor (AshenFixBTests.ClientFloorLine with a player's half width), past 1559.1's
+        /// marker before the door, HostileClearance (30 m, 2D) outside every hostile Ashen Desert pool's circle. The Ashen navmesh
+        /// does not join the door's pocket (upstream N26), so the guard's navmesh walk (AshenGuardTests.InTheDoorPocket) is this
+        /// one instead. Set 15 started it at set 13's old Odesha place, which fix G had moved off (to-fix row 33).
         /// </summary>
         [TestMethod]
-        public void TheCavernsDoorIsWalkedToFromOdesha()
+        public void TheCavernsDoorIsWalkedToFromTheUpperPad()
         {
             var dataDir = F.ClientData();
             using var harness = WildernessRuntimeTestHarness.Create();
             using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
             var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", MapName(harness, AshenMissionDataV1.MapContextId)), meshes, 1);
-            var line = new List<Vector3>
-            {
-                ToVector(AshenIndraPassNpcsV1.OdeshaAt), new(278f, 318.87f, 337f), new(286f, 318.31f, 331f), new(293f, 319.86f, 324f),
-                new(306f, 318.97f, 322f), new(319f, 320.15f, 320f), new(320f, 319.1f, 320.5f)
-            };
+            var line = DoorWalk.ToList();
             var failures = new List<string>();
             var back = Enumerable.Reverse(line).ToList();
             foreach (var (walk, direction) in new[] { (line, "there"), (back, "back") })

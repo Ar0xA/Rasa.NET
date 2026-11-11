@@ -102,7 +102,8 @@ namespace Rasa.Test.Missions.Ashen
         /// on set 10's Granitour pools, 1300's four on the Lasher pools, 1302's four on the panels); set 13's thirteen (1280's on Veyon's body, 1281's ten on the resistors, 1282's on
         /// Maiek's body and at Endala); fix F's one (1287's on its own Ashen Atta Soldier pool 790378); set 14's six (1358's five
         /// at the captains, 1286's on Jirex; 1736's two are on the Crucible's revision, AshenAshokaTests); set 15's one on Ashen
-        /// Desert (1559's before the Indra Caverns door; its other nine are on Indra Caverns, CavernsIndicators).
+        /// Desert (1559's before the Indra Caverns door; its other nine are on Indra Caverns, CavernsIndicators); fix H's one
+        /// (1559's second objective 1 marker, on the Indra Pass valley's lift pad 913).
         /// </summary>
         /// <summary>Echoes in the Sand (1736): an Ashen Desert mission on the Crucible's revision (the 1218 chain), not in MissionIds (the Ashen revision's); AshenAshokaTests pins it.</summary>
         internal static readonly uint[] OnCrucibleRevision = { AshenEchoesInTheSandV1.MissionId };
@@ -110,7 +111,7 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>1736's two markers (on the obelisk, at Botha), on the Crucible's revision.</summary>
         internal const int EchoesIndicators = 2;
 
-        internal const int Indicators = 5 + 12 + 10 + 6 + 20 + 9 + 13 + 13 + 7 + 15 + 11 + 10 + 13 + 1 + 6 + 1;
+        internal const int Indicators = 5 + 12 + 10 + 6 + 20 + 9 + 13 + 13 + 7 + 15 + 11 + 10 + 13 + 1 + 6 + 1 + 1;
 
         /// <summary>Set 15's markers on Indra Caverns (2055): 1559's on Diren, 1360's three, 1395's five (AshenIndraFacilityTests).</summary>
         internal const int CavernsIndicators = 1 + 3 + 5;
@@ -867,7 +868,8 @@ namespace Rasa.Test.Missions.Ashen
                         && !(mission == AshenFixDV1.MissionId && entry.EvidenceId == AshenFixDV1.Evidence)
                         && !(AshenFixEV1.Evidences.Any(fix => fix.Mission == mission) && entry.EvidenceId == AshenFixEV1.Evidence)
                         && !AshenFixFV1.Evidences.Any(fix => fix.Mission == mission && fix.Evidence == entry.EvidenceId && entry.SourceUri == AshenFixFV1.Source)
-                        && !AshenFixGV1.Evidences.Any(fix => fix.Mission == mission && fix.Evidence == entry.EvidenceId && entry.SourceUri == AshenFixGV1.Source))
+                        && !AshenFixGV1.Evidences.Any(fix => fix.Mission == mission && fix.Evidence == entry.EvidenceId && entry.SourceUri == AshenFixGV1.Source)
+                        && !(mission == AshenFixHV1.Mission && entry.EvidenceId == AshenFixHV1.EvidenceId && entry.SourceUri == AshenFixHV1.Source))
                         .OrderBy(entry => entry.EvidenceId)
                         .Select(entry => (entry.SourceKind, entry.Confidence)).ToArray(), $"{mission} evidence");
         }
@@ -975,7 +977,9 @@ namespace Rasa.Test.Missions.Ashen
             {
                 Assert.AreEqual(OnCaverns(row.MissionId, row.ObjectiveId) ? AshenIndraFacilityNpcsV1.Caverns : Map, MissionMarkerProjection.ResolveMap(catalog, row.MissionId, row.ObjectiveId,
                     new MissionIndicator { IndicatorId = row.IndicatorId }), $"mission {row.MissionId} objective {row.ObjectiveId}: on its map");
-                if (NamedMarker(row.MissionId, row.ObjectiveId) is { } name)
+                // Fix H: 1559.1's second marker, on the valley's lift pad, unnamed (the client has no name for a pad).
+                var padMarker = row.MissionId == AshenFixHV1.Mission && row.ObjectiveId == AshenFixHV1.Objective && row.IndicatorId == MissionIndicator.UnnamedFrom + AshenFixHV1.Marker;
+                if (!padMarker && NamedMarker(row.MissionId, row.ObjectiveId) is { } name)
                     Assert.AreEqual(name, row.IndicatorId, $"mission {row.MissionId} objective {row.ObjectiveId}: the client's name");
                 else
                     Assert.IsTrue(row.IndicatorId > MissionIndicator.UnnamedFrom, $"mission {row.MissionId} objective {row.ObjectiveId} indicator {row.IndicatorId}");
@@ -1116,6 +1120,8 @@ namespace Rasa.Test.Missions.Ashen
                 // Set 15: 1559 before the Indra Caverns door (Ashen Desert, r6) and on Diren; 1360 on Bendal, Drof and over the
                 // Watch Post (r45, both pools); 1395 on Aksrah, Naimi, Kuutk (r10), the crate and before the cell (r5).
                 (1559, 1, 305, 326, 6), (1559, 2, -53, -395, 8),
+                // Fix H: 1559's second objective 1 marker on the valley's lift pad 913.
+                (1559, 1, AshenFixHV1.LowerPadAt.X, AshenFixHV1.LowerPadAt.Z, AshenFixHV1.MarkerRadius),
                 (1360, 1, 5, -347, 8), (1360, 2, -5, -221, 8), (1360, 3, 4, -345.5, 45),
                 (1395, 2, 153, -296, 8), (1395, 3, 9.83, -244.76, 8), (1395, 4, 59, -403, 10), (1395, 5, 24, -284, 8), (1395, 6, 12.5, -243, 5)
             };
@@ -1876,7 +1882,8 @@ namespace Rasa.Test.Missions.Ashen
                 .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ItemId).AsEnumerable().Select(entry => $"{entry.MissionId}:{entry.ItemTemplateId}x{entry.Quantity}"));
             (double, double, double, double, byte) Hospital() => world.TeleporterEntries.AsNoTracking().Where(row => row.Id == 208)
                 .AsEnumerable().Select(row => (row.PosX, row.PosY, row.PosZ, row.Rotation, row.Type)).Single();
-            string OtherTeleporters() => string.Join("; ", world.TeleporterEntries.AsNoTracking().Where(row => row.Id != 208)
+            // Fix H's two pads (913, 914; a later migration) go and come back with the roll back to before fix D.
+            string OtherTeleporters() => string.Join("; ", world.TeleporterEntries.AsNoTracking().Where(row => row.Id != 208 && row.Id != AshenFixHV1.LowerPad && row.Id != AshenFixHV1.UpperPad)
                 .OrderBy(row => row.Id).AsEnumerable().Select(row => System.FormattableString.Invariant($"{row.Id}:{row.PosX:R},{row.PosY:R},{row.PosZ:R},{row.Rotation:R}")));
             var fixedHospital = (-94.13672, 296.5, -828.72266, 3.7, (byte)5);
             var upstreamHospital = (-94.13672, 269.3, -828.72266, 3.7, (byte)5);
