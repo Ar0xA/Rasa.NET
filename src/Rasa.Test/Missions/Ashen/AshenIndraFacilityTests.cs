@@ -56,10 +56,10 @@ namespace Rasa.Test.Missions.Ashen
         private const uint WeaponFiller = 3869;            // inventory category 1 (quest-test-pattern)
 
         /// <summary>How far outside every hostile pool's circle the set's places stand (2D; 30 m walk clearance and a margin).</summary>
-        private const float PlaceClearance = 34;
+        internal const float PlaceClearance = 34;
 
         /// <summary>A place this much higher or lower than a pool is on another floor of the caverns: the gap is measured in 3D.</summary>
-        private const float OtherFloor = 12;
+        internal const float OtherFloor = 12;
 
         /// <summary>The pools set 15 adds.</summary>
         internal static readonly uint[] Pools = { N.Diren, N.Drof, N.Naimi, N.KuutkPool, N.WatchPostWest, N.WatchPostEast };
@@ -1048,7 +1048,7 @@ namespace Rasa.Test.Missions.Ashen
                 .ToList();
 
         /// <summary>The gap from a place to a pool's circle: 2D, or 3D for a pool on another floor (OtherFloor).</summary>
-        private static float Gap(Vector3 at, SpawnPoolEntry pool)
+        internal static float Gap(Vector3 at, SpawnPoolEntry pool)
         {
             var pole = new Vector3((float)pool.PosX, (float)pool.PosY, (float)pool.PosZ);
             var flat = Vector2.Distance(new(at.X, at.Z), new(pole.X, pole.Z));
@@ -1202,7 +1202,7 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>The pool's creature standing in the copy: spawned, or back after its own time if an earlier kill left it dead.</summary>
-        private static void Stand(MapChannel copy, uint pool)
+        internal static void Stand(MapChannel copy, uint pool)
         {
             Spawn(copy, pool);
             if (!Here(copy).Any(one => one.SpawnPool?.DbId == pool && one.State != CharacterState.Dead))
@@ -1210,14 +1210,14 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsTrue(Here(copy).Any(one => one.SpawnPool?.DbId == pool && one.State != CharacterState.Dead), $"pool {pool} stands");
         }
 
-        private static string MapName(WildernessRuntimeTestHarness harness, uint map) =>
+        internal static string MapName(WildernessRuntimeTestHarness harness, uint map) =>
             harness.World.MapInfoEntries.AsNoTracking().Single(row => row.Id == map).MapName;
 
-        private static Vector3 V((double X, double Y, double Z) at) => new((float)at.X, (float)at.Y, (float)at.Z);
+        internal static Vector3 V((double X, double Y, double Z) at) => new((float)at.X, (float)at.Y, (float)at.Z);
 
-        private static uint Held(WildernessRuntimeTestHarness harness, uint template) => WildernessRanjaGorgeTests.Held(harness, template);
+        internal static uint Held(WildernessRuntimeTestHarness harness, uint template) => WildernessRanjaGorgeTests.Held(harness, template);
 
-        private static uint HeldBy(WildernessRuntimeTestHarness harness, Client client, uint template)
+        internal static uint HeldBy(WildernessRuntimeTestHarness harness, Client client, uint template)
         {
             using var unit = harness.CreateChar();
             return unit.CharacterInventories.GetItems(client.AccountEntry.Id)
@@ -1231,7 +1231,7 @@ namespace Rasa.Test.Missions.Ashen
         /// A server restart as far as the scene's objects go (CrucibleBloodFireSteelTests.Restart): the reload, the mission's
         /// objects dropped from the copy and its cells, the resume makes them again from the checkpoint.
         /// </summary>
-        private static void Restart(WildernessRuntimeTestHarness harness, MapChannel copy, uint mission)
+        internal static void Restart(WildernessRuntimeTestHarness harness, MapChannel copy, uint mission)
         {
             WildernessRanjaGorgeTests.Reload(harness);
             harness.Manager.Scenes.Detach(harness.Client, copy);
@@ -1252,7 +1252,7 @@ namespace Rasa.Test.Missions.Ashen
         /// object closed and usable, the objective open; one slot freed, the search gives the item, opens the object and
         /// completes the objective.
         /// </summary>
-        private static void FullBagWaitsAtASearch(WildernessRuntimeTestHarness harness, MapChannel copy, uint mission, string role, uint template,
+        internal static void FullBagWaitsAtASearch(WildernessRuntimeTestHarness harness, MapChannel copy, uint mission, string role, uint template,
             uint objective, UseObjectState closed, UseObjectState opened, uint argument)
         {
             for (var slot = 0; slot < 60; slot++)
@@ -1278,10 +1278,10 @@ namespace Rasa.Test.Missions.Ashen
             harness.Drain();
         }
 
-        private const uint MissionItemFiller = 11519;      // as PlateauCampResistanceTests (inventory category 4)
+        internal const uint MissionItemFiller = 11519;      // as PlateauCampResistanceTests (inventory category 4)
 
         /// <summary>A use of the object from beside it that the server refuses: no recovery, the refusal's message.</summary>
-        private static PlayerMessage? Refused(WildernessRuntimeTestHarness harness, MapChannel copy, DynamicObject obj, uint argument)
+        internal static PlayerMessage? Refused(WildernessRuntimeTestHarness harness, MapChannel copy, DynamicObject obj, uint argument)
         {
             harness.MoveTo(obj.Position + new Vector3(0, 0, 1));
             harness.Drain();
@@ -1299,7 +1299,7 @@ namespace Rasa.Test.Missions.Ashen
         /// of a kill's experience updates, resumed as one who came in by its door, on <c>mission</c> (taken from the NPC) if it
         /// is not 0, with <c>done</c> in its history. Disposed: out of the squad and the copy.
         /// </summary>
-        private sealed class SquadMate : IDisposable
+        internal sealed class SquadMate : IDisposable
         {
             private readonly WildernessRuntimeTestHarness _harness;
             private readonly MapChannel _copy;

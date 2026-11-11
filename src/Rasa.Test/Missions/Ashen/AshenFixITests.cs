@@ -229,7 +229,7 @@ namespace Rasa.Test.Missions.Ashen
         [TestMethod]
         public void FixIRollsBackToSet15s()
         {
-            using var harness = WildernessRuntimeTestHarness.Create();
+            using var harness = WildernessRuntimeTestHarness.Create(targetWorldMigration: FixI);   // baselined at its own migration
             var world = harness.World;
             int Count(string sql) => world.Database.SqlQueryRaw<int>(sql).AsEnumerable().Single();
             string Scene() => world.Set<Rasa.Structures.World.MissionSceneBindingEntry>().AsNoTracking()

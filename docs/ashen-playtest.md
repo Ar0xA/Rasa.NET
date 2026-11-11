@@ -530,6 +530,116 @@ All ESTIMATE (set 15):
   template of the kind in the band. Markers: 1559 before the door (r6) and on Diren (r8); 1360 on Bendal, Drof (r8) and the
   Watch Post (r45); 1395 on Aksrah, Naimi (r8), Kuutk (r10), before the cell (r5) and the crate (r8).
 
+Set 16, Indra Caverns, the rear caves and the Gotha Processing Plant (migration `20271110001600_Ashen_gotha_plant`). All in
+Indra Caverns (map 2055, the squad instance of set 15). Getting there: the caverns' door (map link 58) is not reached on foot
+on the client floor (to-fix row 33); fix job H's lift pads (migration `20271110001510`) take the player to it: the valley pad 913 (121, 305.97, 443) by Odesha sets you down on the island pad 914 (258, 315.49, 325), then walk
+to the door as in 1559. New NPCs: Sergeant Jonas Drof's second row 790600 (-309, 129.55, -53) and Scout Hansa Naimi's second row 790601
+(-306, 129.55, -57), just inside the plant's entrance hall at the top of the mining area's ridge (copies of set 15's rows;
+they stand from the start, and set 15's stay in the facility); Overlord Kretas 790602 (hostile, class 10504, level 44, 4900
+hit points, armour 420; the Overseers' row) alone in pool 790603 in Bane Central Administration's north hall (-364, 168.71,
+-406), respawn 300 s. Next free id 790604. Every walk below is the client's floor, checked both ways with the client's slope
+limit (AshenGothaPlantTests); the caverns' navmesh is islands (upstream), so the walk tests use the client floor only, and no
+Ashen-side walk is part of this set.
+
+- [ ] 1447 Digging for the Truth (Ligo Ashen Desert): set 15's Drof (Control Room) offers it after 1395, level 43. The
+  accept gives a Power Supply (97519; 1395's own was taken at its turn-in). Use the Power Supply Box (name 144, marker 218)
+  just behind Drof at (-9, 0.5, -221) with it (taken): 12, the power on: the rear exit door (140, 16.5, -226) opens and the
+  two teleporters in the Control Room, (-12, 0.5, -215) and (-1, 0.5, -227), come on. Use one: it takes you just outside
+  the rear exit (140, 16.02, -205) (a held passage of 3 s); walk on toward the caves (into the circle at (131, -191), r6)
+  for 13; 12 and 13 complete 5 and open 2. Or walk through the open door: the Control Room's east door, the east hall, the
+  ramp south-east and north up to the rear exit. Walk north-west through the rear caves to the Bane's point of entry (4,
+  46.18, -94; r10, marker 219): 2, 3 opens. Follow the Bane tunnel west and north (it bends at (-252, -44) and turns west at
+  (-302, 23)) to its exit (-325, 64.12, 24; r10, marker 220): 3. On through the north cavern (-350, 58) up into the mining
+  area: six Articulated Drills (500 hit points each, marker 221 on each, 134 over the area): (-327, 90.31, 239), (-326,
+  90.43, 259), (-338, 90.43, 270), (-311, 85.86, 245), (-312, 85.86, 227), (-322, 85.86, 211): shoot each to pieces (6-11;
+  1 counts them). Turned in by radio: 110000 XP, 8800 credits, one of Teleract Torqueshell Rifle 12111, Vitalius Sonic
+  Disperser 12071, Vextronics Electric Rifle 11953, Virulent Injector Gun 12155. Check: the box refuses a player without
+  the supply; the door stays shut and the teleporters off until the box is used; drills shot before 2 and 3 still count.
+- [ ] 1532 Meet Sergeant Drof (Ligo Ashen Desert): Headquarters offers it by radio at 1447's turn-in, and again on arriving
+  in Indra Caverns, after 1447, level 43. Walk from the mining area west and north up the ridge to the plant's entrance
+  (-309, -53): talk to Drof there (marker 222 on him). Turn in at Drof: 60000 XP, 6750 credits, one of Class IX Incendiary
+  Grenade 111040 x3, Advanced Med Pack 45068 x2, EMP Grenade 111030 x3, Res Sickness Kit 47601 x1.
+- [ ] 1451 Subversion (Ligo Ashen Desert): Drof (plant entrance) offers it after 1532, level 44. Use the two Gas Flow
+  Controls (name 152, marker 216): Alpha (-143, 137.59, -167) east and Beta (-415, 137.59, -237) west (3, 4; 1 counts
+  them, marker 134 r30 at (-279, -264)); and the four Life Support Systems (name 153, marker 217) by the sleep pods: the
+  south hall (-172, 137.11, -416) upper deck and (-177, 131.21, -416) lower deck, the east hall (-81, 137.11, -363) upper and
+  (-82, 130.23, -369) lower (5-8; 2 counts them, marker r30 at (-156, -344)). Each switch sets on use and is used no more.
+  Turn in at Drof (the client's summary 12890 "Speak to Sergeant Drof for your reward", completion text 12892 Drof's,
+  reminder 12893; TaRapedia's "Radio HQ" turn-in not followed): 110000 XP, 9000 credits, one of Vextronics Pulse Rifle 11957, AccuMax Incendiary Staff 49496, Phoenix
+  Direct Repair Tool 18274, Titan Tissue Extractor 12053.
+- [ ] 1452 Desistance (Ligo Ashen Desert): Naimi (plant entrance) offers it after 1451, level 44. The accept gives the Bomb
+  (111011). 1: the Security Door Control Console (name 151, marker 213) at the bay's north-east door (-300, 128.01, -224); 2
+  opens: either Juggernaut console in Juggernaut Operations (marker 212 at (-396, -250), r12): Programming (-395, 128.01,
+  -246, name 149) or Systems (-398, 128.01, -253, name 150) (one used closes the other); 4 opens: walk up to the landing
+  pad's deck (the circle at (-395, 176.2, -295), r14, marker 210); 3 opens: use the Explosive Charge (-406, 176.31, -303) by
+  the Outpost Generator (-401, -301; marker 214) (it has no lock; 3 takes the bomb, then the generator blows; without the bomb the use is refused: 3 stays open, the
+  charge stays usable); 5 opens: walk into Central
+  Administration's north hall ((-364, 168.71, -398), r16, marker 211; Kretas stands 8 m inside it); 6: kill Overlord Kretas (marker 209); he drops his hand
+  (110986, 100 %, your own); 7: use the Teleportation Console (-392, 169.01, -432; name 154, marker 215) with the hand
+  (taken): your teleporter beside it (-389, 168.53, -431) comes on; use it: it takes you to Indra Watch Post (-51, 7.6,
+  -407) beside Diren; 8: talk to Diren (marker 260). Turn in at Diren: 120000 XP, 9000 credits, one of Bio-Engineered
+  Boots, Mechanized Boots, Stealth Gloves, Graviton Gloves (the V02 armour of levels 40-44).
+
+Walks (set 16; client floor both ways): 1447: Drof -> box and each teleporter; the Control Room -> east hall -> rear ramp ->
+outside the rear exit (through the door's leaf); -> rear caves -> cave entrance; -> the tunnel (split at its bend (-252,
+-44) and last turn (-302, 23)) -> its exit; -> the north cavern (-350, 58) -> drill 1 -> 2 -> 3 and drill 1 -> 4 -> 5 -> 6;
+the north cavern -> up the ridge -> Drof at the plant -> Naimi (passes 531089, 35 m below). 1451 / 1452: 45 legs from Drof
+at the plant through the plant to each valve, life support system, console, the pad, the charge, Central Administration,
+Kretas, the console and the teleporter (AshenGothaPlantTests.Legs). Kretas' teleporter's arrival -> Diren. Hostile pools
+each 1451/1452 walk passes (the plant's own; the 30 m walk rule is not kept in it): valve 1 (Alpha): 531086, 531088, 531089;
+valve 2 (Beta): 531086, 531089, 531091, 531093; life support 1: 531086, 531087, 531089, 531090, 531093; life support 2:
+531086, 531087, 531089, 531090, 531093; life support 3: 531086, 531087, 531089, 531090, 531093; life support 4: 531086,
+531087, 531089, 531090, 531093; the door console: 531086, 531089, 531093; the programming console: 531085, 531086, 531089,
+531091, 531093; the systems console: 531085, 531086, 531089, 531091, 531093; the landing pad: 531085, 531086, 531089,
+531090, 531091, 531092, 531093; the explosive charge: 531085, 531086, 531089, 531090, 531091, 531092, 531093; Central
+Administration: 531085, 531086, 531089, 531090, 531092, 531093, 790603; Kretas: 531085, 531086, 531089, 531090, 531092,
+531093, 790603; the teleportation console: 531085, 531086, 531089, 531090, 531092, 531093, 531095, 790603; Kretas'
+teleporter: 531085, 531086, 531089, 531090, 531092, 531093, 531095, 790603.
+
+Fights (rule 3): Kretas' class 10504 has none of the client's IMMUNE_* damage flags (creature_class_flag 125-135); he is a
+single level 44 boss as Kuutk (beaten solo). The drills, switches and charge are objects. No new hostile pools besides Kretas';
+the walks through the plant meet its own Thrax pools (see the rule breaks).
+
+Rule breaks inside the plant and the mining cave (rule 2; the plant's rooms are small and full of upstream pools):
+- 1447: the Bane tunnel runs through pool 531094 and over 531088 and 531089 (its only way to the mining area).
+- 1451: the valves stand 20 m (Alpha) and 15 m (Beta) outside the nearest hostile pool's circle; the life support systems
+  about 25 m (the barracks halls' own pools); the walks to them pass the plant's pools (listed in the test's walks).
+- 1452: the Juggernaut consoles about 22 m; the generator 13.5 m and the charge 18.5 m (the pad deck's pools); the
+  console and the teleporter about 23 m; Kretas 38.7 m (the 35 m boss rule kept; not the 60 m between hostile pools).
+- Drof and Naimi at the plant: 34 m and more in 3D (pool 531089 35 m below in the mining cave; 26 m on the flat).
+
+Tester notes (set 16):
+- Walk on Indra Caverns (2055) in straight client walks between the listed corners (by hand), not by navmesh walks
+  (cwalk.py / visual.walk): the 2055 navmesh is islands (upstream N29) and a navmesh walk stops at an island's edge.
+- Known risk (audit S4, the 1401/1395 design): in a squad, a mate on 1452 without his hand at the player's console use
+  (his take fails) is refused, and the shared event waits for him; check that the player's own console still works.
+- The legs are checked at a 0.33 m body half width; at 0.5 m some fail (a recheck follows): report any stop on a prop
+  beside a leg.
+- Get into Indra Caverns by fix job H's lift pads (`ashen_fix_h`), not on foot (to-fix row 33).
+- Take a squad: the box, door, teleporters, drills, switches, consoles, charge and Kretas' teleporter are personal: each
+  member on the mission has his own; a use or a drill destroyed completes the objective for each member in the copy (his
+  power supply, bomb or hand taken then). A mate away at the use uses his own later with his own key item; a mate whose
+  holder abandons is not blocked (his own items stay).
+- With a full bag the accept of 1447 and 1452 is refused (the power supply and the bomb come at the accept).
+- The teleporters are held passages: stand on them 3 s.
+- 1452: abandoning after Kretas keeps the hand (CharacterOwned): taken again, the hand opens the console, but 6 waits for
+  Kretas again.
+
+All ESTIMATE (set 16):
+- The places of the box (on the console behind Drof), the two teleporters, the rear exit door, the rear area just outside,
+  the cave entrance and the tunnel exit circles, the six drills in the mining area, the valves (one per gas processing
+  wing), the four life support systems (beside each sleep pod group), the door console, the two Juggernaut consoles, the
+  pad circle, the generator and charge, the Central Administration circle, Kretas, the console and the teleporter: picked
+  on the client map's statics and the client floor, no source places them.
+- Drof's and Naimi's second rows just inside the plant's entrance hall; they stand from the start (no dropship arrival).
+- Levels 43 (1447, 1532) and 44 (1451, 1452). 1451's experience 110000 (TaRapedia gives none). Items: the templates of the
+  named kinds chosen by the level band (1447's four, three of 1451's four, 1452's V02 band); 1532's stack sizes TaRapedia's,
+  the kit 1; TaRapedia's "Res Trauma Kit" mapped to 47601 "Res Sickness Kit" (no client template of that name).
+- Kretas' class 10504, level 44, 4900 hit points, armour 420 (the Overseers' row); the generator's 100 hit points; every
+  area and marker radius.
+- 1532's radio offer at 1447's turn-in and on map arrival; requires 1447. 1452 requires 1451 (the story's order).
+- 1452's order 1, 2, 4, 3, 5, 6, 7, 8; the Juggernauts are statics, no creature.
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -643,6 +753,22 @@ All ESTIMATE (set 15):
   unnamed marker on the valley pad. Not gated: any player may ride it.
   The caverns' navmesh is islands (upstream): creatures may not path between rooms; Kuutk and the Watch Post stand still.
 - 1395: the Power Supply is taken at the turn-in; Doomed Expedition (1447) asks to keep it: set 16 issues one at its accept.
+- 1447: a teleporter's arrival just outside the rear exit does not complete 13 by itself: the server counts an area only
+  when walked into, so the first steps toward the caves do it.
+- 1447: the teleporters and the door are the player's own objects; a player without the mission is not shown them, and
+  creatures walk through the shut door (no door collision).
+- 1447: the Bane tunnel to the mining area runs through hostile pool 531094 and over 531088 and 531089: the 30 m walk
+  clearance can not be kept on the only way.
+- 1532: Drof and Naimi stand at the plant's entrance from the start (and set 15's rows stay in the facility); the client's
+  AFS dropship that flies them in is not built.
+- 1451: TaRapedia's six Thrax at each switch use are not made (rule 3: a solo player must win each fight; the plant's own
+  pools stand in the rooms).
+- 1452: no Juggernaut creatures (the client map's three are statics) and no Kretas Drone; one console stands them down.
+- 1452: the generator's bomb sets off no siren and no Bane dropship wave at the pad (the deck's own pools stand by it).
+- 1451 / 1452: the walks through the plant pass its own upstream Thrax pools, and the switches, consoles, generator and
+  Kretas stand closer to them than the place rules ask (listed under the set 16 rule breaks): the plant's rooms are small.
+- 1452: Kretas' hand is kept at an abandon (CharacterOwned, as 1395's hand); each member's hand is taken when his own 7
+  completes.
 
 ## Server data that differs from the sources (not changed)
 

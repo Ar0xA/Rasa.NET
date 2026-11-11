@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 52 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 56 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -9,7 +9,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 | Zone | Missions |
 | --- | ---: |
-| Ashen Desert | 52 |
+| Ashen Desert | 56 |
 
 ## Ashen Desert
 
@@ -1257,6 +1257,85 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Chain** (explicit prerequisite links): Indra Caverns chain (4 missions), step 3
   - Requires: Threshold (id 1360) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold), [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication)
   - Leads to: Digging for the Truth (id 1447) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Digging_for_the_Truth), [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication)
+
+### 1447 — Digging for the Truth
+
+
+- **Instance mentioned:** Indra Caverns — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - reward: 110,000 XP; 8,800 credits; Teleract Torqueshell Rifle; Vitalius Sonic Disperser; Vextronics Electric Rifle; Vextronics Virulent Injector Gun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Digging_for_the_Truth)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Explore the cave area outside the rear exit of the storage facility. Find out where the Bane came from, and see if you can figure out what they want with Indra Caverns.
+  - objectives (client): Destroy Mining Equipment — It seems the Bane are mining resources from Indra Caverns. Now we know why they came here. Destroy all of the mining equipment in this area to disrupt their …; Find the Rear Cave Entrance — The Bane attacked the storage facility from within the caves. Explore the cave room outside the back exit of the facility and find the Bane's point of entry.; Explore the Tunnel — It appears the Bane dug through the mountain to reach the storage facility. See if this tunnel system leads anywhere and let us know what you find out.; Restore Power and Use the Teleporters — Use the power supply Drof gave you to restore power to the Power Supply Box to unlock the door to the rear exit of the facility. The Power Supply Box is …; Articulated Drill (1 of 6); Articulated Drill (2 of 6); Articulated Drill (3 of 6); Articulated Drill (4 of 6); Articulated Drill (5 of 6); Articulated Drill (6 of 6)
+- **TaRapedia** [Digging for the Truth](https://tabularasa.fandom.com/wiki/Digging_for_the_Truth) [stub]: giver: Sergeant Jonas Drof; at: Indra Caverns; zone: Ashen Desert; requires: Vindication; follow-up: None; XP: 110,000; credits: 8,800; items: Teleract Torqueshell Rifle; Vitalius Sonic Disperser; Vextronics Electric Rifle; Vextronics Virulent Injector Gun; reward from: Headquarters
+  - overview: Explore the cave area outside the rear exit of the storage facility. Find out where the Bane came from, and see if you can figure out what they want with Indra Caverns.
+  - objectives: • Restore Power and Use the Teleporters • Find the Rear Cave Entrance • Explore the Tunnel • Destroy Mining Equipment • Articulated Drill (1 of 6) • Articulated Drill (2 of 6) • Articulated Drill (3 of 6) • Articulated Drill (4 of 6) • Articulated Drill (5 of 6) • Articulated Drill (6 of 6)
+- **TaRapedia mission list** [Indra Caverns mission list](https://tabularasa.fandom.com/wiki/Indra_Caverns_mission_list): zone Ashen Desert, given by Sergeant Jonas Drof
+
+- **Chain** (explicit prerequisite links): Indra Caverns chain (4 missions), step 4
+  - Requires: Vindication (id 1395) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Digging_for_the_Truth), [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication)
+
+### 1451 — Subversion
+
+
+- **Instance mentioned:** Indra Caverns — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - reward: 9,000 credits; Vextronics Pulse Rifle; AccuMax Incendiary Staff; Phoenix Direct Repair Tool; Titan Tissue Extractor — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Subversion)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Shut down operations in Gotha Processing Plant. Re-program the Gas Flow Control Valves to divert gas flow. This should create a chain reaction causing the pipes to explode. Then, find your way to the Barracks and shut down all Thrax Life Support Systems. Speak to Sergeant Drof for your reward.
+  - objectives (client): Sabotage Gotha Processing — Sabotage Gotha Processing Plant by re-programming each of the two Gas Flow Controls. You should be able to create a chain reaction causing an explosion in the …; Shut Down Thrax Life Support — Find the Thrax Barracks and shut down their Life Support Systems.; Gas Flow Control (1 of 2); Gas Flow Control (2 of 2); Thrax Life Support System (1 of 4); Thrax Life Support System (2 of 4)
+- **TaRapedia** [Subversion](https://tabularasa.fandom.com/wiki/Subversion) [bug noted]: giver: Sergeant Jonas Drof; at: Indra Caverns; zone: Ashen Desert; requires: Meet Sergeant Drof; follow-up: None; credits: 9,000; items: Vextronics Pulse Rifle; AccuMax Incendiary Staff; Phoenix Direct Repair Tool; Titan Tissue Extractor; reward from: Headquarters
+  - overview: Shut down operations in Gotha Processing Plant. Re-program the Gas Flow Control Valves to divert gas flow. This should create a chain reaction causing the pipes to explode. Then, find your way to the Barracks and shut down all Thrax Life Support Systems. Speak to Sergeant Drof for your reward.
+  - objectives: • Sabotage Gotha Processing • Shut Down Thrax Life Support • Gas Flow Control (1 of 2) • Gas Flow Control (2 of 2) • Thrax Life Support System (1 of 4) • Thrax Life Support System (2 of 4) • Thrax Life Support System (3 of 4) • Thrax Life Support System (4 of 4)
+  - walkthrough: Take the east exit from the Juggernaut bay to reach the life support rooms. There are four switches on pedestals to activate - after you throw each one, 6 Thrax spawn. Once the objectives are complete, the mission text says to return to Sergeant Drof. However, the mission is completed by selecting the 'Radio HQ' button with the mission selected in the mission log, rather than by returning to the Sergeant.
+- **TaRapedia mission list** [Indra Caverns mission list](https://tabularasa.fandom.com/wiki/Indra_Caverns_mission_list): zone Ashen Desert, given by Sergeant Jonas Drof
+
+- **Chain** (explicit prerequisite links): Meet Sergeant Drof chain (2 missions), step 2
+  - Requires: Meet Sergeant Drof (id 1532) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Meet_Sergeant_Drof), [TaRapedia](https://tabularasa.fandom.com/wiki/Subversion)
+
+### 1452 — Desistance
+
+
+- **Instance mentioned:** Indra Caverns — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - reward: 120,000 XP; 9,000 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Desistance)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** On his way in, Scout Naimi spotted a Bane landing pad and what appears to be a security base for Gotha Processing Plant. Find a way through the processing plant and scout out the situation at the top of the mountain. Naimi will radio you with further instructions once you've reached the landing pad.
+  - objectives (client): Unlock Juggernaut Bay Doors — Find the Juggernaut Operations room in the processing plant. Use the Door Security Console to unlock the doors leading to the Juggernaut Bay below.; Get Past the Juggernauts — Use one of the Juggernaut maintenance consoles in this room to get past the Juggernauts in the room below without a fight.; Bomb the Outpost Generator — You set off the siren and alerted the Bane's dropships as you reached the landing pad. Plant the bomb to destroy the Outpost Generator at the landing pad. …; Find the Landing Pad — Find a way to the Bane Landing Pad through Gotha Processing Plant.; Locate Bane Central Administration — Locate the Bane Central Administration building.; Defeat Overlord Kretas; Activate Kretas' Teleporter — Use Kretas' hand to activate the teleporter. Once the teleporter has been activated, it can be used to teleport back to Indra Watch Post near the exit to Indra …; Report to Major Diren
+- **TaRapedia** [Desistance](https://tabularasa.fandom.com/wiki/Desistance): giver: Scout Hansa Naimi; at: Indra Caverns; zone: Ashen Desert; requires: None; follow-up: None; XP: 120,000; credits: 9,000; reward from: Major Darkua Diren
+  - overview: On his way in, Scout Naimi spotted a Bane landing pad and what appears to be a security base for Gotha Processing Plant. Find a way through the processing plant and scout out the situation at the top of the mountain. Naimi will radio you with further instructions once you've reached the landing pad.
+  - objectives: • Unlock Juggernaut Bay Doors • Get Past the Juggernauts • Find the Landing Pad • Bomb the Outpost Generator • Locate Bane Central Administration • Defeat Overlord Kretas • Activate Kretas' Teleporter • Report to Major Diren
+  - walkthrough: Go left at the first fork when you enter Gotha, which will eventually take you to some catwalks and a tangled mess of corridors. One of the paths in the tangled mess takes you to control rooms overlooking the Juggernaut bay, from which you can reprogram the Juggernauts and open the bay doors. Once in the Juggernaut bay, the south exit eventually leads up to the landing pad and generator. Overlord Kretas is in the building off the landing pad.
+- **TaRapedia mission list** [Indra Caverns mission list](https://tabularasa.fandom.com/wiki/Indra_Caverns_mission_list): zone Ashen Desert, given by Scout Hansa Naimi
+
+### 1532 — Meet Sergeant Drof
+
+
+- **Instance mentioned:** Indra Caverns — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - reward: 60,000 XP; 6,750 credits; Class IX Incendiary Grenade (3); Class IX Advanced Med Pack (2); Class IX EMP Grenade (3); Class IX Res Trauma Kit — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Meet_Sergeant_Drof)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Sergeant Drof and Scout Naimi were picked up by an AFS dropship in Indra Pass. They're coming to meet you near your current location. Meet Sergeant Drof at the top of the ridge in the Bane mining area, near the entrance to Gotha Processing Plant.
+  - objectives (client): Proceed to Drof's New Location — Head towards the entrance to the Bane Processing Plant, at the top of the ridge in the mining area. Sergeant Drof is being dropped off by an AFS dropship in …
+- **TaRapedia** [Meet Sergeant Drof](https://tabularasa.fandom.com/wiki/Meet_Sergeant_Drof): giver: Headquarters; at: Radio; zone: Ashen Desert; requires: None; follow-up: Subversion; XP: 60,000; credits: 6,750; items: Class IX Incendiary Grenade (3); Class IX Advanced Med Pack (2); Class IX EMP Grenade (3); Class IX Res Trauma Kit; reward from: Sergeant Jonas Drof
+  - overview: Sergeant Drof and Scout Naimi were picked up by an AFS dropship in Indra Pass. They're coming to meet you near your current location. Meet Sergeant Drof at the top of the ridge in the Bane mining area, near the entrance to Gotha Processing Plant.
+  - objectives: • Proceed to Drof's New Location
+- **TaRapedia mission list** [Indra Caverns mission list](https://tabularasa.fandom.com/wiki/Indra_Caverns_mission_list): zone Ashen Desert, given by Headquarters
+
+- **Chain** (explicit prerequisite links): Meet Sergeant Drof chain (2 missions), step 1
+  - Leads to: Subversion (id 1451) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Meet_Sergeant_Drof), [TaRapedia](https://tabularasa.fandom.com/wiki/Subversion)
 
 ### 1559 — Indra Caverns [instance]
 
