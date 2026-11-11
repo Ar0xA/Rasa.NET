@@ -446,7 +446,7 @@ namespace Rasa.Test.Missions.Ashen
             var links = harness.World.Set<MapLinkEntry>().AsNoTracking().Where(link => link.Enabled != 0).ToList();
             var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision ||
                 entry.MissionId == AshenEchoesInTheSandV1.MissionId && entry.ContentRevision == Rasa.Services.Preloader.Missions.Crucible.CrucibleMissionDataV1.Revision).ToList();
-            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators, markers, "the Ashen markers");
+            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators + AshenMissionTests.CavernsIndicators, markers, "the Ashen markers");
             var near = new List<string>();
             foreach (var marker in markers)
             {
@@ -588,7 +588,10 @@ namespace Rasa.Test.Missions.Ashen
                 // Settlement's; 1736's Botha and obelisk (Daedalus' Landing, the escort's way) from Ashoka Settlement's.
                 [AshenSupplyLogisticsV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
                 [AshenPreciousToolsV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
-                [AshenEchoesInTheSandV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
+                [AshenEchoesInTheSandV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                // Set 15: 1559's marker before the Indra Caverns door, from White Oasis Post's (as set 13's valley); it stands in
+                // the door's navmesh pocket (InTheDoorPocket).
+                [AshenIndraCavernsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
             };
             // A mission whose markers stand in more than one area: the other areas' waypoints (any one walks to the marker).
             var also = new Dictionary<uint, (string Label, Vector3 At)[]>
@@ -616,6 +619,13 @@ namespace Rasa.Test.Missions.Ashen
             foreach (var marker in markers)
             {
                 var label = $"{marker.MissionId}.{marker.ObjectiveId}/{marker.IndicatorId}";
+                if (InTheDoorPocket.Contains((marker.MissionId, marker.ObjectiveId)))
+                {
+                    var pocket = new Vector3((float)marker.PosX, (float)marker.PosY, (float)marker.PosZ);
+                    if (nav.FindPath(nav.Nearest(AshenLeadInsTests.WhiteOasisWaypoint) ?? AshenLeadInsTests.WhiteOasisWaypoint, nav.Nearest(pocket) ?? pocket, out var joined) != null && joined)
+                        failures.Add($"{label}: the door's pocket is joined now (upstream N26 fixed?): take it off InTheDoorPocket");
+                    continue;
+                }
                 if (!waypoints.TryGetValue(marker.MissionId, out var from))
                 {
                     failures.Add($"{label}: no area waypoint for mission {marker.MissionId}");
@@ -628,6 +638,13 @@ namespace Rasa.Test.Missions.Ashen
             }
             Assert.IsEmpty(failures, string.Join("; ", failures));
         }
+
+        /// <summary>
+        /// Markers in the Indra Caverns door's navmesh pocket (upstream N26: the cave mouth's navmesh is joined to nothing): 1559's
+        /// before the door. The navmesh walk the guard asks for can not be had; the client floor's walk from Odesha to the door
+        /// is checked instead (AshenIndraFacilityTests.TheCavernsDoorIsWalkedToFromOdesha).
+        /// </summary>
+        internal static readonly (uint Mission, uint Objective)[] InTheDoorPocket = { (AshenIndraCavernsV1.MissionId, AshenIndraCavernsV1.Locate) };
 
         /// <summary>
         /// #205: each Ashen World migration, in order: Up, Up again, and the tables it writes are the same; Down (to the migration
@@ -687,7 +704,8 @@ namespace Rasa.Test.Missions.Ashen
         private static List<(string Label, Vector3 At, bool Npc)> Places(WildernessRuntimeTestHarness harness)
         {
             var places = Npcs().Select(pool => ($"pool {pool.DbId}", pool.Position, true)).ToList();
-            foreach (var (mission, scene) in AshenMissionTests.Scenes(harness))
+            // Set 15's scenes stand on Indra Caverns (AshenIndraFacilityTests checks their places).
+            foreach (var (mission, scene) in AshenMissionTests.Scenes(harness).Where(entry => entry.Scene.MapContextId != AshenIndraFacilityNpcsV1.Caverns))
                 foreach (var actor in scene.Actors.Values.Where(actor => actor.Position != null))
                     places.Add(($"{mission} {actor.Role}", new Vector3(actor.Position.X, actor.Position.Y, actor.Position.Z),
                         actor.Kind == Rasa.Missions.Scenes.SceneActorKind.Creature));

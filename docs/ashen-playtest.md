@@ -452,6 +452,72 @@ All ESTIMATE (set 14):
   the first pair's deaths and brings the obelisk; 5 (Ambushes) hidden and not required, done
   at the landing. Markers: 1736 on the obelisk (r20) and Botha, 1358 at each captain (r8), 1286 on Jirex (r15).
 
+Set 15, Indra Caverns and the Brann facility (migration `20271110001500_Ashen_indra_caverns`). Indra Caverns (map 2055) is a
+squad instance: the door is map link 58 at (321.9, 319.0, 319.6) on Ashen Desert, east of Surveyor Odesha; it puts you at
+(-40.7, 8.9, -421.6). New NPCs, all in the caverns: Major Darkua Diren 790560 (-53, 8.6, -395), 29 m in from the door, by
+the medic; Sergeant Jonas Drof 790561 (-5, 0.58, -221) in the facility's Control Room; Scout Hansa Naimi 790562 (9.83,
+24.85, -244.76) inside the Enslaver cell by the Security Station (copies of Captain Flynn Harris' row, levels 44, 43, 42);
+Thrax Overseer Kuutk 790563 (hostile, class 10504, level 44, 4900 hit points, armour 420) alone in pool 790564 in the
+Science Lab (59, -7.42, -403), respawn 300 s; the Indra Watch Post: a Thrax Soldier 531008 in pool 790565 (-36, 6.34, -355)
+in the low trench on the way in and a Ravager 531009 in pool 790566 (44, 16.35, -335) before the facility door, one each
+(pool respawn 120 s, never reached: in the squad's copy a cleared pool comes back 45 minutes after its last death,
+SquadInstanceConfig.RespawnMinutes; Kuutk, a public-spawn actor of 1395's scene, comes back on his own 300 s). Next free id 790567. Every walk
+below is the client's floor, checked both ways with the client's slope limit (AshenIndraFacilityTests); the server's
+navmesh of the caverns is islands (upstream, N-row in NOTES-upstream-bugs), so the walk tests use the client floor only.
+
+- [ ] 1559 Indra Caverns (Ligo Ashen Desert): Surveyor Odesha (Indra Pass) offers it after Missing Scientists (1280), level
+  42. Marker before the door (305, 319.9, 326). Walk from Odesha east: (278, 337), (286, 331), (293, 324), (306, 322), into
+  the door's circle at (320, 320.5). Arriving in the caverns completes 1; walk within 10 m of Diren (marker on him): 2, the
+  reward. Turn in at Diren: 60000 XP, 6750 credits, one of Class IX Concussion Grenade 111020 x3, Basic Med Pack 45066 x2,
+  Fragmentation Grenade 45448 x3, EMP Bomb 111234 x1.
+- [ ] 1360 Threshold (Ligo Ashen Desert): Diren offers it after 1559, level 43. The accept gives the Supply Package
+  (97516). Walk north past the Watch Post: kill its two Bane (the Thrax Soldier in the low trench, the Ravager before the
+  facility door; marker r45 over both) for 3. Search Guard Rolim Bendal's body at (5, 16, -347), south-west of the pillbox,
+  for the Indra Facility Key Card (97518) and 1. Use the facility door at (82, 16.5, -328) (east, the Security Check Point):
+  the card opens it and is taken. Go through to the Control Room and talk to Drof (marker on him; open once 1 and 3 are
+  done): he takes the package. Turn in at Drof: 120000 XP, 9000 credits, one of Graviton Legs 23957, Hazmat Helmet 20653,
+  Reflective Gloves 35740, MotorAssist Helmet 28960. Check: the door stays shut without the card (the server refuses the
+  use); in a squad each member on 1360 gets his own card at the search and his own door opens (his card taken) at the
+  user's use; a mate away then (or whose card holder abandoned) opens his own door later with his own card.
+- [ ] 1395 Vindication (Ligo Ashen Desert): Drof offers it after 1360, level 43. The accept gives the Key Pass (97548): it
+  opens three room doors (kept). Search Scout Aksrah's body in dorm 152 (153, 8.5, -296; door at (150, -296)) for the Radio
+  (97551) and 2. Kill Thrax Overseer Kuutk in the Science Lab (59, -403; door at (36, -362)) for 4: he drops the Thrax Hand
+  (110824, 100 %, your own). Use Naimi's cell (10.4, 24.6, -244.2; marker before it) with the hand (taken) for 6: the cell
+  opens. Talk to Naimi (3): 5 opens. Search the Supply Crate in dorm 32 (24, 8.5, -284; door at (34, -280)) for the Power
+  Supply (97519) and 5. Turn in at Drof: 110000 XP, 8800 credits, one of Vextronics Cryogenic Blade 12101, Virulent
+  Disperser 12077, Endothermic Polarity Gun 12137, Cryogenic Leech Gun 47772. Check: each room door refuses a player without
+  the pass; the cell refuses one without the hand; the radio, pass and power supply go at the turn-in. In a squad each
+  member on 1395 loots his own hand; the user's use of his cell takes each present member's hand and opens each one's
+  cell; a mate away then opens his own cell later with his own hand.
+
+Fights (rule 3; to-fix rows 20 and 26): Kuutk's class 10504 and the Watch Post's classes 20757 (Thrax Soldier) and 9354
+(Ravager) carry none of the client's IMMUNE_* damage flags (creature_class_flag 125-135), nor the AFS classes of Diren,
+Drof and Naimi. Kuutk is a single level 44 boss (as Jirex and Ulovik, beaten solo); the Watch Post is two level 39 Bane, one
+per pool, 82 m apart (one at a time).
+
+Tester notes (set 15):
+- Take a squad for the squad checks: a mate on the mission, a mate without it. The doors and the cell are personal: each
+  member on the mission has his own, and his own card (1360, given at the search) or hand (1395, looted from Kuutk); a
+  use completes the objective for each member in the copy then, each one's key taken and each one's door or cell open; a
+  mate away at the use opens his own later with his own key. A mate without the mission is not shown the doors at all.
+- Kill the Watch Post before or after the accept: kills ahead count (see Deviations).
+- Reload (log out and in) with the card or hand held: the key is kept and still opens the door.
+
+All ESTIMATE (set 15):
+- The NPCs' looks (Harris' AFS row), levels 44/43/42 and places: Diren 29 m in from the door (TaRapedia: "right inside"),
+  Drof in the Control Room's middle, Naimi in cell B (cell A's floor is a navmesh island). Kuutk's row Mitecht's (as Jirex),
+  in the Science Lab south of its machine bank. The Watch Post: two pools of one (to-fix row 26), Thrax Soldier and Ravager,
+  pool respawn 120 s (the upstream Indra Caverns pools'; in the squad's copy 45 minutes, SquadInstanceConfig).
+- 1559 after 1280 (Odesha's chain; TaRapedia names no requirement); 1 the whole map, 2 within 10 m of Diren (no talk in the
+  client). The items the lowest templates of TaRapedia's four kinds, stack sizes as 1273's.
+- 1360: Bendal's body 9 m south-west of the pillbox, not in it (the pillbox has 1.8 m of headroom and its trench no way in on
+  the client floor); the facility door's place in the Check Point's jamb and its yaw sign; the door states 31/91.
+- 1395: the three key-pass doors (dorm 152, the Science Lab, dorm 32) in the jambs of the rooms the mission goes into; the
+  cell door's states 31/91 (10749's kind, no source for 24910); the crate's place in dorm 32.
+- Levels 42 (1559), 43 (1360, 1395) (triage D5). Rewards: TaRapedia's XP, credits and item kinds; the items the lowest
+  template of the kind in the band. Markers: 1559 before the door (r6) and on Diren (r8); 1360 on Bendal, Drof (r8) and the
+  Watch Post (r45); 1395 on Aksrah, Naimi (r8), Kuutk (r10), before the cell (r5) and the crate (r8).
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -545,6 +611,23 @@ All ESTIMATE (set 14):
   restart) keeps the obelisk away until it is killed: kill both of the first pair before you look for the obelisk.
 - 1286: Jirex 30 m from the pillbox, not by it (60 m from the Boneyard's hostile pools).
 - 1358: the White Oasis delivery waits while the Bane hold control point 17 (Daris Linier gone, the service rule).
+- 1360: kills at the Watch Post before the accept count (3 completes at the accept if both pools are clear): TaRapedia's "Do
+  NOT kill ahead" can not be kept, a pool is the squad copy's, not the mission's.
+- 1360: no Thrax attack on Drof in the Control Room (TaRapedia "wipe out the thrax attacking Drof"): no scene fight in a
+  closed room (the cautious option).
+- 1360: the Watch Post's two pools stand on the only way into the facility: every walk in meets them (1360's own fight;
+  the 30 m walk clearance is not kept there).
+- 1360 / 1395: a squad mate's 1 (1360) completes with the user's search and gives the mate his own card (as Crucible
+  1401's cards); a mate's 2 and 5 (1395) complete with the user's search without the radio or power supply (only the user
+  gets those; nothing later needs them).
+- 1395: the Thrax Hand is kept at an abandon (CharacterOwned, as Crucible 1401's cards; the server's cleanup can not take a
+  character-owned item); each member's hand is taken when his own 6 completes. Taken again, the kept hand opens the new
+  cell, but 4 still waits for Kuutk.
+- 1360 / 1395: the doors and the cell are personal objects: a player without the mission is not shown them at all, and
+  creatures walk through them shut (the server has no door collision).
+- 1559: the Ashen navmesh does not join the door's pocket (N26): the marker before the door is checked on the client floor.
+  The caverns' navmesh is islands (upstream): creatures may not path between rooms; Kuutk and the Watch Post stand still.
+- 1395: the Power Supply is taken at the turn-in; Doomed Expedition (1447) asks to keep it: set 16 issues one at its accept.
 
 ## Server data that differs from the sources (not changed)
 

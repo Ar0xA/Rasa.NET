@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 49 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 52 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -9,7 +9,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 | Zone | Missions |
 | --- | ---: |
-| Ashen Desert | 49 |
+| Ashen Desert | 52 |
 
 ## Ashen Desert
 
@@ -1208,6 +1208,77 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **TaRapedia mission list** [Shadow's Edge Post mission list](https://tabularasa.fandom.com/wiki/Shadow%27s_Edge_Post_mission_list): zone Ashen Desert, area Shadow's Edge Post, given by Lieutenant Daniel Chase
 - **Drops / item sources:**
   - Captain Emmons can be found on Stonewall Ridge — source: client text
+
+### 1360 — Threshold
+
+
+- **Instance mentioned:** Indra Caverns — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - reward: 120,000 XP; 9,000 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold)
+  - drops / mission items: :Most were slaughtered during the attack, which must have come from somewhere within the caverns because our watch post at the entrance to the facility was attacked from behind — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold)
+  - location: zone Ashen Desert only
+- **Client:** Get rid of any Bane manning Indra Watch Post. Check for the body of Guard Bendal, you may be able to find his key card for access to the facility. Once inside, seek out Sergeant Drof and his team. If they are still alive, deliver the supply package Diren provided you and ask Drof if he needs your …
+  - objectives (client): Find Guard Rolim Bendal — Go to Indra Watch Post at the entrance of Indra Caverns and find the body of Guard Rolim Bendal. Search his body for a set of key cards to gain access to the …; Find the Missing Recon Team — Enter the Brann Facility and look for Sergeant Jonas Drof and his team. Deliver the supply package Major Diren provided you if he is still alive.; Take Back Indra Watch Post — Kill all of the Bane manning Indra Watch Post at the entrance to Indra Storage Facility.
+- **TaRapedia** [Threshold](https://tabularasa.fandom.com/wiki/Threshold): giver: Major Darkua Diren; at: Indra Caverns; zone: Ashen Desert; requires: Indra Caverns; follow-up: Vindication; XP: 120,000; credits: 9,000; reward from: Sergeant Jonas Drof
+  - overview: Get rid of any Bane manning Indra Watch Post. Check for the body of Guard Bendal, you may be able to find his key card for access to the facility. Once inside, seek out Sergeant Drof and his team. If they are still alive, deliver the supply package Diren provided you and ask Drof if he needs your …
+  - objectives: • Take Back Indra Watch Post • Find Guard Rolim Bendal • Find the Missing Recon Team
+  - walkthrough: Sergeant Jonas Drof is behind a door being attacked by a group of Thrax. Find the keycard on the body in the pillbox in front of the facility door, enter the facility, and wipe out the thrax attacking Drof. WARNING: Do NOT kill ahead of this mission. If you kill mobs before you get the mission and then get the mission you will end up having to do the mission over again.
+- **TaRapedia mission list** [Indra Caverns mission list](https://tabularasa.fandom.com/wiki/Indra_Caverns_mission_list): zone Ashen Desert, given by Major Darkua Diren
+- **Stratics TR forum** [boards.stratics.com:80/php-bin/tr/showflat.php?Cat=&Number=11594&page= …](https://web.archive.org/web/20071205163109/http://boards.stratics.com:80/php-bin/tr/showflat.php?Cat=&Number=11594&page=0&view=collapsed&sb=5&o=&fpart=1): “ough. I should be able to make my armor look like whichever skin of that category I want... ideally by paying credits at a crafting table. / -Cambios / Threshold RPG - Our World, Your Imagination / http://www.thresholdrpg.com / Yma”
+- **Drops / item sources:**
+  - :Most were slaughtered during the attack, which must have come from somewhere within the caverns because our watch post at the entrance to the facility was attacked from behind — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold)
+
+- **Chain** (explicit prerequisite links): Indra Caverns chain (4 missions), step 2
+  - Requires: Indra Caverns (id 1559) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Indra_Caverns_%28mission%29), [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold)
+  - Leads to: Vindication (id 1395) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold), [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication)
+- **Requires an instance mission:** Indra Caverns (1559) — source: the chain links above
+
+### 1395 — Vindication
+
+
+- **Instance mentioned:** Indra Caverns — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - reward: 110,000 XP; 8,800 credits; Vextronics Cryogenic Blade; Vextronics Virulent Disperser; Vextronics Endothermic Polarity Gun; Vextronics Cryogenic Leech Gun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication)
+  - drops / mission items: Use the Thrax Hand found on the Overseer's body to unlock Naimi's cell — source: client text
+  - location: zone Ashen Desert only
+- **Client:** Sergeant Drof has asked you to find his missing scouts. Scout Naimi has probably been captured and has the Power Supply needed to reactivate the console. Scout Aksrah has the Radio. It's likely he may have been killed. Find the two Scouts, retrieve the requested items, and return to Drof.
+  - objectives (client): Find Scout Aksrah — Find Scout Nunara Aksrah, or his body, and retrieve the missing radio.; Find Scout Naimi — Find and rescue Scout Hansa Naimi, and retrieve the power supply needed to activate the console in the Control Room.; Defeat Thrax Overseer Kuutk; Retrieve the Power Supply — Scout Naimi hid the power supply in a supply crate in one of the rooms in this facility before he was captured. Go get the power supply and return to Sergeant …; Free the Prisoner — Before you can rescue Scout Naimi, you'll need to find a way to unlock his cell. Use the Thrax Hand found on the Overseer's body to unlock Naimi's cell.
+- **TaRapedia** [Vindication](https://tabularasa.fandom.com/wiki/Vindication): giver: Sergeant Jonas Drof; at: Indra Caverns; zone: Ashen Desert; requires: Threshold; follow-up: Digging for the Truth; XP: 110,000; credits: 8,800; items: Vextronics Cryogenic Blade; Vextronics Virulent Disperser; Vextronics Endothermic Polarity Gun; Vextronics Cryogenic Leech Gun
+  - overview: Sergeant Drof has asked you to find his missing scouts. Scout Naimi has probably been captured and has the Power Supply needed to reactivate the console. Scout Aksrah has the Radio. It's likely he may have been killed. Find the two Scouts, retrieve the requested items, and return to Drof.
+  - objectives: • Find Scout Aksrah • Find Scout Naimi • Defeat Thrax Overseer Kuutk • Free the Prisoner • Retrieve the Power Supply
+- **TaRapedia mission list** [Indra Caverns mission list](https://tabularasa.fandom.com/wiki/Indra_Caverns_mission_list): zone Ashen Desert, given by Sergeant Jonas Drof
+- **Drops / item sources:**
+  - Use the Thrax Hand found on the Overseer's body to unlock Naimi's cell — source: client text
+
+- **Chain** (explicit prerequisite links): Indra Caverns chain (4 missions), step 3
+  - Requires: Threshold (id 1360) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold), [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication)
+  - Leads to: Digging for the Truth (id 1447) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Digging_for_the_Truth), [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication)
+
+### 1559 — Indra Caverns [instance]
+
+
+- **Instance:** Indra Caverns — client objective/log text: "Find Major Diren, he should be waiting for you just inside Indra Caverns."
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - reward: 60,000 XP; 6,750 credits; Class IX Concussion Grenade; Class IX Basic Med Pack; Class IX Fragmentation Grenade; Class IX EMP Bomb — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Indra_Caverns_%28mission%29)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Head into Indra Caverns and seek out Major Diren. He lost radio contact with a recon team inside the caverns after they were sent to investigate a Bane attack on an old Brann storage facility built inside the cave. The Major could probably use some assistance in finding his men.
+  - objectives (client): Locate Indra Caverns — Locate the entrance to Indra Caverns.; Find Major Diren — Find Major Diren, he should be waiting for you just inside Indra Caverns.
+- **TaRapedia** [Indra Caverns (mission)](https://tabularasa.fandom.com/wiki/Indra_Caverns_%28mission%29): giver: Surveyor Malya Odesha; at: Indra Pass; zone: Ashen Desert; requires: None; follow-up: Threshold; XP: 60,000; credits: 6,750; items: Class IX Concussion Grenade; Class IX Basic Med Pack; Class IX Fragmentation Grenade; Class IX EMP Bomb; reward from: Major Darkua Diren
+  - overview: Head into Indra Caverns and seek out Major Diren. He lost radio contact with a recon team inside the caverns after they were sent to investigate a Bane attack on an old Brann storage facility built inside the cave. The Major could probably use some assistance in finding his men.
+  - objectives: • Locate Indra Caverns • Find Major Diren
+  - walkthrough: Major Darkua Diren is right inside the instance.
+- **TaRapedia mission list** [Indra Caverns mission list](https://tabularasa.fandom.com/wiki/Indra_Caverns_mission_list): zone Ashen Desert, given by Surveyor Malya Odesha
+- **GiddyGamer TR guides** [www.giddygamer.com:80/tabula/content/basics/zones.pdf](https://web.archive.org/web/20100326124735/http://www.giddygamer.com:80/tabula/content/basics/zones.pdf): “Indra Caverns Y / Known base camps / Known Instances / Lvl 32 - indicates the monster levels encountered in an instance / Almost all vendors offer repairs and ammo, plus a selection of wares specific to their trade. / Wormholes transport a character to a different planet - you don't need prior knowledge to use them / Drop Ships transport a character to another (known) dropship location in any zone or zone instance / Waypoints transport a character to a different locale within the zone - you must have previously visited the destination waypoint / Local Teleporters are generally found in Large Bases and Instances / Hospitals are resurrection points - when you die, you will be allowed to choose in which (known) hospital you wish to be revived / Information is based on in-game conditions during late beta testing, and can/will change frequently and without notice. / Revision Date: 2007/11/18 Icons © NCsoft © the Giddy Gamer http://www.giddygamer.com”
+
+- **Chain** (explicit prerequisite links): Indra Caverns chain (4 missions), step 1
+  - Leads to: Threshold (id 1360) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Indra_Caverns_%28mission%29), [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold)
 
 ### 1736 — Echoes in the Sand
 
