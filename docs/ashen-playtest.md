@@ -478,9 +478,13 @@ navmesh of the caverns is islands (upstream, N-row in NOTES-upstream-bugs), so t
   Fragmentation Grenade 45448 x3, EMP Bomb 111234 x1.
 - [ ] 1360 Threshold (Ligo Ashen Desert): Diren offers it after 1559, level 43. The accept gives the Supply Package
   (97516). Walk north past the Watch Post: kill its two Bane (the Thrax Soldier in the low trench, the Ravager before the
-  facility door; marker r45 over both) for 3. Search Guard Rolim Bendal's body at (5, 16, -347), south-west of the pillbox,
-  for the Indra Facility Key Card (97518) and 1. Use the facility door at (82, 16.5, -328) (east, the Security Check Point):
-  the card opens it and is taken. Go through to the Control Room and talk to Drof (marker on him; open once 1 and 3 are
+  facility door; marker r45 over both) for 3. Search Guard Rolim Bendal's body in the pillbox at (9.5, 18.52, -336) (fix
+  I): from the Watch Post (-5, -351) east by (15, -350), (23, -345), (24, -345) along the pillbox's south side, then north
+  to its open east side (28, -337) and west in. Use the facility door, the Security Check Point entrance's door (fix I:
+  class 23160 at (64, 16, -328), its leaf across the 3 m tunnel at x 60-62): from (24, -345) by (32, -341), (37, -341),
+  (50, -330), (52, -329), then straight east along the tunnel's middle (z -328; its mouth at x 52, south of the dark panel
+  of the entrance's face at x 56): the card opens it and is taken. Walk these by hand: a walk on the server's navmesh stops
+  at the island ends (N29). Go through to the Control Room and talk to Drof (marker on him; open once 1 and 3 are
   done): he takes the package. Turn in at Drof: 120000 XP, 9000 credits, one of Graviton Legs 23957, Hazmat Helmet 20653,
   Reflective Gloves 35740, MotorAssist Helmet 28960. Check: the door stays shut without the card (the server refuses the
   use); in a squad each member on 1360 gets his own card at the search and his own door opens (his card taken) at the
@@ -516,8 +520,10 @@ All ESTIMATE (set 15):
   pool respawn 120 s (the upstream Indra Caverns pools'; in the squad's copy 45 minutes, SquadInstanceConfig).
 - 1559 after 1280 (Odesha's chain; TaRapedia names no requirement); 1 the whole map, 2 within 10 m of Diren (no talk in the
   client). The items the lowest templates of TaRapedia's four kinds, stack sizes as 1273's.
-- 1360: Bendal's body 9 m south-west of the pillbox, not in it (the pillbox has 1.8 m of headroom and its trench no way in on
-  the client floor); the facility door's place in the Check Point's jamb and its yaw sign; the door states 31/91.
+- 1360: Bendal's body in the pillbox (fix I, to-fix row 34; set 15 had it 9 m south-west of it, behind its wall); the
+  facility door's class and place (fix I: the entrance's own door UsableDoorBrannCorridorEntranceDoorV01 23160 at the
+  entrance's "door Proxy", set 15 had the 4 m corridor door 10749 in the jamb at (82, -328)) and its yaw; the door states
+  31/91; that the client lets a player through the terrain face in the entrance tunnel (x 58-59, as in the Ashoka corridor).
 - 1395: the three key-pass doors (dorm 152, the Science Lab, dorm 32) in the jambs of the rooms the mission goes into; the
   cell door's states 31/91 (10749's kind, no source for 24910); the crate's place in dorm 32.
 - Levels 42 (1559), 43 (1360, 1395) (triage D5). Rewards: TaRapedia's XP, credits and item kinds; the items the lowest

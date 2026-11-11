@@ -297,7 +297,7 @@ namespace Rasa.Test.Missions.Ashen
                 if (markers[i].At.Y - markerFloors[i] > 2)
                     failures.Add($"{markers[i].Label}: client floor {markerFloors[i]}");
             }
-            Assert.HasCount(14, places);
+            Assert.HasCount(13, places);
             Assert.IsEmpty(failures, $"{failures.Count}: " + string.Join("; ", failures));
 
             // 1559's door marker, on Ashen Desert.
@@ -346,12 +346,12 @@ namespace Rasa.Test.Missions.Ashen
                 var line = Line(legs);
                 if (WO.Clearance(line, hostile.Where(pool => pool.Id != own).ToList()) is { } close)
                     failures.Add(FormattableString.Invariant($"{label}: {close.Gap:0.0} m outside hostile pool {close.Pool}'s circle at ({close.At.X:0.0}, {close.At.Y:0.0})"));
-                if (door is { } shut && !Crosses(line, shut.At, shut.Yaw))
+                if (door is { } shut && !Crosses(line, shut.At, shut.Yaw, shut.Leaf, shut.Half))
                     failures.Add($"{label} does not cross its door's leaf");
             }
             var ends = new (string Walk, Vector3 Target)[]
             {
-                ("Diren from the arrival", V(N.DirenAt)), ("Bendal from the arrival", ToVector(Threshold.BendalAt)),
+                ("Diren from the arrival", V(N.DirenAt)), ("Bendal from the arrival", ToVector(AshenFixIV1.BendalAt)),
                 ("Aksrah from the facility door", ToVector(Vindication.AksrahAt)), ("Kuutk from the facility door", V(N.KuutkAt)),
                 ("Drof from the facility door", V(N.DrofAt)), ("before Naimi's cell from the facility door", V(Vindication.CellMarkerAt)),
                 ("the Supply Crate from the facility door", ToVector(Vindication.CrateAt))
@@ -487,10 +487,12 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.IsFalse(visible.Contains(hidden), $"{hidden} is hidden");
 
             var door = SceneObject(harness, copy, Threshold.MissionId, Threshold.DoorRole);
-            Assert.AreEqual((Threshold.DoorClass, UseObjectState.DoorStateClosed, Threshold.CardTemplate, ToVector(Threshold.DoorAt), harness.Client.Player.Id),
+            // Fix I: the entrance door (23160) at the Security Check Point entrance's door place, turned as the entrance.
+            Assert.AreEqual((AshenFixIV1.DoorClass, UseObjectState.DoorStateClosed, Threshold.CardTemplate, ToVector(AshenFixIV1.DoorAt), harness.Client.Player.Id),
                 ((uint)door.EntityClassId, door.StateId, door.Lock?.KeyItemTemplateId ?? 0, door.Position, door.SceneOwnerCharacterId), "the player's own door, locked to the card");
+            Assert.AreEqual(AshenFixIV1.DoorOrientation, door.Rotation, 1e-6, "the door turned as the entrance");
             var bendal = SceneObject(harness, copy, Threshold.MissionId, Threshold.CorpseRole);
-            Assert.AreEqual((Threshold.CorpseClass, (UseObjectState)Threshold.CorpseClosed, ToVector(Threshold.BendalAt)), ((uint)bendal.EntityClassId, bendal.StateId, bendal.Position));
+            Assert.AreEqual((Threshold.CorpseClass, (UseObjectState)Threshold.CorpseClosed, ToVector(AshenFixIV1.BendalAt)), ((uint)bendal.EntityClassId, bendal.StateId, bendal.Position));
             var other = harness.Context.CreateAdditionalClient(2, manager: harness.Manager);
             try
             {
@@ -1053,14 +1055,19 @@ namespace Rasa.Test.Missions.Ashen
             return (MathF.Abs(at.Y - pole.Y) >= OtherFloor ? Vector3.Distance(at, pole) : flat) - (float)pool.Radius;
         }
 
-        /// <summary>The set's places on Indra Caverns: label, place, whether it is seen from the ring, the height looked at, its own pool (0: none).</summary>
+        /// <summary>
+        /// The set's places on Indra Caverns: label, place, whether it is seen from the ring, the height looked at, its own pool
+        /// (0: none). Fix I: Bendal's body in the pillbox (AshenFixIV1.BendalAt); the facility door at the Security Check Point
+        /// entrance's door place, in a tunnel the navmesh does not cover (upstream N29), is checked on its own
+        /// (AshenFixITests.TheFacilityDoorClosesTheEntranceTunnel).
+        /// </summary>
         internal static List<(string Label, Vector3 At, bool Ring, float Middle, uint Own)> Places() => new()
         {
             ("Major Diren", V(N.DirenAt), true, F.NpcMiddle, 0), ("Sergeant Drof", V(N.DrofAt), true, F.NpcMiddle, 0),
             ("Scout Naimi", V(N.NaimiAt), false, F.NpcMiddle, 0), ("Overseer Kuutk", V(N.KuutkAt), true, F.NpcMiddle, N.KuutkPool),
             ("the Watch Post's west Thrax", V(N.WatchPostWestAt), false, 0, N.WatchPostWest), ("the Watch Post's east Thrax", V(N.WatchPostEastAt), false, 0, N.WatchPostEast),
-            ("Bendal's body", ToVector(Threshold.BendalAt), true, F.ObjectMiddle, 0), ("Aksrah's body", ToVector(Vindication.AksrahAt), true, F.ObjectMiddle, 0),
-            ("the Supply Crate", ToVector(Vindication.CrateAt), true, F.ObjectMiddle, 0), ("the facility door", ToVector(Threshold.DoorAt), false, 0, 0),
+            ("Bendal's body", ToVector(AshenFixIV1.BendalAt), true, F.ObjectMiddle, 0), ("Aksrah's body", ToVector(Vindication.AksrahAt), true, F.ObjectMiddle, 0),
+            ("the Supply Crate", ToVector(Vindication.CrateAt), true, F.ObjectMiddle, 0),
             ("the dorm 152 door", ToVector(Vindication.Doors[0].At), false, 0, 0), ("the Science Lab door", ToVector(Vindication.Doors[1].At), false, 0, 0),
             ("the dorm 32 door", ToVector(Vindication.Doors[2].At), false, 0, 0), ("Naimi's cell", ToVector(Vindication.CellAt), false, 0, 0)
         };
@@ -1080,7 +1087,12 @@ namespace Rasa.Test.Missions.Ashen
                 new(-53, 8.6f, -395), new(-53, 8.4f, -393), new(-52, 7.86f, -391), new(-45, 6.64f, -383), new(-41, 7.83f, -375), new(-41, 6.65f, -362),
                 new(-39, 6.3f, -357), new(-36, 6.3f, -355), new(-31, 5.93f, -353), new(-26, 8.05f, -353), new(-25, 9.05f, -353), new(-5, 10.68f, -351)
             },
-            ["the Watch Post to Bendal"] = new Vector3[] { new(-5, 10.68f, -351), new(7, 16.93f, -350), new(5, 16f, -347) },
+            // Fix I: Bendal in the pillbox, by the way to the facility door past the pillbox's south side, then in at its open
+            // east side (the real client walked into the pillbox from the north on the navmesh's path, to-fix row 34).
+            ["the Watch Post to Bendal"] = new Vector3[]
+            {
+                new(-5, 10.68f, -351), new(15, 18.8f, -350), new(23, 18.61f, -345), new(24, 19f, -345), new(28, 16.43f, -337), new(9.5f, 18.52f, -336)
+            },
             ["the Watch Post to behind the facility door"] = new Vector3[]
             {
                 new(-5, 10.68f, -351), new(15, 18.8f, -350), new(23, 18.61f, -345), new(24, 19f, -345), new(32, 18.8f, -341), new(37, 17.93f, -341),
@@ -1128,17 +1140,22 @@ namespace Rasa.Test.Missions.Ashen
             }
         };
 
-        /// <summary>The walks: label, its legs, the target's own pool (0: none), the door it crosses (null: none).</summary>
-        internal static List<(string Label, string[] Legs, uint Own, (Vector3 At, double Yaw)? Door)> Walks()
+        /// <summary>
+        /// The walks: label, its legs, the target's own pool (0: none), the door it crosses (null: none): its place, yaw, its
+        /// leaf's plane along its local z and the leaf's half width (the 4 m corridor door 10749: 0, 3.52; fix I's entrance
+        /// door 23160: the middle of its box's z -4.2..-2.3, 1.7).
+        /// </summary>
+        internal static List<(string Label, string[] Legs, uint Own, (Vector3 At, double Yaw, float Leaf, float Half)? Door)> Walks()
         {
             const string Way = "the arrival to Diren", Post = "Diren to the Watch Post", In = "the Watch Post to behind the facility door";
             const string East = "behind the door to the east corridor", Hall = "the east corridor to the hall";
-            (Vector3, double)? Door(int index) => (ToVector(Vindication.Doors[index].At), Vindication.Doors[index].Orientation);
+            (Vector3, double, float, float)? Door(int index) => (ToVector(Vindication.Doors[index].At), Vindication.Doors[index].Orientation, 0f, 3.52f);
             return new()
             {
                 ("Diren from the arrival", new[] { Way }, 0, null),
                 ("Bendal from the arrival", new[] { Way, Post, "the Watch Post to Bendal" }, 0, null),
-                ("behind the facility door from the arrival", new[] { Way, Post, In }, 0, (ToVector(Threshold.DoorAt), Threshold.DoorOrientation)),
+                ("behind the facility door from the arrival", new[] { Way, Post, In }, 0, (ToVector(AshenFixIV1.DoorAt), AshenFixIV1.DoorOrientation,
+                    (AshenFixIV1.LeafNear + AshenFixIV1.LeafFar) / 2, AshenFixIV1.LeafHalfWidth)),
                 ("Aksrah from the facility door", new[] { East, "the east corridor to Aksrah" }, 0, Door(0)),
                 ("Kuutk from the facility door", new[] { East, Hall, "the hall to Kuutk" }, N.KuutkPool, Door(1)),
                 ("Drof from the facility door", new[] { East, Hall, "the hall to Drof" }, 0, null),
@@ -1148,15 +1165,18 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>A walk's legs as one line.</summary>
-        private static List<Vector3> Line(IEnumerable<string> legs) =>
+        internal static List<Vector3> Line(IEnumerable<string> legs) =>
             legs.SelectMany((leg, index) => index == 0 ? Legs[leg] : Legs[leg].Skip(1)).ToList();
 
-        /// <summary>Whether the line crosses a 4 m Brann door's leaf (local x +-3.52) placed at <paramref name="door"/> with yaw <paramref name="yaw"/>.</summary>
-        private static bool Crosses(List<Vector3> line, Vector3 door, double yaw)
+        /// <summary>
+        /// Whether the line crosses a door's leaf (local x +-<paramref name="half"/>, in the plane local z <paramref name="leaf"/>)
+        /// placed at <paramref name="door"/> with yaw <paramref name="yaw"/>: a 4 m Brann door's 3.52 m at z 0 by default.
+        /// </summary>
+        internal static bool Crosses(List<Vector3> line, Vector3 door, double yaw, float leaf = 0, float half = 3.52f)
         {
             var (sin, cos) = ((float)Math.Sin(yaw), (float)Math.Cos(yaw));
             // The door's local z axis (its normal) in the world (yaw about y): (sin, 0, cos); its local x: (cos, 0, -sin).
-            float Along(Vector3 p) => (p.X - door.X) * sin + (p.Z - door.Z) * cos;
+            float Along(Vector3 p) => (p.X - door.X) * sin + (p.Z - door.Z) * cos - leaf;
             float Across(Vector3 p) => (p.X - door.X) * cos - (p.Z - door.Z) * sin;
             for (var i = 0; i + 1 < line.Count; i++)
             {
@@ -1164,7 +1184,7 @@ namespace Rasa.Test.Missions.Ashen
                 if (a * b > 0 || MathF.Abs(a - b) < 0.001f)
                     continue;
                 var at = Vector3.Lerp(line[i], line[i + 1], a / (a - b));
-                if (MathF.Abs(Across(at)) <= 3.52f && MathF.Abs(at.Y - door.Y) < 3)
+                if (MathF.Abs(Across(at)) <= half && MathF.Abs(at.Y - door.Y) < 3)
                     return true;
             }
             return false;

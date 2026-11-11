@@ -869,7 +869,8 @@ namespace Rasa.Test.Missions.Ashen
                         && !(AshenFixEV1.Evidences.Any(fix => fix.Mission == mission) && entry.EvidenceId == AshenFixEV1.Evidence)
                         && !AshenFixFV1.Evidences.Any(fix => fix.Mission == mission && fix.Evidence == entry.EvidenceId && entry.SourceUri == AshenFixFV1.Source)
                         && !AshenFixGV1.Evidences.Any(fix => fix.Mission == mission && fix.Evidence == entry.EvidenceId && entry.SourceUri == AshenFixGV1.Source)
-                        && !(mission == AshenFixHV1.Mission && entry.EvidenceId == AshenFixHV1.EvidenceId && entry.SourceUri == AshenFixHV1.Source))
+                        && !(mission == AshenFixHV1.Mission && entry.EvidenceId == AshenFixHV1.EvidenceId && entry.SourceUri == AshenFixHV1.Source)
+                        && !(mission == AshenFixIV1.Mission && entry.EvidenceId == AshenFixIV1.EvidenceId && entry.SourceUri == AshenFixIV1.Source))
                         .OrderBy(entry => entry.EvidenceId)
                         .Select(entry => (entry.SourceKind, entry.Confidence)).ToArray(), $"{mission} evidence");
         }
@@ -1122,7 +1123,8 @@ namespace Rasa.Test.Missions.Ashen
                 (1559, 1, 305, 326, 6), (1559, 2, -53, -395, 8),
                 // Fix H: 1559's second objective 1 marker on the valley's lift pad 913.
                 (1559, 1, AshenFixHV1.LowerPadAt.X, AshenFixHV1.LowerPadAt.Z, AshenFixHV1.MarkerRadius),
-                (1360, 1, 5, -347, 8), (1360, 2, -5, -221, 8), (1360, 3, 4, -345.5, 45),
+                // Fix I: 1360's Bendal marker with his body in the pillbox.
+                (1360, 1, AshenFixIV1.BendalAt.X, AshenFixIV1.BendalAt.Z, 8), (1360, 2, -5, -221, 8), (1360, 3, 4, -345.5, 45),
                 (1395, 2, 153, -296, 8), (1395, 3, 9.83, -244.76, 8), (1395, 4, 59, -403, 10), (1395, 5, 24, -284, 8), (1395, 6, 12.5, -243, 5)
             };
             Assert.HasCount(Indicators + CavernsIndicators, expected);
@@ -2668,7 +2670,8 @@ namespace Rasa.Test.Missions.Ashen
         /// UsableTwoStateBrannLightningResistorV01 (10196) has None and sends 1, named 68 "Indra Lightning Resistor"
         /// (LIGO_ASHEN_INDRA_RESISTOR). Set 15: the Brann door UsableDoorBrannCorridor04mV01 (10749), the Bane cell door
         /// UsableDoorBaneEnslaverCellV01 (24910) and the crate UsableTreasureDispHumCrateV01 (7861) have None and send 1; 1360's
-        /// Bendal (24995) named 121, 1395's Aksrah (7865) 134 and crate 143 (usablenameoverride); the doors their own names.
+        /// Bendal (24995) named 121, 1395's Aksrah (7865) 134 and crate 143 (usablenameoverride); the doors their own names. Fix
+        /// I: 1360's facility door the entrance door UsableDoorBrannCorridorEntranceDoorV01 (23160), None, sends 1, its own name.
         /// </summary>
         [TestMethod]
         public void EveryUsableSceneObjectTakesTheClientsUseArgument()
@@ -2676,12 +2679,12 @@ namespace Rasa.Test.Missions.Ashen
             var clientUseArguments = new Dictionary<uint, uint>
             {
                 [7847] = 3, [24995] = 1, [7865] = 1, [24989] = 1, [24990] = 1, [7334] = 1, [9478] = 1, [7904] = 1,
-                [7928] = 1, [10196] = 1, [10749] = 1, [24910] = 1, [7861] = 1
+                [7928] = 1, [10196] = 1, [10749] = 1, [24910] = 1, [7861] = 1, [23160] = 1
             };
             var clientUseNames = new Dictionary<uint, uint>
             {
                 [7847] = 71, [24995] = 63, [7865] = 63, [24989] = 63, [24990] = 63, [7334] = 0, [9478] = 65, [7904] = 66,
-                [7928] = 67, [10196] = 68, [10749] = 0, [24910] = 0, [7861] = 143
+                [7928] = 67, [10196] = 68, [10749] = 0, [24910] = 0, [7861] = 143, [23160] = 0
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var used = 0;
