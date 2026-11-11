@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 46 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 49 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -9,7 +9,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 | Zone | Missions |
 | --- | ---: |
-| Ashen Desert | 46 |
+| Ashen Desert | 49 |
 
 ## Ashen Desert
 
@@ -813,6 +813,25 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
   - Requires: Court Martial Arts (id 1261) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Dearly_Departed), this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - Leads to: Robotic Salvage Acquisitions (id 1267) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Acquisitions), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
+### 1286 — Precious Tools
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - reward: 190000 XP; 8400 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Precious_Tools)
+  - drops / mission items: Dropped by Overseer Jirex — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Precious_Tools)
+  - location: zone Ashen Desert only
+- **Client:** Mechanic Raji Lasat in Ashoka Settlement has lost his lucky wrench while scavenging for parts in the Boneyard. He believes that one of the Thrax took it. Return Raji's Lucky Wrench to Mechanic Raji Lasat once you have found it.
+  - objectives (client): Recover Raji's Lucky Wrench
+- **TaRapedia** [Precious Tools](https://tabularasa.fandom.com/wiki/Precious_Tools) [stub]: giver: Mechanic Raji Lasat; at: Ashoka Settlement; zone: Ashen Desert; follow-up: None; XP: 190000; credits: 8400; reward from: Mechanic Raji Lasat
+  - overview: Mechanic Raji Lasat in Ashoka Settlement has lost his lucky wrench while scavenging for parts in the Boneyard. He believes that one of the Thrax took it. Return Raji's Lucky Wrench once you have found it.
+  - objectives: • Recover Raji's Lucky Wrench
+  - walkthrough: Dropped by Overseer Jirex.
+- **TaRapedia mission list** [Ashoka Settlement mission list](https://tabularasa.fandom.com/wiki/Ashoka_Settlement_mission_list): zone Ashen Desert, area Ashoka Settlement, given by Mechanic Raji Lasat
+- **Drops / item sources:**
+  - Dropped by Overseer Jirex — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Precious_Tools)
+
 ### 1287 — Designer Jewelry Gone Wrong
 
 
@@ -1171,4 +1190,46 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **PlayTR EU** [eu.rgtr.com:80/en/news_article/patch_notes_and_known_issues_11th_decem …](https://web.archive.org/web/20071218075407/http://eu.rgtr.com:80/en/news_article/patch_notes_and_known_issues_11th_december_2007): “Ligo Ashen Desert: / * Mission “Gas Shortages”: Fixed a bug that prevented players from completing the mission if they got disconnected between setting a bomb and receiving credit / * Mission “The Strongest Link”: Linkers around the Bane Conscription Control Point now properly give player kill credit.”
 - **PlayTR EU** [eu.rgtr.com:80/en/news_article/patch_notes_and_known_issues_29th_novem …](https://web.archive.org/web/20071201203306/http://eu.rgtr.com:80/en/news_article/patch_notes_and_known_issues_29th_november_2007): “Mission Error:Ashen Desert: “Gas Shortages” mission cannot be completed due to faulty bomb receptacles on gas pumps if you are disconnected from the server during the mission.”
 - **Stratics TR forum** [boards.stratics.com:80/php-bin/tr/showflat.php?Cat=&Number=11987&page= …](https://web.archive.org/web/20071221003621/http://boards.stratics.com:80/php-bin/tr/showflat.php?Cat=&Number=11987&page=0&view=collapsed&sb=5&o=&fpart=1): “dropships do not always give mission items. / Mission Error:Ashen Desert: "Gas Shortages" mission cannot be completed due / to faulty bomb receptacles on gas pumps if you are disconnected from the server”
+
+### 1358 — Supply Logistics
+
+
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - reward: 95,000 XP; 6,300 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Supply_Logistics)
+  - drops / mission items: Captain Emmons can be found on Stonewall Ridge — source: client text
+  - location: zone Ashen Desert only
+- **Client:** Deliver the Tactical Military Supplies to the 5 Captains in the field. Captain Botha and Captain Harris can be found in Ashoka Settlement. Captain Yamamoto can be found in the Boneyard. Captain Emmons can be found on Stonewall Ridge. Captain Linier can be found in White Oasis Post. Report back to …
+  - objectives (client): Deliver to Captain Botha; Deliver to Captain Harris; Deliver to Captain Emmons; Deliver to Captain Yamamoto; Deliver to Captain Linier
+- **TaRapedia** [Supply Logistics](https://tabularasa.fandom.com/wiki/Supply_Logistics): giver: Lieutenant Daniel Chase; at: Shadow's Edge Post; zone: Ashen Desert; requires: None; follow-up: None; XP: 95,000; credits: 6,300; reward from: Lieutenant Daniel Chase
+  - overview: Deliver the Tactical Military Supplies to the 5 Captains in the field. Captain Botha and Captain Harris can be found in Ashoka Settlement. Captain Yamamoto can be found in The Boneyard. Captain Emmons can be found on Stonewall Ridge. Captain Linier can be found in White Oasis Post. Report back to …
+  - objectives: • Deliver to Captain Botha • Deliver to Captain Harris • Deliver to Captain Emmons • Deliver to Captain Yamamoto • Deliver to Captain Linier
+- **TaRapedia mission list** [Shadow's Edge Post mission list](https://tabularasa.fandom.com/wiki/Shadow%27s_Edge_Post_mission_list): zone Ashen Desert, area Shadow's Edge Post, given by Lieutenant Daniel Chase
+- **Drops / item sources:**
+  - Captain Emmons can be found on Stonewall Ridge — source: client text
+
+### 1736 — Echoes in the Sand
+
+
+- **Rebuild summary:**
+  - level: 30 — source: [TR MMO DB](https://web.archive.org/web/20081216162301/http://tr.mmodb.com:80/quests/echoes-in-the-sand-642.php)
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - reward: 190,000 XP; 8,400 credits; Vextronics Laser Pistol; Vextronics Laser Rifle; Vextronics Photonic Shotgun; Vextronics Laser Chaingun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Echoes_in_the_Sand)
+  - reward: 8400 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081216162301/http://tr.mmodb.com:80/quests/echoes-in-the-sand-642.php)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Escort the collaborative research team into Daedalus' Landing and recover information from the crash site. Once you've collected sufficient information, report back to Captain Botha at Ashoka Settlement.
+  - objectives (client): Escort Researchers to Daedalus' Landing — Protect Researcher Jackson and Researcher Yorish and take them to Daedalus' Landing to investigate the crash site. If either researcher is killed, then you …; Escort Researchers back to Ashoka — With the data collected by the research team, return to Ashoka Settlement and report to Captain Botha.; Syndicate Researcher; AFS Researcher; Ambushes
+- **TaRapedia** [Echoes in the Sand](https://tabularasa.fandom.com/wiki/Echoes_in_the_Sand) [stub]: giver: Captain Amandla Botha; at: Ashoka Settlement; zone: Ashen Desert; requires: It Came From Erdas; follow-up: None; XP: 190,000; credits: 8,400; items: Vextronics Laser Pistol; Vextronics Laser Rifle; Vextronics Photonic Shotgun; Vextronics Laser Chaingun; reward from: Captain Amandla Botha
+  - overview: ToDo
+  - objectives: • Escort Researchers to Deadalus' Landing • Escort Researchers back to Ashoka • With the data collected by the research team, return to Ashoka Settlement and report to Captain Botha.
+  - walkthrough: When I reached Deadalus' Landing and did the first part of the mission, the research team accidentally got killed. (Revive tools don't work) However, I was able to complete the second half of the mission. 29 September 2008, Mdagli1
+- **TaRapedia mission list** [Ashoka Settlement mission list](https://tabularasa.fandom.com/wiki/Ashoka_Settlement_mission_list): zone Ashen Desert, area Ashoka Settlement, given by Captain Amandla Botha
+- **TR MMO DB** [Echoes in the Sand](https://web.archive.org/web/20081216162301/http://tr.mmodb.com:80/quests/echoes-in-the-sand-642.php): level: 30; starts at npc: Captain Amandla Botha; starts in zone: Ashen Desert; objectives: Escort Researchers to Daedalus' Landing, Escort Researchers back to Ashoka; reward: 8400
+- **TR MMO DB NPC** [Captain Amandla Botha](https://web.archive.org/web/20081216161843/http://tr.mmodb.com:80/bestiary/captain-amandla-botha-1022.php): Quest NPC, location Ashoka Settlement, zone Ashen Desert (starts this quest)
+
+- **Chain** (explicit prerequisite links): Calendar Girl chain (10 missions), step 7
+  - Requires: It Came From Erdas (id 1218) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Echoes_in_the_Sand), [TaRapedia](https://tabularasa.fandom.com/wiki/It_Came_From_Erdas)
 

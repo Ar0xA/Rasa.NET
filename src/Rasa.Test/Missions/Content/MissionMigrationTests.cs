@@ -103,7 +103,8 @@ namespace Rasa.Test.Missions.Content
                 .Concat(Rasa.Test.Missions.Pools.PoolsMissionTests.MissionIds)
                 .Concat(Rasa.Test.Missions.Marshes.MarshesMissionTests.MissionIds)
                 .Concat(Rasa.Test.Missions.Crucible.CrucibleMissionTests.MissionIds)
-                .Concat(Rasa.Test.Missions.Ashen.AshenMissionTests.MissionIds).ToArray();
+                .Concat(Rasa.Test.Missions.Ashen.AshenMissionTests.MissionIds)
+                .Concat(Rasa.Test.Missions.Ashen.AshenMissionTests.OnCrucibleRevision).ToArray();
             var expected = WildernessMissionCases.ProtectedBootcampMissionIds.Concat(
                 WildernessMissionCases.All.Where(entry => entry.Disposition == WildernessDisposition.OutdoorRelease)
                     .Select(entry => entry.MissionId)).ToArray();

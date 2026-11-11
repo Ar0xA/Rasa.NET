@@ -12,7 +12,8 @@ namespace Rasa.Services.Preloader.Missions.Crucible
     /// <summary>
     /// It Came From Erdas (native mission 1218), Ligo Crucible and Ashen Desert: the Kardash Eloh Obelisk gives the player the
     /// Eloh Memory Capsule from the escape pod; Professor Tiernan hears of it and sends the player to Captain Botha at the
-    /// Ashoka Settlement in Ashen Desert. Its follow-up Echoes in the Sand (1736, Ashen Desert) is not built.
+    /// Ashoka Settlement in Ashen Desert. Its follow-up Echoes in the Sand (1736, Ashen Desert) is AshenEchoesInTheSandV1
+    /// (Ashen set 14, on this revision: the chain stays on one revision).
     ///
     /// Native: texts 9589-9592, 9593 (missionconversation; 9593 "none"): log "Return to Professor Tiernan at the Eloh Crash site
     /// at Devil's Pitchfork and tell him of your discovery, then deliver the artifact to Captain Botha in Ashen Desert.", offer

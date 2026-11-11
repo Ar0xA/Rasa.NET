@@ -76,7 +76,9 @@ namespace Rasa.Test.Missions.Ashen
             AshenDesignerJewelryV1.MissionId, AshenLatestRageV1.MissionId, AshenWouldntWearItV1.MissionId, AshenNewFadV1.MissionId,
             AshenAnalyzingHarvestersV1.MissionId, AshenMurkyWatersV1.MissionId, AshenPryingEyesV1.MissionId, AshenGasShortagesV1.MissionId,
             AshenWaterPurificationV1.MissionId, AshenNeurotoxinsV1.MissionId, AshenPoisoningTheWellwaterV1.MissionId,
-            AshenMissingScientistsV1.MissionId, AshenGodOfStormsV1.MissionId, AshenBondsOfBloodV1.MissionId
+            AshenMissingScientistsV1.MissionId, AshenGodOfStormsV1.MissionId, AshenBondsOfBloodV1.MissionId,
+            // Set 14 (Echoes in the Sand 1736 is on the Crucible's revision: AshenAshokaTests pins it).
+            AshenSupplyLogisticsV1.MissionId, AshenPreciousToolsV1.MissionId
         };
 
         /// <summary>
@@ -96,9 +98,16 @@ namespace Rasa.Test.Missions.Ashen
         /// on the Lasher pools and one on Molly, 1291's three on the Beam Manta pools and one on Trudy); set 11's eleven (1295's
         /// four on the panels, 1298's three at Hale, 1303's on Ulovik, 1356's three on the fuel pumps); set 12's ten (1299's two
         /// on set 10's Granitour pools, 1300's four on the Lasher pools, 1302's four on the panels); set 13's thirteen (1280's on Veyon's body, 1281's ten on the resistors, 1282's on
-        /// Maiek's body and at Endala); fix F's one (1287's on its own Ashen Atta Soldier pool 790378).
+        /// Maiek's body and at Endala); fix F's one (1287's on its own Ashen Atta Soldier pool 790378); set 14's six (1358's five
+        /// at the captains, 1286's on Jirex; 1736's two are on the Crucible's revision, AshenAshokaTests).
         /// </summary>
-        internal const int Indicators = 5 + 12 + 10 + 6 + 20 + 9 + 13 + 13 + 7 + 15 + 11 + 10 + 13 + 1;
+        /// <summary>Echoes in the Sand (1736): an Ashen Desert mission on the Crucible's revision (the 1218 chain), not in MissionIds (the Ashen revision's); AshenAshokaTests pins it.</summary>
+        internal static readonly uint[] OnCrucibleRevision = { AshenEchoesInTheSandV1.MissionId };
+
+        /// <summary>1736's two markers (on the obelisk, at Botha), on the Crucible's revision.</summary>
+        internal const int EchoesIndicators = 2;
+
+        internal const int Indicators = 5 + 12 + 10 + 6 + 20 + 9 + 13 + 13 + 7 + 15 + 11 + 10 + 13 + 1 + 6;
 
         private const string LeadIns = "20271110000000_Ashen_lead_ins";
         private const string MaunaBarrens = "20271110000100_Ashen_mauna_barrens";
@@ -114,6 +123,7 @@ namespace Rasa.Test.Missions.Ashen
         private const string WhiteOasis = "20271110001100_Ashen_white_oasis";
         private const string MurkyWaters = "20271110001200_Ashen_murky_waters";
         private const string IndraPass = "20271110001300_Ashen_indra_pass";
+        private const string Ashoka = "20271110001400_Ashen_ashoka";
         private const uint Map = 1734;
         private const double CrateX = 537, CrateZ = -267;     // 1275's crate by the Boneyard wreck at (537, 282, -279) (the probe of 2026-11-10)
 
@@ -178,7 +188,8 @@ namespace Rasa.Test.Missions.Ashen
                 (1287, Ida, Ida, 41), (1293, Ida, Ida, 42), (1289, Ida, Ida, 41), (1291, Ida, Ida, 42),
                 (1295, DarisLinier, Meeks, 41), (1298, Meeks, Hale, 41), (1303, DarisLinier, DarisLinier, 41), (1356, Fontecilla, Fontecilla, 41),
                 (1299, Meeks, Meeks, 42), (1300, Hale, Hale, 42), (1302, Hale, Hale, 42),
-                (1280, Odesha, Odesha, 41), (1281, Odesha, Odesha, 42), (1282, Endala, Endala, 42)
+                (1280, Odesha, Odesha, 41), (1281, Odesha, Odesha, 42), (1282, Endala, Endala, 42),
+                (1358, AshenAshokaNpcsV1.Chase, AshenAshokaNpcsV1.Chase, 41), (1286, AshenIndraPassNpcsV1.Raji, AshenIndraPassNpcsV1.Raji, 42)
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var enabled = harness.World.MissionContentDefinitionEntries.AsNoTracking()
@@ -340,7 +351,10 @@ namespace Rasa.Test.Missions.Ashen
                     (6, 10344, 10345, null), (7, 10346, 10347, null), (8, 10348, 10349, null), (9, 10350, 10351, null), (10, 10352, 10353, null),
                     (11, 11175, 11176, 11177)
                 }),
-                (1282, 10324, new (uint, uint, uint, uint?)[] { (1, 10329, 10330, null), (2, 10331, 10332, null), (3, 11173, 11174, null) })
+                (1282, 10324, new (uint, uint, uint, uint?)[] { (1, 10329, 10330, null), (2, 10331, 10332, null), (3, 11173, 11174, null) }),
+                // Set 14 (missionobjective 1358, 1286): no counter texts.
+                (1358, 11159, new (uint, uint, uint, uint?)[] { (1, 11452, 11453, null), (2, 11455, 11456, null), (3, 11458, 11459, null), (4, 11461, 11462, null), (5, 11464, 11465, null) }),
+                (1286, 10377, new (uint, uint, uint, uint?)[] { (1, 10382, 10383, null) })
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             foreach (var (mission, title, objectives) in expected)
@@ -381,7 +395,10 @@ namespace Rasa.Test.Missions.Ashen
                 (1283, 1, 1414, 1), (1284, 1, 1476, 1),
                 // Set 11: 1298,1 Hale's choice (1478, variant 1, a trigger for each of its two choices), 1298,2 1478 variant 257
                 // (the poison), 1298,3 1478 variant 258 (the repair).
-                (1298, 1, 1478, 1), (1298, 1, 1478, 1), (1298, 2, 1478, 257), (1298, 3, 1478, 258)
+                (1298, 1, 1478, 1), (1298, 1, 1478, 1), (1298, 2, 1478, 257), (1298, 3, 1478, 258),
+                // Set 14: 1358's five deliveries (objectiveconversation 1358,1-5: 1410 Botha, 1412 Harris, 1411 Emmons, 1414
+                // Yamamoto, 1476 Daris Linier; variant 1).
+                (1358, 1, 1410, 1), (1358, 2, 1412, 1), (1358, 3, 1411, 1), (1358, 4, 1414, 1), (1358, 5, 1476, 1)
             }, talks);
 
             // Set 11: 1295's four panels and 1356's three pumps are scene results 1-4 and 1-3 (counter 1); 1303 Ulovik 520006, once.
@@ -967,13 +984,13 @@ namespace Rasa.Test.Missions.Ashen
                 .Select(entry => new { entry.MissionId, entry.ObjectiveId }).ToList()
                 .Select(entry => (entry.MissionId, entry.ObjectiveId)).ToHashSet();
             var scenes = Scenes(harness);
-            CollectionAssert.AreEquivalent(new uint[] { 1243, 1245, 1263, 1352, 1354, 1254, 1259, 1261, 1285, 1264, 1265, 1266, 1267, 1268, 1269, 1275, 1277, 1278, 1287, 1289, 1291, 1293, 1295, 1298, 1356, 1299, 1300, 1302, 1280, 1281, 1282 }, scenes.Select(scene => scene.MissionId).ToArray(), "the scenes");
+            CollectionAssert.AreEquivalent(new uint[] { 1243, 1245, 1263, 1352, 1354, 1254, 1259, 1261, 1285, 1264, 1265, 1266, 1267, 1268, 1269, 1275, 1277, 1278, 1287, 1289, 1291, 1293, 1295, 1298, 1356, 1299, 1300, 1302, 1280, 1281, 1282, 1358, 1286, 1736 }, scenes.Select(scene => scene.MissionId).ToArray(), "the scenes");
             var hidden = scenes.SelectMany(scene => (scene.Scene.HiddenObjectiveIds ?? new()).Select(objective => (scene.MissionId, objective))).ToHashSet();
-            CollectionAssert.AreEquivalent(new[] { (1263U, 2U), (1254U, 4U), (1278U, 7U), (1298U, 4U), (1281U, 11U), (1282U, 3U) }, hidden.ToArray(),
-                "1263's tally, 1254's and 1298's outcomes, 1278's losses and set 13's two Flag Readers (1281's tally, 1282's close), hidden");
+            CollectionAssert.AreEquivalent(new[] { (1263U, 2U), (1254U, 4U), (1278U, 7U), (1298U, 4U), (1281U, 11U), (1282U, 3U), (1736U, 3U), (1736U, 4U), (1736U, 5U), (1736U, 6U) }, hidden.ToArray(),
+                "1263's tally, 1254's and 1298's outcomes, 1278's losses, set 13's two Flag Readers (1281's tally, 1282's close) and 1736's helpers (the researchers, the ambushes, the first pair's tally), hidden");
             var objectives = world.MissionObjectiveDefinitionEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision)
                 .Select(entry => new { entry.MissionId, entry.ObjectiveId }).ToList();
-            Assert.HasCount(5 + 2 + 1 + 1 + 5 + 2 + 1 + 4 + 1 + 2 + 1 + 11 + 3 + 2 + 4 + 1 + 1 + 1 + 1 + 2 + 2 + 2 + 2 + 2 + 2 + 1 + 4 + 3 + 2 + 2 + 2 + 2 + 4 + 4 + 1 + 3 + 1 + 1 + 4 + 1 + 11 + 3, objectives, "the objectives are read");
+            Assert.HasCount(5 + 2 + 1 + 1 + 5 + 2 + 1 + 4 + 1 + 2 + 1 + 11 + 3 + 2 + 4 + 1 + 1 + 1 + 1 + 2 + 2 + 2 + 2 + 2 + 2 + 1 + 4 + 3 + 2 + 2 + 2 + 2 + 4 + 4 + 1 + 3 + 1 + 1 + 4 + 1 + 11 + 3 + 5 + 1, objectives, "the objectives are read");
             var missing = objectives.Select(entry => (entry.MissionId, entry.ObjectiveId)).Where(key => !marked.Contains(key) && !hidden.Contains(key))
                 .OrderBy(key => key).ToArray();
             Assert.IsFalse(hidden.Any(marked.Contains), "no marker on a hidden objective");
@@ -1061,7 +1078,10 @@ namespace Rasa.Test.Missions.Ashen
                 (1280, 1, 178, 536, 8),
                 (1281, 1, 158, 541, 8), (1281, 2, 60, 551, 8), (1281, 3, 201, 525, 8), (1281, 4, 174, 462, 8), (1281, 5, 130, 500, 8),
                 (1281, 6, 176, 496, 8), (1281, 7, 66, 599, 8), (1281, 8, 96, 462, 8), (1281, 9, 124, 532, 8), (1281, 10, 96, 554, 8),
-                (1282, 1, 344, -72, 8), (1282, 2, 112, 458, 8)
+                (1282, 1, 344, -72, 8), (1282, 2, 112, 458, 8),
+                // Set 14: 1358 at the five captains (Botha, Harris, Emmons, Yamamoto, Daris Linier), 1286 on Jirex (r15).
+                (1358, 1, 378, -458.5, 8), (1358, 2, 405, -459.5, 8), (1358, 3, -62, -414, 8), (1358, 4, 686, -495, 8), (1358, 5, -507.4, 162.4, 8),
+                (1286, 1, 426.8, -261, 15)
             };
             Assert.HasCount(Indicators, expected);
             foreach (var (mission, objective, x, z, radius) in expected)
@@ -2407,6 +2427,94 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>
+        /// Ashen_ashoka takes out Echoes in the Sand (on the Crucible's revision, as the 1218 chain it ends), Supply Logistics and
+        /// Precious Tools, and Chase, the two researchers and Jirex (creature, stats, look, package, pools); the rows they copy
+        /// (Harris, Raji, Tiernan, Mitecht) stay; it updates nothing. Every table the migration writes is counted (set 14's ids and
+        /// missions only). Nothing else changes: the other Ashen pools, missions and markers as a database migrated only up to
+        /// Ashen_ashoka holds them. Up again, all of it is back; the NPC SQL run again changes nothing.
+        /// </summary>
+        [TestMethod]
+        public void AshokaRollsBackWithItsMigration()
+        {
+            var missions = new[] { (AshenEchoesInTheSandV1.MissionId, AshenEchoesInTheSandV1.Revision), (AshenSupplyLogisticsV1.MissionId, AshenMissionDataV1.Revision),
+                (AshenPreciousToolsV1.MissionId, AshenMissionDataV1.Revision) };
+            // At its migration (a later set's rows are not this one's "nothing else").
+            using var harness = WildernessRuntimeTestHarness.Create(targetWorldMigration: Ashoka);
+            var world = harness.World;
+            bool Has((uint Mission, string Revision) mission) => world.MissionContentDefinitionEntries.AsNoTracking()
+                .Any(entry => entry.MissionId == mission.Mission && entry.ContentRevision == mission.Revision);
+            int Count(string sql) => world.Database.SqlQueryRaw<int>(sql).AsEnumerable().Single();
+            const string ids = "(mission_id = 1736 AND content_revision = 'crucible_1_16_5' OR mission_id IN (1358, 1286) AND content_revision = 'ashen_1_16_5')";
+            const string npcs = "790520, 790521, 790522, 790523, 790524";
+            var tables = new[]
+            {
+                "mission_content_definition", "mission_objective_definition", "mission_objective_transition", "mission_trigger", "mission_action",
+                "mission_prerequisite", "mission_reward_definition", "mission_reward_item", "mission_indicator", "mission_scene_binding", "mission_evidence",
+                "mission_scenario", "mission_scenario_step", "mission_channel_policy", "mission_repeat_policy", "mission_spawn", "mission_spawn_group", "mission_area"
+            };
+            string All() => string.Join(", ", tables.Select(table => $"{table} {Count($"SELECT COUNT(*) AS Value FROM {table} WHERE {ids}")}")
+                .Concat(new[] { "creature", "creature_stat", "creature_appearance", "npc_package", "spawnpool" }
+                    .Select(table => $"{table} {Count($"SELECT COUNT(*) AS Value FROM {table} WHERE id IN ({npcs})")}"))
+                .Append($"kept {Count($"SELECT COUNT(*) AS Value FROM creature WHERE id IN ({AshenAshokaNpcsV1.Harris}, {AshenAshokaNpcsV1.Raji}, {AshenAshokaNpcsV1.Tiernan}, {AshenAshokaNpcsV1.Mitecht})")}"));
+            static string Others(DbContext db) => string.Join("; ", db.Set<SpawnPoolEntry>().AsNoTracking()
+                    .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && entry.Id != 790520 && entry.Id != 790524).OrderBy(entry => entry.Id).AsEnumerable()
+                    .Select(entry => System.FormattableString.Invariant($"{entry.Id}:{entry.PosX:R},{entry.PosY:R},{entry.PosZ:R},{entry.Radius:R},{entry.Creature1Id},{entry.Creature1MaxCount}")))
+                + " | " + string.Join("; ", db.Set<MissionContentDefinitionEntry>().AsNoTracking()
+                    .Where(entry => entry.MissionId != 1736 && entry.MissionId != 1358 && entry.MissionId != 1286).OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ContentRevision)
+                    .AsEnumerable().Select(entry => $"{entry.MissionId}/{entry.ContentRevision}"))
+                + " | " + string.Join("; ", db.Set<MissionIndicatorEntry>().AsNoTracking()
+                    .Where(entry => (entry.ContentRevision == AshenMissionDataV1.Revision || entry.ContentRevision == CrucibleMissionDataV1.Revision)
+                        && entry.MissionId != 1736 && entry.MissionId != 1358 && entry.MissionId != 1286)
+                    .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ObjectiveId).ThenBy(entry => entry.IndicatorId).AsEnumerable()
+                    .Select(entry => System.FormattableString.Invariant($"{entry.MissionId}.{entry.ObjectiveId}/{entry.IndicatorId}:{entry.PosX:R},{entry.PosZ:R}")));
+            string others;
+            using (var atAshoka = WildernessRuntimeTestHarness.Create(targetWorldMigration: Ashoka))
+                others = Others(atAshoka.World);
+            // 1736: six objectives (3-6 hidden), six transitions, two talks, an area trigger, two ObjectiveState triggers and
+            // 6's two counting ones; four scenario starts, reveal, activate and reward actions; scenarios 1-5 (4 of two steps,
+            // the first pair's deaths; the others none: data.sequence), one area, the prerequisite. 1358: five objectives, transitions and talks, five consume actions and the reward. 1286:
+            // one objective, transition, item trigger and reward action. Each one reward (four items) and three evidence rows;
+            // markers 2, 5, 1; three scenes. Chase, the researchers and Jirex: a creature and stats each; the look rows of the
+            // rows copied (Harris' six, Raji's five, Tiernan's six; Jirex none); Chase's package; Chase's and Jirex's pools.
+            const string up = "mission_content_definition 3, mission_objective_definition 12, mission_objective_transition 12, mission_trigger 13, " +
+                "mission_action 14, mission_prerequisite 1, mission_reward_definition 3, mission_reward_item 12, mission_indicator 8, " +
+                "mission_scene_binding 3, mission_evidence 9, mission_scenario 5, mission_scenario_step 2, mission_channel_policy 0, " +
+                "mission_repeat_policy 0, mission_spawn 0, mission_spawn_group 0, mission_area 1, creature 4, creature_stat 4, " +
+                "creature_appearance 17, npc_package 1, spawnpool 2, kept 4";
+            const string down = "mission_content_definition 0, mission_objective_definition 0, mission_objective_transition 0, mission_trigger 0, " +
+                "mission_action 0, mission_prerequisite 0, mission_reward_definition 0, mission_reward_item 0, mission_indicator 0, " +
+                "mission_scene_binding 0, mission_evidence 0, mission_scenario 0, mission_scenario_step 0, mission_channel_policy 0, " +
+                "mission_repeat_policy 0, mission_spawn 0, mission_spawn_group 0, mission_area 0, creature 0, creature_stat 0, " +
+                "creature_appearance 0, npc_package 0, spawnpool 0, kept 4";
+            void AllUp(string when)
+            {
+                Assert.IsTrue(missions.All(Has), $"{when}: the three missions");
+                Assert.AreEqual(up, All(), when);
+                Assert.AreEqual(others, Others(world), $"{when}: nothing else changes");
+            }
+
+            AllUp("at its migration");
+            world.GetService<IMigrator>().Migrate(Previous(world, Ashoka));
+            world.ChangeTracker.Clear();
+            Assert.IsFalse(missions.Any(Has));
+            Assert.AreEqual(down, All());
+            Assert.AreEqual(others, Others(world), "Down: nothing else changes");
+            Assert.IsTrue(MissionIds.Where(id => id is not (1736 or 1358 or 1286)).All(id => Has((id, AshenMissionDataV1.Revision))), "sets 1-13 stay");
+            foreach (var sql in AshenAshokaNpcsV1.Down())
+                world.Database.ExecuteSqlRaw(CrucibleSql.Guard(sql));
+            Assert.AreEqual(down, All(), "a second Down changes nothing");
+
+            world.GetService<IMigrator>().Migrate(Ashoka);
+            world.ChangeTracker.Clear();
+            AllUp("Up again");
+            foreach (var sql in AshenAshokaNpcsV1.Down())
+                world.Database.ExecuteSqlRaw(CrucibleSql.Guard(sql));
+            foreach (var sql in AshenAshokaNpcsV1.Up())
+                world.Database.ExecuteSqlRaw(CrucibleSql.Guard(sql));
+            AllUp("the NPC rows run again");
+        }
+
+        /// <summary>
         /// A scene use object takes the use argument the client sends (QUEST-RULES): usabledata lookup[class][0], or 1 where it
         /// is None (Usable.__init__), written out here. 7847 UsableItemAccHumGpsBeacon sends 3 (as CrucibleMissionTests pins it);
         /// 1245's five spots carry the client's name 71 "Atta Sensor Beacon" (usablenameoverride LIGO_ASHEN_ATTA_BEACON). The
@@ -2465,8 +2573,10 @@ namespace Rasa.Test.Missions.Ashen
             return at;
         }
 
+        /// <remarks>Echoes in the Sand (1736) included: an Ashen Desert scene on the Crucible's revision (the 1218 chain).</remarks>
         internal static List<(uint MissionId, Rasa.Missions.Content.MissionSceneDefinition Scene)> Scenes(WildernessRuntimeTestHarness harness) =>
-            harness.World.Set<MissionSceneBindingEntry>().AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision)
+            harness.World.Set<MissionSceneBindingEntry>().AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision ||
+                    entry.MissionId == AshenEchoesInTheSandV1.MissionId && entry.ContentRevision == CrucibleMissionDataV1.Revision)
                 .ToList().Select(entry => (entry.MissionId, System.Text.Json.JsonSerializer.Deserialize<Rasa.Missions.Content.MissionSceneDefinition>(
                     entry.Bindings, Rasa.Missions.Content.MissionContentCodec.Options))).ToList();
     }

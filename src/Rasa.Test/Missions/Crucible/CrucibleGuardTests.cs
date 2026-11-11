@@ -359,7 +359,7 @@ namespace Rasa.Test.Missions.Crucible
             bool Hostile(uint creature) => CreatureManager.Instance.LoadedCreatures.TryGetValue(creature, out var c) && c.TargetCategory == TargetCategory.Hostile;
             var hostiles = SpawnPoolManager.Instance.LoadedSpawnPools.Values.Where(pool => pool.MapContextId == Map && pool.SpawnSlot.Count > 0 &&
                 pool.SpawnSlot.TrueForAll(slot => Hostile(slot.CreatureId))).ToList();
-            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision).ToList();
+            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != CrucibleMissionTests.AshenEchoes).ToList();
             var groups = markers.GroupBy(marker => (marker.MissionId, marker.ObjectiveId)).Select(group => (group.Key, Pools: hostiles.Where(pool =>
                 group.Any(marker => Vector2.Distance(new((float)marker.PosX, (float)marker.PosZ), new(pool.Position.X, pool.Position.Z)) < 0.5f)).ToList()))
                 .Where(group => group.Pools.Count > 0).ToList();
@@ -533,7 +533,7 @@ namespace Rasa.Test.Missions.Crucible
             // The markers on the Crucible (MissionMarkerProjection.ResolveMap): the other maps' are their own tests'.
             var catalog = new MissionContentCatalog(harness, new Dictionary<uint, Mission>(), null);
             catalog.Load();
-            foreach (var marker in harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision).ToList()
+            foreach (var marker in harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != CrucibleMissionTests.AshenEchoes).ToList()
                          .Where(marker => MissionMarkerProjection.ResolveMap(catalog, marker.MissionId, marker.ObjectiveId,
                              new MissionIndicator { IndicatorId = marker.IndicatorId }) == Map))
             {
@@ -742,7 +742,7 @@ namespace Rasa.Test.Missions.Crucible
             foreach (var (label, at, _) in Places(harness))
                 if (Into(at, 0) is { } into)
                     failures.Add(FormattableString.Invariant($"{label} at ({at.X}, {at.Y}, {at.Z}): {into:0.0} m into a hole's circle"));
-            foreach (var marker in harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision).ToList())
+            foreach (var marker in harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != CrucibleMissionTests.AshenEchoes).ToList())
                 if (Into(new((float)marker.PosX, (float)marker.PosY, (float)marker.PosZ), (float)marker.Radius) is { } into)
                     failures.Add(FormattableString.Invariant($"marker {marker.MissionId}.{marker.ObjectiveId}/{marker.IndicatorId}: {into:0.0} m into a hole's circle"));
 
@@ -799,7 +799,7 @@ namespace Rasa.Test.Missions.Crucible
             using var harness = WildernessRuntimeTestHarness.Create();
             var world = harness.World;
             var revision = CrucibleMissionDataV1.Revision;
-            var markers = world.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision).ToList();
+            var markers = world.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision && entry.MissionId != CrucibleMissionTests.AshenEchoes).ToList();
             bool Inside(uint mission, uint objective, Vector3 at) => markers.Any(marker => marker.MissionId == mission && marker.ObjectiveId == objective &&
                 Vector2.Distance(new((float)marker.PosX, (float)marker.PosZ), new(at.X, at.Z)) <= marker.Radius);
             var packages = world.NpcPackageEntries.AsNoTracking().ToList().ToLookup(entry => entry.PackageId, entry => entry.Id);
@@ -808,7 +808,7 @@ namespace Rasa.Test.Missions.Crucible
             var scenes = CrucibleMissionTests.Scenes(harness).ToList();
             var checkedTargets = 0;
             var outside = new List<string>();
-            foreach (var talk in world.MissionTriggerEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision &&
+            foreach (var talk in world.MissionTriggerEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision && entry.MissionId != CrucibleMissionTests.AshenEchoes &&
                          entry.Kind == MissionTriggerKind.Conversation).ToList())
             {
                 var npcs = pools.Where(pool => packages[talk.NpcPackageId.Value].Contains(pool.Creature1Id)).ToList();
@@ -899,7 +899,7 @@ namespace Rasa.Test.Missions.Crucible
             var catalog = new MissionContentCatalog(harness, new Dictionary<uint, Mission>(), null);
             catalog.Load();
             var links = harness.World.Set<MapLinkEntry>().AsNoTracking().Where(link => link.Enabled != 0).ToList();
-            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision).ToList();
+            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != CrucibleMissionTests.AshenEchoes).ToList();
             Assert.HasCount(CrucibleMissionTests.Indicators, markers, "the Crucible markers");
             var near = new List<string>();
             foreach (var marker in markers)
@@ -958,7 +958,7 @@ namespace Rasa.Test.Missions.Crucible
             var crucible = CrucibleOutpostIntrepidTests.EnterCrucible(harness);
             var catalog = new MissionContentCatalog(harness, new Dictionary<uint, Mission>(), null);
             catalog.Load();
-            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision).ToList()
+            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != CrucibleMissionTests.AshenEchoes).ToList()
                 .Where(marker => MissionMarkerProjection.ResolveMap(catalog, marker.MissionId, marker.ObjectiveId, new MissionIndicator { IndicatorId = marker.IndicatorId }) == Map)
                 .Select(marker => (Label: $"{marker.MissionId}.{marker.ObjectiveId}/{marker.IndicatorId}", At: new Vector3((float)marker.PosX, (float)marker.PosY, (float)marker.PosZ)))
                 .ToList();

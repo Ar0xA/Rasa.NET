@@ -42,7 +42,8 @@ namespace Rasa.Test.Missions.Wilderness
                 .Concat(Rasa.Test.Missions.Pools.PoolsMissionTests.MissionIds)
                 .Concat(Rasa.Test.Missions.Marshes.MarshesMissionTests.MissionIds)
                 .Concat(Rasa.Test.Missions.Crucible.CrucibleMissionTests.MissionIds)
-                .Concat(Rasa.Test.Missions.Ashen.AshenMissionTests.MissionIds).ToArray();
+                .Concat(Rasa.Test.Missions.Ashen.AshenMissionTests.MissionIds)
+                .Concat(Rasa.Test.Missions.Ashen.AshenMissionTests.OnCrucibleRevision).ToArray();
 
         /// <summary>
         /// Every mission enabled by a migration dated after the Wilderness ones: the
@@ -678,8 +679,11 @@ namespace Rasa.Test.Missions.Wilderness
             var plateau = rows.Where(row => row.ContentRevision == PlateauMissionDataV1.Revision).ToArray();
             var pools = rows.Where(row => row.ContentRevision == Rasa.Services.Preloader.Missions.Pools.PoolsMissionDataV1.Revision).ToArray();
             var marshes = rows.Where(row => row.ContentRevision == Rasa.Services.Preloader.Missions.Marshes.MarshesMissionDataV1.Revision).ToArray();
-            var crucible = rows.Where(row => row.ContentRevision == Rasa.Services.Preloader.Missions.Crucible.CrucibleMissionDataV1.Revision).ToArray();
-            var ashen = rows.Where(row => row.ContentRevision == Rasa.Services.Preloader.Missions.Ashen.AshenMissionDataV1.Revision).ToArray();
+            // Echoes in the Sand (1736), an Ashen Desert mission on the Crucible's revision (the 1218 chain): counted with Ashen's.
+            bool Echoes(Rasa.Structures.World.MissionIndicatorEntry row) => row.ContentRevision == Rasa.Services.Preloader.Missions.Crucible.CrucibleMissionDataV1.Revision &&
+                Rasa.Test.Missions.Ashen.AshenMissionTests.OnCrucibleRevision.Contains(row.MissionId);
+            var crucible = rows.Where(row => row.ContentRevision == Rasa.Services.Preloader.Missions.Crucible.CrucibleMissionDataV1.Revision && !Echoes(row)).ToArray();
+            var ashen = rows.Where(row => row.ContentRevision == Rasa.Services.Preloader.Missions.Ashen.AshenMissionDataV1.Revision || Echoes(row)).ToArray();
 
             Assert.AreEqual(12, bootcamp.Length);
             // 97 from the Wilderness migrations, and Kill Proctor Fulgor's (427/6) from
@@ -689,7 +693,7 @@ namespace Rasa.Test.Missions.Wilderness
             Assert.AreEqual(Rasa.Test.Missions.Pools.PoolsMissionTests.Indicators, pools.Length);
             Assert.AreEqual(Rasa.Test.Missions.Marshes.MarshesMissionTests.Indicators, marshes.Length);
             Assert.AreEqual(Rasa.Test.Missions.Crucible.CrucibleMissionTests.Indicators, crucible.Length);
-            Assert.AreEqual(Rasa.Test.Missions.Ashen.AshenMissionTests.Indicators, ashen.Length);
+            Assert.AreEqual(Rasa.Test.Missions.Ashen.AshenMissionTests.Indicators + Rasa.Test.Missions.Ashen.AshenMissionTests.EchoesIndicators, ashen.Length);
             Assert.AreEqual(rows.Length, bootcamp.Length + wilderness.Length + plateau.Length + pools.Length + marshes.Length + crucible.Length + ashen.Length);
             // Bootcamp's keys are missionobjectiveindicatorlanguage ids: 430 "Eloh Approach" to 439
             // "Cave-in Location".

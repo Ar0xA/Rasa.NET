@@ -260,7 +260,9 @@ namespace Rasa.Test.Missions.Ashen
         [TestMethod]
         public void FixFRollsBackWithItsMigration()
         {
-            using var harness = WildernessRuntimeTestHarness.Create();
+            // At its migration (a later set's rows, set 14's on, are not this one's "nothing else"), as the set 12 and 13 tests;
+            // fix G (later too) is left out of "others" below as well, so the comparison holds at any later head.
+            using var harness = WildernessRuntimeTestHarness.Create(targetWorldMigration: FixF);
             var world = harness.World;
             uint Respawn(uint pool) => world.SpawnPoolEntries.AsNoTracking().Single(entry => entry.Id == pool).RespawnTime;
             bool HasPool() => world.SpawnPoolEntries.AsNoTracking().Any(entry => entry.Id == X.AttaPool);
@@ -293,7 +295,7 @@ namespace Rasa.Test.Missions.Ashen
             string others;
             using (var atFixF = WildernessRuntimeTestHarness.Create(targetWorldMigration: FixF))
                 others = Others(atFixF.World);
-            Fixed("all migrations");
+            Fixed("at its migration");
             Assert.AreEqual(others, Others(world), "a database migrated only to fix F holds the same other rows");
 
             world.GetService<IMigrator>().Migrate(AshenMissionTests.Previous(world, FixF));
@@ -341,7 +343,7 @@ namespace Rasa.Test.Missions.Ashen
             new[] { pool.Creature1Id, pool.Creature2Id, pool.Creature3Id, pool.Creature4Id, pool.Creature5Id, pool.Creature6Id }.Where(id => id != 0).ToArray();
 
         /// <summary>The World DB's creatures with the Atta harvester warcry (477) among their actions.</summary>
-        private static HashSet<uint> WarcryCreatures(WildernessRuntimeTestHarness harness)
+        internal static HashSet<uint> WarcryCreatures(WildernessRuntimeTestHarness harness)
         {
             var cries = harness.World.CreatureActionEntries.AsNoTracking().Where(entry => entry.ActionId == (uint)CreatureBuffs.HarvesterWarcry).Select(entry => entry.Id).ToHashSet();
             return harness.World.CreatureEntries.AsNoTracking().AsEnumerable()

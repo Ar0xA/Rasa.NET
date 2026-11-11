@@ -147,7 +147,8 @@ namespace Rasa.Test.Missions.Ashen
         [TestMethod]
         public void FixGRollsBackWithItsMigration()
         {
-            using var harness = WildernessRuntimeTestHarness.Create();
+            // At its migration (a later set's rows, set 14's on, are not this one's "nothing else"), as the set 12 and 13 tests.
+            using var harness = WildernessRuntimeTestHarness.Create(targetWorldMigration: FixG);
             var world = harness.World;
             (double X, double Y, double Z) Pool(uint id)
             {
@@ -184,7 +185,7 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.AreEqual(X.Evidences.Length, Evidence(), $"{when}: fix G's evidence rows");
             }
             var others = Others();
-            Fixed("all migrations");
+            Fixed("at its migration");
 
             world.GetService<IMigrator>().Migrate(AshenMissionTests.Previous(world, FixG));
             world.ChangeTracker.Clear();

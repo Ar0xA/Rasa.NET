@@ -398,6 +398,60 @@ All ESTIMATE (set 13):
 - The fork: each side's end (the tenth resistor, Maiek found) fails the other if it is held (the client logs); the offers
   are exclusive (TaRapedia, God of Storms). Markers r8.
 
+Set 14, Ashoka (migration `20271110001400_Ashen_ashoka`). New NPCs: Lieutenant Daniel Chase 790520 (-120, 296.32, -805) in
+Shadow's Edge Post, 15 m from the waypoint (a copy of Captain Flynn Harris' row, level 41); Researcher Yorish 790521 and
+Researcher Jackson 790522 (1736's escort, scene actors, no pool; copies of Raji Lasat's and Professor Tiernan's rows, level 42,
+4000 health, run 7); Overseer Jirex 790523 (hostile, the Overseers' class 10504, level 44, 4900 hit points, armour 420) alone in
+pool 790524 at (426.8, 288.85, -261), 30 m west of the destroyed Bane pillbox (454, -273) northeast of the Ashoka waypoint,
+respawn 300 s. Next free id 790525. Echoes in the Sand is kept on the Crucible's revision (crucible_1_16_5, the 1218 chain it
+ends; the server keeps a required chain on one revision); its category and map are Ashen Desert's. Every walk below is the
+client's floor, checked both ways with the client's slope limit, 30 m or more outside every hostile pool's circle
+(AshenAshokaTests.Walks).
+
+- [ ] 1736 Echoes in the Sand (Ligo Ashen Desert): Captain Botha (Ashoka) offers it after It Came From Erdas (1218, the
+  Crucible), level 42. At the accept Researchers Yorish and Jackson come by Botha and follow you. Take them to the Eloh
+  obelisk at Daedalus' Landing (188, 298.03, -200), off the pad west: (360, -426), (358, -424), (328, -391), (298, -353),
+  (258, -299), (220, -240), then the obelisk (334 m). Within 20 m of it the first ambush comes: two Ashen Thrax
+  Soldiers (531008) from (230, -255) and (232, -258). Both dead, the obelisk comes (the client's NPCElohObeliskV01; not
+  before: never four Thrax at once). Talk to the obelisk (its vision,
+  package 2066): "Escort Researchers back to Ashoka" opens with a marker at Botha, and the second ambush comes, two more from
+  (235, -250) and (237, -253). Walk back the same way and talk to Botha: the researchers go in. Turn in at Botha: 190000 XP,
+  8400 credits, one of Laser Pistol 14492, Laser Rifle 11947, Photonic Shotgun 11983, Laser Chaingun 45762. Either
+  researcher's death fails the mission (the other, the obelisk and the Bane go); an abandon takes them away. Check: both keep
+  up with a running player on the whole way, both ways; the obelisk only after both of the first pair are dead. A logout or
+  a map change: the researchers wait (the run's own; they follow again on return); after a server restart they are placed
+  again by Botha and run to the player.
+- [ ] 1358 Supply Logistics (Ligo Ashen Desert): Lieutenant Chase (Shadow's Edge Post) offers it, level 41; no requirement.
+  The accept gives five Tactical Military Supplies (97522-97526; a bag without five free mission-item slots refuses it).
+  Deliver each, any order, by a talk: Captain Botha (378, -458.5) and Captain Harris (405, -459.5) at Ashoka, Captain Emmons
+  (-62, -414) on Stonewall Ridge, Captain Yamamoto at Boneyard Outpost, Daris Linier (-507, 162) at White Oasis Post (gone
+  while the Bane hold control point 17: then 5 waits). Turn in at Chase: 95000 XP, 6300 credits, one of Mech Vest 34503,
+  Graviton Legs 13043, Hazmat Boots 20355, Reflective Boots 37836.
+- [ ] 1286 Precious Tools (Ligo Ashen Desert): Mechanic Raji Lasat (Ashoka) offers it, level 42; no requirement. Kill
+  Overseer Jirex at (426.8, -261), walked from the Ashoka waypoint: off the pad to the west, north up the road ((388, -431),
+  (402, -401), (405, -352), (395, -290)), then east. He drops Raji's Lucky Wrench (97482, 100%, your own, one). Turn in at
+  Raji: 190000 XP, 8400 credits, one of Bio Gloves 18899, Graviton Helmet 23828, Mech Gloves 32826, Stealth Gloves 38952; he
+  takes the wrench. Check: Jirex is a boss name in the kill log (BossTitles: 9793 "Overseer Jirex").
+
+Fights (rule 3; to-fix rows 20 and 26): Jirex's class 10504 and the ambushers' class 20757 (531008) carry none of the client's
+IMMUNE_* damage flags (creature_class_flag 125-135), nor the researchers' and Chase's classes. Jirex is a single level 44
+boss (as Overseer Ulovik, beaten solo in 1303); the ambushes are two level 39 Thrax Soldiers each.
+
+All ESTIMATE (set 14):
+- Chase's place (TaRapedia: Shadow's Edge Post, no /loc) and look (Harris' AFS row); his package is server-only (790520).
+- The researchers' looks: Yorish a Brann (Raji's row: Kapa Grupa Lohen's man, "Syndicate Researcher"), Jackson an AFS
+  researcher (Tiernan's row); their stats and speeds the Marshes escorts'.
+- The obelisk at (188, -200), 50 m from the escape pod (134, -164): the Tree Mite pool 540072 stands on the pod (upstream,
+  not moved); the client has no obelisk at the pod (map statics). The ambush spots and sizes (two and two): no source.
+- Jirex at (426.8, -261), not at TaRapedia's "near a pillbox" itself: the pillbox's ground is within 35 m of the Boneyard
+  Thrax pool 531039 and the Hominis Machina pool 790245; 30 m west of it he stands 60 m or more from every other hostile pool
+  (531039 60.2, 790245 60.5), 32 m from Maiek's road, 76 m from Ellatha's boss-map spot (474, -202). His level, stats and respawn are Overseer Mitecht's and fix F's.
+- Levels 42 (1736, 1286), 41 (1358) (triage D5, from TaRapedia's XP). Rewards: TaRapedia's XP and credits; the items the
+  lowest template of the named kind and version in the mission's band.
+- 1736's helpers: 3 and 4 (the researchers) are required and hidden, done with 2; 6 (server-only, hidden, not required) counts
+  the first pair's deaths and brings the obelisk; 5 (Ambushes) hidden and not required, done
+  at the landing. Markers: 1736 on the obelisk (r20) and Botha, 1358 at each captain (r8), 1286 on Jirex (r15).
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -479,6 +533,16 @@ All ESTIMATE (set 13):
   the other side at either end.
 - 1281 / 1282: a failed side keeps its own objects (resistors or Maiek's body) for good: a failed mission cannot be
   abandoned (only an Active one); a use of them counts nothing. Only a GM's gift holds both sides.
+- 1736: kept on the Crucible's revision (crucible_1_16_5) with 1218, not Ashen's: the server keeps a required chain on one
+  revision (MissionContentValidator, "cross-revision-reference"), as Marshes 1673 on Plateau's.
+- 1736: the obelisk is a scene object that comes at the landing, 50 m from the escape pod (the pod's ground is a Tree Mite
+  pool's), only once the first ambush is dead (a server-only hidden objective 6 counts the two); the researchers are the run's
+  own, not world NPCs; the helpers 3-6 do not show in the log.
+- 1736: both researchers need not arrive: objectives 3 and 4 complete with objective 2 (Botha's talk), wherever the
+  researchers are then; only a death fails them. A logout or map change leaves them waiting; after a server restart they are
+  placed again by Botha and run to the player (ESTIMATE of the retail behaviour: no source).
+- 1286: Jirex 30 m from the pillbox, not by it (60 m from the Boneyard's hostile pools).
+- 1358: the White Oasis delivery waits while the Bane hold control point 17 (Daris Linier gone, the service rule).
 
 ## Server data that differs from the sources (not changed)
 

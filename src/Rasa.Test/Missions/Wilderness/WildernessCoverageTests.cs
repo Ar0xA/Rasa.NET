@@ -34,7 +34,7 @@ namespace Rasa.Test.Missions.Wilderness
             var battlefields = Rasa.Services.Preloader.TargetsOfOpportunitySeed.Zones.Select(zone => zone.MissionId)
                 .Concat(Plateau.PlateauMissionTests.MissionIds).Concat(Pools.PoolsMissionTests.MissionIds)
                 .Concat(Marshes.MarshesMissionTests.MissionIds).Concat(Crucible.CrucibleMissionTests.MissionIds)
-                .Concat(Ashen.AshenMissionTests.MissionIds).ToArray();
+                .Concat(Ashen.AshenMissionTests.MissionIds).Concat(Ashen.AshenMissionTests.OnCrucibleRevision).ToArray();
             var ojasa = Rasa.Services.Preloader.OjasaHiveContent.Missions;
             var donn = Rasa.Services.Preloader.CavesOfDonnContent.Missions;
             var den = Rasa.Services.Preloader.DevilsDenContent.Missions;

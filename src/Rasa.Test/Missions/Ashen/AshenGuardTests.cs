@@ -49,9 +49,9 @@ namespace Rasa.Test.Missions.Ashen
     {
         private const uint Map = AshenMissionDataV1.MapContextId;
 
-        /// <summary>The friendly NPCs new in the block: set 1's, set 2's, set 4's (Infanger), set 6's (Latan, Ito, Megumi), set 11's (Meeks, Hale) and set 13's (Odesha, Endala).</summary>
+        /// <summary>The friendly NPCs new in the block: set 1's, set 2's, set 4's (Infanger), set 6's (Latan, Ito, Megumi), set 11's (Meeks, Hale), set 13's (Odesha, Endala) and set 14's (Chase).</summary>
         private static readonly uint[] NewNpcs = N.New.Select(npc => npc.Id).Concat(B.New.Select(npc => npc.Id)).Append(Y.Infanger)
-            .Concat(K.New.Select(npc => npc.Id)).Concat(AshenWhiteOasisNpcsV1.New.Select(npc => npc.Id)).Concat(AshenIndraPassNpcsV1.New.Select(npc => npc.Id)).ToArray();
+            .Concat(K.New.Select(npc => npc.Id)).Concat(AshenWhiteOasisNpcsV1.New.Select(npc => npc.Id)).Concat(AshenIndraPassNpcsV1.New.Select(npc => npc.Id)).Append(AshenAshokaNpcsV1.Chase).ToArray();
 
         /// <summary>The upstream NPCs the sets use where upstream has them (set 4's Lieutenant Jan Blood, 1262), and those a later set moved (set 10's Ida Hayner, off the weapon vendor; set 11's Dania Fontecilla, off the White Oasis control point's console).</summary>
         private static readonly uint[] Kept = { Y.Blood, AshenDesignerHidesNpcsV1.IdaHayner, AshenWhiteOasisNpcsV1.Fontecilla };
@@ -316,7 +316,9 @@ namespace Rasa.Test.Missions.Ashen
                 // Set 13: Odesha and Endala in the Indra Pass valley (fix G; set 13 had them by the Indra Pass waypoint, whose
                 // floor has no way in: N23), walked to from White Oasis Post.
                 (AshenIndraPassNpcsV1.Odesha, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
-                (AshenIndraPassNpcsV1.Endala, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
+                (AshenIndraPassNpcsV1.Endala, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
+                // Set 14: Chase in Shadow's Edge Post.
+                (AshenAshokaNpcsV1.Chase, "the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint)
             };
             var npcs = Npcs().ToDictionary(npc => npc.DbId);
             Assert.HasCount(npcs.Count, walks, "a walk to each NPC");
@@ -365,14 +367,17 @@ namespace Rasa.Test.Missions.Ashen
             using var harness = WildernessRuntimeTestHarness.Create();
             var world = harness.World;
             var revision = AshenMissionDataV1.Revision;
-            var markers = world.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision).ToList();
+            var echoes = Rasa.Services.Preloader.Missions.Crucible.CrucibleMissionDataV1.Revision;   // 1736 on the Crucible's revision
+            var markers = world.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision ||
+                entry.MissionId == AshenEchoesInTheSandV1.MissionId && entry.ContentRevision == echoes).ToList();
             bool Inside(uint mission, uint objective, Vector3 at) => markers.Any(marker => marker.MissionId == mission && marker.ObjectiveId == objective &&
                 Vector2.Distance(new((float)marker.PosX, (float)marker.PosZ), new(at.X, at.Z)) <= marker.Radius);
             var packages = world.NpcPackageEntries.AsNoTracking().ToList().ToLookup(entry => entry.PackageId, entry => entry.Id);
             var pools = world.SpawnPoolEntries.AsNoTracking().Where(pool => pool.MapContextId == Map).ToList();
             var checkedTargets = 0;
             var outside = new List<string>();
-            foreach (var talk in world.MissionTriggerEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision &&
+            foreach (var talk in world.MissionTriggerEntries.AsNoTracking().Where(entry => (entry.ContentRevision == revision ||
+                         entry.MissionId == AshenEchoesInTheSandV1.MissionId && entry.ContentRevision == echoes) &&
                          entry.Kind == MissionTriggerKind.Conversation).ToList())
                 foreach (var pool in pools.Where(pool => packages[talk.NpcPackageId.Value].Contains(pool.Creature1Id)))
                 {
@@ -380,7 +385,7 @@ namespace Rasa.Test.Missions.Ashen
                     if (!Inside(talk.MissionId, talk.ObjectiveId, new((float)pool.PosX, (float)pool.PosY, (float)pool.PosZ)))
                         outside.Add($"{talk.MissionId}.{talk.ObjectiveId} NPC pool {pool.Id}");
                 }
-            Assert.AreEqual(4 + 4 + 3 + 4 + 1, checkedTargets, "Mason Linier, Emmons, Yamamoto and Daris Linier; set 6's Latan (1254's four talks), Yamamoto (1258, 1259), Mason Linier (1261); set 11's Hale (1298's four talks); set 13's Endala (1282.2)");
+            Assert.AreEqual(4 + 4 + 3 + 4 + 1 + 5 + 1, checkedTargets, "Mason Linier, Emmons, Yamamoto and Daris Linier; set 6's Latan (1254's four talks), Yamamoto (1258, 1259), Mason Linier (1261); set 11's Hale (1298's four talks); set 13's Endala (1282.2); set 14's five captains (1358) and Botha (1736.2; the obelisk is a scene object)");
             Assert.IsEmpty(outside, string.Join(", ", outside));
         }
 
@@ -576,14 +581,23 @@ namespace Rasa.Test.Missions.Ashen
                 // from Ashoka Settlement's; Endala's marker (in the valley since fix G) from White Oasis Post's: Also.
                 [AshenMissingScientistsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
                 [AshenGodOfStormsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
-                [AshenBondsOfBloodV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
+                [AshenBondsOfBloodV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                // Set 14: 1358's captains from Shadow's Edge Post's (Chase's) and the others' (Also); 1286's Jirex from Ashoka
+                // Settlement's.
+                [AshenSupplyLogisticsV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
+                [AshenPreciousToolsV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
             };
             // A mission whose markers stand in more than one area: the other areas' waypoints (any one walks to the marker).
             var also = new Dictionary<uint, (string Label, Vector3 At)[]>
             {
                 [AshenNewFadV1.MissionId] = new[] { ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint) },
                 [AshenNeurotoxinsV1.MissionId] = new[] { ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint) },
-                [AshenBondsOfBloodV1.MissionId] = new[] { ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint) }
+                [AshenBondsOfBloodV1.MissionId] = new[] { ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint) },
+                [AshenSupplyLogisticsV1.MissionId] = new[]
+                {
+                    ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint), ("the Stonewall Ridge waypoint", AshenLeadInsTests.StonewallWaypoint),
+                    ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
+                }
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var desert = AshenLeadInsTests.EnterAshen(harness);
@@ -664,7 +678,7 @@ namespace Rasa.Test.Missions.Ashen
         /// six fallen (1263), set 5's six missile launchers and their Detonation Devices (1352) and three generators and theirs (1354),
         /// set 9's salvage crate (1275), consoles and ambushers (1277), turrets and wave members (1278), set 11's panels (1295) and
         /// fuel pumps and their Detonation Devices (1356), set 12's panels (1302, on 1295's places), set 13's bodies (1280, 1282) and
-        /// resistors (1281).
+        /// resistors (1281), set 14's researchers, obelisk and ambush spots (1736).
         /// </summary>
         private static List<(string Label, Vector3 At, bool Npc)> Places(WildernessRuntimeTestHarness harness)
         {
@@ -673,10 +687,10 @@ namespace Rasa.Test.Missions.Ashen
                 foreach (var actor in scene.Actors.Values.Where(actor => actor.Position != null))
                     places.Add(($"{mission} {actor.Role}", new Vector3(actor.Position.X, actor.Position.Y, actor.Position.Z),
                         actor.Kind == Rasa.Missions.Scenes.SceneActorKind.Creature));
-            Assert.HasCount(NewNpcs.Length + N.Moves.Length + Kept.Length + 5 + 6 + 12 + 6 + 1 + 4 + 9 + 4 + 14 + 4 + 6 + 4 + 1 + 10 + 1, places,
+            Assert.HasCount(NewNpcs.Length + N.Moves.Length + Kept.Length + 5 + 6 + 12 + 6 + 1 + 4 + 9 + 4 + 14 + 4 + 6 + 4 + 1 + 10 + 1 + 7, places,
                 "the NPCs, 1245's five beacon spots, 1263's six fallen, 1352's launchers and devices, 1354's generators and devices, " +
                 "1275's crate, 1277's four consoles and nine ambushers, 1278's four turrets and fourteen wave members, 1295's four " +
-                "panels, 1356's pumps and devices, 1302's four panels, 1280's Veyon, 1281's ten resistors, 1282's Maiek");
+                "panels, 1356's pumps and devices, 1302's four panels, 1280's Veyon, 1281's ten resistors, 1282's Maiek, 1736's two researchers, obelisk and four ambushers");
             return places;
         }
 

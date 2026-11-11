@@ -186,7 +186,7 @@ namespace Rasa.Test.Missions.Crucible
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var enabled = harness.World.MissionContentDefinitionEntries.AsNoTracking()
-                .Where(entry => entry.Enabled && entry.ContentRevision == CrucibleMissionDataV1.Revision).ToArray();
+                .Where(entry => entry.Enabled && entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes).ToArray();
             CollectionAssert.AreEquivalent(MissionIds, enabled.Select(entry => entry.MissionId).ToArray());
             foreach (var (mission, giver, receiver, level) in expected)
             {
@@ -782,7 +782,7 @@ namespace Rasa.Test.Missions.Crucible
             // 1231 (Rigs), 1899,7 2371 (Skeev: variant 1 for one choice, 27 for two), 1899,5 2372 (the terminal); set 11b: 1398,2 and
             // 1398,4 1700 (Dhimand), 1398,5 1640 (Sheira).
             var talks = harness.World.Set<MissionTriggerEntry>().AsNoTracking()
-                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.Kind == MissionTriggerKind.Conversation)
+                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.Kind == MissionTriggerKind.Conversation && entry.MissionId != AshenEchoes)
                 .AsEnumerable().Select(entry => (entry.MissionId, entry.ObjectiveId, entry.NpcPackageId, entry.PlayerFlagId))
                 .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ObjectiveId).ThenBy(entry => entry.PlayerFlagId).ToArray();
             CollectionAssert.AreEqual(new (uint, uint, uint?, uint?)[]
@@ -813,7 +813,7 @@ namespace Rasa.Test.Missions.Crucible
         {
             using var harness = WildernessRuntimeTestHarness.Create();
             var rows = harness.World.MissionPrerequisiteEntries.AsNoTracking()
-                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision).AsEnumerable()
+                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes).AsEnumerable()
                 .Select(entry => (entry.MissionId, entry.Kind, entry.RequiredMissionId)).OrderBy(entry => entry.MissionId).ToArray();
             CollectionAssert.AreEqual(new (uint, MissionPrerequisiteKind, uint?)[]
             {
@@ -853,7 +853,7 @@ namespace Rasa.Test.Missions.Crucible
         {
             using var harness = WildernessRuntimeTestHarness.Create();
             var evidence = harness.World.MissionEvidenceEntries.AsNoTracking()
-                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision).ToArray();
+                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes).ToArray();
             // 20271108000300 (to-fix rows 23-25) adds a reconstruction of the new marker places to 1147 and 1149;
             // 20271108000500 (to-fix rows 32, 34, 35) one of Munit's and Vargo's new places to 1145, 1146 and 1170;
             // 20271108000800 (to-fix rows 43, 44) one of the bot pools' and Vargo's new places to 1147, 1203, 1204, 1202 and 1146.
@@ -979,7 +979,7 @@ namespace Rasa.Test.Missions.Crucible
         {
             using var harness = WildernessRuntimeTestHarness.Create();
             var indicators = harness.World.MissionIndicatorEntries.AsNoTracking()
-                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision).ToArray();
+                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes).ToArray();
             Assert.HasCount(Indicators, indicators);
             var catalog = new MissionContentCatalog(harness, new Dictionary<uint, Mission>(), null);
             catalog.Load();
@@ -1013,10 +1013,10 @@ namespace Rasa.Test.Missions.Crucible
             using var harness = WildernessRuntimeTestHarness.Create();
             var world = harness.World;
             var revision = CrucibleMissionDataV1.Revision;
-            var marked = world.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision)
+            var marked = world.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision && entry.MissionId != AshenEchoes)
                 .Select(entry => new { entry.MissionId, entry.ObjectiveId }).ToList()
                 .Select(entry => (entry.MissionId, entry.ObjectiveId)).ToHashSet();
-            var hidden = world.Set<MissionSceneBindingEntry>().AsNoTracking().Where(entry => entry.ContentRevision == revision).ToList()
+            var hidden = world.Set<MissionSceneBindingEntry>().AsNoTracking().Where(entry => entry.ContentRevision == revision && entry.MissionId != AshenEchoes).ToList()
                 .SelectMany(entry => System.Text.RegularExpressions.Regex.Match(entry.Bindings, "\"HiddenObjectiveIds\"\\s*:\\s*\\[([^\\]]*)\\]",
                         System.Text.RegularExpressions.RegexOptions.IgnoreCase).Groups[1].Value
                     .Split(',', System.StringSplitOptions.RemoveEmptyEntries).Select(id => (entry.MissionId, uint.Parse(id.Trim()))))
@@ -1027,7 +1027,7 @@ namespace Rasa.Test.Missions.Crucible
                 "The Departed's item tracker, Calendar Girl's outcome, Your Part of the Bargain's tracker, its opener and its block count, Point Of Impact's walk to the obelisk, " +
                 "Control the Brain's tracker, its opener and its kill tally, The Gene Machine's cell tally, Leaky Pipes' wave tally, " +
                 "Factory Fortification's room and Thrax tally and Information is Key's one objective (the client has none) and Blood, Fire, and Steel's card counter, its opener, the doors' takes, their tracker and its opener are hidden");
-            var objectives = world.MissionObjectiveDefinitionEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision)
+            var objectives = world.MissionObjectiveDefinitionEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision && entry.MissionId != AshenEchoes)
                 .Select(entry => new { entry.MissionId, entry.ObjectiveId }).ToList();
             Assert.HasCount(9 + 1 + 6 + 3 + 1 + 3 + 1 + 8 + 1 + 1 + 1 + 2 + 3 + 1 + 1 + 3 + 8 + 2 + 1 + 3 + 3 + 3 + 2 + 7 + 4 + 1 + 1 + 2 + 2 + 1 + 2 + 1 + 6 + 3 + 1 + 3 + 3 + 1 + 9 + 2 + 2 + 5 + 1 + 5 + 6 + 3 + 1 + 11, objectives, "the objectives are read");
             var missing = objectives.Select(entry => (entry.MissionId, entry.ObjectiveId))
@@ -1042,7 +1042,7 @@ namespace Rasa.Test.Missions.Crucible
         {
             using var harness = WildernessRuntimeTestHarness.Create();
             var rows = harness.World.MissionIndicatorEntries.AsNoTracking()
-                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision).ToList();
+                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes).ToList();
             var expected = new List<(uint Mission, uint Objective, double X, double Z, double Radius)>
             {
                 (1142, 1, 952, 106, 8),                             // DeLisi
@@ -1267,7 +1267,7 @@ namespace Rasa.Test.Missions.Crucible
                 Count("SELECT COUNT(*) AS Value FROM npc_package WHERE id BETWEEN 770000 AND 770999"),
                 Count("SELECT COUNT(*) AS Value FROM creature_stat WHERE id BETWEEN 770000 AND 770999"),
                 Count("SELECT COUNT(*) AS Value FROM npc_package WHERE id = 510025"),
-                Count("SELECT COUNT(*) AS Value FROM mission_scene_binding WHERE content_revision = 'crucible_1_16_5'"),
+                Count($"SELECT COUNT(*) AS Value FROM mission_scene_binding WHERE content_revision = 'crucible_1_16_5' AND mission_id <> {AshenEchoes}"),
                 Count("SELECT COUNT(*) AS Value FROM teleporter WHERE id IN (909, 910)"),
                 Count("SELECT COUNT(*) AS Value FROM creature_action WHERE id BETWEEN 770000 AND 770999"));
         }
@@ -1755,7 +1755,7 @@ namespace Rasa.Test.Missions.Crucible
                 .Where(entry => CrucibleFixFV1.EvidenceIds.Contains((entry.MissionId, entry.EvidenceId)))
                 .Select(entry => (entry.MissionId, entry.EvidenceId)).ToList();
             // Set 8a, fix job G, set 8b, set 9, fix job H and set 11a (later migrations) are rolled back with the fix and not put back: their evidence is not counted.
-            int All() => world.MissionEvidenceEntries.AsNoTracking().Count(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision &&
+            int All() => world.MissionEvidenceEntries.AsNoTracking().Count(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes &&
                 !SetEight.Contains(entry.MissionId) && !SetEightB.Contains(entry.MissionId) && !SetNine.Contains(entry.MissionId) &&
                 !SetElevenA.Contains(entry.MissionId) && !SetTwelveA.Contains(entry.MissionId) && !SetThirteen.Contains(entry.MissionId) && !SetElevenB.Contains(entry.MissionId) && !SetTwelveB.Contains(entry.MissionId) && !SetFifteen.Contains(entry.MissionId) &&
                 !(entry.MissionId == CrucibleOutOfSightV1.MissionId && entry.EvidenceId == CrucibleFixGV1.Evidence) &&
@@ -1877,7 +1877,7 @@ namespace Rasa.Test.Missions.Crucible
             double Radius(uint id) => world.SpawnPoolEntries.AsNoTracking().Single(entry => entry.Id == id).Radius;
             bool Evidence() => world.MissionEvidenceEntries.AsNoTracking().Any(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision &&
                 entry.MissionId == CrucibleOutOfSightV1.MissionId && entry.EvidenceId == CrucibleFixGV1.Evidence);
-            int All() => world.MissionEvidenceEntries.AsNoTracking().Count(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision &&
+            int All() => world.MissionEvidenceEntries.AsNoTracking().Count(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes &&
                 !SetEightB.Contains(entry.MissionId) && !SetNine.Contains(entry.MissionId) && !SetElevenA.Contains(entry.MissionId) && !SetTwelveA.Contains(entry.MissionId) && !SetThirteen.Contains(entry.MissionId) && !SetElevenB.Contains(entry.MissionId) && !SetTwelveB.Contains(entry.MissionId) && !SetFifteen.Contains(entry.MissionId) &&
                 !(entry.MissionId == CruciblePartOfTheBargainV1.MissionId && entry.EvidenceId == CrucibleFixHV1.Evidence) &&
                 !(entry.MissionId == CrucibleMinesweeperV1.MissionId && entry.EvidenceId == CrucibleFixJV1.Evidence) &&
@@ -2031,7 +2031,7 @@ namespace Rasa.Test.Missions.Crucible
             bool Evidence() => world.MissionEvidenceEntries.AsNoTracking().Any(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision &&
                 entry.MissionId == CruciblePartOfTheBargainV1.MissionId && entry.EvidenceId == CrucibleFixHV1.Evidence);
             // Set 11a (a later migration) is rolled back with the fix and not put back: its evidence is not counted.
-            int All() => world.MissionEvidenceEntries.AsNoTracking().Count(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision &&
+            int All() => world.MissionEvidenceEntries.AsNoTracking().Count(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes &&
                 !SetElevenA.Contains(entry.MissionId) && !SetTwelveA.Contains(entry.MissionId) && !SetThirteen.Contains(entry.MissionId) && !SetElevenB.Contains(entry.MissionId) && !SetTwelveB.Contains(entry.MissionId) && !SetFifteen.Contains(entry.MissionId) &&
                 !(entry.MissionId == CrucibleMinesweeperV1.MissionId && entry.EvidenceId == CrucibleFixJV1.Evidence) &&
                 !(entry.MissionId == CrucibleOutOfSightV1.MissionId && entry.EvidenceId == CrucibleFixKV1.Evidence));
@@ -2277,16 +2277,16 @@ namespace Rasa.Test.Missions.Crucible
             Assert.AreEqual(((-216.0, 180.83, 400.0), 6.0), (CrucibleFixIV1.DoorWayBefore, CrucibleFixIV1.DoorRadiusBefore), "set 11a's door marker");
             Assert.AreEqual((-16.0, -164.0), (CrucibleFixIV1.ContainerMarkerBefore.X, CrucibleFixIV1.ContainerMarkerBefore.Z), "set 12a's container marker");
             List<(uint, uint, uint, double, double, double, double)> Markers() => world.MissionIndicatorEntries.AsNoTracking()
-                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision).AsEnumerable()
+                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes).AsEnumerable()
                 .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ObjectiveId).ThenBy(entry => entry.IndicatorId)
                 .Select(entry => (entry.MissionId, entry.ObjectiveId, entry.IndicatorId, entry.PosX, entry.PosY, entry.PosZ, entry.Radius)).ToList();
             bool Moved((uint Mission, uint Objective, uint Indicator, double, double, double, double) row) =>
                 CrucibleFixIV1.DoorMarkers.Contains((row.Mission, row.Objective, row.Indicator)) ||
                 row == (CrucibleControlTheBrainV1.MissionId, CrucibleFixIV1.ContainerObjective, CrucibleFixIV1.ContainerMarker, row.Item4, row.Item5, row.Item6, row.Item7);
-            int Evidence() => world.MissionEvidenceEntries.AsNoTracking().Count(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision &&
+            int Evidence() => world.MissionEvidenceEntries.AsNoTracking().Count(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes &&
                 CrucibleFixIV1.Missions.Contains(entry.MissionId) && entry.EvidenceId == CrucibleFixIV1.Evidence);
             // Set 11b, fix job J, set 12b and fix job K (later migrations) are rolled back with the fix and not put back: their evidence is not counted.
-            int All() => world.MissionEvidenceEntries.AsNoTracking().Count(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision &&
+            int All() => world.MissionEvidenceEntries.AsNoTracking().Count(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes &&
                 !SetElevenB.Contains(entry.MissionId) && !SetTwelveB.Contains(entry.MissionId) && !SetFifteen.Contains(entry.MissionId) &&
                 !(entry.MissionId == CrucibleMinesweeperV1.MissionId && entry.EvidenceId == CrucibleFixJV1.Evidence) &&
                 !(entry.MissionId == CrucibleOutOfSightV1.MissionId && entry.EvidenceId == CrucibleFixKV1.Evidence));
@@ -2524,11 +2524,11 @@ namespace Rasa.Test.Missions.Crucible
                     $"{row.Id} {row.PosX} {row.PosY} {row.PosZ} {row.Radius} {row.RespawnTime} {row.Creature1Id} {row.Creature1MinCount} {row.Creature1MaxCount} {row.Creature2Id}"))
                 .ToList();
             List<(uint, uint, uint, double, double, double, double)> Markers() => world.MissionIndicatorEntries.AsNoTracking()
-                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision).AsEnumerable()
+                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes).AsEnumerable()
                 .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ObjectiveId).ThenBy(entry => entry.IndicatorId)
                 .Select(entry => (entry.MissionId, entry.ObjectiveId, entry.IndicatorId, entry.PosX, entry.PosY, entry.PosZ, entry.Radius)).ToList();
             List<(uint, uint)> Evidence() => world.MissionEvidenceEntries.AsNoTracking()
-                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision).AsEnumerable()
+                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes).AsEnumerable()
                 .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.EvidenceId).Select(entry => (entry.MissionId, entry.EvidenceId)).ToList();
             List<string> Drone() => world.Set<CreatureActionEntry>().AsNoTracking().Where(row => row.Id == ShieldDrone).AsEnumerable()
                 .Select(row => $"{row.ActionId} {row.ActionArgId} {row.MinDamage} {row.MaxDamage} {row.DamageType}")
@@ -2627,10 +2627,10 @@ namespace Rasa.Test.Missions.Crucible
             string Bindings(uint mission) => world.Set<MissionSceneBindingEntry>().AsNoTracking()
                 .Single(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId == mission).Bindings;
             List<(uint, string)> Others() => world.Set<MissionSceneBindingEntry>().AsNoTracking()
-                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != CrucibleFixLV1.MissionId)
+                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes && entry.MissionId != CrucibleFixLV1.MissionId)
                 .OrderBy(entry => entry.MissionId).AsEnumerable().Select(entry => (entry.MissionId, entry.Bindings)).ToList();
             List<(uint, uint)> Evidence() => world.MissionEvidenceEntries.AsNoTracking()
-                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision).AsEnumerable()
+                .Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes).AsEnumerable()
                 .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.EvidenceId).Select(entry => (entry.MissionId, entry.EvidenceId)).ToList();
             void Run(System.Action<MigrationBuilder> step)
             {
@@ -2684,8 +2684,16 @@ namespace Rasa.Test.Missions.Crucible
             CollectionAssert.AreEqual(evidence, Evidence());
         }
 
+        /// <summary>
+        /// Echoes in the Sand (1736): an Ashen Desert mission kept on this revision, as It Came From Erdas (1218) before it (one
+        /// revision per required chain; as Marshes It Lies in Ruins 1673 on Plateau's). Its scene, objectives and markers are on
+        /// Ashen Desert: AshenAshokaTests and the Ashen pins hold it, so the Crucible pins leave it out (as the Marshes pins leave
+        /// out Plateau's 1751).
+        /// </summary>
+        internal const uint AshenEchoes = 1736;
+
         internal static List<(uint MissionId, Rasa.Missions.Content.MissionSceneDefinition Scene)> Scenes(WildernessRuntimeTestHarness harness) =>
-            harness.World.Set<MissionSceneBindingEntry>().AsNoTracking().Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision)
+            harness.World.Set<MissionSceneBindingEntry>().AsNoTracking().Where(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision && entry.MissionId != AshenEchoes)
                 .ToList().Select(entry => (entry.MissionId, System.Text.Json.JsonSerializer.Deserialize<Rasa.Missions.Content.MissionSceneDefinition>(
                     entry.Bindings, Rasa.Missions.Content.MissionContentCodec.Options))).ToList();
     }
