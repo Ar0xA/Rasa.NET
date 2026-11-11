@@ -541,7 +541,7 @@ namespace Rasa.Test.Missions.Ashen
         /// hostile with the client's name 9793 (the boss list's "Jerix": BossTitles counts him on Ashen Desert), the Overseers'
         /// class 10504, level 44, alone in his pool (one, radius 0, respawn 3000 tenths), the only pools Chase's and his. Neither
         /// his class nor the ambushers' (531008's) nor the researchers' carries a client IMMUNE_* damage flag (creature_class_flag
-        /// 125-135). Jirex stands 35 m or more (fix F's boss rule; the 60 m between hostile pools held) outside every other hostile pool's circle and 100 m
+        /// 125-135). Jirex stands 60 m or more (the hostile-pool rule, stricter than fix F's 35 m boss rule) outside every other hostile pool's circle and 100 m
         /// or more from every pool of a creature with the warcry (action 477).
         /// </summary>
         [TestMethod]

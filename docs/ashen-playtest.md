@@ -541,6 +541,8 @@ All ESTIMATE (set 14):
 - 1736: both researchers need not arrive: objectives 3 and 4 complete with objective 2 (Botha's talk), wherever the
   researchers are then; only a death fails them. A logout or map change leaves them waiting; after a server restart they are
   placed again by Botha and run to the player (ESTIMATE of the retail behaviour: no source).
+  A first-pair Thrax that is still alive (one that gave up the chase, or one that comes back at its spawn after a server
+  restart) keeps the obelisk away until it is killed: kill both of the first pair before you look for the obelisk.
 - 1286: Jirex 30 m from the pillbox, not by it (60 m from the Boneyard's hostile pools).
 - 1358: the White Oasis delivery waits while the Bane hold control point 17 (Daris Linier gone, the service rule).
 

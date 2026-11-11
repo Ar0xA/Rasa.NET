@@ -2687,8 +2687,8 @@ namespace Rasa.Test.Missions.Crucible
         /// <summary>
         /// Echoes in the Sand (1736): an Ashen Desert mission kept on this revision, as It Came From Erdas (1218) before it (one
         /// revision per required chain; as Marshes It Lies in Ruins 1673 on Plateau's). Its scene, objectives and markers are on
-        /// Ashen Desert: AshenAshokaTests and the Ashen pins hold it, so the Crucible pins leave it out (as the Marshes pins leave
-        /// out Plateau's 1751).
+        /// Ashen Desert: AshenAshokaTests and the Ashen pins hold it, so the Crucible pins leave it out by id. (The 1673 case
+        /// went the other way: the Plateau pins include 1673, PlateauMissionTests.)
         /// </summary>
         internal const uint AshenEchoes = 1736;
 

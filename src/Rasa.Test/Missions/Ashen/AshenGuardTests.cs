@@ -444,8 +444,9 @@ namespace Rasa.Test.Missions.Ashen
             var catalog = new MissionContentCatalog(harness, new Dictionary<uint, Mission>(), null);
             catalog.Load();
             var links = harness.World.Set<MapLinkEntry>().AsNoTracking().Where(link => link.Enabled != 0).ToList();
-            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision).ToList();
-            Assert.HasCount(AshenMissionTests.Indicators, markers, "the Ashen markers");
+            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision ||
+                entry.MissionId == AshenEchoesInTheSandV1.MissionId && entry.ContentRevision == Rasa.Services.Preloader.Missions.Crucible.CrucibleMissionDataV1.Revision).ToList();
+            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators, markers, "the Ashen markers");
             var near = new List<string>();
             foreach (var marker in markers)
             {
@@ -476,11 +477,12 @@ namespace Rasa.Test.Missions.Ashen
             var desert = AshenLeadInsTests.EnterAshen(harness);
             var catalog = new MissionContentCatalog(harness, new Dictionary<uint, Mission>(), null);
             catalog.Load();
-            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision).ToList()
+            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision ||
+                entry.MissionId == AshenEchoesInTheSandV1.MissionId && entry.ContentRevision == Rasa.Services.Preloader.Missions.Crucible.CrucibleMissionDataV1.Revision).ToList()
                 .Where(marker => MissionMarkerProjection.ResolveMap(catalog, marker.MissionId, marker.ObjectiveId, new MissionIndicator { IndicatorId = marker.IndicatorId }) == Map)
                 .Select(marker => (Label: $"{marker.MissionId}.{marker.ObjectiveId}/{marker.IndicatorId}", At: new Vector3((float)marker.PosX, (float)marker.PosY, (float)marker.PosZ)))
                 .ToList();
-            Assert.HasCount(AshenMissionTests.Indicators, markers, "the Ashen markers on Ashen Desert");
+            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators, markers, "the Ashen markers on Ashen Desert");
             using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
             var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", MapName(harness)), meshes, 1);
             var (floors, _) = F.Surfaces(geometry, markers.Select(marker => (marker.At + new Vector3(0, MarkerHeight - F.MaxUnder, 0), F.Walkable)).ToList());
@@ -583,9 +585,10 @@ namespace Rasa.Test.Missions.Ashen
                 [AshenGodOfStormsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
                 [AshenBondsOfBloodV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
                 // Set 14: 1358's captains from Shadow's Edge Post's (Chase's) and the others' (Also); 1286's Jirex from Ashoka
-                // Settlement's.
+                // Settlement's; 1736's Botha and obelisk (Daedalus' Landing, the escort's way) from Ashoka Settlement's.
                 [AshenSupplyLogisticsV1.MissionId] = ("the Shadow's Edge Post waypoint", AshenLeadInsTests.ShadowsEdgeWaypoint),
-                [AshenPreciousToolsV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
+                [AshenPreciousToolsV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                [AshenEchoesInTheSandV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
             };
             // A mission whose markers stand in more than one area: the other areas' waypoints (any one walks to the marker).
             var also = new Dictionary<uint, (string Label, Vector3 At)[]>
@@ -604,10 +607,11 @@ namespace Rasa.Test.Missions.Ashen
             var nav = desert.NavMesh;
             var catalog = new MissionContentCatalog(harness, new Dictionary<uint, Mission>(), null);
             catalog.Load();
-            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision).ToList()
+            var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision ||
+                entry.MissionId == AshenEchoesInTheSandV1.MissionId && entry.ContentRevision == Rasa.Services.Preloader.Missions.Crucible.CrucibleMissionDataV1.Revision).ToList()
                 .Where(marker => MissionMarkerProjection.ResolveMap(catalog, marker.MissionId, marker.ObjectiveId, new MissionIndicator { IndicatorId = marker.IndicatorId }) == Map)
                 .ToList();
-            Assert.HasCount(AshenMissionTests.Indicators, markers, "the Ashen markers on Ashen Desert");
+            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators, markers, "the Ashen markers on Ashen Desert");
             var failures = new List<string>();
             foreach (var marker in markers)
             {
