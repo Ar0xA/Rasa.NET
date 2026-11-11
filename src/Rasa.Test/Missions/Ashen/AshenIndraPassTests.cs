@@ -29,6 +29,7 @@ namespace Rasa.Test.Missions.Ashen
     using E = MarshesEscortsTests;
     using WO = AshenWhiteOasisTests;
     using F = MarshesClientFloorTests;
+    using G = AshenFixGV1;
 
     /// <summary>
     /// Ashen Desert set 13, Indra Pass, played through as a player plays it: Surveyor Odesha's Missing Scientists (1280: the
@@ -66,6 +67,12 @@ namespace Rasa.Test.Missions.Ashen
         internal static readonly Vector3 IndraWaypoint = new(262.19f, 315.10f, 344.38f);
         private static readonly Vector3 Ashoka = AshenLeadInsTests.AshokaWaypoint;
 
+        /// <summary>Where a player comes in: the valley's south entry, the end of set 10's way from the White Oasis Post waypoint (fix G: the Indra Pass waypoint's floor is joined to no way in, N23).</summary>
+        internal static readonly Vector3 Arrival = new(152.82f, 312.80f, 459.30f);
+
+        /// <summary>The ten resistors where the server has them (set 13's, four moved by fix G).</summary>
+        private static readonly Rasa.Missions.Scenes.ScenePosition[] ResistorsAt = G.ResistorsAt();
+
         [TestInitialize]
         public void Clock() => PlateauGiantKillerSquadTests.UseClock();
 
@@ -82,7 +89,7 @@ namespace Rasa.Test.Missions.Ashen
         public void TheForkOffersOneSideAtATime()
         {
             using var harness = WildernessRuntimeTestHarness.Create();
-            var desert = AshenLeadInsTests.EnterAshen(harness, IndraWaypoint);
+            var desert = AshenLeadInsTests.EnterAshen(harness, Arrival);
             var odesha = Npc(desert, N.Odesha);
             var endala = Npc(desert, N.Endala);
             bool Offers(Creature npc, uint mission) => PlateauRetreadCampTests.Offers(harness, npc, mission);
@@ -135,7 +142,7 @@ namespace Rasa.Test.Missions.Ashen
         public void MissingScientistsTakesVeyonsCodesToOdesha()
         {
             using var harness = WildernessRuntimeTestHarness.Create();
-            var desert = AshenLeadInsTests.EnterAshen(harness, IndraWaypoint);
+            var desert = AshenLeadInsTests.EnterAshen(harness, Arrival);
             var odesha = Npc(desert, N.Odesha);
             var endala = Npc(desert, N.Endala);
             Assert.IsFalse(desert.DynamicObjects.Any(obj => obj.SceneMissionId == Missing.MissionId), "no body before the mission");
@@ -185,7 +192,7 @@ namespace Rasa.Test.Missions.Ashen
         public void MissingScientistsAbandonedTakesTheCodesAndTheBody()
         {
             using var harness = WildernessRuntimeTestHarness.Create();
-            var desert = AshenLeadInsTests.EnterAshen(harness, IndraWaypoint);
+            var desert = AshenLeadInsTests.EnterAshen(harness, Arrival);
             var odesha = Npc(desert, N.Odesha);
             Accept(harness, odesha, Missing.MissionId);
             Search(harness, desert, Body(harness, desert, Missing.MissionId, Missing.CorpseRole, Missing.VeyonAt, ClientVeyonName));
@@ -214,7 +221,7 @@ namespace Rasa.Test.Missions.Ashen
         {
             using var harness = WildernessRuntimeTestHarness.Create();
             AshenRuntime.SeedCompleted(harness, Missing.MissionId);
-            var desert = AshenLeadInsTests.EnterAshen(harness, IndraWaypoint);
+            var desert = AshenLeadInsTests.EnterAshen(harness, Arrival);
             var odesha = Npc(desert, N.Odesha);
             var endala = Npc(desert, N.Endala);
             var offer = WildernessRanjaGorgeTests.Offer(harness, odesha, Storms.MissionId);
@@ -231,11 +238,11 @@ namespace Rasa.Test.Missions.Ashen
             Accept(harness, odesha, Storms.MissionId);
             Assert.IsEmpty(Topics(harness, odesha, Storms.MissionId), "Odesha hears no objective");
             var snapshot = harness.Manager.BuildStatusSnapshot(harness.Client.Player)[Storms.MissionId].ObjectivesList;
-            Assert.HasCount(Storms.ResistorsAt.Length, snapshot, "the ten visible objectives");
+            Assert.HasCount(ResistorsAt.Length, snapshot, "the ten visible objectives");
             foreach (var objective in snapshot)
             {
                 var marker = objective.IndicatorList.Single();
-                var at = Storms.ResistorsAt[objective.ObjectiveId - 1];
+                var at = ResistorsAt[objective.ObjectiveId - 1];
                 Assert.IsLessThan(0.1f, Vector2.Distance(new(marker.Position.X, marker.Position.Z), new(at.X, at.Z)), $"objective {objective.ObjectiveId}'s marker on its resistor");
                 Assert.AreEqual(AshenMissionDataV1.MapContextId, marker.MapContextId, "on Ashen Desert");
             }
@@ -267,7 +274,7 @@ namespace Rasa.Test.Missions.Ashen
                     Assert.AreEqual(5, Programmed(harness), "kept at a reload");
                     resistors = Resistors(harness, desert, done.ToArray());
                 }
-                if (done.Count < Storms.ResistorsAt.Length)
+                if (done.Count < ResistorsAt.Length)
                     Assert.IsFalse(harness.Client.Player.Missions[Storms.MissionId].Completeable, $"{done.Count} of 10: not completeable");
             }
             Assert.IsTrue(harness.Client.Player.Missions[Storms.MissionId].Completeable, "ten resistors");
@@ -300,7 +307,7 @@ namespace Rasa.Test.Missions.Ashen
         {
             using var harness = WildernessRuntimeTestHarness.Create();
             AshenRuntime.SeedCompleted(harness, Missing.MissionId);
-            var desert = AshenLeadInsTests.EnterAshen(harness, IndraWaypoint);
+            var desert = AshenLeadInsTests.EnterAshen(harness, Arrival);
             var odesha = Npc(desert, N.Odesha);
             var endala = Npc(desert, N.Endala);
             var offer = WildernessRanjaGorgeTests.Offer(harness, endala, Bonds.MissionId);
@@ -325,7 +332,7 @@ namespace Rasa.Test.Missions.Ashen
                 (Objective(harness, Bonds.MissionId, Bonds.Find), Objective(harness, Bonds.MissionId, Bonds.Talk)), "kept at a reload");
             var talkMarker = harness.Manager.BuildStatusSnapshot(harness.Client.Player)[Bonds.MissionId].ObjectivesList
                 .Single(objective => objective.ObjectiveId == Bonds.Talk).IndicatorList.Single();
-            Assert.IsLessThan(0.1f, Vector2.Distance(new(talkMarker.Position.X, talkMarker.Position.Z), new((float)N.EndalaAt.X, (float)N.EndalaAt.Z)), "the marker at Endala");
+            Assert.IsLessThan(0.1f, Vector2.Distance(new(talkMarker.Position.X, talkMarker.Position.Z), new((float)G.EndalaAt.X, (float)G.EndalaAt.Z)), "the marker at Endala");
             Assert.IsEmpty(Topics(harness, odesha, Bonds.MissionId), "Odesha hears nothing");
             CollectionAssert.AreEqual(new[] { (Bonds.Talk, 1U) }, AshenFormalComplaintsTests.TopicVariants(harness, endala, Bonds.MissionId), "Endala hears 2, variant 1");
             var log = AshenFormalComplaintsTests.Say(harness, endala, Bonds.MissionId, Bonds.Talk, 1);
@@ -349,7 +356,7 @@ namespace Rasa.Test.Missions.Ashen
         {
             using var harness = WildernessRuntimeTestHarness.Create();
             AshenRuntime.SeedCompleted(harness, Missing.MissionId);
-            var desert = AshenLeadInsTests.EnterAshen(harness, IndraWaypoint);
+            var desert = AshenLeadInsTests.EnterAshen(harness, Arrival);
             var odesha = Npc(desert, N.Odesha);
             var endala = Npc(desert, N.Endala);
             Accept(harness, endala, Bonds.MissionId);
@@ -380,16 +387,16 @@ namespace Rasa.Test.Missions.Ashen
         {
             using var harness = WildernessRuntimeTestHarness.Create();
             AshenRuntime.SeedCompleted(harness, Missing.MissionId);
-            var desert = AshenLeadInsTests.EnterAshen(harness, IndraWaypoint);
+            var desert = AshenLeadInsTests.EnterAshen(harness, Arrival);
             var odesha = Npc(desert, N.Odesha);
             Accept(harness, Npc(desert, N.Endala), Bonds.MissionId);
             Assert.IsTrue(harness.Manager.TryGiveMission(harness.Client, Storms.MissionId, "test"), "a GM gives God of Storms too");
             harness.Drain();
             var resistors = Resistors(harness, desert);
-            for (var number = 1; number <= Storms.ResistorsAt.Length; number++)
+            for (var number = 1; number <= ResistorsAt.Length; number++)
             {
                 Program(harness, desert, resistors[number - 1]);
-                if (number < Storms.ResistorsAt.Length)
+                if (number < ResistorsAt.Length)
                     Assert.AreEqual(MissionState.Active, harness.Client.Player.Missions[Bonds.MissionId].State, $"{number} resistors: The Bonds of Blood open");
             }
             harness.Manager.Scenes.Tick(desert);
@@ -406,7 +413,7 @@ namespace Rasa.Test.Missions.Ashen
 
             using var other = WildernessRuntimeTestHarness.Create();
             AshenRuntime.SeedCompleted(other, Missing.MissionId);
-            var desert2 = AshenLeadInsTests.EnterAshen(other, IndraWaypoint);
+            var desert2 = AshenLeadInsTests.EnterAshen(other, Arrival);
             Accept(other, Npc(desert2, N.Odesha), Storms.MissionId);
             Assert.IsTrue(other.Manager.TryGiveMission(other.Client, Bonds.MissionId, "test"), "a GM gives The Bonds of Blood too");
             other.Drain();
@@ -493,12 +500,12 @@ namespace Rasa.Test.Missions.Ashen
                 if (gap < PlaceClearance)
                     failures.Add(FormattableString.Invariant($"{label}: {gap:0.0} m outside a hostile pool's circle"));
             }
-            for (var a = 0; a < Storms.ResistorsAt.Length; a++)
-                for (var b = a + 1; b < Storms.ResistorsAt.Length; b++)
-                    if (Vector2.Distance(new(Storms.ResistorsAt[a].X, Storms.ResistorsAt[a].Z), new(Storms.ResistorsAt[b].X, Storms.ResistorsAt[b].Z)) < 25)
+            for (var a = 0; a < ResistorsAt.Length; a++)
+                for (var b = a + 1; b < ResistorsAt.Length; b++)
+                    if (Vector2.Distance(new(ResistorsAt[a].X, ResistorsAt[a].Z), new(ResistorsAt[b].X, ResistorsAt[b].Z)) < 25)
                         failures.Add($"resistors {a + 1} and {b + 1} under 25 m apart");
             foreach (var (label, at) in places.Where(place => !place.Label.StartsWith("Surveyor") && !place.Label.StartsWith("Researcher")))
-                foreach (var npc in new[] { N.OdeshaAt, N.EndalaAt })
+                foreach (var npc in new[] { G.OdeshaAt, G.EndalaAt })
                     if (Vector2.Distance(new(at.X, at.Z), new((float)npc.X, (float)npc.Z)) < 15)
                         failures.Add($"{label} under 15 m from an NPC");
             Assert.HasCount(2 + 1 + 10 + 1, places);
@@ -507,13 +514,13 @@ namespace Rasa.Test.Missions.Ashen
 
         /// <summary>
         /// The walks on the client's floor (AshenFixBTests.ClientFloorLine with a player's half width: every half metre, never
-        /// more than 1.1 m up over a metre, nothing of the placed meshes in the way at knee, chest or head height), there and back
-        /// by the corners Walks names (the client-floor flood of 2026-11-10: the Indra Pass waypoint's navmesh is joined to nothing,
-        /// upstream N23, so the walks follow the client's floor, not the server's path): the two NPCs, Veyon and the ten resistors
-        /// from the Indra Pass waypoint; the Indra Pass waypoint itself from the valley at the end of set 10's way from White
-        /// Oasis Post (a player who has not the waypoint yet walks in); Maiek from the Ashoka Settlement waypoint. Every walk
-        /// keeps HostileClearance (30 m, 2D) outside the circle of every automatic hostile Ashen Desert pool (none is a set 13
-        /// mission's own).
+        /// more than 1.1 m up over a metre, no two climbing samples within a metre on a floor steeper than the client's 55 degrees
+        /// (fix G, to-fix row 24), nothing of the placed meshes in the way at knee, chest or head height), there and back by the
+        /// corners Walks names (the client-floor floods of fix G: the Indra Pass waypoint's floor is joined to no way in, upstream
+        /// N23, so the set's places are in the valley): the two NPCs from the valley's south entry (the end of set 10's way from
+        /// the White Oasis Post waypoint, which AshenDesignerHidesTests walks); Veyon and the ten resistors from Odesha; Maiek
+        /// from the Ashoka Settlement waypoint. Every walk keeps HostileClearance (30 m, 2D) outside the circle of every
+        /// automatic hostile Ashen Desert pool (none is a set 13 mission's own).
         /// </summary>
         [TestMethod]
         public void ThePlacesAreWalkedToOnTheClientsFloorAwayFromEveryCamp()
@@ -541,7 +548,7 @@ namespace Rasa.Test.Missions.Ashen
                 }
             }
             Assert.AreEqual(2 * Walks().Count, walked, "every walk both ways");
-            Assert.HasCount(2 + 1 + 10 + 1 + 1, Walks());
+            Assert.HasCount(2 + 1 + 10 + 1, Walks());
             Assert.IsEmpty(failures, $"{failures.Count}: " + string.Join("; ", failures));
         }
 
@@ -553,110 +560,61 @@ namespace Rasa.Test.Missions.Ashen
         {
             var spots = new List<(string, Vector3)>
             {
-                ("Surveyor Malya Odesha", V(N.OdeshaAt)), ("Researcher Endala Berish", V(N.EndalaAt)),
+                ("Surveyor Malya Odesha", V(G.OdeshaAt)), ("Researcher Endala Berish", V(G.EndalaAt)),
                 ("Veyon's body", E.ToVector(Missing.VeyonAt))
             };
-            for (var number = 1; number <= Storms.ResistorsAt.Length; number++)
-                spots.Add(($"Indra Lightning Resistor {number}", E.ToVector(Storms.ResistorsAt[number - 1])));
+            for (var number = 1; number <= ResistorsAt.Length; number++)
+                spots.Add(($"Indra Lightning Resistor {number}", E.ToVector(ResistorsAt[number - 1])));
             spots.Add(("Maiek's body", E.ToVector(Bonds.MaiekAt)));
             return spots;
         }
 
-        /// <summary>The walks: label, start (a waypoint), place, the corners between (the client-floor flood of 2026-11-10, simplified to straight client-floor legs; ESTIMATE of a player's line).</summary>
+        /// <summary>The walks: label, start, place, the corners between (the client-floor floods of fix G, simplified to straight client-floor legs; ESTIMATE of a player's line).</summary>
         internal static List<(string Label, Vector3 From, Vector3 Target, Vector3[] Corners)> Walks()
         {
+            var odesha = V(G.OdeshaAt);
             var walks = new List<(string, Vector3, Vector3, Vector3[])>
             {
-                ("Odesha from the Indra Pass waypoint", IndraWaypoint, V(N.OdeshaAt), WayToOdesha),
-                ("Endala from the Indra Pass waypoint", IndraWaypoint, V(N.EndalaAt), WayToEndala),
-                ("Veyon from the Indra Pass waypoint", IndraWaypoint, E.ToVector(Missing.VeyonAt), WayToVeyon),
-                ("the Indra Pass waypoint from the valley's south end (set 10's way from White Oasis Post)", ValleyEntry, IndraWaypoint, WayToResistor[3].Reverse().ToArray()),   // resistor 4's way, back, then on to the waypoint
+                ("Odesha from the valley's south entry (set 10's way from White Oasis Post)", Arrival, odesha, WayToOdesha),
+                ("Endala from the valley's south entry (set 10's way from White Oasis Post)", Arrival, V(G.EndalaAt), WayToEndala),
+                ("Veyon from Odesha", odesha, E.ToVector(Missing.VeyonAt), WayToVeyon),
                 ("Maiek from the Ashoka Settlement waypoint", Ashoka, E.ToVector(Bonds.MaiekAt), WayToMaiek)
             };
-            for (var number = 1; number <= Storms.ResistorsAt.Length; number++)
-                walks.Add(($"resistor {number} from the Indra Pass waypoint", IndraWaypoint, E.ToVector(Storms.ResistorsAt[number - 1]), WayToResistor[number - 1]));
+            for (var number = 1; number <= ResistorsAt.Length; number++)
+                walks.Add(($"resistor {number} from Odesha", odesha, E.ToVector(ResistorsAt[number - 1]), WayToResistor[number - 1]));
             return walks;
         }
 
-        // The corners: the client-floor search of 2026-11-10 (a 1 m grid from the waypoint, each step AshenFixBTests.ClientFloorLine
-        // both ways with a player's half width and 31 m off every hostile pool's circle; the path then cut to straight legs that
-        // pass the same check as a whole). The way into the valley goes west round the rocks north of the cave mouth.
-        private static readonly Vector3 ValleyEntry = new(152.82f, 312.80f, 459.30f);
-        private static readonly Vector3[] WayToOdesha = Array.Empty<Vector3>();
-        private static readonly Vector3[] WayToEndala = Array.Empty<Vector3>();
-        private static readonly Vector3[] WayToVeyon = new Vector3[]
+        // The corners: the client-floor floods of fix G (a 1 m grid, each step by AshenFixBTests.ClientFloorLine's rules both
+        // ways, 31 m off every hostile pool's circle; the path then cut to straight legs that pass ClientFloorLine with a
+        // player's half width as a whole, both ways). From Odesha the ways go up east to the valley's south rim by (139, 450),
+        // (145, 456), then along it and down.
+        private static readonly Vector3[] WayToOdesha = { new(126.0f, 307.43f, 451.0f) };
+        private static readonly Vector3[] WayToEndala = { new(128.0f, 308.16f, 452.0f), new(126.0f, 307.43f, 451.0f), new(117.0f, 304.50f, 451.0f) };
+        private static readonly Vector3[] WayToVeyon = { new(139.0f, 310.48f, 450.0f), new(178.0f, 306.09f, 487.0f) };
+        private static readonly Vector3[] Rim = { new(139.0f, 310.48f, 450.0f), new(145.0f, 310.73f, 456.0f), new(170.0f, 308.53f, 479.0f) };
+        private static readonly Vector3[] DownWest = Rim.Append(new(171.0f, 304.01f, 494.0f)).ToArray();
+        private static readonly Vector3[] WayToMaiek =
         {
-            new(193.0f, 307.31f, 363.0f), new(168.0f, 311.56f, 376.0f), new(137.0f, 316.83f, 372.0f),
-            new(109.0f, 316.10f, 378.0f), new(105.0f, 316.71f, 380.0f), new(100.7f, 316.36f, 428.7f),
-            new(100.0f, 316.34f, 429.0f), new(94.0f, 315.49f, 432.0f), new(79.0f, 313.17f, 433.0f),
-            new(78.0f, 312.44f, 435.0f), new(78.0f, 305.84f, 453.0f), new(86.0f, 299.74f, 469.0f),
-            new(99.0f, 294.49f, 482.0f), new(160.0f, 303.89f, 500.0f), new(171.0f, 310.48f, 513.0f)
-        };
-        private static readonly Vector3[] WayToMaiek = new Vector3[]
-        {
-            new(397f, 280.33f, -459f), new(398f, 280.33f, -457f), new(399f, 280.45f, -456f), new(400f, 281.48f, -456f), new(400f, 281.60f, -454f), new(401f, 282.04f, -452f),
-            new(401f, 283.63f, -444f), new(402f, 288.27f, -374f), new(405f, 291.07f, -351f), new(395f, 296.32f, -287f), new(395f, 299.98f, -209f),
-            new(390f, 300.96f, -190f), new(388f, 304.37f, -166.4f), new(339f, 293.03f, -62f)
-        };   // off the waypoint pad's 1 m step at x 400 (z -456), then north up the road
+            new(389.60f, 280.45f, -457.60f), new(387.60f, 280.65f, -456.00f), new(387.60f, 281.25f, -454.80f), new(388.40f, 283.45f, -430.80f),
+            new(402f, 290.95f, -401f), new(405f, 290.95f, -352f), new(395f, 298.15f, -290f), new(395f, 292.17f, -283f),
+            new(394f, 300.60f, -208f), new(396f, 300.84f, -204f), new(402f, 296.20f, -200f), new(402f, 295.35f, -188f), new(402f, 296.44f, -187f),
+            new(396f, 304.50f, -177f), new(352f, 300.96f, -137f), new(352f, 288.75f, -84f)
+        };   // fix G: off the waypoint pad to the west and north (the navmesh's way; set 13's step at x 400 failed the knee line
+             // coming back), north up the road, then east of the hump where the real client stopped at (394.2, 301.2, -185.5)
+             // (the flood kept 9 m off it) and over the rise to the generators
         private static readonly Vector3[][] WayToResistor =
         {
-            Array.Empty<Vector3>(),
-            new Vector3[]
-            {
-                new(168.0f, 307.91f, 359.0f)
-            },
-            Array.Empty<Vector3>(),           // 3 on the straight way to 1
-            new Vector3[]
-            {
-                new(193.0f, 307.31f, 363.0f), new(168.0f, 311.56f, 376.0f), new(137.0f, 316.83f, 372.0f),
-                new(109.0f, 316.10f, 378.0f), new(105.0f, 316.71f, 380.0f), new(100.0f, 317.41f, 428.0f),
-                new(100.0f, 316.34f, 429.0f), new(94.0f, 315.49f, 432.0f), new(79.0f, 313.17f, 433.0f),
-                new(78.0f, 312.44f, 435.0f), new(78.0f, 305.84f, 453.0f), new(86.0f, 299.74f, 469.0f),
-                new(99.0f, 294.49f, 482.0f), new(130.0f, 291.68f, 490.0f), new(149.0f, 296.44f, 485.0f),
-                new(151.0f, 296.44f, 484.0f), new(153.0f, 296.57f, 481.0f), new(155.0f, 299.50f, 476.0f),
-                new(157.0f, 301.08f, 476.0f), new(157.0f, 306.45f, 471.0f), new(154.0f, 308.41f, 470.0f),
-                new(162.0f, 311.58f, 469.0f)
-            },
-            new Vector3[]
-            {
-                new(193.0f, 307.31f, 363.0f), new(168.0f, 311.56f, 376.0f), new(137.0f, 316.83f, 372.0f),
-                new(109.0f, 316.10f, 378.0f), new(105.0f, 316.71f, 380.0f), new(100.7f, 316.36f, 428.7f),
-                new(100.0f, 316.34f, 429.0f), new(94.0f, 315.49f, 432.0f), new(79.0f, 313.17f, 433.0f),
-                new(78.0f, 312.44f, 435.0f), new(78.0f, 305.84f, 453.0f), new(86.0f, 299.74f, 469.0f),
-                new(99.0f, 294.49f, 482.0f)
-            },
-            new Vector3[]
-            {
-                new(193.0f, 307.31f, 363.0f), new(168.0f, 311.56f, 376.0f), new(137.0f, 316.83f, 372.0f),
-                new(109.0f, 316.10f, 378.0f), new(105.0f, 316.71f, 380.0f), new(100.0f, 317.41f, 428.0f),
-                new(100.0f, 316.34f, 429.0f), new(94.0f, 315.49f, 432.0f), new(79.0f, 313.17f, 433.0f),
-                new(78.0f, 312.44f, 435.0f), new(78.0f, 305.84f, 453.0f), new(86.0f, 299.74f, 469.0f),
-                new(99.0f, 294.49f, 482.0f), new(143.0f, 295.59f, 493.0f)
-            },
-            Array.Empty<Vector3>(),           // 7 by the cave mouth, straight
-            new Vector3[]
-            {
-                new(193.0f, 307.31f, 363.0f), new(168.0f, 311.56f, 376.0f), new(137.0f, 316.83f, 372.0f),
-                new(109.0f, 316.10f, 378.0f), new(105.0f, 316.71f, 380.0f), new(100.7f, 316.36f, 428.7f),
-                new(100.0f, 316.34f, 429.0f), new(94.0f, 315.49f, 432.0f), new(79.0f, 313.17f, 433.0f),
-                new(78.0f, 312.44f, 435.0f), new(78.0f, 305.84f, 453.0f), new(86.0f, 299.74f, 469.0f),
-                new(100.0f, 294.49f, 483.0f)
-            },
-            new Vector3[]
-            {
-                new(193.0f, 307.31f, 363.0f), new(168.0f, 311.56f, 376.0f), new(137.0f, 316.83f, 372.0f),
-                new(109.0f, 316.10f, 378.0f), new(105.0f, 316.71f, 380.0f), new(100.7f, 316.36f, 428.7f),
-                new(100.0f, 316.34f, 429.0f), new(94.0f, 315.49f, 432.0f), new(79.0f, 313.17f, 433.0f),
-                new(78.0f, 312.44f, 435.0f), new(78.0f, 305.84f, 453.0f), new(86.0f, 299.74f, 469.0f)
-            },
-            new Vector3[]
-            {
-                new(193.0f, 307.31f, 363.0f), new(168.0f, 311.56f, 376.0f), new(137.0f, 316.83f, 372.0f),
-                new(109.0f, 316.10f, 378.0f), new(105.0f, 316.71f, 380.0f), new(100.7f, 316.36f, 428.7f),
-                new(100.0f, 316.34f, 429.0f), new(94.0f, 315.49f, 432.0f), new(79.0f, 313.17f, 433.0f),
-                new(78.0f, 312.44f, 435.0f), new(78.0f, 305.60f, 455.0f), new(99.0f, 296.69f, 497.0f),
-                new(99.0f, 297.91f, 505.0f)
-            }
+            Rim.Concat(new Vector3[] { new(172.0f, 314.02f, 527.0f), new(172.0f, 313.78f, 529.0f), new(158.0f, 313.29f, 533.0f) }).ToArray(),
+            DownWest.Concat(new Vector3[] { new(97.0f, 296.08f, 516.0f), new(92.0f, 292.78f, 535.0f), new(86.0f, 293.51f, 539.0f) }).ToArray(),
+            new Vector3[] { new(139.0f, 310.48f, 450.0f), new(184.0f, 305.36f, 493.0f), new(186.0f, 307.31f, 500.0f) },
+            new Vector3[] { new(140.0f, 309.87f, 452.0f), new(150.0f, 311.83f, 458.0f) },
+            new Vector3[] { new(139.0f, 310.48f, 450.0f), new(145.0f, 310.73f, 456.0f), new(170.0f, 308.90f, 478.0f), new(171.0f, 304.99f, 493.0f), new(166.0f, 300.96f, 495.0f) },
+            new Vector3[] { new(140.0f, 309.87f, 452.0f), new(176.0f, 306.94f, 484.0f) },
+            DownWest.Concat(new Vector3[] { new(97.0f, 296.08f, 516.0f), new(81.0f, 296.69f, 582.0f) }).ToArray(),
+            DownWest.Concat(new Vector3[] { new(103.0f, 294.13f, 495.0f), new(103.0f, 292.90f, 483.0f) }).ToArray(),
+            Rim.Concat(new Vector3[] { new(171.0f, 306.58f, 491.0f), new(171.0f, 304.01f, 494.0f), new(124.0f, 291.07f, 508.0f) }).ToArray(),
+            DownWest.Concat(new Vector3[] { new(97.0f, 296.08f, 516.0f) }).ToArray()
         };
 
         private static Vector3 V((double X, double Y, double Z) at) => new((float)at.X, (float)at.Y, (float)at.Z);
@@ -664,7 +622,7 @@ namespace Rasa.Test.Missions.Ashen
         private static uint Codes(WildernessRuntimeTestHarness harness) => WildernessRanjaGorgeTests.Held(harness, ClientCodesTemplate);
 
         private static int Programmed(WildernessRuntimeTestHarness harness) =>
-            Enumerable.Range(1, Storms.ResistorsAt.Length).Count(number => Objective(harness, Storms.MissionId, (uint)number) == MissionObjectiveState.Completed);
+            Enumerable.Range(1, ResistorsAt.Length).Count(number => Objective(harness, Storms.MissionId, (uint)number) == MissionObjectiveState.Completed);
 
         /// <summary>A body: the player's own, the client's Brann corpse with <paramref name="name"/>, at its place on the ground, closed and open, with the client's use argument.</summary>
         private static DynamicObject Body(WildernessRuntimeTestHarness harness, MapChannel desert, uint mission, string role, Rasa.Missions.Scenes.ScenePosition at, uint name)
@@ -682,12 +640,12 @@ namespace Rasa.Test.Missions.Ashen
         private static DynamicObject[] Resistors(WildernessRuntimeTestHarness harness, MapChannel desert, int[] done = null)
         {
             harness.Manager.Scenes.Tick(desert);
-            var resistors = new DynamicObject[Storms.ResistorsAt.Length];
+            var resistors = new DynamicObject[ResistorsAt.Length];
             for (var number = 1; number <= resistors.Length; number++)
             {
                 var isDone = done?.Contains(number) == true;
                 var resistor = desert.DynamicObjects.Single(obj => obj.SceneMissionId == Storms.MissionId && obj.SceneActorRole == Storms.ResistorRole(number) && obj.IsInWorld);
-                Assert.AreEqual((ClientResistorClass, ClientResistorName, E.ToVector(Storms.ResistorsAt[number - 1]), ClientUseArgument),
+                Assert.AreEqual((ClientResistorClass, ClientResistorName, E.ToVector(ResistorsAt[number - 1]), ClientUseArgument),
                     ((uint)resistor.EntityClassId, resistor.NameOverrideId, resistor.Position, resistor.MissionUseAction.ActionArgId), $"resistor {number}");
                 Assert.AreEqual(isDone ? ((UseObjectState)On, false) : ((UseObjectState)Off, true), (resistor.StateId, resistor.IsEnabled), $"resistor {number} state");
                 Assert.AreEqual(harness.Client.Player.Id, resistor.SceneOwnerCharacterId, "the player's own");

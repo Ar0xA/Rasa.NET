@@ -143,7 +143,10 @@ namespace Rasa.Services.Preloader.Missions.Ashen
         }
 
         /// <summary>The player's own ten resistors.</summary>
-        public static MissionSceneDefinition Scene()
+        public static MissionSceneDefinition Scene() => Scene(ResistorsAt);
+
+        /// <summary>The player's own ten resistors at <paramref name="resistorsAt"/> (Ashen fix G moves four; set 13's scene is Scene()).</summary>
+        public static MissionSceneDefinition Scene(ScenePosition[] resistorsAt)
         {
             var scene = new MissionSceneDefinition
             {
@@ -152,11 +155,11 @@ namespace Rasa.Services.Preloader.Missions.Ashen
                 HiddenObjectiveIds = new() { Programmed }
             };
             scene.Sequences[0] = new SceneSequenceDefinition();
-            for (var number = 1; number <= ResistorsAt.Length; number++)
+            for (var number = 1; number <= resistorsAt.Length; number++)
             {
                 var role = ResistorRole(number);
                 var objective = (uint)number;
-                scene.Actors[role] = new SceneActorDefinition(role, SceneActorKind.Object, ResistorClass, ResistorsAt[number - 1],
+                scene.Actors[role] = new SceneActorDefinition(role, SceneActorKind.Object, ResistorClass, resistorsAt[number - 1],
                     Orientation: number * 1.3, InitialObjectState: OffState, NameOverrideId: ResistorName,
                     UseAction: new SceneObjectAction(MissionId, objective, objective, UseArgument));
                 scene.Sequences[0].World.Add(new EnsureActorIntent($"create-{role}", role));

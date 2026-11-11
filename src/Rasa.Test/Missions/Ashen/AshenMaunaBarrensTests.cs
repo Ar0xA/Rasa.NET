@@ -73,7 +73,7 @@ namespace Rasa.Test.Missions.Ashen
 
         /// <summary>
         /// Kuang, Kwon and Karter friendly at their places with the client's names and their packages, on the navmesh, walked to
-        /// from the Shadow's Edge Post waypoint. Each Atta pool has walkable ground and puts down three living Atta of its kind
+        /// from the Shadow's Edge Post waypoint. Each Atta pool has walkable ground and puts down one living Atta of its kind (three before fix G)
         /// (class, level, hostile, the hit points of the row it copies), each on the navmesh, walked to from the Shadow's Edge
         /// Post waypoint and inside its marker. Exing comes down on the navmesh at his new place, walked to from the Stonewall
         /// Ridge and Shadow's Edge Post waypoints, inside his marker. Each beacon spot on the navmesh, 5 m or more from a wall,
@@ -106,7 +106,7 @@ namespace Rasa.Test.Missions.Ashen
                 var pool = desert.SpawnPools.Single(loaded => loaded.DbId == poolId);
                 Assert.IsTrue(SpawnPoolManager.HasWalkableGround(desert, pool), $"{poolId} has walkable ground");
                 var here = Alive(desert).Where(candidate => candidate.SpawnPool?.DbId == poolId).Distinct().ToArray();
-                Assert.HasCount((int)B.PoolCreatures, here, $"pool {poolId}: three");
+                Assert.HasCount((int)AshenFixGV1.AttaCount, here, $"pool {poolId}: one (set 2's three, fix G's one)");
                 var copy = B.Atta.Single(row => row.Id == creature).Copy;
                 var source = harness.World.CreatureEntries.AsEnumerable().Single(row => row.Id == copy);
                 var stat = harness.World.CreatureStatEntries.AsEnumerable().Single(row => row.Id == copy);
@@ -273,6 +273,12 @@ namespace Rasa.Test.Missions.Ashen
             var kwon = Npc(desert, B.Kwon);
             var karter = Npc(desert, B.Karter);
             Spawn(desert, AttaPools);
+            // One Mutated Atta a pool since fix G: respawn the pools when none is left.
+            void Ready()
+            {
+                if (!Alive(desert).Any(candidate => candidate.DbId == B.MutatedSoldier && candidate.Npc == null))
+                    Respawn(desert, AttaPools);
+            }
 
             var offer = WildernessRanjaGorgeTests.Offer(harness, kuang, Mutations);
             CollectionAssert.AreEqual(new[]
@@ -282,6 +288,7 @@ namespace Rasa.Test.Missions.Ashen
                 offer.SelectableReward.Select(item => item.ItemTemplateId).ToArray());
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, kwon, Mutations), "not Kwon's to give");
             Assert.IsFalse(PlateauRetreadCampTests.Offers(harness, karter, Eyes), "Eyes on the Ground waits for Harmful Mutations");
+            Ready();
             Assert.IsFalse(Holds(Kill(harness, desert, B.MutatedSoldier), ClientSampleTemplate), "no sample before the mission");
             Accept(harness, kuang, Mutations);
             Assert.IsEmpty(Topics(harness, kuang, Mutations), "Kuang hears no objective");
@@ -292,8 +299,10 @@ namespace Rasa.Test.Missions.Ashen
             percentile = 0;
             Assert.IsFalse(Holds(Kill(harness, desert, B.AttaSoldier), ClientSampleTemplate), "an Ashen Atta Soldier has no sample");
             percentile = 50;
+            Ready();
             Assert.IsFalse(Holds(Kill(harness, desert, B.MutatedSoldier), ClientSampleTemplate), "50 misses");
             percentile = 49;
+            Ready();
             var sample = Kill(harness, desert, B.MutatedSoldier);
             Assert.IsTrue(Holds(sample, ClientSampleTemplate), "49 drops a sample");
             Assert.AreEqual(0U, Samples(harness), "a death is not a pickup");
@@ -312,8 +321,7 @@ namespace Rasa.Test.Missions.Ashen
                     Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Mutations, AshenHarmfulMutationsV1.Samples));
                     harness.Drain();
                 }
-                if (!Alive(desert).Any(candidate => candidate.DbId == B.MutatedSoldier && candidate.Npc == null))
-                    Respawn(desert, AttaPools);
+                Ready();
                 var loot = Kill(harness, desert, B.MutatedSoldier);
                 Assert.IsTrue(Holds(loot, ClientSampleTemplate), "49 drops");
                 PickUp(harness, loot);

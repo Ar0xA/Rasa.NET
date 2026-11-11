@@ -36,8 +36,8 @@ category 10000016 "Battlefield (Ashen Desert)". New NPCs 790000-790003, next fre
   AFS-held.
 
 Set 2, the Mauna Barrens (migration `20271110000100_Ashen_mauna_barrens`). New NPCs 790040-790042, Atta 790043-790045, Atta
-pools 790046-790051, next free id 790052. The Mauna Barrens have no waypoint: walk from Shadow's Edge Post (or White Oasis
-Post).
+pools 790046-790051 (three Atta each; one each since fix G, 20271110001320), next free id 790052. The Mauna Barrens have
+no waypoint: walk from Shadow's Edge Post (or White Oasis Post).
 
 - [ ] 1242 Angry Angry Atta (Ligo Ashen Desert): Lieutenant Simon Kuang (new, 790040, Shadow's Edge west gate under the
   "Mauna Barrens" holosign, -205, 297.54, -736) offers it, no requirement, level 40. Kill 10 Ashen Atta Soldiers (counter
@@ -253,7 +253,7 @@ them. All places walked both ways on the client floor; corners in AshenDesignerH
   in at Ida: 180000 XP, 8200 credits, one of Motor Assist legs 45986, Mech legs 35019, Bio legs 46069, Graviton legs
   13043. Retest: pull the Atta of 790049 / 790047; Sally should not come. Fix F (to-fix row 22): the camp's Workers call two
   more hostiles within 80 m (the Atta harvester warcry), so a pull at the camp is a group fight; farm the carapaces at
-  1287's own pool of three Ashen Atta Soldiers 790378 (-355, 328.97, -210) on the slope east of the camp (marker 1/6), 80 m
+  1287's own pool of Ashen Atta Soldiers 790378 (three; one since fix G) (-355, 328.97, -210) on the slope east of the camp (marker 1/6), 80 m
   from the camp's pools. Sally (fix F, row 18) comes back 300 s after her death (was 50 s). Immunities (row 20): Sally takes
   nothing from Fire and Electrical (class 22627), nor do the Ashen Atta Soldiers (class 7081; the Workers take all): use
   another type (a Sonic rifle killed her, 2026-11-10).
@@ -352,249 +352,43 @@ mission's own; corners in AshenMurkyWatersTests.Places.
   the Indra Pass Beam Manta east by the south of Maji Field ((-260, 200), (-160, 200)) before set 10's Indra Pass corners
   (the straight way passed 5.3 m from Overseer Ulovik).
 
-Set 13, Indra Pass (migration `20271110001300_Ashen_indra_pass`). New NPCs: Surveyor Malya Odesha 790480 (258, 315.49,
-325) and Researcher Endala Berish 790481 (266, 316.46, 337), both by the Indra Pass waypoint, outside the Indra Caverns cave
-mouth (copies of Raji Lasat's Brann row, level 43). No hostile creature is new or moved; no upstream row changed. Next free
-id 790482. God of Storms and The Bonds of Blood are exclusive: a player gets one side. The Indra Pass waypoint's navmesh
-joins nothing (upstream N23): every walk below is the client's floor, checked both ways, 30 m or more outside every hostile
-pool's circle (AshenIndraPassTests.Walks). The way from the waypoint into the valley goes west round the rocks north of the
-cave mouth: (193, 363), (168, 376), (137, 372), (105, 380), north to (100, 428), west to (79, 433), down by (78, 453),
-(86, 469), (99, 482), then east into the valley (about 330-420 m).
+Set 13, Indra Pass (migration `20271110001300_Ashen_indra_pass`; places moved by fix G, `20271110001320_Ashen_fix_g`).
+New NPCs: Surveyor Malya Odesha 790480 (115, 304.69, 450) and Researcher Endala Berish 790481 (112, 304.54, 458), 40 m
+west of the valley's south entry, where set 10's way from the White Oasis Post waypoint comes in (copies of Raji Lasat's
+Brann row, level 43). No hostile creature is new or moved by set 13. Next free id 790482. God of Storms and The Bonds of Blood are
+exclusive: a player gets one side. Fix G (to-fix row 24): the real client could not climb set 13's way from the valley to
+the Indra Pass waypoint (52-59 degree terrain; the client climbs 55 at most), and no way in to the waypoint's floor was
+found outside hostile reach (N23), so the NPCs and the four resistors that stood there are in the valley now. Every walk
+below is the client's floor, checked both ways with the client's slope limit, 30 m or more outside every hostile pool's
+circle (AshenIndraPassTests.Walks): the NPCs from the valley's south entry, Veyon and the resistors from Odesha (up east
+to the valley's south rim by (139, 450), (145, 456), (170, 479), then down).
 
 - [ ] 1280 Missing Scientists (Ligo Ashen Desert): Odesha offers it, level 41. Search Researcher Veyon's body ("Corpse of
   Researcher Veyon", your own) in the valley at (178, 315.73, 536): it gives the Indra Lightning Resistor Codes (97476).
   A full bag leaves the codes on the body (free a slot and search again). Turn in at Odesha: 95000 XP, 6300 credits, one
   of Bio Vest 19286, Stealth Gloves 38952, Graviton Gloves 23698, Hazmat Helmet 20653; she takes the codes.
 - [ ] 1281 God of Storms (Ligo Ashen Desert): Odesha offers it after 1280, level 42 (not while 1282 is held or done). Use
-  the ten Indra Lightning Resistors (your own, any order): 1 (200, 352), 2 (158, 362), 3 (237, 348), 4 (174, 462), 5 (130,
-  500), 6 (176, 496), 7 (246, 309), 8 (96, 462), 9 (124, 532), 10 (96, 554); each turns on and completes its objective.
+  the ten Indra Lightning Resistors (your own, any order): 1 (158, 541), 2 (60, 551), 3 (201, 525), 4 (174, 462), 5 (130,
+  500), 6 (176, 496), 7 (66, 599), 8 (96, 462), 9 (124, 532), 10 (96, 554) (1, 2, 3, 7 moved by fix G); each turns on and
+  completes its objective.
   Turn in at Odesha: 190000 XP, 8400 credits, one of four weapons. Look: the resistor model (class 10196) on the ground
   and its on state; the tenth resistor fails an open 1282.
 - [ ] 1282 The Bonds of Blood (Ligo Ashen Desert): Endala offers it after 1280, level 42 (not while 1281 is held or done).
   Find Maiek's body (a Brann corpse, your own) in the Bane Conscription Base by the power generators at (344, 288.75, -72),
-  walked from the Ashoka Settlement waypoint north. The search opens "Talk to Endala Berish"; talk to her: 200000 XP, 8600
+  walked from the Ashoka Settlement waypoint: off the pad to the west, north up the road, east of the hump at (394, -186)
+  (fix G: the real client stopped there) by (402, -200), (402, -187), (396, -177), then (352, -137), (352, -84). The search opens "Talk to Endala Berish"; talk to her: 200000 XP, 8600
   credits, one of four weapons. Finding Maiek fails an open 1281.
-- [ ] Indra Pass walk (real client): the way from the waypoint into the valley (above) is the client-floor check's, not
-  a navmesh path: check that a player can walk it, and whether a shorter way through the rocks north of the cave mouth
-  exists. The cave pocket at the Indra Caverns link cannot be checked (N26).
+- [ ] Fix G walks (real client): from the valley's south entry west down to Odesha and Endala by (126, 451); from Odesha
+  to the resistors up east to the rim by (139, 450), (145, 456), (170, 479), then down by (171, 494); Maiek's new way east
+  of the hump at (394, -186). The Indra Pass waypoint itself is not reached on foot (N23: no way in found).
+- [ ] The Atta pools of the Mauna Barrens (790046-790051) and 1287's 790378 put down one creature each (fix G): 1242's ten
+  Soldiers and ten Workers and 1243's samples come on respawns (120 s).
 
-## Assumptions and choices (not from a source)
-
-All ESTIMATE (set 1):
-- Levels: all five missions level 40 (the Ashen Desert zone band 40-42, Ellatha map; the TR MMO DB's level 30 is not
-  used). Ames, Ivan and Caldwell level 40 (no source). Yamamoto level 49 (TaRapedia NPC page, a source, but it is far over
-  the zone band).
-- Looks: Ames is a copy of Harris 510008, Ivan of Mason Linier 510010, Caldwell of Ida Hayner 510011 (female AFS class
-  3848), Yamamoto of Emmons 510009. The new NPCs have 4500 HP and armour 300, and stand still. Ames, Ivan and Caldwell
-  have server-only packages (their ids); the client gives them no objective conversation. All the NPC pools (new and
-  moved) face rotation 0.
-- All positions except Yamamoto (TaRapedia loc): chosen by a probe (2026-11-09): on the navmesh and on a client floor, at
-  least 2 m from a wall, nothing over the head, seen from 16 of 16 places 2 m round it and from the end of the walk from
-  its area's waypoint, 7 m or more from every waypoint and local teleporter, 22 m or more outside every hostile pool's
-  circle. Ivan and Caldwell in the east and west barracks (TaRapedia names only Shadow's Edge Post). Emmons by the
-  Command Tower (TaRapedia 1277 "Start with this tower here").
-- Rewards: the client has no reward blocks for these missions; the items are TaRapedia's, the stack sizes are ESTIMATE.
-  1274 "Modification" read as the grade [4] modules (as in the Crucible).
-- 1274: any Fithik counts, also off the Ridge (CreatureFlagKilled, flag 72). The markers are at the navmesh ground over
-  the two automatic Ridge pools (540068 is scripted, no marker).
-
-All ESTIMATE (set 2):
-- Levels: 1242 and 1243 40, 1244 and 1245 41 (the zone band by chain position, triage D5). Kuang and Kwon level 40 (no
-  source), Karter 48 (TaRapedia's page of the Avernus Outpost Karter, "the same contact").
-- Looks: Kuang a copy of Mason Linier 510010, Kwon and Karter of Ida Hayner 510011 (female AFS class 3848; Kwon is female
-  in the client's 1243 offer, Karter on TaRapedia). Server-only packages (their ids): the client gives these missions no
-  objective conversation. 4500 HP, armour 300, standing still, rotation 0.
-- Places of Kuang, Kwon, Karter: TaRapedia names only Shadow's Edge Post; spots by the client statics (the west gate's
-  "Mauna Barrens" holosign, the hospital, the dropship transport pad), chosen by a probe (2026-11-09) with the set 1
-  criteria (navmesh and client floor, 2.5 m from a wall, nothing over the head, seen from 16 of 16 places round it and from
-  the end of the walk from the Shadow's Edge Post waypoint, 8 m from every waypoint and teleporter, 22 m outside every
-  hostile pool's circle).
-- The Atta: copies of World DB rows at the zone band: Ashen Atta Soldier = 531015 (Atta Soldier, Ashen/Avernus, L40),
-  Ashen Atta Worker = 531099 (Atta Harvester, Thunderhead, L40; "Worker" read as the harvester class), Mutated Atta Soldier
-  = 531098 (Atta Soldier, Thunderhead, L41), each with the client name (9318, 9319, 9320) and the copied hit points,
-  armour and attacks; stock look (no tint: set 21). Six pools of three (two of each kind), radius 0, 120 s respawn, in the
-  open south basin of the Barrens (the Barrens region's big flat part), 40 m apart, walked to from Shadow's Edge Post and
-  White Oasis Post. Counts per pool and pool places have no source.
-- 1243: the sample drop rate 50% (no source); Kwon takes the four at the turn-in; an abandon keeps them.
-- 1245: five beacons given at the accept; the spot is the GPS beacon acceptor 7847 (as Crucible 1214, Pools 1025) with the
-  client's usable name 71 "Atta Sensor Beacon"; the five spots (no source) one in each fifth of a 110 m circle round the
-  Barrens region's centre, on flat open ground, 24 m outside every hostile pool's circle.
-- Rewards: TaRapedia's item names matched to the lowest Uncommon template of the kind and icon number in the band of the
-  mission's level, the nearest icon number where the band has none (as the Crucible).
-
-All ESTIMATE (set 3):
-- Levels: 1247 and 1249 41, 1248 42 (the zone band, triage D5; no chain; 1248 is TaRapedia's 180000 XP group mission and
-  its Predator is L42).
-- Thrax Ravager = the World DB's unnamed Ashen Thrax Grenadier 531009 (triage D9: 1266 says the Ravagers carry grenade
-  launchers); the name 9223 is on the row, so every 531009 (Ashen Desert, Bane Conscription Facility, Indra Caverns) is a
-  Thrax Ravager. Thrax Soldier = 531008 "Thrax Soldier Mark VI". Any kill of either counts, wherever.
-- The Thrax pools: four of three (two Ravager, two Soldier), radius 0, 120 s respawn; places by the client map's Bane camp
-  statics (floodlights, barricades, pillboxes at x -200..-120, z -347..-258), chosen by a probe (2026-11-09): navmesh
-  ground, 11 m or more from a wall, walked to from the Shadow's Edge Post waypoint, 19.7 m or more from the mortar pads
-  (Ravager pool 790086 to Mortar 4). Counts per pool have no source.
-- The Desert Predator: a copy of the World DB's Alpha Class Recon Predator - Incline 520022 (class 3902, L42, 4700 HP,
-  armour 410, its attacks) with the client name 9327; stock look (set 21). "The two Predators patrolling" (the client's
-  reminder): two pools of one, each on a beat (spawnpool_patrol, steps on the navmesh ground along the navmesh's path, 4-12
-  m apart), on the road between Shadow's Edge Post and the camp; 120 s respawn. The pool's point (the Predator's home) is
-  the beat's middle step and the beat a loop from there to both ends, every step at most 45 m from home: a fight is left
-  at 60 m from home (BehaviorManager.MaxChaseDistance), so a fight anywhere on the beat has 15 m before the leash. One kill
-  is the client's count.
-- 1249: each mortar of the four highway pads is its own copy of the Ashen Bane Mortar 592011 (same class, level, hit
-  points, armour, attack and launcher look; no name id, so the client still calls it "Bane Mortar"), so Mortar n is the kill
-  of copy n. Mortar n = pool n, south to north along the road (592191-592193 west of it, 592194 east); the client gives no
-  order.
-- Rewards: as set 2. 1247's "Cryogenic RPG Launcher" read as the ice grenade launcher (the client has no ice rocket
-  launcher); 1248's "Flame Thrower" as the fire propellant gun.
-
-All ESTIMATE (set 4):
-- Levels: 1262 and 1263 40, 1272 41 (the zone band, triage D5; 1272 is TaRapedia's 190000 XP mission). Infanger level 40
-  (no source).
-- Infanger: a copy of Mason Linier 510010 (male AFS class 3846), server-only package (his id: the client gives 1272 no
-  objective conversation), 4500 HP, armour 300, standing still, rotation 0. TaRapedia names only Boneyard Outpost; the
-  spot (west of Yamamoto's tent, 13 m from Blood) chosen by a probe (2026-11-09) with the set 1 criteria; one client floor
-  in its column (Yamamoto's tent and the outpost's towers have floors over the ground round them).
-- Blood stays where upstream has him (the outpost region's centre, on the client floor, 6 m from a wall, one floor):
-  the set 1 checks pass there, so no move. He keeps upstream's row (level 10, no package): he gives and takes 1262 by id.
-- The Xanx: the World DB's only Ashen Xanx row 540020 (L39, "Xanx Burrower"); any kill of it counts, also in Maji Field
-  and Indra Pass. Three pools of three, radius 0, 120 s respawn, in the open middle and north of the Boneyard (no source
-  for the places or counts; the World DB has no Xanx there), 40 m apart, 25 m and more from a wall. Not burrowing (triage
-  M10).
-- The Desert Stalker: a copy of the World DB's Stalker Overlord - Plains 520073 (class 3781, L40, 4500 HP, armour 400, its
-  attacks, also its egg drop) with the client name 9321; stock look (set 21). Two pools of one, radius 0, 120 s respawn,
-  17.5 m and 18.9 m from TaRapedia's spot (595, -354): that spot's column has a second floor under it (Ashoka's lower level,
-  y 248.7), so the pools stand where the client has one floor. One kill is the client's count.
-- 1263: the six bodies are the client's human soldier corpses (UsableTreasureDispHumCorpseMale V01-V04, 24995, 7865,
-  24989, 24990) with the client's usable name 63 "Fallen Soldier", personal (as Crucible 1143): TaRapedia's five spots
-  (the fourth 2.8 m north-west of (546, -354): from 5 of the 16 places 2 m round that spot a player could not see it) and a
-  sixth (500, -345) among them (the log's six tags). A hidden server-only objective 2 counts the six uses (as Marshes 4695)
-  and completes 1. An abandon takes the tags and the bodies.
-- Rewards: as set 2. 1263's "Kinetic Staff" read as the physical staff; 1272's "Pulse Disperser" as the EMP propellant gun
-  ("Disperser" is the propellant gun, as Pools' Virulent Disperser), "Incendiary Net Gun" the fire net gun of 41-45 (the
-  36-40 band does not hold level 41).
-
-All ESTIMATE (set 5):
-- Levels: 1352 and 1354 41, 1355 42 (the zone band, triage D5).
-- 1352: the four trench mortars are copies of the Ashen Bane Mortar 592011 (as 1249's), Mortar n = pool n west to east.
-  The six launchers (the client's UsableInertDestBaneMissileLauncherV01, no static of it on the map) stand in the walled
-  yard north of the Garrison ("the west side of the Conscription Base"), facing 0, each over flat navmesh ground facing
-  either way along its row; the Detonation Device (7334, as Marshes' Cleaning House) 11 m off the row takes one explosive
-  and blows the launcher. Six explosives, one per launcher. Objective 11 is the count of Mortar 1-4 done (an
-  aggregation, as Wilderness' Survey Says).
-- 1354: the generators are the client's small Bane generator 20594 with the usable name 245 "Power Generator": the Bane
-  outpost generator 3857 is 17 by 27 m, three of it do not fit on the compound's plateau. Three explosives. 106-125 m
-  from control point 16 (objects, not creature pools).
-- 1355: the Linkers are the World DB row 531014, no copy: Linkers killed anywhere count too (the Sheitan Highway pool
-  531034, the Bane Conscription Facility pools 531064, 531072, 531075, 531078, 531083, Indra Caverns 531086, 531089,
-  531092).
-  Five pools of three, 120 s respawn, 147 m and more from control point 16, not linked to it.
-- Naxveik: moved from the World DB spot (305.4, 282.6, 84.4; Ellatha's map value, 14 m under the compound) to the
-  compound's plateau (296, 296.49, -30), 136 m from control point 16: TaRapedia's /loc (300, 20) and (311, 26) have a
-  second navmesh floor under the plateau's edge.
-- Rewards: as set 2. "Incendiary Blade" the fire blade, "Pulse Cannon" the EMP rocket launcher, "Photonic Shotgun" the
-  laser shotgun, "Cryogenic Injector" the ice injection gun.
-
-All ESTIMATE (set 6):
-- 1254: giver and receiver Latan (the client's voice; TaRapedia's infobox says Botha, triage D1). The flags stay at an
-  abandon; taken again, the choice is asked again and the last one stands (as Crucible Calendar Girl).
-- Levels: 1254 40, 1258, 1259, 1261 41, 1285 42 (the zone band, D5).
-- Rewards: 1258 and 1259 have no item on TaRapedia: the 1254 stacks (the zone's other 45000 XP talks).
-- Places: Ito 4 m from his TaRapedia /loc (556, 248, -320); Latan 16 m east of him (no source). Megumi's TaRapedia /loc
-  (-195, 269, -898) is in the barracks rooms under the post, a navmesh island; the post has no tent: she stands on the
-  post's floor in its south enclosure, 29 m from the loc.
-- Looks: Latan a copy of Raji Lasat 510014 (Brann), Ito of Mason Linier, Megumi of Ida Hayner.
-- 1259, 1261: the package is given at each accept, taken at the talk, gone at an abandon.
-- 1285: the ring a 15 % drop (triage); kept at an abandon (as 1243's samples). The three Boneyard Thrax pools moved to
-  open ground 14-27 m from their points and made point pools (see "Server data changed by set 6").
-
-All ESTIMATE (set 7):
-- 1264: offered after Formal Complaints done and flag 250 at 1 (both, triage D1; TaRapedia's requirement is "??"). The
-  flag alone is not enough: the flags stay at an abandon of 1254.
-- Levels: 1264 40, 1266 41, 1265 42 (the zone band, D5).
-- The Nitroglazer and the Hominis Machina: new rows at level 40 with the Ashen level-40 hit points and armour (8409, 285);
-  the World DB has neither in the band (Nitroglazers L20-28, Machina L8-14). Their attacks are the World DB rows' (the
-  EWC Nitroglazer's weapon and mortar, the Torcastra Machina's weapon and revive) at the Ashen Thrax damage (247-370, the
-  mortar 356-555). The Machina's look is the Torcastra Machina's. Rank Mk XI (TaRapedia "Mark XI").
-- Places: two pools of three of each in the Boneyard (TaRapedia "throughout The Boneyard"; no spot named).
-- Drop rates: 75 % for the 15-count salvage (the Crucible's 50-75 %), 100 % for the one-off heavy salvage. Salvage is kept
-  at an abandon and taken at the turn-in.
-- 1266: the launcher markers on the highway's Ravager pools (three Ravagers each); the Boneyard pools hold at most one.
-- Rewards: 1264 TaRapedia's four kinds at icon 2 (Motor Assist Legs: no Uncommon below V04, so V04 29093); 1266
-  TaRapedia's one item; 1265 TaRapedia names none: the 1254 stacks.
-
-All ESTIMATE (set 8):
-- 1267: offered after Dearly Departed (TaRapedia "Dearly Departed ??"), Formal Complaints done and flag 251 at 1 (triage
-  D1; the chain before it already needs both: the three keep it shut on any other path).
-- Levels: 42 for all three (after Dearly Departed, level 42; the zone's chain top, D5).
-- XP: TaRapedia gives "?" (1267, 1269) or nothing (1268): as Latan's twins (95000, 95000, 200000). Credits 6300
-  (TaRapedia for 1267 and 1269; 1268 as 1265).
-- Drop rates, counts, abandon and turn-in as set 7's twins (75 %, 15; 100 %, 1).
-- Rewards: 1267 "Modification: ... Resistance" read as the grade [4] armour modules (as 1274); 1269 the lowest Uncommon of
-  each named kind at level 42 ("Radial" = the area healing disc, as the Pools' Death Patrol; the manufacturer names are
-  not in the client tables); 1268 none named: the 1254 stacks.
-- 1269: the walk to the Boneyard Thrax pool 531041 (set 6's point in a dip at (487, 271.9, -219)) climbs 0.99 m over a
-  metre in and 1.01-1.05 m out. The real client walked it both ways (tester 2026-11-09 23:41-23:54), so the client-floor
-  check allows 1.1 m a metre (it was 0.9 m) and 1269 marks 531041 too. The pool stays where set 6 put it.
-
-All ESTIMATE (set 9):
-- Levels 40, 41, 42 (the zone band, D5). The three not shareable.
-- Rewards: the lowest Uncommon of TaRapedia's four kinds at each level; 1278's armour with TaRapedia's version numbers
-  (V03, V02, V05, V09).
-- 1275: one crate, the wreck nearest the Boneyard's middle of the five (the triage); its spot 12 m off the wreck's middle,
-  seen from all 32 places round it.
-- 1277: tower 1 = Command (Emmons': "Start with this tower here"), 2 Operations, 3 and 4 the artillery control towers; any
-  order. The consoles 5-6 m off the upper pad on the lift's exit side, at the top floor's rim (fix E; the floors are about
-  11 m across; seen from every place round them that is on the floor), facing not checked; used only within 3 m of their
-  floor (fix E, ESTIMATE). The ambushes (the client's helper 5 "Ambushes", not written): three Thrax Soldiers at towers
-  2-4 on the top floor 3.2-4 m off the pad by the exit (fix E), none at Emmons' tower 1.
-- 1278: the turrets are personal copies of the AFS Turret 550001 at the public pools' places and facings; they stand from
-  the accept. The hold 180 s (the triage; TaRapedia's 3:00 is 1's countdown). Waves at 0 / 45 / 90 / 135 s, 3 / 3 / 4 / 4
-  members, from the four sides (TaRapedia: "a few stalkers and some Bane"). 1's area r60 over the four platforms.
-
-All ESTIMATE (set 10):
-- Levels 41 / 42 / 41 / 42 (D5); bosses level 44, 4900 HP, armour 420 (the Ashen boss rows 520002-520007'); hide creatures copy
-  the World DB rows 770008 (Lasher), 540040 (Beam Manta), 540031 (Granitour); bosses take the client classes 22627
-  (Sally), 10331 (Molly), 10317 (Trudy), 25620 (Wendy) and names 9359-9362.
-- Drop rates 75 % / 100 % (no source; as sets 7 and 8).
-- Places: the hide pools where the client log names the area, on open floor 60 m from other hostiles and 85 m from NPCs;
-  Molly 24 m east of TaRapedia's notch (stacked floor there, a Fithik pool 22 m off); Trudy at the north end of the
-  reachable ridge (TaRapedia's hilltop not joined to the navmesh); the Indra Pass Manta on the floor joined to the White Oasis side
-  (the Indra Pass waypoint's floor is joined to nothing); Ida 6 m off the vendor 500018.
-- Rewards: the lowest Uncommon of TaRapedia's kinds at each level (1287 legs with TaRapedia's version numbers).
-
-All ESTIMATE (set 11):
-- Levels 41 for all four (D5). 1295's XP 100000 (TaRapedia "?": the zone's 6450-credit missions pay it). 1303 and 1356 have no
-  reward source (D6): 95000 XP, 6300 credits (the zone median) and Formal Complaints' four stacks.
-- No prerequisite for 1295, 1303 and 1356 (none named); 1298 after 1295 (TaRapedia).
-- 1298: giver Meeks (the client's offer text is his voice), receiver Hale (TaRapedia's infobox names Hale as giver; its
-  "Murky Waters Lead In" has no client id and is not built). Choice 1 = the repair (flag 258), choice 2 = the poison (flag 257),
-  from the client's choice texts and variants; flags kept at an abandon (as 1254).
-- Meeks and Hale: copies of Captain Flynn Harris' and Captain Marcus Emmons' rows and looks, level 40, 4500 HP. Meeks has a
-  server-only package (790400).
-- 1295: the panels are the client's human monitor 9478 named 69 "Harvester Control Panel"; 1 and 3 at TaRapedia's 1302
-  spots, 2 moved 33 m to the harvester's west side (TaRapedia's spot is 25 m from Fithik pool 540075 and 26 m from Ulovik),
-  4 moved 4 m (seen from 16 of 16 there). The tool is given at the accept; the panels do not check it (a mission item
-  cannot be destroyed).
-- 1356: the pump class "Raw Fuel Pump", set 11's 10190, fix F's V02 21007 (the client places none); the three pump places and their devices (no
-  source); three charges (the stack is 6); markers r10 (each takes in its device).
-- Fontecilla 7.9 m west of the control point's spot.
-
-All ESTIMATE (set 12):
-- Levels 42 (D5). 1299 has no reward source (D6): 95000 XP, 6300 credits and Formal Complaints' four stacks. 1300's XP
-  100000 (TaRapedia "Unknown": the zone's 6450-credit missions), 1302's 45000 (the zone's 4000-4100-credit missions).
-- 1299 is Murky Waters' repair side (inferred from Neurotoxins' "Choice A" and the client's variant 258); Meeks gives and
-  takes it (the client's log). 1302 also checks flag 257 (1300 already needs it).
-- Gland drops 75 % (as set 10's parts), 12 at most, kept at an abandon; off the normal Granitour / Lasher only, anywhere on
-  Ashen Desert.
-- The ridge pools' places (probe 2026-11-10: 17 m single joined floor, client floor, open sky, 60 m from other hostile
-  kinds, 85 m from NPCs) and three Lashers each (set 10's pools').
-- 1302: four systems (the client's stack of 25494 is 4); the panels are 1295's monitor 9478 named 69 "Harvester Control
-  Panel" (TaRapedia's 1302 page) on 1295's places, not the client's name 70 "Harvester Filtration Unit" (MAJI_WATERREPAIR,
-  read as the cut repair mission 1301's). Rewards in TaRapedia's order.
-- 1300 items: the lowest template of TaRapedia's kinds and version numbers in the 40-44 band.
 
 All ESTIMATE (set 13):
-- Odesha and Endala outside the cave mouth by the Indra Pass waypoint, not at TaRapedia's /loc (312, 324, 293) in the
-  cave: the client floor we read has no way into the cave pocket (N26). Both copy Raji Lasat's row and look (no female
+- Odesha and Endala 40 m west of the valley's south entry (fix G; 85 m or more from set 10's Indra Pass Beam Manta pool), not at TaRapedia's /loc (312, 324, 293) in the cave by the
+  Indra Caverns, 190 m south-east: the Indra Pass waypoint's floor and the cave mouth have no way in a player can climb
+  (N23, N26). Resistors 1, 2, 3, 7 in the valley (fix G), 32 m or more from the others. Both copy Raji Lasat's row and look (no female
   Brann NPC look on the World DB); level 43 (TaRapedia's Endala); Odesha has a server-only package (790480).
 - Levels 41 (1280), 42 (1281, 1282). Rewards: TaRapedia's XP and credits; the items are the lowest Uncommon template of
   each named kind in the mission's band.
@@ -678,12 +472,13 @@ All ESTIMATE (set 13):
   Coheri Pools / on the ridge.
 - 1302: the panels do not check the systems by kind (each use takes one; a mission item cannot be destroyed).
 - 1297, 1301 (the repair side's follow-ups, client only) are not built (D3): the repair side ends at 1299.
-- 1280-1282: Odesha and Endala stand outside the Indra Caverns cave mouth, not in the cave (TaRapedia): N26.
+- 1280-1282: Odesha and Endala stand by the Indra Pass valley's south entry, not in the cave by the Indra Caverns
+  (TaRapedia): the Indra Pass waypoint's floor has no way in (N23, fix G), the cave pocket none we can check (N26).
 - 1282: Maiek 64 m from Overseer Naxveik, not "very near" him (the 34 m keep-out of the base's hostile pools).
 - 1281 / 1282: the exclusive offers and the fork are offer/accept rules and a scene signal; a GM-given pair still fails
   the other side at either end.
-- 1281 / 1282: the failed side keeps its own objects (resistors or Maiek's body) until the player abandons it; a use of
-  them then counts nothing.
+- 1281 / 1282: a failed side keeps its own objects (resistors or Maiek's body) for good: a failed mission cannot be
+  abandoned (only an Active one); a use of them counts nothing. Only a GM's gift holds both sides.
 
 ## Server data that differs from the sources (not changed)
 
@@ -828,6 +623,24 @@ All ESTIMATE (set 13):
   classes (6441, 10317) Electrical, every Granitour class (10164, 25610, 25620) Fire; the immune-free Atta classes are
   Harvesters and Queens, another kind. So the classes stay; bring a weapon of another type (a Sonic rifle killed Sally;
   of 1291's rewards only the Sonic Cannon hurts the Mantas and Trudy). Pinned in AshenFixFTests.
+
+## Server data changed by fix job G (20271110001320)
+
+- Set 13's places (live, migration 20271110001300; to-fix row 24): Odesha's pool 790480 (258, 315.49, 325) -> (115, 304.69,
+  450), Endala's 790481 (266, 316.46, 337) -> (112, 304.54, 458); God of Storms' resistors 1 (200, 352) -> (158, 312.2,
+  541), 2 (158, 362) -> (60, 301, 551), 3 (237, 348) -> (201, 317.56, 525), 7 (246, 309) -> (66, 300.72, 599) (1281's
+  scene, its exact JSON) and their markers; 1282's Endala marker on her. Cause: the real client could not climb (99, 482) ->
+  (86, 469) on set 13's way from the valley to the Indra Pass waypoint: the leg runs slant up terrain of 52-59 degrees; our
+  check measured only the rise along it (0.3-0.7 m a metre) and took floors up to 60 degrees. tabula_rasa.exe reads
+  Client.Developer.MaxAngleToClimb, default 55 (not set in client.cfg): the check now fails two climbing samples within a
+  metre on a floor over 55 degrees (AshenFixBTests.MaxClimbAngle). No way in to the waypoint's floor was found with it (from
+  the valley, from Ashoka; only one through the Bane Conscription Facility's pools). ESTIMATE: the new places. Evidence
+  rows 4 for 1280, 1281, 1282.
+- The Atta pools (coordinator, real client 2026-11-10 22:46: a level 50 player with the Sonic rifle cannot win three Ashen
+  Atta, 8409 health each, about 13000 damage in 20 s from the three, ESTIMATE from the log): set 2's 790046-790051 (Ashen
+  Atta Soldiers, Workers, Mutated Atta Soldiers) and fix F's 790378 put down 1, not 3 (ESTIMATE); respawn 120 s, places and
+  creatures stay. Evidence rows 4 for 1242, 1243, row 6 for 1287.
+- Every UPDATE is guarded on the row's exact stored values (markers within 0.001); Down puts them back.
 
 ## Server data changed by set 8 (upstream rows)
 

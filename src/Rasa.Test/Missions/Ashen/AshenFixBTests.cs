@@ -282,11 +282,21 @@ namespace Rasa.Test.Missions.Ashen
             List<(Vector3 A, Vector3 B, Vector3 C)> Floor(int i) => meshFloorOnly?.Invoke(points[i]) == true ? near[i].Where(t => !OnTerrain(t)).ToList() : near[i];
             var y = F.FloorAt(Floor(0), points[0], points[0].Y - 2, points[0].Y + 1) ?? points[0].Y;
             var floors = new List<Vector3>();
+            Vector3? steep = null;
             for (var i = 0; i < points.Count; i++)
             {
                 if (F.FloorAt(Floor(i), points[i] with { Y = y }, y - 2.5f, y + MaxClientStep) is not { } floor)
                     return FormattableString.Invariant($"no client floor within {MaxClientStep} m up at ({points[i].X:0.0}, {points[i].Z:0.0}) from {y:0.00} (navmesh {points[i].Y:0.00})");
                 var here = points[i] with { Y = floor };
+                // The client's slope limit (fix G): a floor steeper than MaxClimbAngle is climbed nowhere, also not across its
+                // fall line; only a walk that goes down on it (it slides) passes. One steep sample alone (one triangle of the 1 m
+                // terrain grid) is let pass; a second within SteepRun of it is a slope the player slides off.
+                if (floors.Count > 0 && here.Y - floors[^1].Y > -SlideDrop && FloorNormal(Floor(i), here) is { } normal && normal < MinClimbNormal)
+                {
+                    if (steep is { } last && Vector2.Distance(new(last.X, last.Z), new(here.X, here.Z)) <= SteepRun)
+                        return FormattableString.Invariant($"too steep to climb at ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0}): the floor is {MathF.Acos(normal) * 180 / MathF.PI:0} degrees, over the client's {MaxClimbAngle}, from ({last.X:0.0}, {last.Z:0.0})");
+                    steep = here;
+                }
                 // The rise over the last metre of the walk (the samples back to 1 m behind), not only from the sample before.
                 for (var back = floors.Count - 1; back >= 0; back--)
                 {
@@ -311,6 +321,48 @@ namespace Rasa.Test.Missions.Ashen
                 floors.Add(here);
             }
             return MathF.Abs(y - to.Y) > 1.5f ? FormattableString.Invariant($"ends on the floor at {y:0.00}, {to.Y:0.00} wanted") : null;
+        }
+
+        /// <summary>
+        /// The steepest floor the real client climbs, in degrees: tabula_rasa.exe 1.16.5.0 reads Client.Developer.MaxAngleToClimb
+        /// (default 55, not set in client.cfg) at start (code at 0x4cdbc9: 55 / 180 * pi, cos, kept at 0xd02e50 for the movement
+        /// code at 0x517fd0-0x518660; 1.0 for the value, ESTIMATE that the movement applies it as a floor-normal limit).
+        /// Calibrated (fix G) on to-fix row 24: the real client could not climb (99, 482) -> (86, 469) on Indra Pass terrain of 52-59
+        /// degrees across the line (stops at (89.4, 293.9, 468.0), (92.9, 292.6, 472.0), (92.4, 293.2, 472.0), (89.2, 293.9, 467.6),
+        /// (88.5, 294.1, 466.9)), a line the 1.1 m step rule passes (it rises 0.3-0.7 m per metre along the line). 50 degrees
+        /// (tried, 2026-11-11) failed walks the real client made: Exing from the Mauna Barrens basin (fix B), the Sheitan Highway
+        /// camp's Ravager pool 790085, Stonewall Ridge's towers (1277, 1278 PASS); 55 fails only set 13's walks. The tester's stop
+        /// at (394.2, 301.2, -185.5) on Maiek's walk (terrain of 50-53 degrees) is not explained by it (ESTIMATE: the helper's line
+        /// or the client's contact on the crease); Maiek's walk keeps 9 m off it (fix G).
+        /// </summary>
+        internal const float MaxClimbAngle = 55f;
+
+        /// <summary>cos(MaxClimbAngle): the least floor normal's y the client climbs on.</summary>
+        internal static readonly float MinClimbNormal = MathF.Cos(MaxClimbAngle * MathF.PI / 180);
+
+        /// <summary>Two climbing samples on a floor steeper than MaxClimbAngle this close (2D) fail a walk; one alone passes (ESTIMATE: the client steps over one steep triangle of the 1 m terrain grid).</summary>
+        internal const float SteepRun = 1.001f;
+
+        /// <summary>How far the floor must drop from one sample to the next for a walk to go down a steep floor (it slides).</summary>
+        internal const float SlideDrop = 0.1f;
+
+        /// <summary>The floor normal's y (the most level of the triangles at that height: an edge counts as its flatter side) under <paramref name="at"/>, or null.</summary>
+        internal static float? FloorNormal(List<(Vector3 A, Vector3 B, Vector3 C)> triangles, Vector3 at)
+        {
+            float? best = null;
+            var from = at with { Y = at.Y + 0.5f };
+            foreach (var (a, b, c) in triangles)
+            {
+                var n = Vector3.Cross(b - a, c - a);
+                if (n.LengthSquared() < 1e-12f)
+                    continue;
+                var ny = MathF.Abs(Vector3.Normalize(n).Y);
+                if (ny < F.Walkable)
+                    continue;
+                if (F.Hit(from, -Vector3.UnitY, a, b, c) is { } down && MathF.Abs(from.Y - down - at.Y) < 0.01f && (best == null || ny > best))
+                    best = ny;
+            }
+            return best;
         }
     }
 }

@@ -244,7 +244,8 @@ namespace Rasa.Test.Missions.Ashen
                 (Karter, -112, -748), (Exing, -260, -310), (Infanger, 676, -505), (Blood, 682.4, -516.4), (Naxveik, 296, -30),
                 (Latan, 576, -321), (Ito, 560, -320), (Megumi, -166, -895),
                 (Meeks, -498, 164), (Hale, -516, 176), (Fontecilla, -519, 164), (Ulovik, -235, 335),
-                (Odesha, 258, 325), (Endala, 266, 337)
+                // Set 13's NPCs at the Indra Pass valley's south entry (fix G; set 13 had them at (258, 325), (266, 337)).
+                (Odesha, 115, 450), (Endala, 112, 458)
             })
             {
                 var row = world.SpawnPoolEntries.AsNoTracking().Single(entry => entry.Id == pool);
@@ -747,7 +748,8 @@ namespace Rasa.Test.Missions.Ashen
                 // Fix F adds a third Soldier pool, 1287's own (790378).
                 Assert.HasCount(atta == AshenFixFV1.AttaSoldier ? 3 : 2, pools, $"{atta}'s pools");
                 foreach (var pool in pools)
-                    Assert.AreEqual((Map, (byte)3, (byte)3, 0.0, 1200U), (pool.MapContextId, pool.Creature1MinCount, pool.Creature1MaxCount,
+                    // Three as set 2 and fix F wrote them; one since fix G (AshenFixGTests).
+                    Assert.AreEqual((Map, (byte)AshenFixGV1.AttaCount, (byte)AshenFixGV1.AttaCount, 0.0, 1200U), (pool.MapContextId, pool.Creature1MinCount, pool.Creature1MaxCount,
                         pool.Radius, pool.RespawnTime), $"pool {pool.Id}");
             }
             Assert.AreEqual(82, (int)Rasa.Services.Preloader.TargetsOfOpportunitySeed.Flag.Atta, "the ToO's Atta flag");
@@ -826,7 +828,8 @@ namespace Rasa.Test.Missions.Ashen
                         && !(mission == AshenFixBV1.MissionId && entry.EvidenceId == AshenFixBV1.Evidence)
                         && !(mission == AshenFixDV1.MissionId && entry.EvidenceId == AshenFixDV1.Evidence)
                         && !(AshenFixEV1.Evidences.Any(fix => fix.Mission == mission) && entry.EvidenceId == AshenFixEV1.Evidence)
-                        && !AshenFixFV1.Evidences.Any(fix => fix.Mission == mission && fix.Evidence == entry.EvidenceId && entry.SourceUri == AshenFixFV1.Source))
+                        && !AshenFixFV1.Evidences.Any(fix => fix.Mission == mission && fix.Evidence == entry.EvidenceId && entry.SourceUri == AshenFixFV1.Source)
+                        && !AshenFixGV1.Evidences.Any(fix => fix.Mission == mission && fix.Evidence == entry.EvidenceId && entry.SourceUri == AshenFixGV1.Source))
                         .OrderBy(entry => entry.EvidenceId)
                         .Select(entry => (entry.SourceKind, entry.Confidence)).ToArray(), $"{mission} evidence");
         }
@@ -1053,11 +1056,12 @@ namespace Rasa.Test.Missions.Ashen
                 (1299, 1, -185, 520, 20), (1299, 1, -215, 525, 20),
                 (1300, 1, 330, -585, 20), (1300, 1, 280, -578, 20), (1300, 1, -648, 314, 20), (1300, 1, -655, 360, 20),
                 (1302, 1, -305.7, 198.1, 8), (1302, 2, -292, 305, 8), (1302, 3, -375.5, 394.1, 8), (1302, 4, -367, 514, 8),
-                // Set 13: 1280 on Veyon, 1281 on the ten resistors, 1282 on Maiek and at Endala.
+                // Set 13: 1280 on Veyon, 1281 on the ten resistors, 1282 on Maiek and at Endala (resistors 1, 2, 3, 7 and Endala's
+                // marker moved by fix G).
                 (1280, 1, 178, 536, 8),
-                (1281, 1, 200, 352, 8), (1281, 2, 158, 362, 8), (1281, 3, 237, 348, 8), (1281, 4, 174, 462, 8), (1281, 5, 130, 500, 8),
-                (1281, 6, 176, 496, 8), (1281, 7, 246, 309, 8), (1281, 8, 96, 462, 8), (1281, 9, 124, 532, 8), (1281, 10, 96, 554, 8),
-                (1282, 1, 344, -72, 8), (1282, 2, 266, 337, 8)
+                (1281, 1, 158, 541, 8), (1281, 2, 60, 551, 8), (1281, 3, 201, 525, 8), (1281, 4, 174, 462, 8), (1281, 5, 130, 500, 8),
+                (1281, 6, 176, 496, 8), (1281, 7, 66, 599, 8), (1281, 8, 96, 462, 8), (1281, 9, 124, 532, 8), (1281, 10, 96, 554, 8),
+                (1282, 1, 344, -72, 8), (1282, 2, 112, 458, 8)
             };
             Assert.HasCount(Indicators, expected);
             foreach (var (mission, objective, x, z, radius) in expected)
@@ -2100,11 +2104,11 @@ namespace Rasa.Test.Missions.Ashen
                 "mission_scene_binding 0, mission_evidence 0, mission_scenario 0, mission_scenario_step 0, mission_channel_policy 0, " +
                 "mission_repeat_policy 0, mission_spawn 0, mission_spawn_group 0, mission_area 0, creature 0, creature_stat 0, spawnpool 0, kept 9";
             // Fix E (a later migration) adds an evidence row on 1287, 1289 and 1291 while it is up (all migrations); fix F one on
-            // each of the four and 1287's marker on its own Atta pool.
+            // each of the four and 1287's marker on its own Atta pool; fix G one more on 1287.
             void AllUp(bool fixE = false)
             {
                 Assert.IsTrue(missions.All(Has));
-                Assert.AreEqual(fixE ? up.Replace("mission_evidence 12", "mission_evidence 19").Replace("mission_indicator 15", "mission_indicator 16") : up, All());
+                Assert.AreEqual(fixE ? up.Replace("mission_evidence 12", "mission_evidence 20").Replace("mission_indicator 15", "mission_indicator 16") : up, All());
                 Assert.AreEqual(AshenDesignerHidesNpcsV1.IdaAt, IdaAt(), "Ida moved");
             }
 

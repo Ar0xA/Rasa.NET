@@ -135,7 +135,7 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>
-        /// Row 22: 1287's own pool (790378) holds three Ashen Atta Soldiers (790043, set 2's row: no warcry), radius 0, set 2's
+        /// Row 22: 1287's own pool (790378) holds Ashen Atta Soldiers (three; one since fix G) (790043, set 2's row: no warcry), radius 0, set 2's
         /// 120 s, at fix F's place, 1287's marker 1/6 (r20) on it. It stands PoolGap (60 m) and more from every other hostile
         /// Ashen pool (2D, less its radius), WarcryGap (100 m) from every pool of a creature with the Atta harvester warcry (477),
         /// and 85 m from every NPC (set 10's). Each of the camp's four Atta pools (set 2) stands within a Worker's warcry
@@ -148,7 +148,8 @@ namespace Rasa.Test.Missions.Ashen
             using var harness = WildernessRuntimeTestHarness.Create(lootRoll: (minimum, maximum) => maximum == 100 ? percentile : minimum);
             var world = harness.World;
             var row = world.SpawnPoolEntries.AsNoTracking().Single(entry => entry.Id == X.AttaPool);
-            Assert.AreEqual((AshenMissionDataV1.MapContextId, X.AttaSoldier, (byte)3, (byte)3, 0U, 0.0, 1200U, (byte)0),
+            // Three as fix F wrote it; one since fix G (AshenFixGTests).
+            Assert.AreEqual((AshenMissionDataV1.MapContextId, X.AttaSoldier, (byte)AshenFixGV1.AttaCount, (byte)AshenFixGV1.AttaCount, 0U, 0.0, 1200U, (byte)0),
                 (row.MapContextId, row.Creature1Id, row.Creature1MinCount, row.Creature1MaxCount, row.Creature2Id, row.Radius, row.RespawnTime, row.Mode), "the pool");
             Assert.AreEqual((X.AttaAt.X, X.AttaAt.Y, X.AttaAt.Z), (row.PosX, row.PosY, row.PosZ), "at fix F's place");
             var marker = world.MissionIndicatorEntries.AsNoTracking().Single(entry => entry.MissionId == Jewelry.MissionId &&
@@ -269,14 +270,17 @@ namespace Rasa.Test.Missions.Ashen
             string Scene() => world.Set<MissionSceneBindingEntry>().AsNoTracking()
                 .Single(entry => entry.MissionId == AshenGasShortagesV1.MissionId && entry.ContentRevision == AshenMissionDataV1.Revision).Bindings;
             var bossPools = X.BossPools.Select(pool => pool.Pool).ToArray();
+            // Fix G (sorts after fix F) changes the Atta pools' counts, set 13's NPC pools and 1281's / 1282's markers: left out.
+            var laterPools = AshenFixGV1.AttaPools.Select(pool => pool.Pool).Append(AshenIndraPassNpcsV1.Odesha).Append(AshenIndraPassNpcsV1.Endala).ToArray();
+            var laterMarkers = new[] { AshenGodOfStormsV1.MissionId, AshenBondsOfBloodV1.MissionId };
             string Others(Rasa.Context.World.SqliteWorldContext db) => string.Join("; ", db.SpawnPoolEntries.AsNoTracking()
-                    .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && entry.Id != X.AttaPool).OrderBy(entry => entry.Id).AsEnumerable()
+                    .Where(entry => entry.MapContextId == AshenMissionDataV1.MapContextId && entry.Id != X.AttaPool && !laterPools.Contains(entry.Id)).OrderBy(entry => entry.Id).AsEnumerable()
                     .Select(entry => FormattableString.Invariant($"{entry.Id}:{entry.PosX:R},{entry.PosY:R},{entry.PosZ:R},{entry.Creature1Id},{entry.Creature1MaxCount},{(bossPools.Contains(entry.Id) ? 0 : entry.RespawnTime)}")))
                 + " | " + string.Join("; ", db.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision)
                     .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.ObjectiveId).ThenBy(entry => entry.IndicatorId).AsEnumerable()
-                    .Where(entry => !(entry.MissionId == Jewelry.MissionId && entry.IndicatorId == X.MarkerIndicator))
+                    .Where(entry => !(entry.MissionId == Jewelry.MissionId && entry.IndicatorId == X.MarkerIndicator) && !laterMarkers.Contains(entry.MissionId))
                     .Select(entry => FormattableString.Invariant($"{entry.MissionId}.{entry.ObjectiveId}/{entry.IndicatorId}:{entry.PosX:R},{entry.PosY:R},{entry.PosZ:R}")))
-                + " | " + string.Join("; ", db.MissionEvidenceEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision && entry.SourceUri != X.Source)
+                + " | " + string.Join("; ", db.MissionEvidenceEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision && entry.SourceUri != X.Source && entry.SourceUri != AshenFixGV1.Source)
                     .OrderBy(entry => entry.MissionId).ThenBy(entry => entry.EvidenceId).AsEnumerable().Select(entry => $"{entry.MissionId}/{entry.EvidenceId}"));
             void Fixed(string when)
             {

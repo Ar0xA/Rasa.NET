@@ -313,9 +313,10 @@ namespace Rasa.Test.Missions.Ashen
                 (AshenWhiteOasisNpcsV1.Meeks, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
                 (AshenWhiteOasisNpcsV1.Hale, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
                 (AshenWhiteOasisNpcsV1.Fontecilla, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
-                // Set 13: Odesha and Endala by the Indra Pass waypoint.
-                (AshenIndraPassNpcsV1.Odesha, "the Indra Pass waypoint", AshenIndraPassTests.IndraWaypoint),
-                (AshenIndraPassNpcsV1.Endala, "the Indra Pass waypoint", AshenIndraPassTests.IndraWaypoint)
+                // Set 13: Odesha and Endala in the Indra Pass valley (fix G; set 13 had them by the Indra Pass waypoint, whose
+                // floor has no way in: N23), walked to from White Oasis Post.
+                (AshenIndraPassNpcsV1.Odesha, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
+                (AshenIndraPassNpcsV1.Endala, "the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
             };
             var npcs = Npcs().ToDictionary(npc => npc.DbId);
             Assert.HasCount(npcs.Count, walks, "a walk to each NPC");
@@ -570,10 +571,9 @@ namespace Rasa.Test.Missions.Ashen
                 [AshenWaterPurificationV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
                 [AshenNeurotoxinsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
                 [AshenPoisoningTheWellwaterV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
-                // Set 13: Veyon and the resistors in the Indra Pass valley from White Oasis Post's (the Indra Pass waypoint's
-                // navmesh region is joined to nothing, upstream N23; the client's floor joins them: AshenIndraPassTests); Maiek
-                // in the Conscription Base from Ashoka Settlement's; Endala's marker and resistors 1-3 (on the waypoint's navmesh island)
-                // from the Indra Pass waypoint's: Also.
+                // Set 13: Veyon and the resistors in the Indra Pass valley from White Oasis Post's (fix G moved resistors 1, 2,
+                // 3, 7 off the Indra Pass waypoint's floor, which has no way in: upstream N23); Maiek in the Conscription Base
+                // from Ashoka Settlement's; Endala's marker (in the valley since fix G) from White Oasis Post's: Also.
                 [AshenMissingScientistsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
                 [AshenGodOfStormsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
                 [AshenBondsOfBloodV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
@@ -583,8 +583,7 @@ namespace Rasa.Test.Missions.Ashen
             {
                 [AshenNewFadV1.MissionId] = new[] { ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint) },
                 [AshenNeurotoxinsV1.MissionId] = new[] { ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint) },
-                [AshenGodOfStormsV1.MissionId] = new[] { ("the Indra Pass waypoint", AshenIndraPassTests.IndraWaypoint) },
-                [AshenBondsOfBloodV1.MissionId] = new[] { ("the Indra Pass waypoint", AshenIndraPassTests.IndraWaypoint) }
+                [AshenBondsOfBloodV1.MissionId] = new[] { ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint) }
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             var desert = AshenLeadInsTests.EnterAshen(harness);
