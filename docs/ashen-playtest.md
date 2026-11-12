@@ -745,6 +745,90 @@ All ESTIMATE (set 17):
   areas, 8 m on Petrovich, 15 m over the ambush, pool circles + 4 m): no source gives them.
 - No prerequisites (none sourced). The Atta Invader Chief (9677) is not built: no source gives its level, stats or place.
 
+Set 18, Avernus Outpost, the hive (migration `20271110001800_Ashen_avernus_hive`). All in Avernus Outpost (map 2110). All three
+are given at Petrovich's second row 790643 (645.5, 352.67, -246.5) on the Food Storage shelf (1535's receiver). New NPCs:
+Captain Tananda 790650 (449, 391.46, -45) at the Cave In; Sgt. Frogga 790651 (652, 353.32, -238) by Petrovich; Colonel
+Vandeweghe 790652 (349, 233.11, -260; 1537's copy only, no public pool) on the ramp over the Queen's Chamber; the Eloh
+Zuriel 790653 (628.6, 276, -677.8) in the Eloh Sanctuary. The Bane of the Queen's Chamber: a Caretaker 790654, a Fithik 790655, a Mutated Miasma 790656 (name 9037: the
+client has no "Altered Miasma") and a Thrax Tunneler 790657 (name 9892), level 43, one each in pool 790658 (147, 194.11, -590;
+r5; its row's respawn is 120 s, but in the squad's copy, the only place it stands, a cleared pool comes back 45 min after
+the last of it died) on the chamber's west ledge. Two Atta Teleporter pairs (local teleporters, class 25302, linked both ways):
+917 (509, 368.37, -506) near the southern tunnel's end <-> 918 (340, 238.11, -252) over the Queen's Chamber; 919 (470, 385.83,
+-324) on the Food Storage's west side <-> 920 (628, 275.98, -639) in the Eloh Sanctuary's entrance. Next free id 790659. Every
+walk below is the client's floor, checked both ways with a 0.5 m half width and the 55 degree climb rule (AshenAvernusHiveTests).
+The pads' body (prop_atta_teleporter_v01.geo): a platform 1.1-1.22 m high whose only way up is a ramp on its south (-z) side;
+the other sides drop. All four stand at rotation 0: walk up the ramp on the south (-z) side, along its length, to the
+platform's centre (the trigger is 2 m in 3D from the pad's origin: on the platform only within about 1.6 m of its centre; by
+the platform's sides on the floor, outside it). Every walk to or from a pad goes up or down its ramp
+(AshenAvernusHiveTests.ThePadsAreWalkedUpTheirRamps). 917 is 4.3 m north-east of its first place (505, 369.87, -512): the
+floor ends 1 m south of that (the tunnel's endcap), so its ramp met the wall (ESTIMATE); at its new place the platform's north
+edge touches the rock wall (arch_arieki_atta_queens_obj01_v08), seen only. Arrivals: the server sets a rider down at the far
+pad's origin + 1 m, 0.1-0.2 m below the platform's top: check in the real client that he stands on the platform and does not
+fall through or stick.
+
+- [ ] 1536 Assessing The Atta (Ligo Ashen Desert): Petrovich (the top) offers it after 1535, level 43. Two Avernus Outpost
+  Soldiers (Frogga's men, your own, unhurt by anything) stand by Frogga; about 2 s after the accept they go down the northern
+  tunnel (speed 4) and stop at the Cave In. 1: walk to Tananda (r10). 2: talk to Tananda. 3: talk to Petrovich. Turn in at
+  Petrovich: 90000 XP, 8200 credits, one of Phoenix Mech Armor Legs 46149 (Lv 40), Pulsar Hazmat Armor Legs 23062 (Lv 44),
+  Teleract Reflective Armor Vest 37705 (Lv 44), Pathogex Motor Assist Armor Vest 29247 (Lv 38).
+- [ ] 1537 God Save the Queen (Ligo Ashen Desert): Petrovich (the top) offers it after 1536, level 43. Vandeweghe's own copy
+  (unhurt by anything; there is no public one) stands at his place from the accept. 1: walk onto the southern tunnel's pad 917
+  (r8). 2: it sets you down over the Queen's Chamber; walk to Vandeweghe (r6). 3: talk to him: he leads down the tunnel to the
+  chamber's mouth (speed 4). 4: walk to the bottom (273, 144.53, -462; r15). 5: talk to him. 6: clear
+  the Bane's pool on the west ledge (marker on it). 7: talk to him: he goes. The markers of 5 and 7 stand at the bottom (the
+  lead's end): a marker does not follow him, so if his lead stopped short, look for him on the way down. Turn in at Petrovich: 90000 XP, 6150 credits, one
+  of Class VIII Incendiary Grenade 111039 x3, Advanced Med Pack 45065 x2, EMP Grenade 111029 x3, Res Trauma Kit 47600 x1.
+- [ ] 1581 The Big Secret (Ligo Ashen Desert): Petrovich (the top) offers it after 1537, level 44. Step onto the west pad 919:
+  it sets you down in the Eloh Sanctuary's entrance. 1: walk into the round room (628, 276, -662; r10). 2: talk to Zuriel.
+  Turn in at Captain Yamamoto in the Boneyard Outpost (Ashen Desert): 40000 XP, 5850 credits, one of Class VII Fragmentation
+  Grenade 45446 x3, EMP Bomb 111232 x1, Cryogenic Grenade 111048 x3, Standard Med Pack 45061 x3.
+
+Walks (set 18; client floor both ways): Petrovich -> Frogga, Tananda (the northern tunnel), the southern pad, the west pad;
+the queen pad -> Vandeweghe; Vandeweghe -> the bottom; the bottom -> the Bane's pool; the sanctuary pad -> Zuriel
+(AshenAvernusHiveTests.Legs and Walks). The men's and Vandeweghe's routes are checked on the navmesh.
+
+Fights (rule 3): the Bane are one of each at level 43 (copies of the Ashen Caretaker Doctor 531011, Fithik Guardian 540018,
+Polonium Miasma 531035 and Thrax Soldier 531008); none has a warcry. Vandeweghe and the men are unhurt by anything (whether
+they fight beside you is not set or tested). Tananda, a public NPC 20 m from the warcry pool 531051, can be killed: 1536's
+scene names her pool, so in the squad's copy she comes back on her pool's own time (2 s), not after the copy's 45 min.
+
+Rule breaks (rule 2):
+- Every upstream pool in Avernus Outpost is a warcry pool: the 100 m warcry rule can not hold for Tananda, Frogga,
+  Vandeweghe, the pads and the walks in the hive. The Bane's pool keeps it (its circle 106 m and more outside every Atta
+  pool's circle); Zuriel (75.7 m) and the sanctuary pad (36.9 m) keep 34 m.
+- Tananda stands 20.0 m outside 531051's circle (the Cave In: TaRapedia's place is inside it; the farthest floor she is seen
+  from all round at); the men stop there too. Vandeweghe stands 13.6 m and the queen pad 21.9 m outside 531058's circle (the
+  ramp over the chamber; TaRapedia's place is 6 m outside it).
+- The walks pass the upstream pools on the only way (2D, every leg also checked with its start moved 0.13, 0.27 and 0.4 m):
+  Petrovich -> Tananda goes through 531045 and 531051 (the northern tunnel); Petrovich -> the southern pad through 531046
+  and 531057 and 7.6 m outside 531059; Petrovich -> the west pad through 531057, 13.0 m outside 531048 and 18.1 m outside
+  531059 (the floor round 531057 is the only way that passes the shifted check: the west side's 56-degree spot at (469,
+  -282.5) and hump at (468, -317.6) fail it); the queen pad -> Vandeweghe 13.6 m outside 531058; Vandeweghe -> the bottom
+  through 531044, 1.7 m outside 531058 and 20.3 / 21.8 m outside 531056 and 531062 (his lead's way down).
+- Set 18 spawns no scene object (its actors are creatures); no walk crosses one of the pads 917-920 but at its end.
+- The meshes under the walks (the probe, 2026-11-12): the hive's floor is the terrain heightmap nearly everywhere. The zig-zag
+  climb to the Bane's ledge (the bottom -> the Bane, 2-3) and the queen pad -> Vandeweghe are terrain (no stair or ramp mesh).
+  Vandeweghe -> the bottom goes round the cavern light bunch terra_arieki_atta_cavern_light_bunch_v01 (class 25792 at (199,
+  220, -328), 2.6 m over the floor) instead of over it, and crosses the low light bunch _v02 (class 25793 at (300, 217, -337),
+  up to 1.3 m, faces 29-46 degrees) along the walk: every way round it is blocked at (285, -338).
+
+Tester notes (set 18):
+- 1537 in a squad: each member's 2-7 wait until he walks and talks them himself; a mate's sweep counts for a member only if
+  the Bane's pool is still down when his own 6 opens (otherwise clear it again after it comes back: 45 min after it was
+  cleared, the squad's copy's respawn).
+- 1537: the pad's arrival is 12 m short of Vandeweghe: walk to him for 2. Nothing waits for his lead: you can run ahead to
+  the bottom.
+- 1581: the west pad's arrival is in the sanctuary's entrance corridor; the round room is 23 m on. The turn-in is in Ashen
+  Desert, not at Petrovich.
+- The pads are public: any player may ride them.
+
+All ESTIMATE (set 18):
+- Levels 43 (1536, 1537) and 44 (1581); Tananda and Frogga 44, Vandeweghe 46, Zuriel 50, the Bane 43.
+- The places of Tananda, Frogga, Vandeweghe, the pads, the bottom, the round room and the Bane's pool; Zuriel at TaRapedia's
+  place. The men's and Vandeweghe's routes (the client-floor walk's corners on the navmesh), their speed, the 2 s timer.
+- The Bane's rows (the nearest upstream rows and names), one of each, the pool's circle and respawn.
+- The armour pieces of 1536 (the version and level band TaRapedia names; "Experimental" is no client quality).
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -895,6 +979,17 @@ All ESTIMATE (set 17):
 - 1535: the lead starts from a 2 s scene timer after the accept (a scene start inside the accept is refused).
 - The Atta Teleporter (915/916): local teleporter pads that are not gated; any player may ride them.
 - The Avernus Invaders in the north ravine stand on a navmesh island of their own: they do not chase into the base.
+- 1536: Frogga's men are unhurt by anything and are the player's own; they lead on their own (nothing waits for them, and 1
+  is the player's own walk to Tananda).
+- 1537: Vandeweghe is unhurt by anything (the client has no fail text). His lead does not wait for the player.
+- 1537: Vandeweghe has no public NPC, only each player's own copy while 1537 runs (user review). The ramp's tip is the only
+  floor round TaRapedia's place, and no spot on it 15 m (the start-up safe-ground check) outside 531058's circle is seen from
+  all round; a public NPC there fails that check. A player without 1537 does not see him.
+- 1537: "Sweep the Room" is one pool of the four Bane kinds, one each (no source gives their number); the sweep counts the
+  pool cleared, also one cleared before 6 opens while it is still down.
+- 1581: no Targets of Opportunity operation (1580, upstream content, out of scope).
+- The hive's Atta Teleporters (917-920): local teleporter pads that are not gated; any player may ride them. The client marker
+  123 "Queen Chamber" is not used (no source ties it to 1537).
 
 ## Server data that differs from the sources (not changed)
 

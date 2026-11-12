@@ -446,8 +446,8 @@ namespace Rasa.Test.Missions.Ashen
             var links = harness.World.Set<MapLinkEntry>().AsNoTracking().Where(link => link.Enabled != 0).ToList();
             var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision ||
                 entry.MissionId == AshenEchoesInTheSandV1.MissionId && entry.ContentRevision == Rasa.Services.Preloader.Missions.Crucible.CrucibleMissionDataV1.Revision).ToList();
-            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators + AshenMissionTests.CavernsIndicators + AshenMissionTests.OutpostIndicators,
-                markers, "the Ashen markers");
+            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators + AshenMissionTests.CavernsIndicators + AshenMissionTests.OutpostIndicators +
+                AshenMissionTests.HiveIndicators, markers, "the Ashen markers");
             var near = new List<string>();
             foreach (var marker in markers)
             {

@@ -84,7 +84,9 @@ namespace Rasa.Test.Missions.Ashen
             // Set 16 (Indra Caverns, the Gotha plant).
             AshenDiggingForTheTruthV1.MissionId, AshenMeetSergeantDrofV1.MissionId, AshenSubversionV1.MissionId, AshenDesistanceV1.MissionId,
             // Set 17 (Avernus Outpost, squad instance 2110, the outpost).
-            AshenOverlySensitiveV1.MissionId, AshenPetrovichsLastStandV1.MissionId, AshenPetrovichsRunV1.MissionId
+            AshenOverlySensitiveV1.MissionId, AshenPetrovichsLastStandV1.MissionId, AshenPetrovichsRunV1.MissionId,
+            // Set 18 (Avernus Outpost, the hive).
+            AshenAssessingTheAttaV1.MissionId, AshenGodSaveTheQueenV1.MissionId, AshenTheBigSecretV1.MissionId
         };
 
         /// <summary>
@@ -126,6 +128,9 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>The markers on Avernus Outpost (2110): set 17's sixteen (1473's eight, 1535's eight; 1533 has none: AshenAvernusOutpostTests.Markers).</summary>
         internal static readonly int OutpostIndicators = AshenAvernusOutpostTests.Markers().Count();
 
+        /// <summary>Set 18's twelve markers on Avernus Outpost (1536's three, 1537's seven, 1581's two: AshenAvernusHiveTests.Markers).</summary>
+        internal static readonly int HiveIndicators = AshenAvernusHiveTests.Markers().Count();
+
         private const string LeadIns = "20271110000000_Ashen_lead_ins";
         private const string MaunaBarrens = "20271110000100_Ashen_mauna_barrens";
         private const string SheitanHighway = "20271110000200_Ashen_sheitan_highway";
@@ -144,6 +149,7 @@ namespace Rasa.Test.Missions.Ashen
         private const string IndraCaverns = "20271110001500_Ashen_indra_caverns";
         internal const string GothaPlant = "20271110001600_Ashen_gotha_plant";
         internal const string AvernusOutpost = "20271110001700_Ashen_avernus_outpost";
+        internal const string AvernusHive = "20271110001800_Ashen_avernus_hive";
         private const uint Map = 1734;
         private const double CrateX = 537, CrateZ = -267;     // 1275's crate by the Boneyard wreck at (537, 282, -279) (the probe of 2026-11-10)
 
@@ -405,7 +411,12 @@ namespace Rasa.Test.Missions.Ashen
                 (1533, 13696, new (uint, uint, uint, uint?)[] { (1, 13697, 13698, null) }),
                 (1535, 13754, new (uint, uint, uint, uint?)[] { (1, 13759, 13760, null), (2, 13761, 13762, null), (3, 13763, 13764, null),
                     (4, 13766, 13767, null), (5, 13768, 13769, null), (6, 13766, 13767, null), (7, 13766, 13767, null), (8, 13759, 13760, null),
-                    (9, 13759, 13760, null), (10, 13759, 13760, null) })
+                    (9, 13759, 13760, null), (10, 13759, 13760, null) }),
+                // Set 18 (missionobjective 1536, 1537, 1581): no counters.
+                (1536, 13804, new (uint, uint, uint, uint?)[] { (1, 13809, 13810, null), (2, 13811, 13812, null), (3, 13814, 13815, null) }),
+                (1537, 13820, new (uint, uint, uint, uint?)[] { (1, 13825, 13826, null), (2, 13835, 13836, null), (3, 13837, 13838, null),
+                    (4, 13840, 13841, null), (5, 13854, 13855, null), (6, 13857, 13858, null), (7, 13859, 13860, null) }),
+                (1581, 14557, new (uint, uint, uint, uint?)[] { (1, 17157, 17158, null), (2, 17159, 17160, null) })
             };
             using var harness = WildernessRuntimeTestHarness.Create();
             foreach (var (mission, title, objectives) in expected)
@@ -455,7 +466,9 @@ namespace Rasa.Test.Missions.Ashen
                 // Set 16: 1532,1 Drof (1544) and 1452,8 Diren (1802), variant 1.
                 (1452, 8, 1802, 1), (1532, 1, 1544, 1),
                 // Set 17: 1535,3 Petrovich (1803), variant 1.
-                (1535, 3, 1803, 1)
+                (1535, 3, 1803, 1),
+                // Set 18: 1536,2 Tananda (1914), 1536,3 Petrovich (1803), 1537,3/5/7 Vandeweghe (1925), 1581,2 Zuriel (2075), variant 1.
+                (1536, 2, 1914, 1), (1536, 3, 1803, 1), (1537, 3, 1925, 1), (1537, 5, 1925, 1), (1537, 7, 1925, 1), (1581, 2, 2075, 1)
             }, talks);
 
             // Set 11: 1295's four panels and 1356's three pumps are scene results 1-4 and 1-3 (counter 1); 1303 Ulovik 520006, once.
@@ -880,7 +893,10 @@ namespace Rasa.Test.Missions.Ashen
                 // Set 16 (TaRapedia: 1447 after 1395, 1451 after 1532; 1532 after 1447 and 1452 after 1451 the story's, ESTIMATE).
                 (1447, MissionPrerequisiteKind.MissionCompleted, 1395, done), (1451, MissionPrerequisiteKind.MissionCompleted, 1532, done),
                 (1452, MissionPrerequisiteKind.MissionCompleted, 1451, done), (1532, MissionPrerequisiteKind.MissionCompleted, 1447, done),
-                (1559, MissionPrerequisiteKind.MissionCompleted, 1280, done)
+                // Set 18 (TaRapedia): 1536 after 1535, 1537 after 1536, 1581 after 1537.
+                (1536, MissionPrerequisiteKind.MissionCompleted, 1535, done), (1537, MissionPrerequisiteKind.MissionCompleted, 1536, done),
+                (1559, MissionPrerequisiteKind.MissionCompleted, 1280, done),
+                (1581, MissionPrerequisiteKind.MissionCompleted, 1537, done)
             }, prerequisites);
             var flags = harness.World.MissionPrerequisiteEntries.AsNoTracking()
                 .Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision && entry.Kind == MissionPrerequisiteKind.PlayerFlagValue)
@@ -1016,12 +1032,12 @@ namespace Rasa.Test.Missions.Ashen
             using var harness = WildernessRuntimeTestHarness.Create();
             var indicators = harness.World.MissionIndicatorEntries.AsNoTracking()
                 .Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision).ToArray();
-            Assert.HasCount(Indicators + CavernsIndicators + OutpostIndicators, indicators);
+            Assert.HasCount(Indicators + CavernsIndicators + OutpostIndicators + HiveIndicators, indicators);
             var catalog = new MissionContentCatalog(harness, new Dictionary<uint, Mission>(), null);
             catalog.Load();
             foreach (var row in indicators)
             {
-                Assert.AreEqual(AshenAvernusOutpostTests.Missions.Contains(row.MissionId) ? AshenAvernusOutpostNpcsV1.Outpost : OnCaverns(row.MissionId, row.ObjectiveId) ? AshenIndraFacilityNpcsV1.Caverns : Map, MissionMarkerProjection.ResolveMap(catalog, row.MissionId, row.ObjectiveId,
+                Assert.AreEqual(AshenAvernusOutpostTests.Missions.Contains(row.MissionId) || AshenAvernusHiveTests.Missions.Contains(row.MissionId) ? AshenAvernusOutpostNpcsV1.Outpost : OnCaverns(row.MissionId, row.ObjectiveId) ? AshenIndraFacilityNpcsV1.Caverns : Map, MissionMarkerProjection.ResolveMap(catalog, row.MissionId, row.ObjectiveId,
                     new MissionIndicator { IndicatorId = row.IndicatorId }), $"mission {row.MissionId} objective {row.ObjectiveId}: on its map");
                 // Fix H: 1559.1's second marker, on the valley's lift pad, unnamed (the client has no name for a pad).
                 var padMarker = row.MissionId == AshenFixHV1.Mission && row.ObjectiveId == AshenFixHV1.Objective && row.IndicatorId == MissionIndicator.UnnamedFrom + AshenFixHV1.Marker;
@@ -1072,7 +1088,7 @@ namespace Rasa.Test.Missions.Ashen
                 .Select(entry => new { entry.MissionId, entry.ObjectiveId }).ToList()
                 .Select(entry => (entry.MissionId, entry.ObjectiveId)).ToHashSet();
             var scenes = Scenes(harness);
-            CollectionAssert.AreEquivalent(new uint[] { 1243, 1245, 1263, 1352, 1354, 1254, 1259, 1261, 1285, 1264, 1265, 1266, 1267, 1268, 1269, 1275, 1277, 1278, 1287, 1289, 1291, 1293, 1295, 1298, 1356, 1299, 1300, 1302, 1280, 1281, 1282, 1358, 1286, 1736, 1559, 1360, 1395, 1447, 1532, 1451, 1452, 1473, 1533, 1535 }, scenes.Select(scene => scene.MissionId).ToArray(), "the scenes");
+            CollectionAssert.AreEquivalent(new uint[] { 1243, 1245, 1263, 1352, 1354, 1254, 1259, 1261, 1285, 1264, 1265, 1266, 1267, 1268, 1269, 1275, 1277, 1278, 1287, 1289, 1291, 1293, 1295, 1298, 1356, 1299, 1300, 1302, 1280, 1281, 1282, 1358, 1286, 1736, 1559, 1360, 1395, 1447, 1532, 1451, 1452, 1473, 1533, 1535, 1536, 1537, 1581 }, scenes.Select(scene => scene.MissionId).ToArray(), "the scenes");
             var hidden = scenes.SelectMany(scene => (scene.Scene.HiddenObjectiveIds ?? new()).Select(objective => (scene.MissionId, objective))).ToHashSet();
             CollectionAssert.AreEquivalent(new[] { (1263U, 2U), (1254U, 4U), (1278U, 7U), (1298U, 4U), (1281U, 11U), (1282U, 3U), (1736U, 3U), (1736U, 4U), (1736U, 5U), (1736U, 6U),
                     (1360U, 4U), (1360U, 5U), (1360U, 6U), (1395U, 7U), (1395U, 8U), (1447U, 12U), (1447U, 13U), (1447U, 14U), (1452U, 9U),
@@ -1080,7 +1096,7 @@ namespace Rasa.Test.Missions.Ashen
                 "1263's tally, 1254's and 1298's outcomes, 1278's losses, set 13's two Flag Readers (1281's tally, 1282's close), 1736's helpers (the researchers, the ambushes, the first pair's tally) and set 15's (1360's door, tally and opener; 1395's key-pass gate and hand) and set 16's (1447's power, rear exit and opener; 1452's hand) and set 17's (1473's key card, 1533's graveyard, 1535's waves, ready, tracker and leads), hidden");
             var objectives = world.MissionObjectiveDefinitionEntries.AsNoTracking().Where(entry => entry.ContentRevision == revision)
                 .Select(entry => new { entry.MissionId, entry.ObjectiveId }).ToList();
-            Assert.HasCount(5 + 2 + 1 + 1 + 5 + 2 + 1 + 4 + 1 + 2 + 1 + 11 + 3 + 2 + 4 + 1 + 1 + 1 + 1 + 2 + 2 + 2 + 2 + 2 + 2 + 1 + 4 + 3 + 2 + 2 + 2 + 2 + 4 + 4 + 1 + 3 + 1 + 1 + 4 + 1 + 11 + 3 + 5 + 1 + 2 + 6 + 7 + 13 + 1 + 8 + 9 + 7 + 1 + 10, objectives, "the objectives are read");
+            Assert.HasCount(5 + 2 + 1 + 1 + 5 + 2 + 1 + 4 + 1 + 2 + 1 + 11 + 3 + 2 + 4 + 1 + 1 + 1 + 1 + 2 + 2 + 2 + 2 + 2 + 2 + 1 + 4 + 3 + 2 + 2 + 2 + 2 + 4 + 4 + 1 + 3 + 1 + 1 + 4 + 1 + 11 + 3 + 5 + 1 + 2 + 6 + 7 + 13 + 1 + 8 + 9 + 7 + 1 + 10 + 3 + 7 + 2, objectives, "the objectives are read");
             var missing = objectives.Select(entry => (entry.MissionId, entry.ObjectiveId)).Where(key => !marked.Contains(key) && !hidden.Contains(key))
                 .OrderBy(key => key).ToArray();
             Assert.IsFalse(hidden.Any(marked.Contains), "no marker on a hidden objective");
@@ -1185,12 +1201,14 @@ namespace Rasa.Test.Missions.Ashen
             expected.AddRange(AshenGothaPlantTests.Markers());
             // Set 17: each on its target (AshenAvernusOutpostTests.Markers).
             expected.AddRange(AshenAvernusOutpostTests.Markers());
-            Assert.HasCount(Indicators + CavernsIndicators + OutpostIndicators, expected);
+            // Set 18: each on its target (AshenAvernusHiveTests.Markers).
+            expected.AddRange(AshenAvernusHiveTests.Markers());
+            Assert.HasCount(Indicators + CavernsIndicators + OutpostIndicators + HiveIndicators, expected);
             foreach (var (mission, objective, x, z, radius) in expected)
                 Assert.IsTrue(rows.Any(row => row.MissionId == mission && row.ObjectiveId == objective &&
                         Vector2.Distance(new((float)row.PosX, (float)row.PosZ), new((float)x, (float)z)) < 0.1f && row.Radius == radius),
                     $"{mission} objective {objective}'s marker at ({x}, {z}) radius {radius}");
-            Assert.HasCount(Indicators + CavernsIndicators + OutpostIndicators, rows);
+            Assert.HasCount(Indicators + CavernsIndicators + OutpostIndicators + HiveIndicators, rows);
             // Set 15: 1360's Watch Post marker holds both pools; each other marker on its target.
             // Fix J: the east pool and the marker at their new places (AshenFixJV1, to-fix row 36).
             foreach (var pool in new[] { AshenIndraFacilityNpcsV1.WatchPostWestAt, AshenFixJV1.PoolAt })
@@ -1945,7 +1963,7 @@ namespace Rasa.Test.Missions.Ashen
                 .AsEnumerable().Select(row => (row.PosX, row.PosY, row.PosZ, row.Rotation, row.Type)).Single();
             // Fix H's two pads (913, 914; a later migration) go and come back with the roll back to before fix D.
             string OtherTeleporters() => string.Join("; ", world.TeleporterEntries.AsNoTracking().Where(row => row.Id != 208 && row.Id != AshenFixHV1.LowerPad && row.Id != AshenFixHV1.UpperPad &&
-                row.Id != AshenAvernusOutpostNpcsV1.CavernPad && row.Id != AshenAvernusOutpostNpcsV1.GraveyardPad)
+                row.Id != AshenAvernusOutpostNpcsV1.CavernPad && row.Id != AshenAvernusOutpostNpcsV1.GraveyardPad && !AshenAvernusHiveTests.Pads.Contains(row.Id))
                 .OrderBy(row => row.Id).AsEnumerable().Select(row => System.FormattableString.Invariant($"{row.Id}:{row.PosX:R},{row.PosY:R},{row.PosZ:R},{row.Rotation:R}")));
             var fixedHospital = (-94.13672, 296.5, -828.72266, 3.7, (byte)5);
             var upstreamHospital = (-94.13672, 269.3, -828.72266, 3.7, (byte)5);
@@ -2608,7 +2626,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsFalse(missions.Any(Has));
             Assert.AreEqual(down, All());
             Assert.AreEqual(others, Others(world), "Down: nothing else changes");
-            Assert.IsTrue(MissionIds.Where(id => id is not (1736 or 1358 or 1286 or 1559 or 1360 or 1395 or 1447 or 1532 or 1451 or 1452 or 1473 or 1533 or 1535)).All(id => Has((id, AshenMissionDataV1.Revision))), "sets 1-13 stay");
+            Assert.IsTrue(MissionIds.Where(id => id is not (1736 or 1358 or 1286 or 1559 or 1360 or 1395 or 1447 or 1532 or 1451 or 1452 or 1473 or 1533 or 1535 or 1536 or 1537 or 1581)).All(id => Has((id, AshenMissionDataV1.Revision))), "sets 1-13 stay");
             foreach (var sql in AshenAshokaNpcsV1.Down())
                 world.Database.ExecuteSqlRaw(CrucibleSql.Guard(sql));
             Assert.AreEqual(down, All(), "a second Down changes nothing");
@@ -2698,7 +2716,8 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsFalse(missions.Any(Has));
             Assert.AreEqual(down, All());
             Assert.AreEqual(others, Others(world), "Down: nothing else changes");
-            Assert.IsTrue(MissionIds.Where(id => !missions.Contains(id) && !AshenGothaPlantTests.Missions.Contains(id) && !AshenAvernusOutpostTests.Missions.Contains(id)).All(Has), "sets 1-14 stay");
+            Assert.IsTrue(MissionIds.Where(id => !missions.Contains(id) && !AshenGothaPlantTests.Missions.Contains(id) && !AshenAvernusOutpostTests.Missions.Contains(id) &&
+                !AshenAvernusHiveTests.Missions.Contains(id)).All(Has), "sets 1-14 stay");
             foreach (var sql in AshenIndraFacilityNpcsV1.Down())
                 world.Database.ExecuteSqlRaw(CrucibleSql.Guard(sql));
             Assert.AreEqual(down, All(), "a second Down changes nothing");

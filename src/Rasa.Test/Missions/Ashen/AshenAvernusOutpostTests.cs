@@ -162,7 +162,7 @@ namespace Rasa.Test.Missions.Ashen
         {
             using var harness = WildernessRuntimeTestHarness.Create();
             var world = harness.World;
-            var rows = world.CreatureEntries.AsNoTracking().Where(row => row.Id >= 790640 && row.Id <= 790679).ToList();
+            var rows = world.CreatureEntries.AsNoTracking().Where(row => row.Id >= 790640 && row.Id <= 790649).ToList();
             CollectionAssert.AreEquivalent(N.Creatures, rows.Select(row => row.Id).ToArray(), "the seven");
             foreach (var (id, name, package) in new[] { (N.Karter, 9281U, 790640U), (N.Drazen, 9671U, 790641U), (N.Petrovich, 9672U, 1803U), (N.PetrovichTop, 9672U, 1803U) })
             {
@@ -177,7 +177,7 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.IsFalse(world.NpcPackageEntries.AsNoTracking().Any(entry => entry.Id == id), $"{id}: no package");
             }
 
-            var all = world.SpawnPoolEntries.AsNoTracking().Where(pool => pool.Id >= 790640 && pool.Id <= 790679).ToList();
+            var all = world.SpawnPoolEntries.AsNoTracking().Where(pool => pool.Id >= 790640 && pool.Id <= 790649).ToList();
             CollectionAssert.AreEquivalent(Pools.Concat(N.InvaderPools.Select(pool => pool.Pool)).ToArray(), all.Select(pool => pool.Id).ToArray(), "the set's pools");
             var pools = all.Where(pool => Pools.Contains(pool.Id)).ToList();
             foreach (var pool in pools)
@@ -206,7 +206,8 @@ namespace Rasa.Test.Missions.Ashen
                 foreach (var other in hostile.Where(other => other.Id != pool.Id))
                     Assert.IsGreaterThanOrEqualTo(60f, Facility.Gap(at, other) - (float)pool.Radius, $"{pool.Id}: 60 m+ outside hostile pool {other.Id}'s circle");
             }
-            Assert.IsTrue(hostile.Where(pool => !invaders.Any(one => one.Id == pool.Id)).All(pool => new[] { pool.Creature1Id, pool.Creature2Id, pool.Creature3Id, pool.Creature4Id, pool.Creature5Id, pool.Creature6Id }.Any(criers.Contains)),
+            // Set 18's Bane pool (790658, AshenAvernusHiveTests) is no warcry pool: 100 m+ outside every one.
+            Assert.IsTrue(hostile.Where(pool => !invaders.Any(one => one.Id == pool.Id) && pool.Id != AshenAvernusHiveNpcsV1.BanePool).All(pool => new[] { pool.Creature1Id, pool.Creature2Id, pool.Creature3Id, pool.Creature4Id, pool.Creature5Id, pool.Creature6Id }.Any(criers.Contains)),
                 "every upstream hostile pool a warcry pool (the rule break)");
 
             var pads = world.TeleporterEntries.AsNoTracking().Where(row => row.Id == N.CavernPad || row.Id == N.GraveyardPad).OrderBy(row => row.Id).ToList();
@@ -1156,7 +1157,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsFalse(Missions.Any(Has));
             Assert.AreEqual(down, All());
             Assert.AreEqual(others, Others(world), "Down: nothing else changes");
-            Assert.IsTrue(AshenMissionTests.MissionIds.Where(id => !Missions.Contains(id)).All(Has), "sets 1-16 stay");
+            Assert.IsTrue(AshenMissionTests.MissionIds.Where(id => !Missions.Contains(id) && !AshenAvernusHiveTests.Missions.Contains(id)).All(Has), "sets 1-16 stay");
             foreach (var sql in N.PadsDown())
                 world.Database.ExecuteSqlRaw(sql);
             foreach (var sql in N.Down())

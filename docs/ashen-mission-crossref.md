@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 59 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 62 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -10,7 +10,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 | Zone | Missions |
 | --- | ---: |
 | Ashen Desert | 56 |
-| Avernus Outpost | 3 |
+| Avernus Outpost | 6 |
 
 ## Ashen Desert
 
@@ -1460,4 +1460,78 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 - **Chain** (explicit prerequisite links): Petrovich's Run chain (4 missions), step 1
   - Leads to: Assessing The Atta (id 1536) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Assessing_The_Atta), [TaRapedia](https://tabularasa.fandom.com/wiki/Petrovich%27s_Run)
+
+### 1536 — Assessing The Atta [instance]
+
+
+- **Instance:** Avernus Outpost — NPC Captain Tananda (NPC page lists this mission) is in Avernus Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Tananda)
+- **Rebuild summary:**
+  - level: not found (not critical)
+  - reward: 90,000 XP; 8,200 credits; Lv 40 (Experimental); Lv 44 (Experimental); Lv 44 (Experimental); Lv 38 (Experimental) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Assessing_The_Atta)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Captain Tananda: Avernus Outpost, Cave In, /loc 467.4, 384.1, -97.5 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Tananda)
+- **Client:** Follow Frogga's men down the tunnel and find Captain Tananda.
+  - objectives (client): Finding Tananda; Tananda's Story; Return to Petrovich
+- **TaRapedia** [Assessing The Atta](https://tabularasa.fandom.com/wiki/Assessing_The_Atta) [stub]: giver: Captain Petrovich; at: Avernus Outpost; zone: Avernus Outpost; requires: Petrovich's Run; follow-up: God Save the Queen; XP: 90,000; credits: 8,200; items: Lv 40 (Experimental); Lv 44 (Experimental); Lv 44 (Experimental); Lv 38 (Experimental); reward from: Captain Petrovich
+  - overview: •; Follow Frogga's men down the tunnel and find Captain Tananda.
+  - objectives: Finding Tananda: Tananda's Story:
+  - walkthrough: Go down the northern 'Cave In' tunnel and meet up with Captain Tananda. She will tell you about the missing queen. After talking to her, return to Captain Petrovich in the Food Storage chamber to complete the quest.
+- **TaRapedia mission list** [Avernus Outpost mission list](https://tabularasa.fandom.com/wiki/Avernus_Outpost_mission_list): zone Ashen Desert, given by Captain Petrovich
+- **NPCs (TaRapedia NPC pages):**
+  - [Captain Tananda](https://tabularasa.fandom.com/wiki/Captain_Tananda): Avernus Outpost, Cave In, /loc 467.4, 384.1, -97.5 (NPC page lists this mission)
+  - [Captain Petrovich](https://tabularasa.fandom.com/wiki/Captain_Petrovich): Avernus Outpost, Atta Hive, /loc 952.0, 274.3, -275.0 (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Petrovich's Run chain (4 missions), step 2
+  - Requires: Petrovich's Run (id 1535) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Assessing_The_Atta), [TaRapedia](https://tabularasa.fandom.com/wiki/Petrovich%27s_Run)
+  - Leads to: God Save the Queen (id 1537) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Assessing_The_Atta), [TaRapedia](https://tabularasa.fandom.com/wiki/God_Save_the_Queen)
+- **Requires an instance mission:** Petrovich's Run (1535) — source: the chain links above
+### 1537 — God Save the Queen [instance]
+
+
+- **Instance:** Avernus Outpost — NPC Colonel Vandeweghe (NPC page lists this mission) is in Avernus Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Colonel_Vandeweghe)
+- **Rebuild summary:**
+  - level: not found (not critical)
+  - reward: 90,000 XP; 6,150 credits; Class VIII Incendiary Grenade x 3; Class VIII Advanced Med Pack x 2; Class VIII EMP Grenade x 3; Class VIII Res Trauma Kit — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_Save_the_Queen)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Colonel Vandeweghe: Avernus Outpost, Queen's Chamber, /loc 342.0, 231.8, -267.8 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Colonel_Vandeweghe)
+- **Client:** Petrovich is trusting you to enter the Queen's chamber and find out what's going on.
+  - objectives (client): Find the Teleporter; Teleport To the Queen's Chamber; Colonel Vandeweghe; Follow Vandeweghe; Talk to Vandeweghe; Sweep the Room; Talk To Vandeweghe
+- **TaRapedia** [God Save the Queen](https://tabularasa.fandom.com/wiki/God_Save_the_Queen) [stub]: giver: Captain Petrovich; at: Avernus Outpost; zone: Avernus Outpost; requires: Assessing The Atta; follow-up: The Big Secret; XP: 90,000; credits: 6,150; items: Class VIII Incendiary Grenade x 3; Class VIII Advanced Med Pack x 2; Class VIII EMP Grenade x 3; Class VIII Res Trauma Kit; reward from: Captain Petrovich
+  - overview: •; Petrovich is trusting you to enter the Queen's chamber and find out what's going on.
+  - objectives: Find the Teleporter: Teleport To the Queen's Chamber: Colonel Vandeweghe: Follow Vandeweghe: Talk to Vandeweghe: Sweep the Room: Talk To Vandeweghe:
+  - walkthrough: Enter the southern tunnel and pass through the Atta teleporter there. On the other side you should meet Colonel Vandeweghe who will talk to you and escort you further into the Queen's Chamber. After a bit of walking, you'll stumble across some Bane troops and Vandeweghe will talk to you again. Finally, you must clear the chamber of remaining Bane. This should be a smattering of Caretakers, Fithik, Altered Miasmas, and Thrax Tunnelers. Vandeweghe will speak to you once more, puzzling over where the queen is, and finally send you back to Petrovich. Return all the way to the Food Storage chamber …
+- **TaRapedia mission list** [Avernus Outpost mission list](https://tabularasa.fandom.com/wiki/Avernus_Outpost_mission_list): zone Ashen Desert, given by Captain Petrovich
+- **IGN TR boards** [vnboards.ign.com/tabula_rasa_general_board/b22750/106585290/r106594805 …](https://web.archive.org/web/20080518034441/http://vnboards.ign.com/tabula_rasa_general_board/b22750/106585290/r106594805/): “* Added indicator and more info for Treeback Camp: Cut off the Head mission. / * Added indicator for Avernus Outpost: God Save the Queen mission. / * Fixed Wilderness: Childhood's End so that it no longer matters who kills the Xanx, just that they are killed.”
+- **NPCs (TaRapedia NPC pages):**
+  - [Colonel Vandeweghe](https://tabularasa.fandom.com/wiki/Colonel_Vandeweghe): Avernus Outpost, Queen's Chamber, /loc 342.0, 231.8, -267.8 (NPC page lists this mission)
+  - [Captain Petrovich](https://tabularasa.fandom.com/wiki/Captain_Petrovich): Avernus Outpost, Atta Hive, /loc 952.0, 274.3, -275.0 (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Petrovich's Run chain (4 missions), step 3
+  - Requires: Assessing The Atta (id 1536) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Assessing_The_Atta), [TaRapedia](https://tabularasa.fandom.com/wiki/God_Save_the_Queen)
+  - Leads to: The Big Secret (id 1581) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_Save_the_Queen), [TaRapedia](https://tabularasa.fandom.com/wiki/The_Big_Secret)
+- **Requires an instance mission:** Assessing The Atta (1536) — source: the chain links above
+### 1581 — The Big Secret [instance]
+
+
+- **Instance:** Avernus Outpost — NPC Zuriel (NPC page lists this mission) is in Avernus Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Zuriel)
+- **Rebuild summary:**
+  - level: not found (not critical)
+  - reward: 40,000 XP; 5,850 credits; Class VII Fragmentation Grenade x 3; Class VII EMP Bomb; Class VII Cryogenic Grenade x 3; Class VII Standard Med Pack x3 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Big_Secret)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Zuriel: Avernus Outpost, Atta Hive, /loc 628.6, 276.0, -677.8 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Zuriel)
+- **Client:** Captain Petrovich wants you to go through the teleporter and talk to someone, but he isn't saying who. Once you're done in there you'll need to head to Ashen Desert and speak with Captain Yamamoto, who can be found in the Boneyard Outpost.
+  - objectives (client): Enter the Final Chamber; Speak with Zuriel
+- **TaRapedia** [The Big Secret](https://tabularasa.fandom.com/wiki/The_Big_Secret): giver: Captain Petrovich; at: Avernus Outpost; zone: Avernus Outpost; requires: God Save the Queen; follow-up: None; XP: 40,000; credits: 5,850; items: Class VII Fragmentation Grenade x 3; Class VII EMP Bomb; Class VII Cryogenic Grenade x 3; Class VII Standard Med Pack x3; reward from: Captain Aiko Yamamoto
+  - overview: •; Captain Petrovich wants you to go through the teleporter and talk to someone, but he isn't saying who. Once you're done in there you'll need to head to Ashen Desert and speak with Captain Yamamoto.
+  - objectives: Enter the Final Chamber: Speak with Zuriel:
+  - walkthrough: thumb|300px|left|Chaos Caused By Confict Is Sad FutureTravel to the west side of the Food Storage chamber and enter the Atta teleporter there. You will find yourself at the entrance of an Eloh Sanctuary. Inside is the Eloh Zuriel who will tell you the whereabouts of the queen. Return to Captain Aiko Yamamoto in Ashen Desert to complete the mission. This will complete one Operation for the Ashen Desert Targets of Opportunity.
+- **TaRapedia mission list** [Avernus Outpost mission list](https://tabularasa.fandom.com/wiki/Avernus_Outpost_mission_list): zone Ashen Desert, given by Captain Petrovich
+- **NPCs (TaRapedia NPC pages):**
+  - [Zuriel](https://tabularasa.fandom.com/wiki/Zuriel): Avernus Outpost, Atta Hive, /loc 628.6, 276.0, -677.8 (NPC page lists this mission)
+  - [Captain Petrovich](https://tabularasa.fandom.com/wiki/Captain_Petrovich): Avernus Outpost, Atta Hive, /loc 952.0, 274.3, -275.0 (named as giver/receiver)
+  - [Captain Aiko Yamamoto](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto): Ashen Desert, Boneyard Outpost (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Petrovich's Run chain (4 missions), step 4
+  - Requires: God Save the Queen (id 1537) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_Save_the_Queen), [TaRapedia](https://tabularasa.fandom.com/wiki/The_Big_Secret)
+- **Requires an instance mission:** God Save the Queen (1537) — source: the chain links above
 
