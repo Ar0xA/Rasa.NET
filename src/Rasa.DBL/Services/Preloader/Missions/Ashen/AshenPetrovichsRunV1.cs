@@ -44,9 +44,12 @@ namespace Rasa.Services.Preloader.Missions.Ashen
     ///    (AreaEntered, RestRadius round the rest place) opens 3.
     ///  - 3 the talk with Petrovich at the turn (13765) opens 4 and brings the ambush: two Atta Soldiers (the outpost's own row
     ///    531015, upstream) up the tunnel from the top, at the player; hidden 6 (Inactive until 3) counts both dead and brings
-    ///    two more; hidden 7 (Inactive until 6) counts those; 4 follows 7 (the client has no counter text for 4; never four Atta
-    ///    at once, as Echoes in the Sand 1736). 6 and 7 open only with the member's own talk and wave: a squad mate's wave kills
-    ///    reach every member in the copy and would otherwise complete them early (4 then waits for a 7 that never comes again).
+    ///    two more; hidden 7 (Inactive until 6) counts those; 4 follows 7 (the client has no counter text for 4; solo never four
+    ///    Atta at once, as Echoes in the Sand 1736). 6 opens with the member's own talk, 7 when his 6 completes. A wave kill in
+    ///    the squad's copy counts for every member on the mission whose counter is open (GroupCreditService, to-fix 29): a mate
+    ///    who talks after the player's ambush is over gets his own two waves and his own 4; a mate who talks while the player's
+    ///    first wave still stands has his 6 (and 7) completed by the player's kills, so his second wave comes while his own first
+    ///    still stands (four of his at once) and his own waves stay uncounted (AshenAvernusOutpostTests).
     ///  - 4 done opens 5: Petrovich leads on to the top; 5 the player at the top (AreaEntered, TopRadius round Petrovich's second
     ///    row, the receiver): the squad goes, the reward. The turn-in at Petrovich's second row (790643), there from the start.
     ///  - The items by their client names, each a stack, one to choose: Class VIII Frag Grenade (45447) x3, Class VIII EMP Bomb

@@ -695,10 +695,18 @@ cave tunnel under the terrain's lip and west of its rubble); Drazen -> his pad; 
 turn; the turn -> the top (AshenAvernusOutpostTests.Legs and Walks). Steps, ramps and the HQ's door ramp are walked along their
 length, not climbed from the side (audit S-B): the entrance east of the 1.2 m block at (95-99, 73-74), the weapon shop through
 its door's middle, the HQ up its door ramp eastward, the strip corpse's platform by its south ramp. Every leg also passes with
-its start moved 0.13, 0.27 and 0.4 m (the samples fall elsewhere). Petrovich's two routes are checked on the navmesh.
+its start moved 0.13, 0.27 and 0.4 m (the samples fall elsewhere; the walk test does this for every leg). The steep diagonal
+stretches left in the walks are on terrain or cave ramp meshes, not on a static's stair, and under the client's 55-degree
+limit (probe 2026-11-12, the floor's source and slope every 0.5 m): (94, -105) -> (103, -114) to the plaza, terrain, 45-51
+degrees, 45 degrees off its fall line; (77, 3) -> (76.65, 3.35) on the trunk, terrain, 14 degrees; (189, -68) -> (192, -65)
+to the tavern, terrain, 29 degrees; (34, -290) -> (43, -308) into Drazen's cavern, the cave ramp
+terra_arieki_cavern_endcap_02_24m_v02 (class 6988) with terrain at its top, 29-48 degrees, 30-37 degrees off its fall line;
+(754, -115) -> (746, -128) at the turn, the cave ramp terra_arieki_cavern_turn_ramp_v01 (class 9557), 28-44 degrees, up to 70
+degrees off its fall line (the ramp curves). Petrovich's two routes are checked on the navmesh.
 
 Fights (rule 3): the Invaders are Atta Soldier copies at level 41 in twos and threes; 1535's ambush is two Atta Soldiers at a
-time (never four at once); the squad is unhurt and fights with you.
+time (solo never four at once; in a squad that talks at the turn together see the tester notes); the squad is unhurt and
+fights with you.
 
 Rule breaks (rule 2):
 - Every upstream pool in Avernus Outpost (the hive and the graveyard) is a warcry pool: the 100 m warcry rule can not hold
@@ -716,8 +724,13 @@ Tester notes (set 17):
 - Take a squad: the bag, corpses, servers, teleporter and the destructibles are personal; each member on 1473 gets his own
   sample, diary and card. With a full bag the bag waits (search again with room). A mate whose mission-item bag is full
   at the player's search gets no sample and his 1 stays open; with room, his own courier bag gives his.
-- 1535 in a squad: each member's wave counters (hidden 6, 7) open only with his own rest talk and his own first wave; a mate
-  who talks after the player's ambush gets his own two waves and his own 4.
+- 1535 in a squad: each member's 6 opens with his own rest talk, his 7 when his 6 completes. A wave kill counts for every
+  member whose counter is open (squad credit in the copy): a mate who talks after the player's ambush is over gets his own two
+  waves and his own 4; a mate who talks while the player's first wave stands has his 6 and 7 completed by the player's kills,
+  his second wave comes while his own first still stands (four of his at once), and his own waves stay alive uncounted. 4 and
+  5 still complete for both.
+- 1535: Petrovich's route to the top crosses a 38-degree bump at (704-716, -250) (TopWay); the player's walk goes south of it
+  (the walk test's leg). Watch whether Petrovich stops there in the real client.
 - 1473: a mate without the card (away at the player's search) is refused by his own teleporter.
 - 1535: the cave must be cleared after the accept or before it (a cleared cave completes 1 at the accept); Petrovich leads 2 s
   later. Abandoned, 1535 starts over at the graveyard.

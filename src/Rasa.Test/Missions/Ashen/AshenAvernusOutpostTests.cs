@@ -360,7 +360,8 @@ namespace Rasa.Test.Missions.Ashen
 
         /// <summary>
         /// The walks on the client's floor (AshenFixBTests.ClientFloorLine with a player's half width, PlayerHalfWidth 0.5 m, fix
-        /// G's 55-degree climb rule), every leg there and back by the corners Legs names (a client-floor flood's way, 2026-11-12).
+        /// G's 55-degree climb rule), every leg there and back by the corners Legs names (a client-floor flood's way, 2026-11-12),
+        /// also with its start moved 0.13, 0.27 and 0.4 m along its first stretch (StartShifts).
         /// Every walk keeps HostileClearance (30 m, 2D) outside the circle of every hostile pool but those it names (the upstream
         /// pools on the only way: 531047 in the tunnel from the outpost to Drazen's cavern and 531061 by the ramp down into it, 531042 over the hive tunnel's top half;
         /// docs/ashen-playtest.md). The outpost and Drazen's cavern are one walk area; the graveyard is reached only by the pad.
@@ -375,15 +376,24 @@ namespace Rasa.Test.Missions.Ashen
             var hostile = HostilePools(harness);
             var failures = new List<string>();
             var walked = 0;
+            var expected = 0;
             foreach (var (leg, corners) in Legs)
             {
-                var there = corners.ToList();
-                var back = Enumerable.Reverse(there).ToList();
-                foreach (var (line, direction) in new[] { (there, "there"), (back, "back") })
+                // Each leg as given and with its start moved StartShifts along its first stretch: the samples (every 0.5 m) fall
+                // elsewhere, so a step or a wall the samples happen to straddle is not missed (audit S-B follow-up).
+                var first = Vector2.Distance(new(corners[0].X, corners[0].Z), new(corners[1].X, corners[1].Z));
+                foreach (var shift in StartShifts.Where(shift => shift == 0 || first > shift + 0.05f))
                 {
-                    walked++;
-                    if (AshenFixBTests.ClientFloorLine(geometry, line, line[^1], null, PlayerHalfWidth) is { } why)
-                        failures.Add($"{leg} {direction}: {why}");
+                    expected += 2;
+                    var there = corners.ToList();
+                    there[0] = Vector3.Lerp(corners[0], corners[1], shift / first);
+                    var back = Enumerable.Reverse(there).ToList();
+                    foreach (var (line, direction) in new[] { (there, "there"), (back, "back") })
+                    {
+                        walked++;
+                        if (AshenFixBTests.ClientFloorLine(geometry, line, line[^1], null, PlayerHalfWidth) is { } why)
+                            failures.Add(FormattableString.Invariant($"{leg} {direction} (start +{shift} m): {why}"));
+                    }
                 }
             }
             foreach (var (label, legs, passes, target) in Walks())
@@ -394,7 +404,8 @@ namespace Rasa.Test.Missions.Ashen
                 if (Vector3.Distance(line[^1], target) > 0.01f)
                     failures.Add($"{label} ends at {line[^1]}, not {target}");
             }
-            Assert.AreEqual(2 * Legs.Count, walked, "every leg both ways");
+            Assert.AreEqual(expected, walked, "every leg both ways, at each start shift");
+            Assert.IsGreaterThanOrEqualTo(2 * Legs.Count * 3, walked, "most legs at three shifts or more");
             Assert.IsEmpty(failures, $"{failures.Count}: " + string.Join("; ", failures));
         }
 
@@ -886,6 +897,62 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>
+        /// Petrovich's Run's ambush in a squad of two who both talk at the turn before the player's waves die (audit follow-up 3,
+        /// as built): a scene event in a squad copy counts for every member on the mission (GroupCreditService, to-fix 29), so the
+        /// player's first wave dead completes the mate's 6 too and brings the mate's second wave while his own first still stands
+        /// (four of his at once); the player's second wave dead completes the mate's 7 and 4. The mate's own waves stay, no longer
+        /// counted; both go on to 5.
+        /// </summary>
+        [TestMethod]
+        public void PetrovichsRunsAmbushIsSharedWhenTheSquadTalksAtOnce()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            var copy = IntoOutpost(harness);
+            ResetCave(copy);
+            var petrovich = Giver(copy, N.Petrovich);
+            Accept(harness, petrovich, Run.MissionId);
+            Tick(harness, copy, 250);
+            using var mate = new Facility.SquadMate(harness, copy, petrovich, Run.MissionId, Array.Empty<uint>());
+            KillPools(harness, copy, Run.CavePools.Select(pool => pool.Pool).ToArray());
+            for (var tick = 0; tick < 12; tick++)
+                Tick(harness, copy, 250);
+
+            Enter(harness, ToVector(Run.RestAt));
+            var leader = SceneCreature(harness, copy, Run.MissionId, Run.PetrovichRole);
+            harness.MoveTo(leader.Position);
+            harness.Drain();
+            Assert.IsTrue(harness.Manager.CompleteOfferedObjective(harness.Client, leader.EntityId, Run.MissionId, Run.Rest, 1), "the player's rest talk");
+            harness.Drain();
+            mate.Beside(ToVector(Run.RestAt));
+            new MissionAreaService(() => harness.Manager).RecordAcceptedMovement(mate.Client, ToVector(Run.RestAt) + new Vector3(60, 0, 60), ToVector(Run.RestAt));
+            harness.Drain();
+            var hisLeader = MateSceneCreature(harness, copy, mate, Run.PetrovichRole);
+            mate.Beside(hisLeader.Position);
+            Assert.IsTrue(harness.Manager.CompleteOfferedObjective(mate.Client, hisLeader.EntityId, Run.MissionId, Run.Rest, 1), "the mate's rest talk");
+            harness.Drain();
+            Tick(harness, copy, 250);
+            Assert.AreEqual((MissionObjectiveState.Incomplete, MissionObjectiveState.Incomplete), (Objective(harness, Run.MissionId, Run.FirstWaveDown), mate.Of(Run.FirstWaveDown)), "both 6 open");
+            int MatesAttackers() => Enumerable.Range(1, 2).SelectMany(wave => Enumerable.Range(1, Run.AmbushAt.Length).Select(member => MateSceneCreature(harness, copy, mate, Run.AmbushRole(wave, member))))
+                .Count(one => one != null);
+            Assert.AreEqual(2, MatesAttackers(), "the mate's first wave");
+
+            for (var member = 1; member <= Run.AmbushAt.Length; member++)
+                Kill(harness, copy, SceneCreature(harness, copy, Run.MissionId, Run.AmbushRole(1, member)));
+            Tick(harness, copy, 250);
+            Assert.AreEqual((MissionObjectiveState.Completed, MissionObjectiveState.Completed), (Objective(harness, Run.MissionId, Run.FirstWaveDown), mate.Of(Run.FirstWaveDown)),
+                "the player's first wave completes both 6 (shared squad credit)");
+            Assert.AreEqual(4, MatesAttackers(), "the mate's second wave comes while his own first still stands: four of his at once");
+
+            for (var member = 1; member <= Run.AmbushAt.Length; member++)
+                Kill(harness, copy, SceneCreature(harness, copy, Run.MissionId, Run.AmbushRole(2, member)));
+            Tick(harness, copy, 250);
+            Assert.AreEqual((MissionObjectiveState.Completed, MissionObjectiveState.Completed, MissionObjectiveState.Incomplete, MissionObjectiveState.Incomplete),
+                (Objective(harness, Run.MissionId, Run.FendOff), mate.Of(Run.FendOff), Objective(harness, Run.MissionId, Run.ToTheTop), mate.Of(Run.ToTheTop)),
+                "the player's second wave completes both 4; both 5 open");
+            Assert.AreEqual(4, MatesAttackers(), "the mate's own four stay, no longer counted");
+        }
+
+        /// <summary>
         /// Overly Sensitive in a squad of two: the mate away at the player's card search has no card: his own teleporter refuses him
         /// (no transfer, his 5 open), the player's takes the player.
         /// </summary>
@@ -1160,6 +1227,9 @@ namespace Rasa.Test.Missions.Ashen
             places.Add(("the tunnel's top", ToVector(Run.TopWay[^1]), false, 0, Clearance));
             return places.Select(place => ((string Label, Vector3 At, bool Ring, float Middle, float Clearance))place).ToList();
         }
+
+        /// <summary>The start shifts (m along a leg's first stretch) each leg is also walked at (ThePlacesAreWalkedToOnTheClientsFloor).</summary>
+        private static readonly float[] StartShifts = { 0, 0.13f, 0.27f, 0.4f };
 
         /// <summary>How far outside every hostile pool's circle a place stands (2D; 30 m walk clearance and a margin).</summary>
         private const float Clearance = 34;
