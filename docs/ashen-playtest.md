@@ -578,7 +578,8 @@ Ashen-side walk is part of this set.
   (111011). 1: the Security Door Control Console (name 151, marker 213) at the bay's north-east door (-300, 128.01, -224); 2
   opens: either Juggernaut console in Juggernaut Operations (marker 212 at (-396, -250), r12): Programming (-395, 128.01,
   -246, name 149) or Systems (-398, 128.01, -253, name 150) (one used closes the other); 4 opens: walk up to the landing
-  pad's deck (the circle at (-395, 176.2, -295), r14, marker 210); 3 opens: use the Explosive Charge (-392.3, 175.81, -301; fix J,
+  pad's deck (the circle at (-395, 176.2, -295), r14, marker 210; fix K, row 44: on the deck go north round the landing
+  pad's dish, not south: the deck's south half is pool 531092's ground, see the walk points below); 3 opens: use the Explosive Charge (-392.3, 175.81, -301; fix J,
   row 43: set 16's stood inside the generator's body) on the Outpost Generator's east face (-401, -301; marker 214 at
   (-395, -301)), from the floor east of the generator (the pad walk ends at (-390.8, 175.81, -297)) (it has no lock; 3 takes the bomb, then the generator blows; without your bomb your own 3 stays open and your charge
   stays usable: alone nothing happens, in a squad the use still completes the 3 of each mate who has his bomb); 5 and 6 open
@@ -592,13 +593,21 @@ Ashen-side walk is part of this set.
 Walks (set 16; client floor both ways): 1447: Drof -> box and each teleporter; the Control Room -> east hall -> rear ramp ->
 outside the rear exit (through the door's leaf); -> rear caves -> cave entrance; -> the tunnel (split at its bend (-252,
 -44) and last turn (-302, 23)) -> its exit; -> the north cavern (-350, 58) -> drill 1 -> 2 -> 3 and drill 1 -> 4, 5, 6;
-the north cavern -> up the ridge -> Drof at the plant -> Naimi (passes 531089, 35 m below). 1451 / 1452: 45 legs from Drof
+the north cavern -> up the ridge -> Drof at the plant -> Naimi (passes 531089, 35 m below). 1451 / 1452: 41 legs from Drof
 at the plant through the plant to each valve, life support system, console, the pad, the charge, Central Administration,
 Kretas, the console and the teleporter (AshenGothaPlantTests.Legs). Kretas' teleporter's arrival -> Diren. Since fix J
 (row 42) each leg must start and end on its corners' own deck (0.5 m), so a leg onto another deck climbs from the ramp's foot.
 The pad route (fix J, row 44, the tester's way) climbs to the landing at (-232, -319) at the ramp's east end, not over
-its side, and loops south round the trench at (-340, -304) (west of it a 1.09 m trench rim the client does not climb;
-the check's rampFoot rule now refuses a step of more than 0.6 m off the terrain onto a mesh). Hostile pools
+its side (the check's rampFoot rule refuses a step of more than 0.6 m off the terrain onto a mesh). Fix K (row 44, deaths 7
+and 8): fix J's loop south round the trench at (-340, -304) ran 2-7 m outside upstream pool 531092's circle, through its
+spawn ground (a spawn draw lands up to 36.7 m from its middle, Detour's whole polygons); the way now goes north round the
+landing pad's dish, 25 m and more outside 531092's circle (51.2 m from its middle; 24.6 m from its nearest spawn draw, over
+its 18 m aggro, 3D, Creature.AggroRange). Walk points (x, y, z) from the ramp's landing: (-231.9, 173.6, -319.2),
+(-241.9, 177.5, -307.2), (-247.1, 177.61, -301.2), (-250.2, 177.61, -298.9), (-257.3, 177.61, -291.9), (-260, 177.61, -291),
+(-264.8, 177.61, -289.9), (-289.1, 177.61, -286.7), (-329, 175.43, -287), (-341, 175.93, -265), (-352, 176.37, -260),
+(-359, 176.98, -265), (-364, 177.04, -265), (-378, 176.37, -274), (-379, 176.37, -296), (-390, 175.81, -296), the pad
+(-390.8, 175.81, -297), beside the charge (-390.8, 175.81, -301) (AshenGothaPlantTests legs 23, 24, 44; AshenFixKTests:
+client floor both ways with shifted starts at either end, out of the generator's body, 1.28 m from the charge). Hostile pools
 each 1451/1452 walk passes (the plant's own; the 30 m walk rule is not kept in it): valve 1 (Alpha): 531086, 531088, 531089;
 valve 2 (Beta): 531086, 531089, 531091, 531093; life support 1: 531086, 531087, 531089, 531090, 531093; life support 2:
 531086, 531087, 531089, 531090, 531093; life support 3: 531086, 531087, 531089, 531090, 531093; life support 4: 531086,
@@ -617,6 +626,11 @@ Rule breaks inside the plant and the mining cave (rule 2; the plant's rooms are 
 - 1447: the Bane tunnel runs through pool 531094 and over 531088 and 531089 (its only way to the mining area).
 - 1451: the valves stand 20 m (Alpha) and 15 m (Beta) outside the nearest hostile pool's circle; the life support systems
   about 25 m (the barracks halls' own pools); the walks to them pass the plant's pools (listed in the test's walks).
+- 1452 (fix K): the way north round the dish passes pool 531093's spawn ground on the deck's north half (4-5 m from its
+  nearest draw at (-352, -260); about 16 % of its draws stand within its 18 m aggro of the way: with its 2-4 Thrax Soldiers
+  and Grenadier, one or two may come, ESTIMATE). The deck's only two ways west pass 531092's draws (south) or 531093's
+  (north); north is the smaller pool (531092: 5-7 with Linkers, a Technician and a Caretaker; it killed the tester on fix
+  J's way). Set 16's legs 01 and 13 pass the bay pool 531086's draws at about 18 m ((-324, 129.6, -110)).
 - 1452: the Juggernaut consoles about 22 m; the generator 13.5 m and the charge 18.5 m (the pad deck's pools); the
   console and the teleporter about 23 m; Kretas 38.7 m (the 35 m boss rule kept; not the 60 m between hostile pools).
 - Drof and Naimi at the plant: 34 m and more in 3D (pool 531089 35 m below in the mining cave; 26 m on the flat).
