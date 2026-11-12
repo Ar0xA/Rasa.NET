@@ -613,8 +613,8 @@ Tester notes (set 16):
   (cwalk.py / visual.walk): the 2055 navmesh is islands (upstream N29) and a navmesh walk stops at an island's edge.
 - Known risk (audit S4, the 1401/1395 design): in a squad, a mate on 1452 without his hand at the player's console use
   (his take fails) is refused, and the shared event waits for him; check that the player's own console still works.
-- The legs are checked at a 0.33 m body half width; at 0.5 m some fail (a recheck follows): report any stop on a prop
-  beside a leg.
+- The legs are checked at a 0.5 m body half width (audit S5; 0.33 m before): 38 of the 68 legs were rerouted (their
+  stops moved or split; AshenGothaPlantTests.Legs); report any stop on a prop.
 - Get into Indra Caverns by fix job H's lift pads (`ashen_fix_h`), not on foot (to-fix row 33).
 - Take a squad: the box, door, teleporters, drills, switches, consoles, charge and Kretas' teleporter are personal: each
   member on the mission has his own; a use or a drill destroyed completes the objective for each member in the copy (his
