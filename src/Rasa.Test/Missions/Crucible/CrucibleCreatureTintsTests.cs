@@ -9,6 +9,7 @@ namespace Rasa.Test.Missions.Crucible
 {
     using Rasa.Managers;
     using Rasa.Services.Preloader;
+    using Rasa.Services.Preloader.Missions.Ashen;
     using Rasa.Services.Preloader.Missions.Crucible;
     using Rasa.Structures.World;
     using Rasa.Test.Missions.Wilderness;
@@ -76,7 +77,8 @@ namespace Rasa.Test.Missions.Crucible
                 Assert.AreEqual(row.Hue, rows[row.CreatureId].Hue, $"creature {row.CreatureId} hue");
                 Assert.AreEqual(row.Hue, rows[row.CreatureId].Hue2, $"creature {row.CreatureId} hue2");
             }
-            Assert.HasCount(ValverdeCreatureTints.Rows.Count + tints.Count, rows, "the Valverde rows and the Crucible rows, no other");
+            Assert.HasCount(ValverdeCreatureTints.Rows.Count + tints.Count + AshenCreatureTintsV1.Rows.Count, rows,
+                "the Valverde rows, the Crucible rows and the later Ashen rows (AshenCreatureTintsTests), no other");
         }
 
         [TestMethod]
@@ -168,8 +170,12 @@ namespace Rasa.Test.Missions.Crucible
             Assert.HasCount(ValverdeCreatureTints.Rows.Count, before, "the Valverde rows stay");
             Assert.IsFalse(CrucibleCreatureTintsV1.Rows.Any(row => before.ContainsKey(row.CreatureId)), "no Crucible row is left");
 
-            // Up again (the second Up is in UpAndDownAreEachSafeTwiceAndDownLeavesAnEditedRow).
+            // Up again (the second Up is in UpAndDownAreEachSafeTwiceAndDownLeavesAnEditedRow), and the later migrations (the
+            // Ashen rows, which the rollback took too).
             migrator.Migrate(Data);
+            CollectionAssert.AreEquivalent(all.Where(row => !AshenCreatureTintsV1.Rows.Any(ashen => ashen.CreatureId == row.Key)).ToList(),
+                Rows(world).ToList());
+            migrator.Migrate();
             CollectionAssert.AreEquivalent(all.ToList(), Rows(world).ToList());
         }
 
@@ -193,13 +199,15 @@ namespace Rasa.Test.Missions.Crucible
             Run(world, CrucibleCreatureTintsV1.Down());
 
             var left = Rows(world);
-            Assert.HasCount(ValverdeCreatureTints.Rows.Count + 2, left);
+            Assert.HasCount(ValverdeCreatureTints.Rows.Count + 2, left, "the rollback to before set 14 takes the later Ashen rows too");
             Assert.AreEqual(Green, left[531018].Hue);
             Assert.AreEqual(Green, left[678002].Hue);
 
             // Up again keeps the GM's rows as they are and puts back the rest.
             migrator.Migrate(Data);
             Run(world, CrucibleCreatureTintsV1.Up());
+            // And the later migrations again (the Ashen rows).
+            migrator.Migrate();
 
             var after = Rows(world);
             Assert.HasCount(before.Count, after);

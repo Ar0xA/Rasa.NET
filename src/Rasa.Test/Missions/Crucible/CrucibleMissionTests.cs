@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Rasa.Test.Missions.Crucible
 {
     using Rasa.Managers;
+    using Rasa.Services.Preloader.Missions.Ashen;
     using Rasa.Services.Preloader.Missions.Crucible;
     using Rasa.Services.Preloader.Missions.Marshes;
     using Rasa.Structures;
@@ -2419,7 +2420,8 @@ namespace Rasa.Test.Missions.Crucible
                 Assert.AreEqual(now, SetTwelveB.Any(Has));
                 Assert.AreEqual(full, SetFifteen.Any(Has), "set 15 is a later migration's: it goes with the rollback and is not put back");
                 Assert.AreEqual(full ? AllRows : now ? SetTwelveBRows : SetElevenBRows, Rows(world));
-                Assert.AreEqual(tints, Tints(), "set 14's tints stay");
+                // The Ashen tints (Ashen set 21, a later migration) go with the rollback and are not put back.
+                Assert.AreEqual(full ? tints : tints - AshenCreatureTintsV1.Rows.Count, Tints(), "set 14's tints stay");
                 Assert.AreEqual(3, world.MissionEvidenceEntries.AsNoTracking().Count(entry => entry.ContentRevision == CrucibleMissionDataV1.Revision &&
                     CrucibleFixIV1.Missions.Contains(entry.MissionId) && entry.EvidenceId == CrucibleFixIV1.Evidence), "fix job I stays");
             }

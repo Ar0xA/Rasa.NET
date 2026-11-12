@@ -13,6 +13,7 @@ namespace Rasa.Test.World
     using Rasa.Packets.MapChannel.Server;
     using Rasa.Packets.Protocol;
     using Rasa.Services.Preloader;
+    using Rasa.Services.Preloader.Missions.Ashen;
     using Rasa.Services.Preloader.Missions.Crucible;
     using Rasa.Structures;
     using Rasa.Structures.World;
@@ -161,8 +162,10 @@ namespace Rasa.Test.World
             Assert.AreEqual(0xFF1E003Cu, rows[520036].Hue, "Seymour, (60, 0, 30)");
             Assert.IsNull(rows[520053].Hue, "Mox Alpha Male, stock");
 
-            // With them the Crucible rows (Crucible_creature_tints, CrucibleCreatureTintsTests), no other.
-            Assert.AreEqual(ValverdeCreatureTints.Rows.Count + CrucibleCreatureTintsV1.Rows.Count, rows.Count);
+            // With them the Crucible rows (Crucible_creature_tints, CrucibleCreatureTintsTests) and the Ashen rows
+            // (Ashen_creature_tints, AshenCreatureTintsTests), no other: 99 + 52 + 50.
+            Assert.AreEqual(ValverdeCreatureTints.Rows.Count + CrucibleCreatureTintsV1.Rows.Count + AshenCreatureTintsV1.Rows.Count, rows.Count);
+            Assert.AreEqual(201, rows.Count);
             foreach (var (id, hue) in ValverdeCreatureTints.Rows)
             {
                 Assert.AreEqual(hue, rows[id].Hue, $"creature {id} hue");
