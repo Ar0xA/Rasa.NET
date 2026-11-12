@@ -260,8 +260,13 @@ namespace Rasa.Test.Missions.Ashen
         /// Where <paramref name="meshFloorOnly"/> holds, only the placed meshes are floor, not the heightmap (a Brann corridor
         /// the terrain runs through, AshenFormalComplaintsTests.InAshokaCorridor). With <paramref name="halfWidth"/> the knee, chest
         /// and head lines are checked that far to each side as well (a player's body, not a line: doorways and corners).
+        /// <paramref name="track"/> gets the floor of each sample. With <paramref name="rampFoot"/> (Ashen fix J, to-fix row 42:
+        /// the real client stayed on 1451's lower deck beside the ramp up to life support 1) the walk must start and end on its
+        /// corners' own deck (DeckMatch, not the highest floor within 1 m / 1.5 m): a leg that ends on another deck has to climb
+        /// to it on the client floor from a start on the lower one, at the ramp's foot (MaxClientStep keeps it off the ramp's
+        /// side but for its last metre at the foot), not from a start that snapped onto the ramp beside it.
         /// </summary>
-        internal static string ClientFloorLine(MapGeometry geometry, IReadOnlyList<Vector3> corners, Vector3 to, Func<Vector3, bool> meshFloorOnly = null, float halfWidth = 0)
+        internal static string ClientFloorLine(MapGeometry geometry, IReadOnlyList<Vector3> corners, Vector3 to, Func<Vector3, bool> meshFloorOnly = null, float halfWidth = 0, List<Vector3> track = null, bool rampFoot = false)
         {
             // Points every Spacing along the corners as one line (a short leg between corners is sampled too), and the last corner.
             var points = new List<Vector3> { corners[0] };
@@ -281,6 +286,8 @@ namespace Rasa.Test.Missions.Ashen
                 new[] { t.A, t.B, t.C }.All(v => geometry.Terrain.Height(v.X, v.Z) is { } h && MathF.Abs(h - v.Y) < 0.01f);
             List<(Vector3 A, Vector3 B, Vector3 C)> Floor(int i) => meshFloorOnly?.Invoke(points[i]) == true ? near[i].Where(t => !OnTerrain(t)).ToList() : near[i];
             var y = F.FloorAt(Floor(0), points[0], points[0].Y - 2, points[0].Y + 1) ?? points[0].Y;
+            if (rampFoot && MathF.Abs(y - points[0].Y) > DeckMatch)
+                return FormattableString.Invariant($"starts on the floor at {y:0.00}, not on the corner's {points[0].Y:0.00} (another deck)");
             var floors = new List<Vector3>();
             Vector3? steep = null;
             for (var i = 0; i < points.Count; i++)
@@ -297,6 +304,12 @@ namespace Rasa.Test.Missions.Ashen
                         return FormattableString.Invariant($"too steep to climb at ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0}): the floor is {MathF.Acos(normal) * 180 / MathF.PI:0} degrees, over the client's {MaxClimbAngle}, from ({last.X:0.0}, {last.Z:0.0})");
                     steep = here;
                 }
+                // rampFoot (fix J, row 44): a step of more than TerrainEdge off the terrain onto a placed mesh is a sill the client
+                // does not climb: the client's ground there lies lower than this 1 m heightmap (1452's pad trench rim at (-341, -304):
+                // 1.09 m here, the client stood at 174.9, 0.4 m under the heightmap, and stopped).
+                if (rampFoot && floors.Count > 0 && here.Y - floors[^1].Y > TerrainEdge
+                    && Under(Floor(i - 1), floors[^1]) is { } low && OnTerrain(low) && Under(Floor(i), here) is { } high && !OnTerrain(high))
+                    return FormattableString.Invariant($"steps {here.Y - floors[^1].Y:0.00} m off the terrain onto a mesh at ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0}): a sill the client does not climb (over {TerrainEdge} m)");
                 // The rise over the last metre of the walk (the samples back to 1 m behind), not only from the sample before.
                 for (var back = floors.Count - 1; back >= 0; back--)
                 {
@@ -319,8 +332,9 @@ namespace Rasa.Test.Missions.Ashen
                 }
                 y = floor;
                 floors.Add(here);
+                track?.Add(here);
             }
-            return MathF.Abs(y - to.Y) > 1.5f ? FormattableString.Invariant($"ends on the floor at {y:0.00}, {to.Y:0.00} wanted") : null;
+            return MathF.Abs(y - to.Y) > (rampFoot ? DeckMatch : 1.5f) ? FormattableString.Invariant($"ends on the floor at {y:0.00}, {to.Y:0.00} wanted") : null;
         }
 
         /// <summary>
@@ -345,6 +359,27 @@ namespace Rasa.Test.Missions.Ashen
 
         /// <summary>How far the floor must drop from one sample to the next for a walk to go down a steep floor (it slides).</summary>
         internal const float SlideDrop = 0.1f;
+
+        /// <summary>ClientFloorLine's rampFoot rule (fix J, row 42): a walk's start and end floor within this of its corners'
+        /// heights (the corners are the client floor or the navmesh over it; the decks at 1451's life support 1 lie 5.5 m
+        /// apart, the ramp's side 1.9 m over the floor beside it).</summary>
+        internal const float DeckMatch = 0.5f;
+
+        /// <summary>
+        /// ClientFloorLine's rampFoot terrain edge (fix J, row 44): the highest step off the terrain onto a placed mesh. The real
+        /// client did not climb 1452's pad trench rim (1.09 m on this heightmap, about 1.5 m from where it stood). ESTIMATE.
+        /// </summary>
+        internal const float TerrainEdge = 0.6f;
+
+        /// <summary>The floor triangle right under <paramref name="at"/> (within 2 cm), if any.</summary>
+        private static (Vector3 A, Vector3 B, Vector3 C)? Under(List<(Vector3 A, Vector3 B, Vector3 C)> triangles, Vector3 at)
+        {
+            var from = at with { Y = at.Y + 0.5f };
+            foreach (var t in triangles)
+                if (F.Hit(from, -Vector3.UnitY, t.A, t.B, t.C) is { } down && MathF.Abs(from.Y - down - at.Y) < 0.02f)
+                    return t;
+            return null;
+        }
 
         /// <summary>The floor normal's y (the most level of the triangles at that height: an edge counts as its flatter side) under <paramref name="at"/>, or null.</summary>
         internal static float? FloorNormal(List<(Vector3 A, Vector3 B, Vector3 C)> triangles, Vector3 at)

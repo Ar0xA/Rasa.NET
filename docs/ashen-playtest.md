@@ -463,7 +463,8 @@ the medic; Sergeant Jonas Drof 790561 (-5, 0.58, -221) in the facility's Control
 24.85, -244.76) inside the Enslaver cell by the Security Station (copies of Captain Flynn Harris' row, levels 44, 43, 42);
 Thrax Overseer Kuutk 790563 (hostile, class 10504, level 44, 4900 hit points, armour 420) alone in pool 790564 in the
 Science Lab (59, -7.42, -403), respawn 300 s; the Indra Watch Post: a Thrax Soldier 531008 in pool 790565 (-36, 6.34, -355)
-in the low trench on the way in and a Ravager 531009 in pool 790566 (44, 16.35, -335) before the facility door, one each
+in the low trench on the way in and a Ravager 531009 in pool 790566 on the Watch Post's north-west terrace (-50, 14.56,
+-296) (fix J, to-fix row 36; set 15 had it at (44, 16.35, -335) by the facility's entrance tunnel), one each
 (pool respawn 120 s, never reached: in the squad's copy a cleared pool comes back 45 minutes after its last death,
 SquadInstanceConfig.RespawnMinutes; Kuutk, a public-spawn actor of 1395's scene, comes back on his own 300 s). Next free id 790567. Every walk
 below is the client's floor, checked both ways with the client's slope limit (AshenIndraFacilityTests); the server's
@@ -477,8 +478,9 @@ navmesh of the caverns is islands (upstream, N-row in NOTES-upstream-bugs), so t
   reward. Turn in at Diren: 60000 XP, 6750 credits, one of Class IX Concussion Grenade 111020 x3, Basic Med Pack 45066 x2,
   Fragmentation Grenade 45448 x3, EMP Bomb 111234 x1.
 - [ ] 1360 Threshold (Ligo Ashen Desert): Diren offers it after 1559, level 43. The accept gives the Supply Package
-  (97516). Walk north past the Watch Post: kill its two Bane (the Thrax Soldier in the low trench, the Ravager before the
-  facility door; marker r45 over both) for 3. Search Guard Rolim Bendal's body in the pillbox at (9.5, 18.52, -336) (fix
+  (97516). Walk north past the Watch Post: kill its two Bane (the Thrax Soldier in the low trench, the Ravager on the
+  north-west terrace (-50, 14.56, -296), fix J: from the Soldier's trench (-36, -355) north by (-31, -317), (-31, -305),
+  (-32, -303.6), (-35, -301.6), (-37, -301.6) and west; marker r45 over both at (-43, -325.5)) for 3. Search Guard Rolim Bendal's body in the pillbox at (9.5, 18.52, -336) (fix
   I): from the Watch Post (-5, -351) east by (15, -350), (23, -345), (24, -345) along the pillbox's south side, then north
   to its open east side (28, -337) and west in. Use the facility door, the Security Check Point entrance's door (fix I:
   class 23160 at (64, 16, -328), its leaf across the 3 m tunnel at x 60-62): from (24, -345) by (32, -341), (37, -341),
@@ -551,7 +553,9 @@ Ashen-side walk is part of this set.
   46.18, -94; r10, marker 219): 2, 3 opens. Follow the Bane tunnel west and north (it bends at (-252, -44) and turns west at
   (-302, 23)) to its exit (-325, 64.12, 24; r10, marker 220): 3. On through the north cavern (-350, 58) up into the mining
   area: six Articulated Drills (500 hit points each, marker 221 on each, 134 over the area): (-327, 90.31, 239), (-326,
-  90.43, 259), (-338, 90.43, 270), (-311, 85.86, 245), (-312, 85.86, 227), (-322, 85.86, 211): shoot each to pieces (6-11;
+  90.43, 259), (-338, 90.43, 270), (-337, 90.43, 264), (-339, 90.43, 276), (-341, 90.56, 282) (drills 4-6, fix J, to-fix
+  row 38: set 16 had them in the lava river at (-311, 245), (-312, 227), (-322, 211); now 11 m+ from the lava, in a row
+  with drills 2 and 3, each drill's body (17 x 5 m) 0.5 m+ from the others; marker 134 at (-334, 90.43, 255)): shoot each to pieces (6-11;
   1 counts them). Turned in by radio: 110000 XP, 8800 credits, one of Teleract Torqueshell Rifle 12111, Vitalius Sonic
   Disperser 12071, Vextronics Electric Rifle 11953, Virulent Injector Gun 12155. Check: the box refuses a player without
   the supply; the door stays shut and the teleporters off until the box is used; drills shot before 2 and 3 still count.
@@ -564,6 +568,9 @@ Ashen-side walk is part of this set.
   them, marker 134 r30 at (-279, -264)); and the four Life Support Systems (name 153, marker 217) by the sleep pods: the
   south hall (-172, 137.11, -416) upper deck and (-177, 131.21, -416) lower deck, the east hall (-81, 137.11, -363) upper and
   (-82, 130.23, -369) lower (5-8; 2 counts them, marker r30 at (-156, -344)). Each switch sets on use and is used no more.
+  The south hall's upper deck (life support 1, 5.5 m over life support 2's) is reached only by the ramp along z -416: from
+  its foot at about (-154.7, 129.8, -416.4), at the hall's east end, west up to the deck at x -166 (fix J, to-fix row 42:
+  from beside the ramp, e.g. (-157, -414.5), the client stays on the lower deck and refuses the use, pm 274).
   Turn in at Drof (the client's summary 12890 "Speak to Sergeant Drof for your reward", completion text 12892 Drof's,
   reminder 12893; TaRapedia's "Radio HQ" turn-in not followed): 110000 XP, 9000 credits, one of Vextronics Pulse Rifle 11957, AccuMax Incendiary Staff 49496, Phoenix
   Direct Repair Tool 18274, Titan Tissue Extractor 12053.
@@ -571,10 +578,12 @@ Ashen-side walk is part of this set.
   (111011). 1: the Security Door Control Console (name 151, marker 213) at the bay's north-east door (-300, 128.01, -224); 2
   opens: either Juggernaut console in Juggernaut Operations (marker 212 at (-396, -250), r12): Programming (-395, 128.01,
   -246, name 149) or Systems (-398, 128.01, -253, name 150) (one used closes the other); 4 opens: walk up to the landing
-  pad's deck (the circle at (-395, 176.2, -295), r14, marker 210); 3 opens: use the Explosive Charge (-406, 176.31, -303) by
-  the Outpost Generator (-401, -301; marker 214) (it has no lock; 3 takes the bomb, then the generator blows; without the bomb the use is refused: 3 stays open, the
-  charge stays usable); 5 opens: walk into Central
-  Administration's north hall ((-364, 168.71, -398), r16, marker 211; Kretas stands 8 m inside it); 6: kill Overlord Kretas (marker 209); he drops his hand
+  pad's deck (the circle at (-395, 176.2, -295), r14, marker 210); 3 opens: use the Explosive Charge (-392.3, 175.81, -301; fix J,
+  row 43: set 16's stood inside the generator's body) on the Outpost Generator's east face (-401, -301; marker 214 at
+  (-395, -301)), from the floor east of the generator (the pad walk ends at (-390.8, 175.81, -297)) (it has no lock; 3 takes the bomb, then the generator blows; without your bomb your own 3 stays open and your charge
+  stays usable: alone nothing happens, in a squad the use still completes the 3 of each mate who has his bomb); 5 and 6 open
+  (fix J): walk into Central Administration's north hall ((-364, 168.71, -398), r16, marker 211; Kretas stands 8 m inside
+  it); 6: kill Overlord Kretas (marker 209; the kill counts also for a member who shoots from outside the hall); he drops his hand
   (110986, 100 %, your own); 7: use the Teleportation Console (-392, 169.01, -432; name 154, marker 215) with the hand
   (taken): your teleporter beside it (-389, 168.53, -431) comes on; use it: it takes you to Indra Watch Post (-51, 7.6,
   -407) beside Diren; 8: talk to Diren (marker 260). Turn in at Diren: 120000 XP, 9000 credits, one of Bio-Engineered
@@ -582,10 +591,14 @@ Ashen-side walk is part of this set.
 
 Walks (set 16; client floor both ways): 1447: Drof -> box and each teleporter; the Control Room -> east hall -> rear ramp ->
 outside the rear exit (through the door's leaf); -> rear caves -> cave entrance; -> the tunnel (split at its bend (-252,
--44) and last turn (-302, 23)) -> its exit; -> the north cavern (-350, 58) -> drill 1 -> 2 -> 3 and drill 1 -> 4 -> 5 -> 6;
+-44) and last turn (-302, 23)) -> its exit; -> the north cavern (-350, 58) -> drill 1 -> 2 -> 3 and drill 1 -> 4, 5, 6;
 the north cavern -> up the ridge -> Drof at the plant -> Naimi (passes 531089, 35 m below). 1451 / 1452: 45 legs from Drof
 at the plant through the plant to each valve, life support system, console, the pad, the charge, Central Administration,
-Kretas, the console and the teleporter (AshenGothaPlantTests.Legs). Kretas' teleporter's arrival -> Diren. Hostile pools
+Kretas, the console and the teleporter (AshenGothaPlantTests.Legs). Kretas' teleporter's arrival -> Diren. Since fix J
+(row 42) each leg must start and end on its corners' own deck (0.5 m), so a leg onto another deck climbs from the ramp's foot.
+The pad route (fix J, row 44, the tester's way) climbs to the landing at (-232, -319) at the ramp's east end, not over
+its side, and loops south round the trench at (-340, -304) (west of it a 1.09 m trench rim the client does not climb;
+the check's rampFoot rule now refuses a step of more than 0.6 m off the terrain onto a mesh). Hostile pools
 each 1451/1452 walk passes (the plant's own; the 30 m walk rule is not kept in it): valve 1 (Alpha): 531086, 531088, 531089;
 valve 2 (Beta): 531086, 531089, 531091, 531093; life support 1: 531086, 531087, 531089, 531090, 531093; life support 2:
 531086, 531087, 531089, 531090, 531093; life support 3: 531086, 531087, 531089, 531090, 531093; life support 4: 531086,
@@ -612,7 +625,8 @@ Tester notes (set 16):
 - Walk on Indra Caverns (2055) in straight client walks between the listed corners (by hand), not by navmesh walks
   (cwalk.py / visual.walk): the 2055 navmesh is islands (upstream N29) and a navmesh walk stops at an island's edge.
 - Known risk (audit S4, the 1401/1395 design): in a squad, a mate on 1452 without his hand at the player's console use
-  (his take fails) is refused, and the shared event waits for him; check that the player's own console still works.
+  (his take fails) keeps his 7 open and his own console usable, and the shared event waits for him; check that the player's
+  own console still works.
 - The legs are checked at a 0.5 m body half width (audit S5; 0.33 m before): 38 of the 68 legs were rerouted (their
   stops moved or split; AshenGothaPlantTests.Legs); report any stop on a prop.
 - Get into Indra Caverns by fix job H's lift pads (`ashen_fix_h`), not on foot (to-fix row 33).
@@ -737,8 +751,18 @@ All ESTIMATE (set 16):
   NOT kill ahead" can not be kept, a pool is the squad copy's, not the mission's.
 - 1360: no Thrax attack on Drof in the Control Room (TaRapedia "wipe out the thrax attacking Drof"): no scene fight in a
   closed room (the cautious option).
-- 1360: the Watch Post's two pools stand on the only way into the facility: every walk in meets them (1360's own fight;
-  the 30 m walk clearance is not kept there).
+- 1360: the Watch Post's west pool stands on the only way into the facility: every walk in meets it (1360's own fight;
+  the 30 m walk clearance is not kept there). The east pool (fix J, to-fix row 36) stands off the way: 107 m from the
+  entrance tunnel (past the 60 m leash), 65 m and more from every 1360/1395 walk, 60.6 m from the west pool; 72 m from the
+  Watch Post's point (-5, -351), not near it: no place on the Watch Post's floor keeps the 60 m pool rule, the walks (30 m
+  plus the 10 m roam) and the tunnel (leash) at once (ESTIMATE place).
+- 1452 (fix J, row 43): the Explosive Charge stands on the generator's east face, 5.8 m outside pad pool 531085's circle
+  (the place rule asks 13 m): the generator's body leaves no place by it further off.
+- Known gaps (fix J, follow-up): the walk check sees the map's geometry only; scene objects' bodies (the generator, the
+  teleporters, the drills) are kept out by the walks' end places (AshenFixJTests.TheWalksEndOutsideTheSceneBodies), but
+  the 1447 drill walks still end inside the drills' bodies (the drills are shot from their sides). The 1452 pad loop round
+  the trench (the client's way, row 44) is not walked by the check: along the trench rims it finds knee-high geometry the
+  client passes.
 - 1360 / 1395: a squad mate's 1 (1360) completes with the user's search and gives the mate his own card (as Crucible
   1401's cards); a mate's 2 and 5 (1395) complete with the user's search without the radio or power supply (only the user
   gets those; nothing later needs them).
@@ -769,6 +793,9 @@ All ESTIMATE (set 16):
   Kretas stand closer to them than the place rules ask (listed under the set 16 rule breaks): the plant's rooms are small.
 - 1452: Kretas' hand is kept at an abandon (CharacterOwned, as 1395's hand); each member's hand is taken when his own 7
   completes.
+- 1452 (fix J): Kretas (6) opens with Locate Bane Central Administration (5) when the generator (3) completes, so a member
+  who never walked into Central Administration's 16 m can still do 6, 7 and 8; Diren then refuses the turn-in until he
+  walks back into the area (5 completes there).
 
 ## Server data that differs from the sources (not changed)
 

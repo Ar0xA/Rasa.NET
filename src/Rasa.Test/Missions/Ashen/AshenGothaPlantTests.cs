@@ -41,7 +41,7 @@ namespace Rasa.Test.Missions.Ashen
     /// Ashen Desert set 16, Indra Caverns (squad instance 2055) and the Gotha Processing Plant, played through as a player plays
     /// it: Drof's Digging for the Truth (1447: the Power Supply Box, the teleporters to the rear exit, the rear caves, the
     /// tunnel, six Articulated Drills; by radio), Meet Sergeant Drof (1532: by radio, Drof at the plant's entrance), Drof's
-    /// Subversion (1451: two valves, four life support systems; by radio) and Naimi's Desistance (1452: the bay's door console, a
+    /// Subversion (1451: two valves, four life support systems; turned in at Drof) and Naimi's Desistance (1452: the bay's door console, a
     /// Juggernaut console, the landing pad, the generator bombed, Central Administration, Overlord Kretas, his hand on his
     /// teleporter, Major Diren). With them the set's places and walks on the client's floor.
     ///
@@ -94,12 +94,12 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>The set's markers: mission, objective, x, z, radius (AshenMissionTests.TheMarkersStandAtTheirObjectivesTargets).</summary>
         internal static IEnumerable<(uint Mission, uint Objective, double X, double Z, double Radius)> Markers()
         {
-            yield return (1447, Digging.DestroyDrills, Digging.MiningAt.X, Digging.MiningAt.Z, Digging.MiningMarkerRadius);
+            yield return (1447, Digging.DestroyDrills, AshenFixJV1.MiningMarkerAt.X, AshenFixJV1.MiningMarkerAt.Z, Digging.MiningMarkerRadius);   // fix J's place
             yield return (1447, Digging.RearCaveEntrance, Digging.EntranceAt.X, Digging.EntranceAt.Z, Digging.EntranceRadius);
             yield return (1447, Digging.ExploreTunnel, Digging.TunnelExitAt.X, Digging.TunnelExitAt.Z, Digging.TunnelExitRadius);
             yield return (1447, Digging.RestorePower, Digging.BoxAt.X, Digging.BoxAt.Z, Digging.ObjectMarkerRadius);
             for (var number = 1; number <= Digging.Drills; number++)
-                yield return (1447, Digging.DrillObjective(number), Digging.DrillsAt[number - 1].X, Digging.DrillsAt[number - 1].Z, Digging.ObjectMarkerRadius);
+                yield return (1447, Digging.DrillObjective(number), DrillAt(number).X, DrillAt(number).Z, Digging.ObjectMarkerRadius);
             yield return (1532, Meet.Proceed, N.DrofAt.X, N.DrofAt.Z, Meet.NpcMarkerRadius);
             yield return (1451, Subversion.Valves, Subversion.ValvesMarkerAt.X, Subversion.ValvesMarkerAt.Z, Subversion.RoomMarkerRadius);
             yield return (1451, Subversion.LifeSupport, Subversion.BarracksMarkerAt.X, Subversion.BarracksMarkerAt.Z, Subversion.RoomMarkerRadius);
@@ -109,7 +109,7 @@ namespace Rasa.Test.Missions.Ashen
                 yield return (1451, Subversion.SupportObjective(number), Subversion.SupportsAt[number - 1].X, Subversion.SupportsAt[number - 1].Z, Subversion.ObjectMarkerRadius);
             yield return (1452, Desistance.BayDoors, Desistance.DoorConsoleAt.X, Desistance.DoorConsoleAt.Z, Desistance.ObjectMarkerRadius);
             yield return (1452, Desistance.Juggernauts, Desistance.OperationsMarkerAt.X, Desistance.OperationsMarkerAt.Z, Desistance.AreaMarkerRadius);
-            yield return (1452, Desistance.Generator, Desistance.GeneratorAt.X, Desistance.GeneratorAt.Z, Desistance.ObjectMarkerRadius);
+            yield return (1452, Desistance.Generator, AshenFixJV1.GeneratorMarkerAt.X, AshenFixJV1.GeneratorMarkerAt.Z, Desistance.ObjectMarkerRadius);
             yield return (1452, Desistance.LandingPad, Desistance.PadAt.X, Desistance.PadAt.Z, Desistance.PadRadius);
             yield return (1452, Desistance.Administration, Desistance.AdministrationAt.X, Desistance.AdministrationAt.Z, Desistance.AdministrationRadius);
             yield return (1452, Desistance.DefeatKretas, N.KretasAt.X, N.KretasAt.Z, Desistance.BossMarkerRadius);
@@ -118,7 +118,7 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>
-        /// The rows of the four missions: givers and receivers (1447 and 1451 by radio, 1532 offered by radio), levels, the Ashen
+        /// The rows of the four missions: givers and receivers (1447 by radio, 1532 offered by radio, 1451 turned in at Drof), levels, the Ashen
         /// category, the client's texts, objectives and talks (1532,1 package 1544 Drof, 1452,8 package 1802 Diren), the chain
         /// 1395, 1447, 1532, 1451, 1452; the radio channels; every marker on Indra Caverns; each mission operational.
         /// </summary>
@@ -326,7 +326,9 @@ namespace Rasa.Test.Missions.Ashen
                 foreach (var (line, direction) in new[] { (there, "there"), (back, "back") })
                 {
                     walked++;
-                    if (AshenFixBTests.ClientFloorLine(geometry, line, line[^1], null, WalkHalfWidth) is { } why)
+                    if (KnownGaps.Contains(leg))
+                        continue;
+                    if (AshenFixBTests.ClientFloorLine(geometry, line, line[^1], null, WalkHalfWidth, rampFoot: true) is { } why)
                         failures.Add($"{leg} {direction}: {why}");
                 }
             }
@@ -669,7 +671,7 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>
         /// Desistance: Naimi's second row offers it after 1451; at the accept the Bomb comes; 1 open, the rest wait. The door
         /// console completes 1 and opens 2; either Juggernaut console completes 2 (the other is used no more) and opens 4; the pad's
-        /// area completes 4 and opens 3. The charge's use takes the bomb, completes 3, then blows the generator and opens 5; Central Administration's area completes 5 and opens 6. The console is refused without the hand; Kretas'
+        /// area completes 4 and opens 3. The charge's use takes the bomb, completes 3, then blows the generator and opens 5 and 6 (fix J); Central Administration's area completes 5. The console is refused without the hand; Kretas'
         /// kill completes 6 and drops the hand (a death is not a pickup); a reload keeps the picked hand; the console takes it,
         /// completes 7, opens 8 and turns the teleporter on (also at a restart); the teleporter takes the player beside Diren;
         /// Diren hears 8; the turn-in at Diren pays once and takes nothing more; the objects go with the mission.
@@ -708,10 +710,11 @@ namespace Rasa.Test.Missions.Ashen
             var charge = SceneObject(harness, copy, Desistance.MissionId, Desistance.ChargeRole);
             Assert.IsNull(charge.Lock, "the charge has no lock (a lock in state 0 locks nothing): 3's take of the bomb gates it");
             UseAndTick(harness, copy, Desistance.ChargeRole);
-            Assert.AreEqual((0U, (UseObjectState)Desistance.DestroyedState, MissionObjectiveState.Completed, MissionObjectiveState.Incomplete),
+            Assert.AreEqual((0U, (UseObjectState)Desistance.DestroyedState, MissionObjectiveState.Completed, MissionObjectiveState.Incomplete, MissionObjectiveState.Incomplete),
                 (Facility.Held(harness, Desistance.BombTemplate), SceneObject(harness, copy, Desistance.MissionId, Desistance.GeneratorRole).StateId,
-                    Objective(harness, Desistance.MissionId, Desistance.Generator), Objective(harness, Desistance.MissionId, Desistance.Administration)),
-                "the bomb taken, the generator blown, 3 done, 5 open");
+                    Objective(harness, Desistance.MissionId, Desistance.Generator), Objective(harness, Desistance.MissionId, Desistance.Administration),
+                    Objective(harness, Desistance.MissionId, Desistance.DefeatKretas)),
+                "the bomb taken, the generator blown, 3 done, 5 and 6 open (fix J)");
             Enter(harness, V(Desistance.PadAt), V(Desistance.AdministrationAt));
             Assert.AreEqual((MissionObjectiveState.Completed, MissionObjectiveState.Incomplete),
                 (Objective(harness, Desistance.MissionId, Desistance.Administration), Objective(harness, Desistance.MissionId, Desistance.DefeatKretas)), "5 done, 6 open");
@@ -891,7 +894,7 @@ namespace Rasa.Test.Missions.Ashen
 
         /// <summary>
         /// The audit's S2/S3: the charge has no lock, so 3's take of the bomb is the gate. Without his bomb (the take fails) the
-        /// player's use is refused: his 3 stays open, his generator stands, his charge stays usable. In a squad the player's use
+        /// player's own 3 stays open, his generator stands, his charge stays usable (alone, the use does nothing). In a squad the player's use
         /// still completes the 3 of a mate who has his bomb (his bomb taken, his own generator blown); the player's own stays.
         /// </summary>
         [TestMethod]
@@ -929,7 +932,7 @@ namespace Rasa.Test.Missions.Ashen
                 "in a squad: the mate's 3 done, his bomb taken, his own generator blown, his charge set");
             Assert.AreEqual((MissionObjectiveState.Incomplete, (UseObjectState)Desistance.IntactState, true),
                 (Objective(harness, Desistance.MissionId, Desistance.Generator), SceneObject(harness, copy, Desistance.MissionId, Desistance.GeneratorRole).StateId,
-                    SceneObject(harness, copy, Desistance.MissionId, Desistance.ChargeRole).IsEnabled), "the player's own still refused: his generator stands, his charge usable");
+                    SceneObject(harness, copy, Desistance.MissionId, Desistance.ChargeRole).IsEnabled), "the player's own 3 still open: his generator stands, his charge usable");
         }
 
         /// <summary>
@@ -955,6 +958,186 @@ namespace Rasa.Test.Missions.Ashen
             var box = mate.Door(Digging.BoxRole);
             Assert.AreEqual((MissionObjectiveState.Incomplete, (UseObjectState)Digging.SwitchReady, true, UseObjectState.DoorStateClosed),
                 (mate.Of(Digging.PowerOn), box.StateId, box.IsEnabled, mate.Door(Digging.DoorRole).StateId), "the mate's take failed: his box ready and usable, his door shut");
+        }
+
+        /// <summary>
+        /// The re-audit's box refusal: alone and without his power supply (gone from the bag), the player's box (locked to the
+        /// supply) refuses the use; his 12 stays open, his box ready and usable, his door shut and his teleporters off.
+        /// </summary>
+        [TestMethod]
+        public void DiggingsBoxIsRefusedWithoutTheSupply()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create();
+            AshenRuntime.SeedCompleted(harness, AshenMissingScientistsV1.MissionId, AshenIndraCavernsV1.MissionId, AshenThresholdV1.MissionId, AshenVindicationV1.MissionId);
+            var copy = IntoGotha(harness);
+            Accept(harness, Giver(copy, F15.Drof), Digging.MissionId);
+            Tick(harness, copy, 250);
+            Lose(harness.Client, Digging.PowerSupplyTemplate);
+            var box = SceneObject(harness, copy, Digging.MissionId, Digging.BoxRole);
+            Assert.AreEqual(PlayerMessage.PmMissingReqItem, Facility.Refused(harness, copy, box, Digging.UseArgument), "no supply: refused");
+            for (var tick = 0; tick < 2; tick++)
+                Tick(harness, copy, 250);
+            box = SceneObject(harness, copy, Digging.MissionId, Digging.BoxRole);
+            Assert.AreEqual((MissionObjectiveState.Incomplete, (UseObjectState)Digging.SwitchReady, true, UseObjectState.DoorStateClosed),
+                (Objective(harness, Digging.MissionId, Digging.PowerOn), box.StateId, box.IsEnabled, SceneObject(harness, copy, Digging.MissionId, Digging.DoorRole).StateId),
+                "12 open, the box ready and usable, the door shut");
+            for (var number = 1; number <= 2; number++)
+                Assert.AreEqual((UseObjectState)Digging.TeleporterOff, SceneObject(harness, copy, Digging.MissionId, Digging.TeleporterRole(number)).StateId, $"teleporter {number} off");
+        }
+
+        /// <summary>
+        /// The re-audit's console failed take: in a squad of two with a hand each, the mate's hand can not be taken at the
+        /// player's console use (gone from his bag): the player's 7 completes, his hand is taken and his teleporter comes on; the
+        /// mate's 7 stays open, his console ready and usable, his teleporter off.
+        /// </summary>
+        [TestMethod]
+        public void DesistancesMateWhoseHandCanNotBeTakenKeepsHisConsole()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create(lootRoll: (minimum, maximum) => maximum == 100 ? 0 : minimum);
+            var done = new[] { AshenIndraCavernsV1.MissionId, AshenThresholdV1.MissionId, AshenVindicationV1.MissionId, Digging.MissionId, Meet.MissionId, Subversion.MissionId };
+            AshenRuntime.SeedCompleted(harness, done.Prepend(AshenMissingScientistsV1.MissionId).ToArray());
+            var copy = IntoGotha(harness);
+            var naimi = Giver(copy, N.Naimi);
+            Accept(harness, naimi, Desistance.MissionId);
+            Tick(harness, copy, 250);
+            using var mate = new Facility.SquadMate(harness, copy, naimi, Desistance.MissionId, done);
+            UseAndTick(harness, copy, Desistance.DoorConsoleRole);
+            UseAndTick(harness, copy, Desistance.ProgrammingRole);
+            Enter(harness, ToVector(Desistance.DoorConsoleAt), V(Desistance.PadAt));
+            mate.Beside(V(Desistance.PadAt) + new Vector3(0, 0, 3));
+            Assert.IsTrue(mate.Client.MissionAreaService.RecordAcceptedMovement(mate.Client, ToVector(Desistance.DoorConsoleAt), V(Desistance.PadAt)), "the mate's pad");
+            harness.Drain();
+            UseAndTick(harness, copy, Desistance.ChargeRole);
+            Facility.Stand(copy, N.KretasPool);
+            var kretas = Here(copy).First(one => one.SpawnPool?.DbId == N.KretasPool && one.State != CharacterState.Dead);
+            mate.Beside(kretas.Position + new Vector3(0, 0, 3));
+            var corpse = Kill(harness, copy, N.Kretas);
+            mate.Loot(corpse);
+            PickUp(harness, corpse);
+            harness.Drain();
+            Tick(harness, copy, 250);
+            Assert.AreEqual((1U, 1U), (Facility.Held(harness, Desistance.HandTemplate), mate.Held(Desistance.HandTemplate)), "a hand each");
+
+            Lose(mate.Client, Desistance.HandTemplate);
+            UseAndTick(harness, copy, Desistance.ConsoleRole);
+            Assert.AreEqual((0U, MissionObjectiveState.Completed, (UseObjectState)Desistance.TeleporterOn),
+                (Facility.Held(harness, Desistance.HandTemplate), Objective(harness, Desistance.MissionId, Desistance.Teleporter),
+                    SceneObject(harness, copy, Desistance.MissionId, Desistance.TeleporterRole).StateId), "the player's hand taken, his 7 done, his teleporter on");
+            var console = mate.Door(Desistance.ConsoleRole);
+            Assert.AreEqual((MissionObjectiveState.Incomplete, (UseObjectState)Desistance.SwitchReady, true, (UseObjectState)Desistance.TeleporterOff),
+                (mate.Of(Desistance.Teleporter), console.StateId, console.IsEnabled, mate.Door(Desistance.TeleporterRole).StateId),
+                "the mate's take failed: his 7 open, his console ready and usable, his teleporter off");
+        }
+
+        /// <summary>
+        /// Fix J (set 16 re-audit 1): 3 opens 6 together with 5. A member who has not walked into Central Administration (as one
+        /// who shoots Kretas from outside its 16 m) gets the kill: his 6 completes, 7 opens, the hand drops (hidden 9 open); his 5
+        /// stays open until he walks in, and the walk in completes 5 and leaves 6 done (5's own opening of 6 does nothing then);
+        /// the console then takes the hand and completes 7. The same for a squad mate who has not walked in.
+        /// </summary>
+        [TestMethod]
+        public void DesistancesKretasCountsBeforeCentralAdministration()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create(lootRoll: (minimum, maximum) => maximum == 100 ? 0 : minimum);
+            var done = new[] { AshenIndraCavernsV1.MissionId, AshenThresholdV1.MissionId, AshenVindicationV1.MissionId, Digging.MissionId, Meet.MissionId, Subversion.MissionId };
+            AshenRuntime.SeedCompleted(harness, done.Prepend(AshenMissingScientistsV1.MissionId).ToArray());
+            var copy = IntoGotha(harness);
+            var naimi = Giver(copy, N.Naimi);
+            Accept(harness, naimi, Desistance.MissionId);
+            Tick(harness, copy, 250);
+            using var mate = new Facility.SquadMate(harness, copy, naimi, Desistance.MissionId, done);
+            UseAndTick(harness, copy, Desistance.DoorConsoleRole);
+            UseAndTick(harness, copy, Desistance.ProgrammingRole);
+            Enter(harness, ToVector(Desistance.DoorConsoleAt), V(Desistance.PadAt));
+            mate.Beside(V(Desistance.PadAt) + new Vector3(0, 0, 3));
+            Assert.IsTrue(mate.Client.MissionAreaService.RecordAcceptedMovement(mate.Client, ToVector(Desistance.DoorConsoleAt), V(Desistance.PadAt)), "the mate's pad");
+            harness.Drain();
+            UseAndTick(harness, copy, Desistance.ChargeRole);
+            Assert.AreEqual((MissionObjectiveState.Completed, MissionObjectiveState.Incomplete, MissionObjectiveState.Incomplete, MissionObjectiveState.Inactive),
+                (Objective(harness, Desistance.MissionId, Desistance.Generator), Objective(harness, Desistance.MissionId, Desistance.Administration),
+                    Objective(harness, Desistance.MissionId, Desistance.DefeatKretas), Objective(harness, Desistance.MissionId, Desistance.Teleporter)), "3 done: 5 and 6 open, 7 waits");
+            Assert.AreEqual((MissionObjectiveState.Incomplete, MissionObjectiveState.Incomplete), (mate.Of(Desistance.Administration), mate.Of(Desistance.DefeatKretas)), "the mate's 5 and 6 open");
+
+            // Neither has walked into Central Administration (an area is entered by an accepted walk into it, MissionAreaService;
+            // a shot from outside its 16 m is that case): the kill still counts for both (the mate in kill-credit reach).
+            Facility.Stand(copy, N.KretasPool);
+            var kretas = Here(copy).First(one => one.SpawnPool?.DbId == N.KretasPool && one.State != CharacterState.Dead);
+            mate.Beside(kretas.Position + new Vector3(0, 0, 3));
+            var corpse = Kill(harness, copy, N.Kretas);
+            Assert.IsTrue(Holds(corpse, Desistance.HandTemplate), "the hand drops");
+            Assert.AreEqual((MissionObjectiveState.Incomplete, MissionObjectiveState.Completed, MissionObjectiveState.Incomplete),
+                (Objective(harness, Desistance.MissionId, Desistance.Administration), Objective(harness, Desistance.MissionId, Desistance.DefeatKretas),
+                    Objective(harness, Desistance.MissionId, Desistance.Teleporter)), "the kill from outside counts: 6 done, 7 open, 5 still open");
+            Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Desistance.MissionId, Desistance.HandTaken), "9 open until the pickup");
+            PickUp(harness, corpse);
+            harness.Drain();
+            Tick(harness, copy, 250);
+            Assert.AreEqual((MissionObjectiveState.Incomplete, MissionObjectiveState.Completed, MissionObjectiveState.Incomplete),
+                (mate.Of(Desistance.Administration), mate.Of(Desistance.DefeatKretas), mate.Of(Desistance.Teleporter)), "the mate's kill counts too");
+            Assert.AreEqual((1U, MissionObjectiveState.Completed), (Facility.Held(harness, Desistance.HandTemplate), Objective(harness, Desistance.MissionId, Desistance.HandTaken)), "the hand");
+
+            Enter(harness, V(Desistance.PadAt), V(Desistance.AdministrationAt));
+            Tick(harness, copy, 250);
+            Assert.AreEqual((MissionObjectiveState.Completed, MissionObjectiveState.Completed, MissionObjectiveState.Incomplete),
+                (Objective(harness, Desistance.MissionId, Desistance.Administration), Objective(harness, Desistance.MissionId, Desistance.DefeatKretas),
+                    Objective(harness, Desistance.MissionId, Desistance.Teleporter)), "the walk in: 5 done, 6 stays done, 7 open");
+            UseAndTick(harness, copy, Desistance.ConsoleRole);
+            Assert.AreEqual((0U, MissionObjectiveState.Completed, MissionObjectiveState.Incomplete),
+                (Facility.Held(harness, Desistance.HandTemplate), Objective(harness, Desistance.MissionId, Desistance.Teleporter),
+                    Objective(harness, Desistance.MissionId, Desistance.ReportToDiren)), "the console takes the hand: 7 done, 8 open");
+        }
+
+        /// <summary>
+        /// Fix J's side effect (audit 2026-11-12): with 6 open at 3, a member can kill Kretas, use the console (7), take his
+        /// teleporter to Diren and talk to him (8) with 5 still open (never walked into Central Administration); the mission is
+        /// then not completeable and Diren does not pay; a walk back into Central Administration completes 5, and the turn-in
+        /// pays (docs/ashen-playtest.md, Deviations).
+        /// </summary>
+        [TestMethod]
+        public void DesistancesTurnInWaitsForCentralAdministration()
+        {
+            using var harness = WildernessRuntimeTestHarness.Create(lootRoll: (minimum, maximum) => maximum == 100 ? 0 : minimum);
+            AshenRuntime.SeedCompleted(harness, AshenMissingScientistsV1.MissionId, AshenIndraCavernsV1.MissionId, AshenThresholdV1.MissionId,
+                AshenVindicationV1.MissionId, Digging.MissionId, Meet.MissionId, Subversion.MissionId);
+            var copy = IntoGotha(harness);
+            Accept(harness, Giver(copy, N.Naimi), Desistance.MissionId);
+            Tick(harness, copy, 250);
+            UseAndTick(harness, copy, Desistance.DoorConsoleRole);
+            UseAndTick(harness, copy, Desistance.ProgrammingRole);
+            Enter(harness, ToVector(Desistance.DoorConsoleAt), V(Desistance.PadAt));
+            UseAndTick(harness, copy, Desistance.ChargeRole);
+            Facility.Stand(copy, N.KretasPool);
+            var corpse = Kill(harness, copy, N.Kretas);
+            PickUp(harness, corpse);
+            harness.Drain();
+            Tick(harness, copy, 250);
+            UseAndTick(harness, copy, Desistance.ConsoleRole);
+            var teleporter = SceneObject(harness, copy, Desistance.MissionId, Desistance.TeleporterRole);
+            Use(harness, copy, teleporter, Desistance.UseArgument);
+            Tick(harness, copy, 250);
+            Teleported(harness, ToVector(Desistance.DirenArrival), "taken beside Diren");
+            var diren = Giver(copy, F15.Diren);
+            CollectionAssert.AreEqual(new[] { Desistance.ReportToDiren }, Topics(harness, diren, Desistance.MissionId), "Diren hears 8");
+            Talk(harness, diren, Desistance.MissionId, Desistance.ReportToDiren);
+            Tick(harness, copy, 250);
+            Assert.AreEqual((MissionObjectiveState.Incomplete, MissionObjectiveState.Completed, MissionObjectiveState.Completed, MissionObjectiveState.Completed, false),
+                (Objective(harness, Desistance.MissionId, Desistance.Administration), Objective(harness, Desistance.MissionId, Desistance.DefeatKretas),
+                    Objective(harness, Desistance.MissionId, Desistance.Teleporter), Objective(harness, Desistance.MissionId, Desistance.ReportToDiren),
+                    harness.Client.Player.Missions[Desistance.MissionId].Completeable), "6, 7, 8 done with 5 open: not completeable");
+            diren = Giver(copy, F15.Diren);
+            harness.MoveTo(diren.Position);
+            harness.Drain();
+            var paid = harness.Context.ReadRewardTotals();
+            Assert.IsFalse(harness.Manager.CompleteOfferedMission(harness.Client, diren.EntityId, Desistance.MissionId, 0), "Diren does not pay with 5 open");
+            Assert.AreEqual(paid, harness.Context.ReadRewardTotals(), "nothing paid");
+            harness.Drain();
+
+            Enter(harness, V(Desistance.PadAt), V(Desistance.AdministrationAt));
+            Tick(harness, copy, 250);
+            Assert.AreEqual((MissionObjectiveState.Completed, true),
+                (Objective(harness, Desistance.MissionId, Desistance.Administration), harness.Client.Player.Missions[Desistance.MissionId].Completeable),
+                "the walk back in: 5 done, completeable");
+            WildernessRanjaGorgeTests.CompleteAndCheckReward(harness, Giver(copy, F15.Diren), Desistance.MissionId, 0, Desistance.Experience, Desistance.Credits);
         }
 
         /// <summary>A take that fails: the item gone from the bag in memory only (a mission item can not be destroyed by a player).</summary>
@@ -1017,9 +1200,9 @@ namespace Rasa.Test.Missions.Ashen
             // ObjectiveState, the two areas, the six drills; actions: the supply taken and the power's scenario (12), reveal and
             // activate (14, 2), the reward (3, 6-11); scenarios 1-3 (1 one step, 3 six); three areas; radio completion. 1532: one
             // objective, transition, talk and reward action; the radio offer. 1451: 8 objectives (1, 2 aggregates), six
-            // transitions, triggers and reward actions; scenario 1 with six steps; radio completion. 1452: 9 objectives, nine
-            // transitions and triggers; actions: reveal and activate after 1-7 (14), the bomb and the hand taken, the teleporter's
-            // scenario, the reward; scenarios 1-5 (1-4 one step); two areas. Each one prerequisite, one reward (four items), three
+            // transitions, triggers and reward actions; scenario 1 with six steps; turned in at Drof (no channel row). 1452: 9 objectives, nine
+            // transitions and triggers; actions: reveal and activate after 1-7 (14), the bomb and the hand taken, the generator's and
+            // the teleporter's scenarios, the reward; scenarios 1-6 (1-4 one step); two areas. Each one prerequisite, one reward (four items), three
             // evidence rows; markers 10, 1, 8, 8; four scenes (1532's holds its marker's map). Drof and Naimi: a creature, stats,
             // Harris' six look rows and a package each; Kretas a creature and stats; three pools.
             const string up = "mission_content_definition 4, mission_objective_definition 31, mission_objective_transition 27, mission_trigger 27, " +
@@ -1090,7 +1273,7 @@ namespace Rasa.Test.Missions.Ashen
                 ("the rear arrival", ToVector(Digging.RearArrival), false, 0, 0, Clearance)
             };
             for (var number = 1; number <= Digging.Drills; number++)
-                places.Add(($"drill {number}", ToVector(Digging.DrillsAt[number - 1]), true, F.ObjectMiddle, 0, Clearance));
+                places.Add(($"drill {number}", ToVector(DrillAt(number)), true, F.ObjectMiddle, 0, Clearance));
             for (var number = 1; number <= Subversion.ValveCount; number++)
                 places.Add(($"valve {number}", ToVector(Subversion.ValvesAt[number - 1]), true, F.ObjectMiddle, 0, ValveClearances[number - 1]));
             for (var number = 1; number <= Subversion.SupportCount; number++)
@@ -1099,7 +1282,9 @@ namespace Rasa.Test.Missions.Ashen
             places.Add(("the programming console", ToVector(Desistance.ProgrammingAt), true, F.ObjectMiddle, 0, OperationsClearance));
             places.Add(("the systems console", ToVector(Desistance.SystemsAt), true, F.ObjectMiddle, 0, OperationsClearance));
             places.Add(("the generator", ToVector(Desistance.GeneratorAt), false, 0, 0, PadClearance));
-            places.Add(("the generator's charge", ToVector(Desistance.ChargeAt), true, F.ObjectMiddle, 0, PadClearance));
+            // Fix J (row 43): on the generator's east face, 5.8 m outside pad pool 531085's circle (a rule break: the generator's
+            // body leaves no place by it further off).
+            places.Add(("the generator's charge", ToVector(AshenFixJV1.ChargeAt), true, F.ObjectMiddle, 0, 5.5f));
             places.Add(("the Teleportation Console", ToVector(Desistance.ConsoleAt), true, F.ObjectMiddle, 0, AdministrationClearance));
             places.Add(("Kretas' teleporter", ToVector(Desistance.TeleporterAt), true, F.ObjectMiddle, 0, AdministrationClearance));
             places.Add(("the arrival beside Diren", ToVector(Desistance.DirenArrival), false, 0, 0, Clearance));
@@ -1124,8 +1309,9 @@ namespace Rasa.Test.Missions.Ashen
         internal static readonly Dictionary<string, Vector3[]> Legs = new()
         {
             ["Drof to the box"] = new Vector3[] { new(-5, 0.58f, -221), new(-9, 0.5f, -221) },
-            ["Drof to teleporter 1"] = new Vector3[] { new(-5, 0.58f, -221), new(-12, 0.5f, -215) },
-            ["Drof to teleporter 2"] = new Vector3[] { new(-5, 0.58f, -221), new(-1, 0.5f, -227) },
+            // Fix J (row 43): the teleporters' bodies (prop_brann_teleporter_v01) are solid to the client; the walks end beside them.
+            ["Drof to teleporter 1"] = new Vector3[] { new(-5, 0.58f, -221), new(-9.5f, 0.5f, -216) },
+            ["Drof to teleporter 2"] = new Vector3[] { new(-5, 0.58f, -221), new(-3.5f, 0.5f, -224.5f) },
             ["the Control Room to the east hall"] = new Vector3[] { new(-5, 0.58f, -221), new(-2, 0.5f, -209), new(1.25f, 0.5f, -205.25f), new(3, 0.5f, -204), new(21, 4.5f, -204), new(23, 4.5f, -205), new(26, 5.01f, -211), new(26.5f, 8.5f, -226.34f), new(29, 8.5f, -232), new(43.5f, 8.5f, -228.5f), new(46, 8.5f, -226), new(45.75f, 8.5f, -224.75f), new(43, 8.5f, -221), new(43, 8.5f, -218.75f), new(51, 8.5f, -218), new(63, 8.5f, -218) },
             ["the east hall to the rear ramp, part 1"] = new Vector3[] { new(63, 8.5f, -218), new(68, 8.5f, -215) },
             ["the east hall to the rear ramp, part 2"] = new Vector3[] { new(68, 8.5f, -215), new(74.53f, 8.5f, -216.63f), new(90.6f, 8.5f, -220.6f), new(96.57f, 8.5f, -226.75f) },
@@ -1149,9 +1335,10 @@ namespace Rasa.Test.Missions.Ashen
             ["the north cavern to drill 1"] = new Vector3[] { new(-350, 71.43f, 58), new(-371.65f, 81.74f, 114.47f), new(-393.29f, 86.81f, 170.94f), new(-399, 87.43f, 183), new(-399.22f, 86.96f, 198.13f), new(-389, 90.18f, 253), new(-368.88f, 92.85f, 273.22f), new(-358, 90.93f, 278), new(-354, 92.43f, 276), new(-327, 90.31f, 239) },
             ["drill 1 to drill 2"] = new Vector3[] { new(-327, 90.31f, 239), new(-326, 90.43f, 259) },
             ["drill 2 to drill 3"] = new Vector3[] { new(-326, 90.43f, 259), new(-338, 90.43f, 270) },
-            ["drill 1 to drill 4"] = new Vector3[] { new(-327, 90.31f, 239), new(-311, 85.86f, 245) },
-            ["drill 4 to drill 5"] = new Vector3[] { new(-311, 85.86f, 245), new(-312, 85.86f, 227) },
-            ["drill 5 to drill 6"] = new Vector3[] { new(-312, 85.86f, 227), new(-322, 85.86f, 211) },
+            // Fix J (to-fix row 38): drills 4-6 out of the lava river, each walked to from drill 1 on the client floor west of it.
+            ["drill 1 to drill 4"] = new Vector3[] { new(-327, 90.31f, 239), new(-337, 90.43f, 264) },
+            ["drill 1 to drill 5"] = new Vector3[] { new(-327, 90.31f, 239), new(-339, 90.43f, 276) },
+            ["drill 1 to drill 6"] = new Vector3[] { new(-327, 90.31f, 239), new(-341, 90.56f, 282) },
             ["the north cavern to the plant's entrance"] = new Vector3[] { new(-350, 71.43f, 58), new(-371.65f, 81.74f, 114.47f), new(-393.29f, 86.81f, 170.94f), new(-399, 87.43f, 183), new(-399.73f, 85.74f, 241.18f), new(-373.33f, 90.81f, 289.67f), new(-356.71f, 90.56f, 304.59f), new(-352, 92.08f, 311), new(-346.55f, 91.99f, 313.89f), new(-336, 92.77f, 319), new(-324, 94.18f, 322), new(-285, 115.31f, 282), new(-281.75f, 117.28f, 276), new(-270.36f, 136.45f, 217.82f), new(-266, 136.56f, 196), new(-260.46f, 134.43f, 134.46f), new(-257, 128.81f, 96), new(-256.33f, 128.93f, 37.33f), new(-278.5f, 128.56f, -14.5f), new(-301, 128.93f, -37), new(-304.13f, 129.48f, -40.78f), new(-309, 129.55f, -53) },
             ["Drof to Naimi at the plant"] = new Vector3[] { new(-309, 129.55f, -53), new(-306, 129.55f, -57) },
             ["the plant 01: (-309, -53) to (-309, -93)"] = new Vector3[] { new(-309, 129.55f, -53), new(-309, 129.6f, -93) },
@@ -1163,8 +1350,12 @@ namespace Rasa.Test.Missions.Ashen
             ["the plant 07: (-309, -53) to (-339, -197)"] = new Vector3[] { new(-309, 129.55f, -53), new(-310, 129.6f, -94.5f), new(-313.43f, 129.6f, -99.57f), new(-327.79f, 129.6f, -113.72f), new(-336, 129.6f, -127), new(-336, 129.6f, -157), new(-333.5f, 130.28f, -160.25f), new(-333, 130.5f, -162), new(-337.65f, 129.62f, -178.4f), new(-339, 129.8f, -197) },
             ["the plant 08: (-339, -197) to (-330, -206)"] = new Vector3[] { new(-339, 129.8f, -197), new(-336, 129.5f, -201.25f), new(-331.5f, 128.65f, -205.25f), new(-330, 128.4f, -206) },
             ["the plant 09: (-330, -206) to (-157, -382)"] = new Vector3[] { new(-330, 128.4f, -206), new(-277.25f, 129.61f, -259), new(-265, 129.61f, -268), new(-255, 129.61f, -278), new(-247, 127.62f, -298), new(-237.25f, 127.82f, -307), new(-217, 129.61f, -314), new(-190.5f, 129.61f, -341.75f), new(-177, 127.98f, -342), new(-162, 127.62f, -357), new(-161.25f, 128, -359), new(-158.75f, 129.61f, -377), new(-157, 129.6f, -382) },
-            ["the plant 10: (-157, -382) to (-157, -414.5)"] = new Vector3[] { new(-157, 129.6f, -382), new(-157, 130.6f, -414.5f) },
-            ["the plant 11: (-157, -414.5) to (-172, -416)"] = new Vector3[] { new(-157, 130.6f, -414.5f), new(-172, 137.11f, -416) },
+            // Fix J (to-fix row 42, the real client 2026-11-12 10:5x): life support 1 stands on the upper deck (137.11), over life
+            // support 2's (131.58). Set 16's legs went (-157, -414.5) > (-172, -416): that start lies 1.9 m north of the ramp's foot,
+            // beside the ramp, and the client stayed on the lower floor. The way up is the ramp along z -416 from its foot at x
+            // -154.7 (floor 129.8), west to the deck at x -166 (the tester's way, LS1 used 10:51); the legs go round its east end.
+            ["the plant 10: (-157, -382) to the ramp's foot (-152, -416.4)"] = new Vector3[] { new(-157, 129.6f, -382), new(-152, 129.61f, -410), new(-152, 129.61f, -416.4f) },
+            ["the plant 11: up the ramp from its foot (-152, -416.4) to (-172, -416)"] = new Vector3[] { new(-152, 129.61f, -416.4f), new(-154.71f, 129.82f, -416.4f), new(-158, 132.4f, -416.4f), new(-162, 135.2f, -416.4f), new(-166, 137.1f, -416.4f), new(-172, 137.11f, -416) },
             ["the plant 12: (-309, -53) to (-172, -416)"] = new Vector3[] { new(-309, 129.55f, -53), new(-310, 129.61f, -96), new(-328, 129.61f, -114.75f), new(-336, 129.61f, -126), new(-336, 129.61f, -156), new(-333, 130.46f, -161), new(-337.5f, 129.61f, -177.75f), new(-339, 129.81f, -196), new(-336, 129.57f, -201), new(-277.25f, 129.61f, -259), new(-266, 129.61f, -267), new(-256, 129.61f, -277), new(-254.88f, 128.07f, -281.78f), new(-256, 128.53f, -287), new(-243, 127.62f, -302), new(-238.22f, 127.62f, -306.13f), new(-218, 129.61f, -313), new(-190.72f, 129.61f, -340.13f), new(-188, 129.61f, -341), new(-177.88f, 127.98f, -340.78f), new(-160, 127.62f, -359), new(-157, 129.61f, -386), new(-168.75f, 131.58f, -411), new(-171.13f, 131.58f, -412.78f), new(-172, 131.58f, -416) },
             ["the plant 13: (-309, -93) to (-338, -193)"] = new Vector3[] { new(-309, 129.6f, -93), new(-312, 129.6f, -98), new(-327, 129.6f, -113), new(-335.44f, 129.69f, -125.81f), new(-335.5f, 129.7f, -126.5f), new(-336, 129.6f, -153), new(-333.5f, 130.05f, -160.5f), new(-333.45f, 130.01f, -160.75f), new(-338, 129.6f, -178), new(-338, 129.6f, -193) },
             ["the plant 14: (-338, -193) to (-339, -198)"] = new Vector3[] { new(-338, 129.6f, -193), new(-339, 129.6f, -198) },
@@ -1175,14 +1366,21 @@ namespace Rasa.Test.Missions.Ashen
             ["the plant 19: (-330, -206) to (-300, -224)"] = new Vector3[] { new(-330, 128.4f, -206), new(-300, 128.01f, -224) },
             ["the plant 20: (-338, -193) to (-395, -246)"] = new Vector3[] { new(-338, 129.6f, -193), new(-343.5f, 129.4f, -200.5f), new(-346, 129.2f, -203), new(-383.5f, 128, -235.75f), new(-391, 128.01f, -244.5f), new(-395, 128.01f, -246) },
             ["the plant 21: (-339, -198) to (-236, -324)"] = new Vector3[] { new(-339, 129.6f, -198), new(-337.57f, 128.51f, -248.34f), new(-337, 128.52f, -270.5f), new(-337, 128.51f, -278), new(-333, 128.03f, -293), new(-337, 129.61f, -338), new(-327, 129.61f, -348), new(-312, 131.7f, -360), new(-307, 133.61f, -364), new(-294.5f, 137.61f, -354), new(-277, 143, -345), new(-272, 146, -346), new(-270, 148.74f, -351), new(-271, 152, -356), new(-273, 153.42f, -357.25f), new(-276, 155.64f, -358), new(-279.75f, 157.78f, -356.5f), new(-281.5f, 158.79f, -355), new(-283, 161.45f, -350), new(-281, 163.01f, -348), new(-278.13f, 165.26f, -345.78f), new(-258, 169.61f, -349), new(-248, 169.61f, -339), new(-236, 171.7f, -324) },
-            ["the plant 22: (-236, -324) to (-232, -319)"] = new Vector3[] { new(-236, 171.7f, -324), new(-232, 173.6f, -319) },
-            ["the plant 23: (-232, -319) to (-340, -304)"] = new Vector3[] { new(-232, 173.6f, -319), new(-250.18f, 177.61f, -298.88f), new(-257.28f, 177.61f, -291.88f), new(-260, 177.61f, -291), new(-264.78f, 177.61f, -289.88f), new(-289.13f, 177.61f, -286.65f), new(-340, 175.4f, -304) },
-            ["the plant 24: (-340, -304) to (-342, -304.5)"] = new Vector3[] { new(-340, 175.4f, -304), new(-342, 176.4f, -304.5f) },
-            ["the plant 25: (-342, -304.5) to (-345, -305)"] = new Vector3[] { new(-342, 176.4f, -304.5f), new(-345, 177.4f, -305) },
+            // Fix J (row 44, the real client 2026-11-12): from the ramp's top the client climbs to the landing at its east end
+            // ((-231.9, -320.8), a 0.54 m edge), not over its side; the tester's way.
+            ["the plant 22: (-236, -324) to (-232, -319)"] = new Vector3[] { new(-236, 171.7f, -324), new(-233.11f, 172.7f, -321.2f), new(-232.71f, 172.87f, -321.2f), new(-231.91f, 173.1f, -320.8f), new(-231.91f, 173.6f, -319.2f) },
+            ["the plant 23: (-232, -319) to (-340, -304)"] = new Vector3[] { new(-231.91f, 173.6f, -319.2f), new(-241.91f, 177.5f, -307.2f), new(-247.11f, 177.61f, -301.2f), new(-250.18f, 177.61f, -298.88f), new(-257.28f, 177.61f, -291.88f), new(-260, 177.61f, -291), new(-264.78f, 177.61f, -289.88f), new(-289.13f, 177.61f, -286.65f), new(-340, 175.4f, -304) },
+            // Fix J (row 44): set 16's (-340, -304) > (-342, -304.5) > (-345, -305) stepped 1.09 m off the terrain onto the trench
+            // rim (arch_bane_outpost_trench_straight_16m_v01's top) and up its 53-degree face; the client stopped at (-340.9, 174.9,
+            // -303.7). The client's way is the 73 m loop south round the trench (the tester's points). KnownGaps: along the trench
+            // rims the check finds knee-high geometry the client passes, so the check does not walk it (follow-up).
+            ["the plant 24: (-340, -304) round the trench to (-345, -305)"] = new Vector3[] { new(-340, 175.4f, -304), new(-339.1f, 175.4f, -303.8f), new(-339.4f, 175.6f, -307.2f), new(-341.9f, 175.6f, -310.6f), new(-354.31f, 175.6f, -318.8f), new(-364.31f, 175.6f, -319.6f), new(-371.11f, 175.6f, -318), new(-370.71f, 175.6f, -314.8f), new(-369.11f, 176.37f, -312.4f), new(-348.71f, 177.4f, -306.8f), new(-345.91f, 177.4f, -305.2f), new(-345, 177.4f, -305) },
             ["the plant 26: (-345, -305) to (-355, -305)"] = new Vector3[] { new(-345, 177.4f, -305), new(-355, 176.4f, -305) },
             ["the plant 27: (-355, -305) to (-382, -299.5), part 1"] = new Vector3[] { new(-355, 176.4f, -305), new(-360, 176.48f, -308), new(-363, 176.54f, -309.5f), new(-379.5f, 176.49f, -303) },
             ["the plant 27: (-355, -305) to (-382, -299.5), part 2"] = new Vector3[] { new(-379.5f, 176.49f, -303), new(-382, 177, -299.5f) },
-            ["the plant 28: (-382, -299.5) to (-395, -295)"] = new Vector3[] { new(-382, 177, -299.5f), new(-385, 176.82f, -298), new(-386.5f, 176.74f, -296.25f), new(-395, 176.2f, -295) },
+            // Fix J (row 43): the Outpost Generator's body (arch_bane_outpost_generator_v01) is solid from x -409 to -393; the pad walk
+            // ends east of it on the floor the client uses (175.81), 4.5 m from the pad's middle (r14), the client's stops at x -392.1.
+            ["the plant 28: (-382, -299.5) to the pad (-390.8, -297)"] = new Vector3[] { new(-382, 177, -299.5f), new(-385, 176.82f, -298), new(-386.5f, 176.74f, -296.25f), new(-390.8f, 175.81f, -297) },
             ["the plant 29: (-309, -53) to (-338, -180)"] = new Vector3[] { new(-309, 129.55f, -53), new(-309, 129.6f, -95), new(-328.15f, 129.6f, -114.57f), new(-335.75f, 129.6f, -126.5f), new(-336, 129.6f, -155), new(-333, 130.5f, -160), new(-337.59f, 129.68f, -177.84f), new(-338, 129.6f, -180) },
             ["the plant 30: (-338, -180) to (-337.5, -248.5)"] = new Vector3[] { new(-338, 129.6f, -180), new(-338.58f, 129.31f, -194.39f), new(-337.71f, 128.83f, -219.14f), new(-337.54f, 128.35f, -243.61f), new(-337.5f, 128.25f, -248.5f) },
             ["the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 1"] = new Vector3[] { new(-337.5f, 128.25f, -248.5f), new(-337, 128.52f, -264.25f), new(-337, 128.51f, -280), new(-335, 128.02f, -283.5f), new(-333.42f, 128.03f, -294.5f) },
@@ -1195,15 +1393,20 @@ namespace Rasa.Test.Missions.Ashen
             ["the plant 35: (-363, -371) to (-352, -384.5)"] = new Vector3[] { new(-363, 177.6f, -371), new(-352, 173.5f, -384.5f) },
             ["the plant 36: (-352, -384.5) to (-361, -401)"] = new Vector3[] { new(-352, 173.5f, -384.5f), new(-360.5f, 169.75f, -398), new(-361, 168.8f, -401) },
             ["the plant 37: (-361, -401) to (-364, -406)"] = new Vector3[] { new(-361, 168.8f, -401), new(-362, 168.78f, -400.5f), new(-364, 168.71f, -406) },
-            ["the plant 38: (-361, -401) to (-392, -432)"] = new Vector3[] { new(-361, 168.8f, -401), new(-360, 168.4f, -406), new(-372, 167.6f, -421), new(-377, 167.6f, -426), new(-392, 169.01f, -432) },
-            ["the plant 39: (-361, -401) to (-364, -398)"] = new Vector3[] { new(-361, 168.8f, -401), new(-364, 168.71f, -398) },
+            // Fix J (row 43 check): round the south of Kretas' teleporter (its body is solid) to the console.
+            ["the plant 38: (-361, -401) to (-392, -432)"] = new Vector3[] { new(-361, 168.8f, -401), new(-360, 168.4f, -406), new(-372, 167.6f, -421), new(-377, 167.6f, -426), new(-386, 167.6f, -436), new(-392.5f, 169.0f, -434.5f), new(-392, 169.01f, -432) },
+            // Fix J (row 42 deck check): Central Administration's middle (-364, 168.71, -398) lies 0.9 m under the client floor
+            // there (169.61, a raised floor over the room's 167.6); the walk ends on that floor (the area: radius 16).
+            ["the plant 39: (-361, -401) to (-364, -398)"] = new Vector3[] { new(-361, 168.8f, -401), new(-364, 169.61f, -398) },
             ["the plant 40: (-172, -416) to (-177, -416)"] = new Vector3[] { new(-172, 131.58f, -416), new(-177, 131.21f, -416) },
             ["the plant 41: (-87, -362) to (-81, -363)"] = new Vector3[] { new(-87, 137.11f, -362), new(-81, 137.11f, -363) },
             ["the plant 42: (-87, -359) to (-82, -369)"] = new Vector3[] { new(-87, 131.58f, -359), new(-83.5f, 131.15f, -362), new(-82, 130.23f, -369) },
             ["the plant 43: (-395, -246) to (-398, -253)"] = new Vector3[] { new(-395, 128.01f, -246), new(-398, 128.01f, -253) },
-            ["the plant 44: (-395, -295) to (-406, -303)"] = new Vector3[] { new(-395, 176.2f, -295), new(-406, 176.31f, -303) },
-            ["the plant 45: (-392, -432) to (-389, -431)"] = new Vector3[] { new(-392, 169.01f, -432), new(-389, 168.53f, -431) },
-            ["the teleporter's arrival to Diren"] = new Vector3[] { new(-51, 7.6f, -407), new(-53.46f, 7.8f, -401.81f), new(-53, 8.6f, -395) },
+            ["the plant 44: the pad (-390.8, -297) to beside the charge (-390.8, -301)"] = new Vector3[] { new(-390.8f, 175.81f, -297), new(-390.8f, 175.81f, -301) },
+            // Fix J (row 43 check): Kretas' teleporter's body is solid; the walk ends beside it, 2.7 m from its middle.
+            ["the plant 45: (-392, -432) to beside the teleporter (-391.5, -432)"] = new Vector3[] { new(-392, 169.01f, -432), new(-391.5f, 168.93f, -432) },
+            // DirenArrival (-51, 7.6, -407) is 0.6 m over the client floor (7.0) there: the walk starts on the floor (fix J deck check).
+            ["the teleporter's arrival to Diren"] = new Vector3[] { new(-51, 7.0f, -407), new(-53.46f, 7.8f, -401.81f), new(-53, 8.6f, -395) },
         };
 
         /// <summary>
@@ -1215,6 +1418,22 @@ namespace Rasa.Test.Missions.Ashen
         /// stopped on a prop a leg cleared by 0.1 m at 0.33).
         /// </summary>
         internal const float WalkHalfWidth = 0.5f;
+
+        /// <summary>
+        /// Fix J (row 43): where the walks to scene objects with a solid body end (the client cannot stand in them; the walk check
+        /// sees the map's own geometry only, so the scene's bodies are kept out by these places, AshenFixJTests.SceneBodies):
+        /// beside the 1447 teleporters (2.7 m and 3.5 m from their middles), on the pad east of the generator (4.5 m from the pad's
+        /// middle, inside its r14), 1.5 m east of the charge and 2.7 m from Kretas' teleporter's middle.
+        /// </summary>
+        internal static readonly Vector3 BesideTeleporter1 = new(-9.5f, 0.5f, -216), BesideTeleporter2 = new(-3.5f, 0.5f, -224.5f),
+            OnThePad = new(-390.8f, 175.81f, -297), BesideTheCharge = new(-390.8f, 175.81f, -301), BesideKretasTeleporter = new(-391.5f, 168.93f, -432);
+
+        /// <summary>
+        /// Legs the check does not walk: the client's own way, whose 0.5 m sides touch geometry the client passes (fix J,
+        /// row 44: the loop round the pad's trench, along its rims; not walked by the check, the tester's route as it is). Known gap: the 1447 drill walks end in the drills' bodies (the drills are shot,
+        /// not walked to; their stand places are a follow-up).
+        /// </summary>
+        internal static readonly HashSet<string> KnownGaps = new() { "the plant 24: (-340, -304) round the trench to (-345, -305)" };
 
         private static readonly uint[] TunnelPools = { 531094, 531088, 531089 };
 
@@ -1230,32 +1449,33 @@ namespace Rasa.Test.Missions.Ashen
             var walks = new List<(string, string[], uint[], Vector3)>
             {
                 ("the box from Drof", new[] { "Drof to the box" }, Array.Empty<uint>(), ToVector(Digging.BoxAt)),
-                ("teleporter 1 from Drof", new[] { "Drof to teleporter 1" }, Array.Empty<uint>(), ToVector(Digging.TeleportersAt[0])),
-                ("teleporter 2 from Drof", new[] { "Drof to teleporter 2" }, Array.Empty<uint>(), ToVector(Digging.TeleportersAt[1])),
+                ("teleporter 1 from Drof", new[] { "Drof to teleporter 1" }, Array.Empty<uint>(), BesideTeleporter1),
+                ("teleporter 2 from Drof", new[] { "Drof to teleporter 2" }, Array.Empty<uint>(), BesideTeleporter2),
                 ("outside the rear exit from Drof", Out, Array.Empty<uint>(), ToVector(Digging.RearArrival)),
                 ("the cave entrance from the rear exit", Caves, Array.Empty<uint>(), V(Digging.EntranceAt)),
                 ("the tunnel's exit from the cave entrance", Tunnel, TunnelPools, V(Digging.TunnelExitAt)),
                 ("drill 1 from the tunnel's exit", Drill1, Array.Empty<uint>(), ToVector(Digging.DrillsAt[0])),
                 ("drill 3 from the tunnel's exit", Drill1.Concat(new[] { "drill 1 to drill 2", "drill 2 to drill 3" }).ToArray(), Array.Empty<uint>(), ToVector(Digging.DrillsAt[2])),
-                ("drill 6 from the tunnel's exit", Drill1.Concat(new[] { "drill 1 to drill 4", "drill 4 to drill 5", "drill 5 to drill 6" }).ToArray(), Array.Empty<uint>(),
-                    ToVector(Digging.DrillsAt[5])),
+                ("drill 5 from the tunnel's exit", Drill1.Append("drill 1 to drill 5").ToArray(), Array.Empty<uint>(), ToVector(DrillAt(5))),
+                ("drill 4 from the tunnel's exit", Drill1.Append("drill 1 to drill 4").ToArray(), Array.Empty<uint>(), ToVector(DrillAt(4))),
+                ("drill 6 from the tunnel's exit", Drill1.Append("drill 1 to drill 6").ToArray(), Array.Empty<uint>(), ToVector(DrillAt(6))),
                 ("Drof at the plant from the tunnel's exit", North.Append("the north cavern to the plant's entrance").ToArray(), new uint[] { 531089 }, V(N.DrofAt)),
                 ("Naimi at the plant from Drof", new[] { "Drof to Naimi at the plant" }, new uint[] { 531089 }, V(N.NaimiAt)),
                 ("valve 1 (Alpha) from Drof at the plant", new[] { "the plant 01: (-309, -53) to (-309, -93)", "the plant 02: (-309, -93) to (-143, -167)" }, new uint[] { 531086, 531088, 531089 }, ToVector(Subversion.ValvesAt[0])),
                 ("valve 2 (Beta) from Drof at the plant", new[] { "the plant 03: (-309, -53) to (-347, -181)", "the plant 04: (-347, -181) to (-394, -159)", "the plant 05: (-394, -159) to (-394.5, -165)", "the plant 06: (-394.5, -165) to (-415, -237)" }, new uint[] { 531091, 531093, 531086, 531089 }, ToVector(Subversion.ValvesAt[1])),
-                ("life support 1 from Drof at the plant", new[] { "the plant 07: (-309, -53) to (-339, -197)", "the plant 08: (-339, -197) to (-330, -206)", "the plant 09: (-330, -206) to (-157, -382)", "the plant 10: (-157, -382) to (-157, -414.5)", "the plant 11: (-157, -414.5) to (-172, -416)" }, new uint[] { 531087, 531090, 531093, 531086, 531089 }, ToVector(Subversion.SupportsAt[0])),
+                ("life support 1 from Drof at the plant", new[] { "the plant 07: (-309, -53) to (-339, -197)", "the plant 08: (-339, -197) to (-330, -206)", "the plant 09: (-330, -206) to (-157, -382)", "the plant 10: (-157, -382) to the ramp's foot (-152, -416.4)", "the plant 11: up the ramp from its foot (-152, -416.4) to (-172, -416)" }, new uint[] { 531087, 531090, 531093, 531086, 531089 }, ToVector(Subversion.SupportsAt[0])),
                 ("life support 2 from Drof at the plant", new[] { "the plant 12: (-309, -53) to (-172, -416)", "the plant 40: (-172, -416) to (-177, -416)" }, new uint[] { 531087, 531090, 531093, 531086, 531089 }, ToVector(Subversion.SupportsAt[1])),
                 ("life support 3 from Drof at the plant", new[] { "the plant 01: (-309, -53) to (-309, -93)", "the plant 13: (-309, -93) to (-338, -193)", "the plant 14: (-338, -193) to (-339, -198)", "the plant 15: (-339, -198) to (-116, -343)", "the plant 16: (-116, -343) to (-86, -342)", "the plant 17: (-86, -342) to (-87, -362)", "the plant 41: (-87, -362) to (-81, -363)" }, new uint[] { 531087, 531090, 531093, 531086, 531089 }, ToVector(Subversion.SupportsAt[2])),
                 ("life support 4 from Drof at the plant", new[] { "the plant 01: (-309, -53) to (-309, -93)", "the plant 13: (-309, -93) to (-338, -193)", "the plant 14: (-338, -193) to (-339, -198)", "the plant 15: (-339, -198) to (-116, -343)", "the plant 18: (-116, -343) to (-87, -359)", "the plant 42: (-87, -359) to (-82, -369)" }, new uint[] { 531087, 531090, 531093, 531086, 531089 }, ToVector(Subversion.SupportsAt[3])),
                 ("the door console from Drof at the plant", new[] { "the plant 07: (-309, -53) to (-339, -197)", "the plant 08: (-339, -197) to (-330, -206)", "the plant 19: (-330, -206) to (-300, -224)" }, new uint[] { 531093, 531086, 531089 }, ToVector(Desistance.DoorConsoleAt)),
                 ("the programming console from Drof at the plant", new[] { "the plant 01: (-309, -53) to (-309, -93)", "the plant 13: (-309, -93) to (-338, -193)", "the plant 20: (-338, -193) to (-395, -246)" }, new uint[] { 531093, 531085, 531091, 531086, 531089 }, ToVector(Desistance.ProgrammingAt)),
                 ("the systems console from Drof at the plant", new[] { "the plant 01: (-309, -53) to (-309, -93)", "the plant 13: (-309, -93) to (-338, -193)", "the plant 20: (-338, -193) to (-395, -246)", "the plant 43: (-395, -246) to (-398, -253)" }, new uint[] { 531093, 531091, 531085, 531086, 531089 }, ToVector(Desistance.SystemsAt)),
-                ("the landing pad from Drof at the plant", new[] { "the plant 01: (-309, -53) to (-309, -93)", "the plant 13: (-309, -93) to (-338, -193)", "the plant 14: (-338, -193) to (-339, -198)", "the plant 21: (-339, -198) to (-236, -324)", "the plant 22: (-236, -324) to (-232, -319)", "the plant 23: (-232, -319) to (-340, -304)", "the plant 24: (-340, -304) to (-342, -304.5)", "the plant 25: (-342, -304.5) to (-345, -305)", "the plant 26: (-345, -305) to (-355, -305)", "the plant 27: (-355, -305) to (-382, -299.5), part 1", "the plant 27: (-355, -305) to (-382, -299.5), part 2", "the plant 28: (-382, -299.5) to (-395, -295)" }, new uint[] { 531085, 531092, 531090, 531093, 531086, 531091, 531089 }, V(Desistance.PadAt)),
-                ("the explosive charge from Drof at the plant", new[] { "the plant 01: (-309, -53) to (-309, -93)", "the plant 13: (-309, -93) to (-338, -193)", "the plant 14: (-338, -193) to (-339, -198)", "the plant 21: (-339, -198) to (-236, -324)", "the plant 22: (-236, -324) to (-232, -319)", "the plant 23: (-232, -319) to (-340, -304)", "the plant 24: (-340, -304) to (-342, -304.5)", "the plant 25: (-342, -304.5) to (-345, -305)", "the plant 26: (-345, -305) to (-355, -305)", "the plant 27: (-355, -305) to (-382, -299.5), part 1", "the plant 27: (-355, -305) to (-382, -299.5), part 2", "the plant 28: (-382, -299.5) to (-395, -295)", "the plant 44: (-395, -295) to (-406, -303)" }, new uint[] { 531085, 531092, 531090, 531093, 531086, 531091, 531089 }, ToVector(Desistance.ChargeAt)),
-                ("Central Administration from Drof at the plant", new[] { "the plant 29: (-309, -53) to (-338, -180)", "the plant 30: (-338, -180) to (-337.5, -248.5)", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 1", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 2", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 3", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 4", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 5", "the plant 34: (-232.5, -320.5) to (-363, -371), part 1", "the plant 34: (-232.5, -320.5) to (-363, -371), part 2", "the plant 35: (-363, -371) to (-352, -384.5)", "the plant 36: (-352, -384.5) to (-361, -401)", "the plant 39: (-361, -401) to (-364, -398)" }, new uint[] { 531085, 531092, 531090, 531093, 790603, 531086, 531089 }, V(Desistance.AdministrationAt)),
+                ("the landing pad from Drof at the plant", new[] { "the plant 01: (-309, -53) to (-309, -93)", "the plant 13: (-309, -93) to (-338, -193)", "the plant 14: (-338, -193) to (-339, -198)", "the plant 21: (-339, -198) to (-236, -324)", "the plant 22: (-236, -324) to (-232, -319)", "the plant 23: (-232, -319) to (-340, -304)", "the plant 24: (-340, -304) round the trench to (-345, -305)", "the plant 26: (-345, -305) to (-355, -305)", "the plant 27: (-355, -305) to (-382, -299.5), part 1", "the plant 27: (-355, -305) to (-382, -299.5), part 2", "the plant 28: (-382, -299.5) to the pad (-390.8, -297)" }, new uint[] { 531085, 531092, 531090, 531093, 531086, 531091, 531089 }, OnThePad),
+                ("the explosive charge from Drof at the plant", new[] { "the plant 01: (-309, -53) to (-309, -93)", "the plant 13: (-309, -93) to (-338, -193)", "the plant 14: (-338, -193) to (-339, -198)", "the plant 21: (-339, -198) to (-236, -324)", "the plant 22: (-236, -324) to (-232, -319)", "the plant 23: (-232, -319) to (-340, -304)", "the plant 24: (-340, -304) round the trench to (-345, -305)", "the plant 26: (-345, -305) to (-355, -305)", "the plant 27: (-355, -305) to (-382, -299.5), part 1", "the plant 27: (-355, -305) to (-382, -299.5), part 2", "the plant 28: (-382, -299.5) to the pad (-390.8, -297)", "the plant 44: the pad (-390.8, -297) to beside the charge (-390.8, -301)" }, new uint[] { 531085, 531092, 531090, 531093, 531086, 531091, 531089 }, BesideTheCharge),
+                ("Central Administration from Drof at the plant", new[] { "the plant 29: (-309, -53) to (-338, -180)", "the plant 30: (-338, -180) to (-337.5, -248.5)", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 1", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 2", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 3", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 4", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 5", "the plant 34: (-232.5, -320.5) to (-363, -371), part 1", "the plant 34: (-232.5, -320.5) to (-363, -371), part 2", "the plant 35: (-363, -371) to (-352, -384.5)", "the plant 36: (-352, -384.5) to (-361, -401)", "the plant 39: (-361, -401) to (-364, -398)" }, new uint[] { 531085, 531092, 531090, 531093, 790603, 531086, 531089 }, V(Desistance.AdministrationAt) with { Y = 169.61f }),
                 ("Kretas from Drof at the plant", new[] { "the plant 29: (-309, -53) to (-338, -180)", "the plant 30: (-338, -180) to (-337.5, -248.5)", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 1", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 2", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 3", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 4", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 5", "the plant 34: (-232.5, -320.5) to (-363, -371), part 1", "the plant 34: (-232.5, -320.5) to (-363, -371), part 2", "the plant 35: (-363, -371) to (-352, -384.5)", "the plant 36: (-352, -384.5) to (-361, -401)", "the plant 37: (-361, -401) to (-364, -406)" }, new uint[] { 531085, 531092, 531090, 790603, 531093, 531086, 531089 }, V(N.KretasAt)),
                 ("the teleportation console from Drof at the plant", new[] { "the plant 29: (-309, -53) to (-338, -180)", "the plant 30: (-338, -180) to (-337.5, -248.5)", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 1", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 2", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 3", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 4", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 5", "the plant 34: (-232.5, -320.5) to (-363, -371), part 1", "the plant 34: (-232.5, -320.5) to (-363, -371), part 2", "the plant 35: (-363, -371) to (-352, -384.5)", "the plant 36: (-352, -384.5) to (-361, -401)", "the plant 38: (-361, -401) to (-392, -432)" }, new uint[] { 531085, 531092, 531090, 531093, 790603, 531086, 531095, 531089 }, ToVector(Desistance.ConsoleAt)),
-                ("Kretas' teleporter from Drof at the plant", new[] { "the plant 29: (-309, -53) to (-338, -180)", "the plant 30: (-338, -180) to (-337.5, -248.5)", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 1", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 2", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 3", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 4", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 5", "the plant 34: (-232.5, -320.5) to (-363, -371), part 1", "the plant 34: (-232.5, -320.5) to (-363, -371), part 2", "the plant 35: (-363, -371) to (-352, -384.5)", "the plant 36: (-352, -384.5) to (-361, -401)", "the plant 38: (-361, -401) to (-392, -432)", "the plant 45: (-392, -432) to (-389, -431)" }, new uint[] { 531085, 531092, 531090, 531093, 790603, 531086, 531095, 531089 }, ToVector(Desistance.TeleporterAt)),
+                ("Kretas' teleporter from Drof at the plant", new[] { "the plant 29: (-309, -53) to (-338, -180)", "the plant 30: (-338, -180) to (-337.5, -248.5)", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 1", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 2", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 3", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 4", "the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 5", "the plant 34: (-232.5, -320.5) to (-363, -371), part 1", "the plant 34: (-232.5, -320.5) to (-363, -371), part 2", "the plant 35: (-363, -371) to (-352, -384.5)", "the plant 36: (-352, -384.5) to (-361, -401)", "the plant 38: (-361, -401) to (-392, -432)", "the plant 45: (-392, -432) to beside the teleporter (-391.5, -432)" }, new uint[] { 531085, 531092, 531090, 531093, 790603, 531086, 531095, 531089 }, BesideKretasTeleporter),
                 ("Diren from the teleporter's arrival", new[] { "the teleporter's arrival to Diren" }, Array.Empty<uint>(), V(F15.DirenAt))
             };
             return walks;
@@ -1298,6 +1518,9 @@ namespace Rasa.Test.Missions.Ashen
             harness.Client.MissionAreaService.RecordAcceptedMovement(harness.Client, from, to);
             harness.Drain();
         }
+
+        /// <summary>A drill's place as the database holds it: set 16's, but drills 4-6 fix J's (AshenFixJV1, to-fix row 38).</summary>
+        internal static ScenePosition DrillAt(int number) => AshenFixJV1.DrillAt(number);
 
         private static void UseAndTick(WildernessRuntimeTestHarness harness, MapChannel copy, string role)
         {

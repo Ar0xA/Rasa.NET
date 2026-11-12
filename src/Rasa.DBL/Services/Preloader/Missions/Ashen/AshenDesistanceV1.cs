@@ -39,7 +39,7 @@ namespace Rasa.Services.Preloader.Missions.Ashen
     ///    OutpostGenerator 3857, intact 110, destroyed 2; not targetable in the client) on the pad deck, blown by its Explosive
     ///    Charge (UsableBombHumV01 7870, argument 1; not locked: the class is drawn in state 0, and a lock in state 0 locks nothing,
     ///    UsableLock.IsLockedIn): the use sends 3's event (a scene result); 3 takes each member's bomb (a member whose bomb can not
-    ///    be taken is refused: his 3 stays open, his charge usable), and only then are his charge set and his generator blown. No siren and no dropship wave (the deck's own pools stand by it): docs/ashen-playtest.md.
+    ///    be taken keeps his 3 open and his charge usable), and only then are his charge set and his generator blown. No siren and no dropship wave (the deck's own pools stand by it): docs/ashen-playtest.md.
     ///  - 5 Central Administration's area (its north hall); 6 Kretas killed (one, AshenGothaPlantNpcsV1; a named public-spawn
     ///    actor); while hidden 9 (the hand picked up) is open he drops the hand to every member on 1452 (CharacterOwned, 100 %).
     ///  - 7 the player's own Teleportation Console (7468, name 154) in Central Administration's west end, locked to the hand: its

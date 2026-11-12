@@ -894,7 +894,11 @@ namespace Rasa.Test.Missions.Ashen
                         && !AshenFixFV1.Evidences.Any(fix => fix.Mission == mission && fix.Evidence == entry.EvidenceId && entry.SourceUri == AshenFixFV1.Source)
                         && !AshenFixGV1.Evidences.Any(fix => fix.Mission == mission && fix.Evidence == entry.EvidenceId && entry.SourceUri == AshenFixGV1.Source)
                         && !(mission == AshenFixHV1.Mission && entry.EvidenceId == AshenFixHV1.EvidenceId && entry.SourceUri == AshenFixHV1.Source)
-                        && !(mission == AshenFixIV1.Mission && entry.EvidenceId == AshenFixIV1.EvidenceId && entry.SourceUri == AshenFixIV1.Source))
+                        && !(mission == AshenFixIV1.Mission && entry.EvidenceId == AshenFixIV1.EvidenceId && entry.SourceUri == AshenFixIV1.Source)
+                        && !(entry.SourceUri == AshenFixJV1.Source && entry.Confidence == 0.3 && entry.SourceKind == MissionEvidenceSourceKind.Reconstruction &&
+                             ((mission == AshenFixJV1.Threshold && entry.EvidenceId == AshenFixJV1.ThresholdEvidence) ||
+                              (mission == AshenFixJV1.Digging && entry.EvidenceId == AshenFixJV1.DiggingEvidence) ||
+                              (mission == AshenFixJV1.Desistance && entry.EvidenceId == AshenFixJV1.DesistanceEvidence))))
                         .OrderBy(entry => entry.EvidenceId)
                         .Select(entry => (entry.SourceKind, entry.Confidence)).ToArray(), $"{mission} evidence");
         }
@@ -1156,7 +1160,7 @@ namespace Rasa.Test.Missions.Ashen
                 // Fix H: 1559's second objective 1 marker on the valley's lift pad 913.
                 (1559, 1, AshenFixHV1.LowerPadAt.X, AshenFixHV1.LowerPadAt.Z, AshenFixHV1.MarkerRadius),
                 // Fix I: 1360's Bendal marker with his body in the pillbox.
-                (1360, 1, AshenFixIV1.BendalAt.X, AshenFixIV1.BendalAt.Z, 8), (1360, 2, -5, -221, 8), (1360, 3, 4, -345.5, 45),
+                (1360, 1, AshenFixIV1.BendalAt.X, AshenFixIV1.BendalAt.Z, 8), (1360, 2, -5, -221, 8), (1360, 3, AshenFixJV1.MarkerAt.X, AshenFixJV1.MarkerAt.Z, 45),
                 (1395, 2, 153, -296, 8), (1395, 3, 9.83, -244.76, 8), (1395, 4, 59, -403, 10), (1395, 5, 24, -284, 8), (1395, 6, 12.5, -243, 5)
             };
             // Set 16: each on its target (AshenGothaPlantTests.Markers).
@@ -1168,9 +1172,10 @@ namespace Rasa.Test.Missions.Ashen
                     $"{mission} objective {objective}'s marker at ({x}, {z}) radius {radius}");
             Assert.HasCount(Indicators + CavernsIndicators, rows);
             // Set 15: 1360's Watch Post marker holds both pools; each other marker on its target.
-            foreach (var pool in AshenIndraFacilityNpcsV1.WatchPostPools.Select(AshenIndraFacilityNpcsV1.At))
+            // Fix J: the east pool and the marker at their new places (AshenFixJV1, to-fix row 36).
+            foreach (var pool in new[] { AshenIndraFacilityNpcsV1.WatchPostWestAt, AshenFixJV1.PoolAt })
                 Assert.IsLessThanOrEqualTo(AshenThresholdV1.WatchPostMarkerRadius - 2, Vector2.Distance(new((float)pool.X, (float)pool.Z),
-                    new((float)AshenThresholdV1.WatchPostMarkerAt.X, (float)AshenThresholdV1.WatchPostMarkerAt.Z)), "a Watch Post pool inside 1360.3's marker");
+                    new((float)AshenFixJV1.MarkerAt.X, (float)AshenFixJV1.MarkerAt.Z)), "a Watch Post pool inside 1360.3's marker");
             // Set 9: the four batteries' public pools (World DB rows 550001-550004) inside 1278's markers.
             foreach (var pool in harness.World.SpawnPoolEntries.AsNoTracking().Where(row => row.Id >= 550001 && row.Id <= 550004).ToList())
                 foreach (var marker in rows.Where(row => row.MissionId == 1278))

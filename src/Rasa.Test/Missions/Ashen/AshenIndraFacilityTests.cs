@@ -327,7 +327,8 @@ namespace Rasa.Test.Missions.Ashen
             using var harness = WildernessRuntimeTestHarness.Create();
             using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
             var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", MapName(harness, Map)), meshes, 1);
-            var hostile = HostilePools(harness).Where(pool => pool.Id != N.WatchPostWest && pool.Id != N.WatchPostEast).ToList();
+            // Fix J: the east pool keeps the walk clearance (to-fix row 36); only the west one stands on the way in.
+            var hostile = HostilePools(harness).Where(pool => pool.Id != N.WatchPostWest).ToList();
             var failures = new List<string>();
             var walked = 0;
             foreach (var (leg, corners) in Legs)
@@ -1065,7 +1066,7 @@ namespace Rasa.Test.Missions.Ashen
         {
             ("Major Diren", V(N.DirenAt), true, F.NpcMiddle, 0), ("Sergeant Drof", V(N.DrofAt), true, F.NpcMiddle, 0),
             ("Scout Naimi", V(N.NaimiAt), false, F.NpcMiddle, 0), ("Overseer Kuutk", V(N.KuutkAt), true, F.NpcMiddle, N.KuutkPool),
-            ("the Watch Post's west Thrax", V(N.WatchPostWestAt), false, 0, N.WatchPostWest), ("the Watch Post's east Thrax", V(N.WatchPostEastAt), false, 0, N.WatchPostEast),
+            ("the Watch Post's west Thrax", V(N.WatchPostWestAt), false, 0, N.WatchPostWest), ("the Watch Post's east Thrax (fix J's place)", V(AshenFixJV1.PoolAt), false, 0, N.WatchPostEast),
             ("Bendal's body", ToVector(AshenFixIV1.BendalAt), true, F.ObjectMiddle, 0), ("Aksrah's body", ToVector(Vindication.AksrahAt), true, F.ObjectMiddle, 0),
             ("the Supply Crate", ToVector(Vindication.CrateAt), true, F.ObjectMiddle, 0),
             ("the dorm 152 door", ToVector(Vindication.Doors[0].At), false, 0, 0), ("the Science Lab door", ToVector(Vindication.Doors[1].At), false, 0, 0),
