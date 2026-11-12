@@ -385,7 +385,7 @@ namespace Rasa.Test.Missions.Ashen
                     if (!Inside(talk.MissionId, talk.ObjectiveId, new((float)pool.PosX, (float)pool.PosY, (float)pool.PosZ)))
                         outside.Add($"{talk.MissionId}.{talk.ObjectiveId} NPC pool {pool.Id}");
                 }
-            Assert.AreEqual(4 + 4 + 3 + 4 + 1 + 5 + 1, checkedTargets, "Mason Linier, Emmons, Yamamoto and Daris Linier; set 6's Latan (1254's four talks), Yamamoto (1258, 1259), Mason Linier (1261); set 11's Hale (1298's four talks); set 13's Endala (1282.2); set 14's five captains (1358) and Botha (1736.2; the obelisk is a scene object)");
+            Assert.AreEqual(4 + 4 + 3 + 4 + 1 + 5 + 1 + 1, checkedTargets, "Mason Linier, Emmons, Yamamoto and Daris Linier; set 6's Latan (1254's four talks), Yamamoto (1258, 1259), Mason Linier (1261); set 11's Hale (1298's four talks); set 13's Endala (1282.2); set 14's five captains (1358), Botha (1736.2; the obelisk is a scene object) and set 20's Yamamoto (1501.6; Humphries, Lukaz and the queen are scene actors, Jawan is on Thunderhead)");
             Assert.IsEmpty(outside, string.Join(", ", outside));
         }
 
@@ -447,7 +447,7 @@ namespace Rasa.Test.Missions.Ashen
             var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision ||
                 entry.MissionId == AshenEchoesInTheSandV1.MissionId && entry.ContentRevision == Rasa.Services.Preloader.Missions.Crucible.CrucibleMissionDataV1.Revision).ToList();
             Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators + AshenMissionTests.CavernsIndicators + AshenMissionTests.OutpostIndicators +
-                AshenMissionTests.HiveIndicators + AshenMissionTests.EntryIndicators, markers, "the Ashen markers");
+                AshenMissionTests.HiveIndicators + AshenMissionTests.EntryIndicators + AshenMissionTests.QueenIndicators, markers, "the Ashen markers");
             var near = new List<string>();
             foreach (var marker in markers)
             {
@@ -483,7 +483,8 @@ namespace Rasa.Test.Missions.Ashen
                 .Where(marker => MissionMarkerProjection.ResolveMap(catalog, marker.MissionId, marker.ObjectiveId, new MissionIndicator { IndicatorId = marker.IndicatorId }) == Map)
                 .Select(marker => (Label: $"{marker.MissionId}.{marker.ObjectiveId}/{marker.IndicatorId}", At: new Vector3((float)marker.PosX, (float)marker.PosY, (float)marker.PosZ)))
                 .ToList();
-            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators + AshenMissionTests.EntryDesertIndicators, markers, "the Ashen markers on Ashen Desert");
+            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators + AshenMissionTests.EntryDesertIndicators +
+                AshenMissionTests.QueenDesertIndicators, markers, "the Ashen markers on Ashen Desert");
             using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
             var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", MapName(harness)), meshes, 1);
             var (floors, _) = F.Surfaces(geometry, markers.Select(marker => (marker.At + new Vector3(0, MarkerHeight - F.MaxUnder, 0), F.Walkable)).ToList());
@@ -594,7 +595,9 @@ namespace Rasa.Test.Missions.Ashen
                 // the door's navmesh pocket (InTheDoorPocket). Fix H: its second marker on the valley's lift pad, from White Oasis Post's.
                 [AshenIndraCavernsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
                 // Set 19: 1500's marker before the Bane Conscription Facility's door, from Ashoka Settlement's (Yamamoto's).
-                [AshenLockdownTheConscriptionFacilityV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
+                [AshenLockdownTheConscriptionFacilityV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
+                // Set 20: 1501's marker at Yamamoto (Boneyard Outpost), from Ashoka Settlement's (as 1258's).
+                [AshenSaveTheQueenV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
             };
             // A mission whose markers stand in more than one area: the other areas' waypoints (any one walks to the marker).
             var also = new Dictionary<uint, (string Label, Vector3 At)[]>
@@ -617,7 +620,8 @@ namespace Rasa.Test.Missions.Ashen
                 entry.MissionId == AshenEchoesInTheSandV1.MissionId && entry.ContentRevision == Rasa.Services.Preloader.Missions.Crucible.CrucibleMissionDataV1.Revision).ToList()
                 .Where(marker => MissionMarkerProjection.ResolveMap(catalog, marker.MissionId, marker.ObjectiveId, new MissionIndicator { IndicatorId = marker.IndicatorId }) == Map)
                 .ToList();
-            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators + AshenMissionTests.EntryDesertIndicators, markers, "the Ashen markers on Ashen Desert");
+            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators + AshenMissionTests.EntryDesertIndicators +
+                AshenMissionTests.QueenDesertIndicators, markers, "the Ashen markers on Ashen Desert");
             var failures = new List<string>();
             foreach (var marker in markers)
             {

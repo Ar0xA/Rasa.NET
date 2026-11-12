@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 65 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 68 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -9,7 +9,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 | Zone | Missions |
 | --- | ---: |
-| Ashen Desert | 58 |
+| Ashen Desert | 61 |
 | Avernus Outpost | 6 |
 | Bane Conscription Facility | 1 |
 
@@ -1417,6 +1417,51 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
   - Leads to: Into the Lion's Den (id 1499) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Blast_the_Biolab), [TaRapedia](https://tabularasa.fandom.com/wiki/Into_the_Lion%27s_Den)
   - Leads to: What Makes Them Tick (id 1551) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Blast_the_Biolab), [TaRapedia](https://tabularasa.fandom.com/wiki/What_Makes_Them_Tick)
 
+### 1499 — Into the Lion's Den
+
+
+- **Instance mentioned:** Bane Conscription Facility — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 100,000 XP; 8,600 credits; Vextronics Sonic Disperser; Vextronics Virulent Injector Gun; Vitalius Exothermic Polarity Gun; Vextronics Cryogenic Net Gun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Into_the_Lion%27s_Den)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Head to Atta arena room to save Lt. Humphries or Brann prisoners.
+  - objectives (client): Get To Arena Before the Enslaver Kills the Prisoners; Hidden - Master Objective; Help Lt. Humpries in the Atta Pit; Help 6 Brann Prisoners; Speak with Lt. Humphries; Speak with Lukaz
+- **TaRapedia** [Into the Lion's Den](https://tabularasa.fandom.com/wiki/Into_the_Lion%27s_Den) [stub]: giver: Bane CommLink Terminal; at: Bane Conscription Facility; zone: Ashen Desert; requires: Blast the Biolab; follow-up: Save the Queen; XP: 100,000; credits: 8,600; items: Vextronics Sonic Disperser; Vextronics Virulent Injector Gun; Vitalius Exothermic Polarity Gun; Vextronics Cryogenic Net Gun; reward from: Headquarters
+  - overview: Head to Atta arena room to save Lt. Humphries or Brann prisoners.
+  - objectives: • Get to Arena Before the Enslaver Kills the Prisoners • Help Lt. Humphries in the Atta Pit • Help 6 Brann Prisoners • Speak with Lukaz
+  - walkthrough: In order to get to the east wing, head directly south from the terminal where you accepted the quest to enter a maintenance section that connects the two wings. If you are worried about the time, you can simply run past most of the enemies here without engaging them. Moral quandries aside, saving the AFS Officer requires fighting three Atta bosses and a swarm of normal Atta in an open area, a nearly guaranteed recipe for a quick death and an agonizingly long walk back. In contrast, saving the Brann requires killing about four normal Atta and two Nitroglazers. To save the Brann, walk north …
+- **TaRapedia mission list** [Bane Conscription Facility mission list](https://tabularasa.fandom.com/wiki/Bane_Conscription_Facility_mission_list): zone Ashen Desert, given by Bane CommLink Terminal
+
+- **Chain** (explicit prerequisite links): Lockdown the Conscription Facility chain (6 missions), step 4
+  - Requires: Blast the Biolab (id 1498) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Blast_the_Biolab), [TaRapedia](https://tabularasa.fandom.com/wiki/Into_the_Lion%27s_Den)
+  - Leads to: Save the Queen (id 1501) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Into_the_Lion%27s_Den), [TaRapedia](https://tabularasa.fandom.com/wiki/Save_the_Queen)
+
+### 1501 — Save the Queen
+
+
+- **Instance mentioned:** Bane Conscription Facility — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 200,000 XP; 12,000 credits; Modification: Debuff to Ice Resist; Modification: Steal Power; Modification: Virulent Resistance; Modification: Regen Power Bonus — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Save_the_Queen)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Commander Jawan: Thunderhead, Thunderhead Base — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Commander_Jawan)
+- **Client:** Get to the Atta Queen in the Enslaver room.
+  - objectives (client): Go to Information Extraction to Find the Atta Queen; Protect the Egg and Kill the Enslaver; Interact with the Atta Queen; End the Suffering of the Atta Queen; Secure and Prepare the Queen Egg For Transport; Take Egg to Captain Yamamoto in Ashen Desert.; Take Queen Egg to Commander Jawan in Thunderhead.
+- **TaRapedia** [Save the Queen](https://tabularasa.fandom.com/wiki/Save_the_Queen) [stub]: giver: Headquarters; at: Radio; zone: Ashen Desert; requires: Into the Lion's Den; follow-up: None; XP: 200,000; credits: 12,000; items: Modification: Debuff to Ice Resist; Modification: Steal Power; Modification: Virulent Resistance; Modification: Regen Power Bonus; reward from: Commander Jawan
+  - overview: Get to the Atta Queen in the Enslaver room.
+  - objectives: • Go to Information Extraction to Find the Atta Queen • Interact with the Atta Queen • End the Suffering of the Atta Queen • Protect the Egg and Kill the Enslaver • Secure and Prepare the Queen Egg for Transport • Take Egg to Captain Yamamoto in Ashen Desert • Take Queen Egg to Commander Jawan in Thunderhead
+  - walkthrough: To get to the northern section, head directly south from the control rooms on the western edge of the arena area, into another maintenance section. When you get to a fork in the center of the map, take the north path to the bridge. The Bane can and will destroy the egg if you let them. Killing the enslaver completes the objective and removes his considerable DPS from the egg, so do this as quickly as you can. The egg is difficult to maneuver around, you actually need to go outside the pillars enclosing it in order to circle to another direction. If the mission fails, you will have to reset …
+- **TaRapedia mission list** [Bane Conscription Facility mission list](https://tabularasa.fandom.com/wiki/Bane_Conscription_Facility_mission_list): zone Ashen Desert, given by Headquarters
+- **NPCs (TaRapedia NPC pages):**
+  - [Commander Jawan](https://tabularasa.fandom.com/wiki/Commander_Jawan): Thunderhead, Thunderhead Base (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Lockdown the Conscription Facility chain (6 missions), step 5
+  - Requires: Into the Lion's Den (id 1499) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Into_the_Lion%27s_Den), [TaRapedia](https://tabularasa.fandom.com/wiki/Save_the_Queen)
+
 ### 1532 — Meet Sergeant Drof
 
 
@@ -1442,6 +1487,32 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Chain** (explicit prerequisite links): Missing Scientists chain (10 missions), step 6
   - Requires: Digging for the Truth (id 1447) — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - Leads to: Subversion (id 1451) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Meet_Sergeant_Drof), [TaRapedia](https://tabularasa.fandom.com/wiki/Subversion), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+
+### 1551 — What Makes Them Tick [instance]
+
+
+- **Instance:** Bane Conscription Facility — client objective/log text: "Eliminate Enraged Atta and their Queen in the Bane Conscription Facility and return them to Cpt. Yamamoto in the …"
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 100,000 XP; 6,450 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/What_Makes_Them_Tick)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Captain Aiko Yamamoto: Ashen Desert, Boneyard Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto)
+- **Client:** Eliminate Enraged Atta and their Queen in the Bane Conscription Facility and return them to Cpt. Yamamoto in the Boneyard Outpost in Ashen Desert.
+  - objectives (client): Eliminate Enraged Atta; Eliminate Atta Queen
+- **TaRapedia** [What Makes Them Tick](https://tabularasa.fandom.com/wiki/What_Makes_Them_Tick): giver: Headquarters; at: Radio; zone: Ashen Desert; requires: Blast the Biolab; follow-up: None; XP: 100,000; credits: 6,450; reward from: Captain Aiko Yamamoto
+  - overview: Gather Enraged Atta samples in Bane Conscription Facility and return them to Cpt. Yamamoto in Ashen Desert.
+  - objectives: • Gather Atta DNA Samples
+  - walkthrough: Killing any of the red Atta qualifies, you don't even need to loot them.
+- **TaRapedia mission list** [Bane Conscription Facility mission list](https://tabularasa.fandom.com/wiki/Bane_Conscription_Facility_mission_list): zone Ashen Desert, given by Headquarters
+- **IGN TR boards** [vnboards.ign.com/tabula_rasa_general_board/b22750/106585290/r106594805 …](https://web.archive.org/web/20080518034441/http://vnboards.ign.com/tabula_rasa_general_board/b22750/106585290/r106594805/): “* Purgas: changed giant lasers to kill Bane as well as Humans. / * Added location reminder to Bane Conscription Facility: What Makes Them Tick mission / * Fixed buff effect from Temple of Raging Patriarch mission to take effect once players are back on Palisades.”
+- **IGN TR boards** [vnboards.ign.com/tabula_rasa_general_board/b22750/107144855/p1/](https://web.archive.org/web/20081012141434/http://vnboards.ign.com/tabula_rasa_general_board/b22750/107144855/p1/): “ight next to Lt. Perkins, to create better mission flow. Pre-requisite on “Pirate Radio” has also been removed. / Bane Constription Facility mission "What Makes Them Tick" now has indicator for completion. / Collision problems with trees in Palisades have been repaired.”
+- **PlayTR EU** [eu.rgtr.com:80/en/news_article/patchnotes_and_known_issues_monday_28th …](https://web.archive.org/web/20080501145429/http://eu.rgtr.com:80/en/news_article/patchnotes_and_known_issues_monday_28th_april_2008): “rkins, to create better mission flow. Pre-req on “Pirate Radio” has also been removed, as it was unnecessary. / Bane Conscription Facility mission “What Makes Them Tick” now has indicator for completion. / Collision problems with trees in Palisades repaired”
+- **NPCs (TaRapedia NPC pages):**
+  - [Captain Aiko Yamamoto](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto): Ashen Desert, Boneyard Outpost (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Lockdown the Conscription Facility chain (6 missions), step 4
+  - Requires: Blast the Biolab (id 1498) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Blast_the_Biolab), [TaRapedia](https://tabularasa.fandom.com/wiki/What_Makes_Them_Tick)
 
 ### 1559 — Indra Caverns [instance]
 

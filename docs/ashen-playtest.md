@@ -1014,6 +1014,116 @@ All ESTIMATE (set 19):
 - Every marker radius (10 m on the field's charge, 6 m on the objects, 8 m on the NPCs, pool circles + 5 m, 6 m before the door).
 - The Detonator as 1498's bomb (the client has no other bomb item for it).
 
+Set 20, the Bane Conscription Facility, the Atta queen (migration `20271110002000_Ashen_conscription_queen`). New hostile rows:
+the Enraged Atta 790662 (the Ashen Atta Soldier row 531015, named "Atta Soldier", level 43), four in pool 790663 at (350, 97.61,
+-104) in the east wing's arena ring (respawn 90 s); the Atta Hive Queen 790664 (class 24087, level 49, 9800 health, the Atta
+Imperial Guard's attacks, standing still) alone in pool 790665 at (270, 97.61, -335), the ring's south end (respawn 300 s);
+Enslaver Xahn 790666 (class 11134 Boss_Enslaver, Overseer Mitecht's attacks and stats, level 45) alone in pool 790667 at (6.5,
+78.11, 166) in Information Extraction (respawn 900 s, ESTIMATE; 4900 hit points and armour 420 as Kretas', ESTIMATE). The
+three pools are named by 1551's and 1501's scenes as public-spawn actors: in a squad's copy each comes back on its own respawn
+time (90 s, 300 s, 900 s), not 45 min after its last death. New friendly rows: Lt. Humphries 790668, Lukaz 790669 and the Brann
+Prisoner 790670 (1499's copies only, no public pool); Commander Jawan 790671 on Thunderhead (map 1911) at (672, 339, -527), 8.7 m
+from the base's waypoint (Thunderhead Base Services): Thunderhead's missions are not built, he is only there for 1501. Two Bane
+teleporter pairs (local teleporters, class 8044, public, linked both ways): 925 (-2, 135.94, -379) on the HQ round hall's
+south-west <-> 926 (288, 96.02, -156) in the east wing's arena ring; 927 (16.5, 135.94, -359) on the hall's north <-> 928 (6.5,
+77.61, 110) on the deck before Information Extraction (north of the stair from Enslaver pool 531075's room, outside 1501's area). Step on the pads from the north or south, as set 19's. Next free id 790672.
+Every walk below is the client's floor, checked both ways with a 0.5 m half width, the 55 degree climb rule and the collision of
+the set's objects, each leg also with its start moved 0.13, 0.27 and 0.4 m.
+
+- [ ] 1551 What Makes Them Tick (Ligo Ashen Desert): offered by radio after 1498 (also on arriving in the facility with 1498
+  done), level 43. 1: kill ten Enraged Atta (marker r20 on their pool; take the hall's pad 925 to the east wing, then east along
+  the ring). 2: kill the Atta Hive Queen at the ring's south end (marker r10): your own DNA sample (an invisible talk object,
+  2.5 m off her place at (271.5, 97.61, -333)) appears; talk to it. Turn in at Captain Yamamoto (Boneyard Outpost, Ashen Desert):
+  100000 XP, 6450 credits, one of Bio V03 Boots 19415, Stealth V03 Legs 39856, Hazmat V02 Legs 20802, Reflective V05 Legs 38283.
+- [ ] 1499 Into the Lion's Den (Ligo Ashen Desert): offered by radio after 1498 (also on arrival), level 43. 1: reach the
+  arena (the Atta Observatory: the area is 30 m round the ledge's middle (240, -100), the ledge, the corridor to the cells and
+  the pit floor under it, y 72-104; marker r30 on the ledge; entered on the walk in from pad 926) within 10 minutes of the accept,
+  else the mission fails (clear it; the next arrival offers it again). At the arena both fights come: the pit's three Atta
+  Imperial Guards and four Atta Soldiers round Lt. Humphries (238, 80.97, -150), the ledge's two Nitroglazers and four Atta
+  Soldiers before Lukaz (240, 97.61, -54) and six Brann prisoners. Either side: 3: kill the pit's seven (walk west along the
+  ledge, up the ramp and down to the pit), or 4: kill the ledge's six, then use your own Cell Door Control (class 7468, named
+  "Cell Door Control", 140) at (243, 97.61, -60). The first side done fails the other; the other side's NPCs (and the switch)
+  go, and every fighter still standing, either side, falls (no XP or loot; no body is removed: the loot of your own kills stays).
+  In a squad the side's credit completes each mate's matching objective, and his own fighters still standing fall too.
+  5: talk to Humphries, or 6: talk to Lukaz. Turned in by radio: 100000 XP, 8600 credits, one of Vextronics Sonic Disperser
+  12071, Virulent Injector Gun 12155, Vitalius Exothermic Polarity Gun 12135, Vextronics Cryogenic Net Gun 12129. The radio then
+  offers 1501.
+- [ ] 1501 Save the Queen (Ligo Ashen Desert): offered by radio after 1499 (also on arrival), level 44. 1: take the hall's pad
+  927 to the deck before Information Extraction (pad 928) and walk north into it (marker r35; walk round the platform's hole at (5-8,
+  149-153)). 2: kill Enslaver Xahn (marker r10). 3: talk to the Atta queen (your own invisible talk object at (6.5, 78.11,
+  159.5)). 4: use your own Life Support System (class 26423, named "Life Support System", 153) at (6.5, 78.11, 162.5): it goes
+  off, the queen is at rest. 5: talk at the egg (11.5, 78.11, 155): the egg goes with you. 6: talk to Captain Yamamoto
+  (Boneyard Outpost, Ashen Desert). 7: talk to Commander Jawan at Thunderhead Base (map 1911; marker on him). Turn in at Jawan:
+  200000 XP, 12000 credits, one of Weapon Module: Debuff Ice Resist [4] 123181, Weapon Module: Steal Power [4] 123276, Armor
+  Module: Resist Virulent [4] 123071, Armor Module: Power Regen Bonus [4] 123006.
+
+Walks (set 20; client floor both ways): the hall -> the east-wing pad 925; the hall -> the fortress pad 927; pad 926 -> the
+arena's ledge; the ledge -> Lukaz and the Cell Door Control; the ledge -> the ramp -> down into the pit to Humphries; pad 926 ->
+the Enraged Atta; pad 926 -> the queen; pad 928 -> Information Extraction -> round the platform's hole -> the queen's life
+support -> the egg; on Thunderhead the base's waypoint -> Jawan (AshenConscriptionQueenTests.Legs and Walks). With fix J's
+rules (start and end within 0.5 m of the corners' deck, no step over 0.6 m off the terrain onto a mesh): the walks to the hall
+pads 925 and 927 end up the pad's shallow rim, 1.6 m from its centre, inside its 2 m trigger (as set 19's hall pad); the walks
+from 926 and 928 start on the pad's disc. The walk from 928 goes north along x 6.5 to z 127, then by x 9 round the raised step
+at x 6.5, z 129-136 (no client floor line along x 6.5 there). Every walk keeps 30 m outside every hostile pool's circle, set
+20's own too, but the pools it names (its own target pool; the rule breaks below, those kept 15 m off but 531065).
+
+Fights (rule 3): the Enraged Atta, the queen and Xahn are public pools (a squad shares them; each kill counts for every member
+on the mission); 1499's fighters are each member's own (the scene's, hostile; as Petrovich's Run's ambush). Humphries, Lukaz
+and the prisoners are unhurt by anything.
+
+Rule breaks (rule 2):
+- Xahn's pool stands 20.2 m outside the circles of Information Extraction's Enslaver cell pools 531074/531077 (rule 60 m), and
+  the queen's talk, the Life Support System, the egg and the room's marker 19-22 m outside them (rule 34 m): TaRapedia puts the
+  Enslaver and the queen among the four cells.
+- 1499, Humphries' side: the walk down to Humphries goes through the middle of upstream pool 531065 (the ramp's own Atta pool,
+  r30; the only way down into the pit): that side needs 531065 cleared on the way (TaRapedia makes it the hard side; user review).
+- 1501: Information Extraction's places stand 17-23 m from the Enslaver cell pools 531073-531077 (AggroRange 18 m): nothing in
+  the room can meet the 30 m rule; TaRapedia puts Xahn, the queen and the egg among the four cells (user review, real-client
+  check). The walk from pad 928 keeps 15 m or more outside each of their circles; the 34 m place rule is broken by pad 928
+  itself (24 m outside 531075's circle; nearer the room there is no floor outside 1501's area, r35).
+- Spawn reach (fix M's AshenSpawnReach: 1500 seeded spawn draws per hostile pool, a pool without a circle its point and a
+  10 m stroll; least 3D distance; OK 20 m+, RISK 18-20 m, FAIL under AggroRange 18 m; a mission's own target pools exempt;
+  AshenConscriptionQueenTests.ThePlacesAndWalksKeepOutOfThePoolsReach). FAIL: the walk down to Humphries through 531065's draws (0.1 m, the rule break
+  above); the walk into Information Extraction 17.1 m from 531073's draws and 14.9 m from 531076's at z 126-128 (round the
+  raised step at x 6.5, z 129-136; the cells, above). RISK: the Life Support System 19.3 m from 531077's and
+  19.8 m from 531074's. Every other place and walk 20 m or more.
+
+Deviations (set 20):
+- 1551: the client's "Atta Queen Eliminated" counter (14085) is not written; the queen's kill opens a hidden objective, and the
+  DNA sample's talk completes 2. The Enraged Atta have the Atta Soldier's name and look (no client name; a red tint later, set 21).
+- 1499: the key room Humphries names (14308) and Lukaz' three men (14313) are not built; the prisoners and Humphries can not
+  die (the client has no fail text for them; the other side "dies" by being shut out). 1499 and 1501 are offered by radio
+  (Headquarters) and 1499 turned in by radio (TaRapedia: Headquarters).
+- 1501: the egg can not be attacked or lost (M3: scene creatures can not attack an object; NOTES-missing-mechanics.md "protect an
+  object"); the queen's body is the client map's (her talk object is the client's invisible one), the Life Support System turns
+  off, nothing dies. No egg item (the client has none): the egg's talk is an objective only.
+- Thunderhead is not built: Jawan stands there for 1501 only.
+
+Tester notes (set 20):
+- 1499's deadline runs from the accept (also an accept by radio outside the east wing): take the hall's pad 925 at once.
+- 1499, Humphries' side: clear the ramp's Atta pool 531065 on the way down (the walk goes through it); the Cell Door Control
+  side does not pass it. Accepted on the ledge itself, 1 completes only after a step off it and back (an area is entered by a
+  move into it).
+- In a squad's copy the Enraged Atta come back 90 s after the last of the four died, the queen 300 s, Xahn 900 s.
+  The queen (by the DNA sample) and Xahn (in Information Extraction, by the queen's talk, the device and the egg) can come
+  back next to an open objective after their own respawn: accepted as a low risk (re-audit).
+- 1499 in a squad: each member's arena, fighters, NPCs and switch are his own; a member's kills of his own fighters count for
+  every member whose matching objective is open (GroupCreditService).
+- 1551 and 1501 both talk with package 1937 (the DNA sample, the queen, the egg): each object talks only of its own mission.
+- Real-client checks: Xahn's class (11134, never used before) with Mitecht's attacks; the queen's class 24087 standing still;
+  the invisible queen talk objects can be clicked; the Life Support System's states (10000003 on, 10000001 off).
+
+All ESTIMATE (set 20):
+- Levels 43 (1551, 1499) and 44 (1501); the Enraged Atta 43, Xahn 45, Humphries and Lukaz 43, the prisoners 40, Jawan 45 (TaR).
+- Ten Enraged Atta (D16), four in one pool; the queen's health, attacks and stillness; Xahn's rows (4900 hit points, armour
+  420, as Kretas') and his 900 s respawn.
+- 1499's 10 minutes (M7), the fighters (TaRapedia's counts: three bosses and four Atta, two Nitroglazers and four Atta) and
+  their places, the Cell Door Control, the arena's area (30 m round the ledge).
+- The places of every pool, NPC, object and pad; Jawan's height (TaRapedia's y 383 is the roof).
+- Every marker radius (r30 arena, r35 Information Extraction, r20 the Atta pool, r15 the fights, r10 the bosses, r8 NPCs, r6
+  objects).
+- The items: the version and level band TaRapedia names (1551 armour, 1499 weapons), grade 4 modules (1501).
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket

@@ -72,7 +72,9 @@ namespace Rasa.Test.Missions.Ashen
             [Subversion.SupportRole(1)] = Subversion.SupportName, [Subversion.SupportRole(2)] = Subversion.SupportName,
             [Subversion.SupportRole(3)] = Subversion.SupportName, [Subversion.SupportRole(4)] = Subversion.SupportName,
             [Desistance.DoorConsoleRole] = Desistance.DoorConsoleName, [Desistance.ProgrammingRole] = Desistance.ProgrammingName,
-            [Desistance.SystemsRole] = Desistance.SystemsName, [Desistance.ConsoleRole] = Desistance.TeleportName
+            [Desistance.SystemsRole] = Desistance.SystemsName, [Desistance.ConsoleRole] = Desistance.TeleportName,
+            // Set 20: 1499's Cell Door Control (usablenameoverridelanguage 140).
+            [AshenIntoTheLionsDenV1.SwitchRole] = AshenIntoTheLionsDenV1.SwitchName
         };
 
         private Func<MissionApplication> _missions;
@@ -1229,7 +1231,8 @@ namespace Rasa.Test.Missions.Ashen
             Assert.AreEqual(down, All());
             Assert.AreEqual(others, Others(world), "Down: nothing else changes");
             Assert.IsTrue(AshenMissionTests.MissionIds.Where(id => !Missions.Contains(id) && !AshenAvernusOutpostTests.Missions.Contains(id) &&
-                !AshenAvernusHiveTests.Missions.Contains(id) && !AshenConscriptionEntryTests.Missions.Contains(id)).All(Has), "sets 1-15 stay");
+                !AshenAvernusHiveTests.Missions.Contains(id) && !AshenConscriptionEntryTests.Missions.Contains(id) &&
+                !AshenConscriptionQueenTests.Missions.Contains(id)).All(Has), "sets 1-15 stay");
             foreach (var sql in N.Down())
                 world.Database.ExecuteSqlRaw(CrucibleSql.Guard(sql));
             Assert.AreEqual(down, All(), "a second Down changes nothing");

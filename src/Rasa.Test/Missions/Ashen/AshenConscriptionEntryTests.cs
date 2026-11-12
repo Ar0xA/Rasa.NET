@@ -169,7 +169,7 @@ namespace Rasa.Test.Missions.Ashen
         {
             using var harness = WildernessRuntimeTestHarness.Create();
             var world = harness.World;
-            var rows = world.CreatureEntries.AsNoTracking().Where(row => row.Id >= 790659 && row.Id <= 790669).ToList();
+            var rows = world.CreatureEntries.AsNoTracking().Where(row => row.Id >= 790659 && row.Id <= 790660).ToList();
             CollectionAssert.AreEquivalent(N.Creatures, rows.Select(row => row.Id).ToArray(), "the two");
             var harris = world.CreatureEntries.AsNoTracking().Single(row => row.Id == N.Harris);
             foreach (var (id, _, name, level, package) in N.Friends)
@@ -179,7 +179,7 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.AreEqual(package, world.NpcPackageEntries.AsNoTracking().Single(entry => entry.Id == id).PackageId, $"{id}'s package");
             }
 
-            var pools = world.SpawnPoolEntries.AsNoTracking().Where(pool => pool.Id >= 790659 && pool.Id <= 790669).ToList();
+            var pools = world.SpawnPoolEntries.AsNoTracking().Where(pool => pool.Id >= 790659 && pool.Id <= 790660).ToList();
             Assert.AreEqual(N.Peacock, pools.Single().Id, "Peacock's pool only");
             var peacock = pools.Single();
             Assert.AreEqual((Map, N.Peacock, (byte)1, (byte)1, 0.0), (peacock.MapContextId, peacock.Creature1Id, peacock.Creature1MinCount, peacock.Creature1MaxCount, peacock.Radius),
@@ -1028,7 +1028,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsFalse(Missions.Any(Has));
             Assert.AreEqual(down, All());
             Assert.AreEqual(others, Others(world), "Down: nothing else changes");
-            Assert.IsTrue(AshenMissionTests.MissionIds.Where(id => !Missions.Contains(id)).All(Has), "sets 1-18 stay");
+            Assert.IsTrue(AshenMissionTests.MissionIds.Where(id => !Missions.Contains(id) && !AshenConscriptionQueenTests.Missions.Contains(id)).All(Has), "sets 1-18 stay");
             foreach (var sql in N.PadsDown())
                 world.Database.ExecuteSqlRaw(sql);
             foreach (var sql in N.Down())
