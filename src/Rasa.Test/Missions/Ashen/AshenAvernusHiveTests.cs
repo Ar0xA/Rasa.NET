@@ -157,7 +157,7 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>
-        /// The set's creatures in the id block 790650-790659: Tananda, Frogga, Vandeweghe and Zuriel friendly with the client's names,
+        /// The set's creatures in the id block 790650-790658: Tananda, Frogga, Vandeweghe and Zuriel friendly with the client's names,
         /// levels and packages (9728/1914, 9731/790651, 9733/1925, 9676/2075), each but Vandeweghe (1537's copy only: no public pool)
         /// alone in his pool on Avernus Outpost; the Bane's four (the Caretaker, Fithik, Miasma and Thrax rows' class, faction,
         /// stats and actions; level 43; 9037 "Mutated Miasma" and 9892 "Thrax Tunneler" by name) one each in the Bane's pool, 60 m+ outside every hostile pool's circle and 100 m+
@@ -169,7 +169,7 @@ namespace Rasa.Test.Missions.Ashen
         {
             using var harness = WildernessRuntimeTestHarness.Create();
             var world = harness.World;
-            var rows = world.CreatureEntries.AsNoTracking().Where(row => row.Id >= 790650 && row.Id <= 790659).ToList();
+            var rows = world.CreatureEntries.AsNoTracking().Where(row => row.Id >= 790650 && row.Id <= 790658).ToList();
             CollectionAssert.AreEquivalent(N.Creatures, rows.Select(row => row.Id).ToArray(), "the eight");
             foreach (var (id, _, _, name, level, package, _) in N.Friends)
             {
@@ -187,7 +187,7 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.IsFalse(world.NpcPackageEntries.AsNoTracking().Any(entry => entry.Id == id), $"{id}: no package");
             }
 
-            var all = world.SpawnPoolEntries.AsNoTracking().Where(pool => pool.Id >= 790650 && pool.Id <= 790659).ToList();
+            var all = world.SpawnPoolEntries.AsNoTracking().Where(pool => pool.Id >= 790650 && pool.Id <= 790658).ToList();
             CollectionAssert.AreEquivalent(Pools.Append(N.BanePool).ToArray(), all.Select(pool => pool.Id).ToArray(), "the set's pools (none for Vandeweghe)");
             foreach (var pool in all.Where(pool => Pools.Contains(pool.Id)))
             {
@@ -1022,7 +1022,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsFalse(Missions.Any(Has));
             Assert.AreEqual(down, All());
             Assert.AreEqual(others, Others(world), "Down: nothing else changes");
-            Assert.IsTrue(AshenMissionTests.MissionIds.Where(id => !Missions.Contains(id)).All(Has), "sets 1-17 stay");
+            Assert.IsTrue(AshenMissionTests.MissionIds.Where(id => !Missions.Contains(id) && !AshenConscriptionEntryTests.Missions.Contains(id)).All(Has), "sets 1-17 stay");
             foreach (var sql in N.PadsDown())
                 world.Database.ExecuteSqlRaw(sql);
             foreach (var sql in N.Down())

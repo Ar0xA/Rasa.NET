@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 62 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 65 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -9,8 +9,9 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 | Zone | Missions |
 | --- | ---: |
-| Ashen Desert | 56 |
+| Ashen Desert | 58 |
 | Avernus Outpost | 6 |
+| Bane Conscription Facility | 1 |
 
 ## Ashen Desert
 
@@ -20,7 +21,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 90000 XP; 6150 credits; choose 1 of: Laser Torqueshell Rifle, Endothermic Polarity Gun, Chaingun, Pulse Shotgun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 90,000 XP; 6,150 credits; Eclipse Laser Torqueshell Rifle; Vextronics Endothermic Polarity Gun; Vextronics Chaingun; Vextronics Pulse Shotgun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Angry_Angry_Atta)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -43,7 +44,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 90000 XP; 6150 credits; choose 1 of: Mech Armor Gloves, Stealth Armor Legs, Reflective Armor Legs, Motor Assist Armor Gloves — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 90,000 XP; 6,150 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Harmful_Mutations)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -66,7 +67,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 90000 XP; 6150 credits; choose 1 of: Motor Assist Armor Boots, Stealth Armor Gloves, Bio Armor Boots, Reflective Armor Gloves — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 90,000 XP; 6,150 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Chemical_Oversight)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -98,7 +99,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 90000 XP; 6150 credits; choose 1 of: Mech Armor Boots, Graviton Armor Gloves, Hazmat Armor Boots, Bio Armor Gloves — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 90,000 XP; 6,150 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Eyes_on_the_Ground)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -122,7 +123,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 180000 XP; 8200 credits; choose 1 of: Electric Torqueshell Rifle, Incendiary Injector Gun, Cryogenic Grenade Launcher, Laser Chaingun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 180,000 XP; 8,200 credits; Vextronics Electric Torqueshell Rifle; Teleract Incendiary Injector Gun; Vextronics Cryogenic RPG Launcher; ChiTech Laser Chaingun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Highway_to_Hell)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -142,7 +143,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 180000 XP; 8200 credits; choose 1 of: Flame Thrower, Electric Rifle, Cryogenic Leech Gun, Electric Chaingun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 180,000 XP; 8,200 credits; Vitalius Flame Thrower; Teleract Electric Rifle; Teleract Cryogenic Leech Gun; Vextronics Electric Chaingun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Air_Superiority)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -162,7 +163,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 90000 XP; 6150 credits; choose 1 of: Graviton Armor Vest, Hazmat Armor Gloves, Reflective Armor Vest, Bio Armor Vest — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 90,000 XP; 6,150 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Artillery_Annihilation)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -183,7 +184,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 30 — source: [TR MMO DB](https://web.archive.org/web/20081216162356/http://tr.mmodb.com:80/quests/the-dustiest-place-on-earth-641.php)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 42500 XP; 4000 credits; choose 1 of: Class VIII Advanced Med Pack, Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 42,500 XP; 4,000 credits; Class VIII Advanced Med Pack x2; Class VIII EMP Grenade x3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x3 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Dustiest_Place_on_Earth)
   - reward: 4000 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081216162356/http://tr.mmodb.com:80/quests/the-dustiest-place-on-earth-641.php)
@@ -210,7 +211,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade, Class VIII Basic Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 45,000 XP; 4,100 credits; Class VIII EMP Grenade x3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x3; Class VIII Basic Med Pack x6 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Formal_Complaints)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -235,7 +236,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); <=41 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade, Class VIII Basic Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 45,000 XP; 4,100 credits; Class VIII Cryogenic Grenade x3; Class VIII Basic Med Pack x3; Class VIII Incendiary Grenade x3; Class VIII Advanced Med Pack x2 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Human_Perspective)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -263,7 +264,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade, Class VIII Basic Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 45,000 XP; 4,100 credits; Class VIII EMP Grenade x3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x3; Class VIII Basic Med Pack x6 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_Bribe_for_Your_Thoughts)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -290,7 +291,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII Fragmentation Grenade, Class VIII EMP Bomb, Class VIII Cryogenic Grenade, Class VIII Standard Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 45,000 XP; 4,100 credits; Class VIII Fragmentation Grenade x3; Class VIII EMP Bomb; Class VIII Cryogenic Grenade x3; Class VIII Standard Med Pack x3 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Court_Martial_Arts)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -317,7 +318,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 30 — source: [TR MMO DB](https://web.archive.org/web/20081216162411/http://tr.mmodb.com:80/quests/xanxless-job-644.php)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 95000 XP; 6300 credits; choose 1 of: Bio Armor Legs, Mech Armor Legs, Graviton Armor Boots, Motor Assist Armor Helmet — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 95,000 XP; 6,300 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Xanxless_Job)
   - reward: 6300 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081216162411/http://tr.mmodb.com:80/quests/xanxless-job-644.php)
@@ -344,7 +345,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 95000 XP; 6300 credits; choose 1 of: Laser Torqueshell Rifle, Kinetic Staff, Virulent Leech Gun, Incendiary Shotgun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 95,000 XP; 6,300 credits; ChiTech Laser Torqueshell Rifle; Vextronics Kinetic Staff; Vextronics Virulent Leech Gun; Teleract Incendiary Shotgun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Fallen_Soldiers)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -372,7 +373,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 95000 XP; 6300 credits; choose 1 of: Graviton Armor Gloves, Motor Assist Armor Legs, Hazmat Armor Legs, Reflective Armor Legs — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 95000 XP; 6,300 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Recovery)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -398,7 +399,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 200000 XP; 6300 credits; choose 1 of: Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade, Class VIII Basic Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 200000 XP; 6,300 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Heavy_Salvage_Recovery)
   - drops / mission items: Down one of each, Preditor can be found on Sheitan Highway, Stalkers in the Boneyard — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Heavy_Salvage_Recovery)
@@ -425,7 +426,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 95000 XP; 6300 credits; choose 1 of: Incendiary Injector Gun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 95000 XP; 6,300 credits; Audiodyne Incendiary Injector Gun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Recovery)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -451,7 +452,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 95000 XP; 6300 credits; choose 1 of: Armor Module: Resist Electric [4], Armor Module: Resist Fire [4], Armor Module: Resist Ice [4], Armor Module: Resist Virulent [4] — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 6,300 credits; Modification: Electric Resistance; Modification: Fire Resistance; Modification: Ice Resistance; Modification: Virulent Resistance — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Robotic_Salvage_Acquisitions)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -480,7 +481,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 200000 XP; 6300 credits; choose 1 of: Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade, Class VIII Basic Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: NPC Shinichiro Ito: Plains, Ashoka Settlement, /loc 556, 248, -320 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Shinichiro_Ito)
@@ -506,7 +507,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 95000 XP; 6300 credits; choose 1 of: Cryogenic Blade, Area Healing Disc, Sonic Pistol, Pulse Staff — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 6,300 credits; Shinobi Cryogenic Blade; Astra Radial Healing Disc; ChiTech Sonic Pistol; Teleract Pulse Staff — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Weapon_Salvage_Acquisitions)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -534,7 +535,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 190000 XP; 8400 credits; choose 1 of: Pulse Disperser, Cryogenic Injector Gun, Incendiary Net Gun, Electric Pistol — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 190,000 XP; 8,400 credits; Vextronics Pulse Disperser; Vextronics Cryogenic Injector Gun; Vextronics Incendiary Net Gun; Vextronics Electric Pistol — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Stalking_the_Stalkers)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -555,7 +556,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 30 — source: [TR MMO DB](https://web.archive.org/web/20081216162338/http://tr.mmodb.com:80/quests/report-to-stonewall-ridge-643.php)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII Incendiary Grenade, Class VIII Advanced Med Pack, Class VIII EMP Grenade, Class VIII Res Trauma Kit — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 45,000 XP; 4,100 credits; Class VIII Incendiary Grenade x3; Class VIII Advanced Med Pack x2; Class VIII EMP Grenade x3; Class VIII Res Trauma Kit — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Report_to_Stonewall_Ridge)
   - reward: 4100 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081216162338/http://tr.mmodb.com:80/quests/report-to-stonewall-ridge-643.php)
@@ -580,7 +581,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 90000 XP; 6150 credits; choose 1 of: Armor Module: Resist Physical [4], Tool Module: Threat Reduction [4], Weapon Module: Debuff Electric Resist [4], Armor Module: Resist Fire [4] — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 90,000 XP; 6,150 credits; Modification: Physical Resistance; Modification: Threat Reduction; Modification: Debuff to Electric Resist; Modification: Fire Resistance — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Fithik_Infestation)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -600,7 +601,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 95000 XP; 6300 credits; choose 1 of: Sonic Rifle, Endothermic Polarity Gun, Sonic Cannon, Pulse Shotgun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 95,000 XP; 6,300 credits; ChiTech Sonic Rifle; Vextronics Endothermic Polarity Gun; Vextronics Sonic RPG Launcher; Vextronics Pulse Shotgun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Cycled_Frequencies)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -623,7 +624,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 190000 XP; 8400 credits; choose 1 of: Cryogenic Blade, Electric Rifle, Chaingun, Pistol — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 190,000 XP; 8,400 credits; Vextronics Cryogenic Blade; Vextronics Electric Rifle; Vextronics Chaingun; Vextronics Pistol — source: [TaRapedia](https://tabularasa.fandom.com/wiki/On_The_Same_Frequency)
   - drops / mission items: The Radar Operations Console for each tower can be found on the top floor, through the teleporter — source: [TaRapedia](https://tabularasa.fandom.com/wiki/On_The_Same_Frequency)
@@ -650,7 +651,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 190000 XP; 8400 credits; choose 1 of: Bio Armor Helmet, Hazmat Armor Gloves, Reflective Armor Gloves, Motor Assist Armor Boots — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 190,000 XP; 8,400 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/King_of_the_Hill)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -675,43 +676,52 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 
 - **Rebuild summary:**
+  - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 95000 XP; 6300 credits; choose 1 of: Bio Armor Vest, Stealth Armor Gloves, Graviton Armor Gloves, Hazmat Armor Helmet — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 95,000 XP; 6,300 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Missing_Scientists)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** Find the body of Researcher Veyon in Indra Pass and recover the Indra Lightning Resistor Codes. Return to Surveyor Odesh in Indra Caves once you have recovered the codes.
   - objectives (client): Recover Resistor Codes
+- **This PR:** revision `ashen_1_16_5`, level 41, solo, category 10000016 (Battlefield (Ashen Desert)), giver Surveyor Malya Odesha
+  - reward: 95000 XP; 6300 credits; choose 1 of: Bio Armor Vest, Stealth Armor Gloves, Graviton Armor Gloves, Hazmat Armor Helmet
 - **TaRapedia** [Missing Scientists](https://tabularasa.fandom.com/wiki/Missing_Scientists): giver: Surveyor Malya Odesha; at: Indra Pass; zone: Ashen Desert; requires: None; follow-up: God of Storms; XP: 95,000; credits: 6,300; reward from: Surveyor Malya Odesha
   - overview: Find the body of Researcher Veyon in Indra Pass and recover the Indra Lightning Resistor Codes. Return to Surveyor Odesh in Indra Caves once you have recovered the codes.
   - objectives: • Recover Resistor Codes • x/1
 - **TaRapedia mission list** [Indra Pass mission list](https://tabularasa.fandom.com/wiki/Indra_Pass_mission_list): zone Ashen Desert, area Indra Pass, given by Surveyor Malya Odesha
 
-- **Chain** (explicit prerequisite links): Missing Scientists chain (3 missions), step 1
-  - Leads to: God of Storms (id 1281) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_of_Storms), [TaRapedia](https://tabularasa.fandom.com/wiki/Missing_Scientists)
-  - Leads to: The Bonds of Blood (id 1282) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Bonds_of_Blood)
+- **Chain** (explicit prerequisite links): Missing Scientists chain (10 missions), step 1
+  - Leads to: God of Storms (id 1281) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_of_Storms), [TaRapedia](https://tabularasa.fandom.com/wiki/Missing_Scientists), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: The Bonds of Blood (id 1282) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Bonds_of_Blood), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Indra Caverns (id 1559) — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
 ### 1281 — God of Storms
 
 
 - **Instance mentioned:** Bane Conscription Facility — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
 - **Rebuild summary:**
-  - level: <=42 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_of_Storms)
+  - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); <=42 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_of_Storms)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 190000 XP; 8400 credits; choose 1 of: Rocket Launcher, Electric Staff, Incendiary Injector Gun, Shotgun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 190,000 XP; 8,400 credits; Vextronics Rocket Launcher; Vitalius Electric Staff; AccuMax Incendiary Injector Gun; AccuMax Shotgun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_of_Storms)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** Find the 10 Indra Lightning Resistors and reprogram them so they create a feedback loop to disrupt the Bane Conscription Facility. If you finish programming all 10 Resistors, then you will lose the opportunity to find Maiek. Report back to Surveyor Odesha once you are finished so he can finish the …
   - objectives (client): Sabotage Resistor 1; Sabotage Resistor 2; Sabotage Resistor 3; Sabotage Resistor 4; Sabotage Resistor 5; Sabotage Resistor 6; Sabotage Resistor 7; Sabotage Resistor 8; Sabotage Resistor 9; Sabotage Resistor 10 … (+1 more)
+- **This PR:** revision `ashen_1_16_5`, level 42, solo, category 10000016 (Battlefield (Ashen Desert)), giver Surveyor Malya Odesha
+  - reward: 190000 XP; 8400 credits; choose 1 of: Rocket Launcher, Electric Staff, Incendiary Injector Gun, Shotgun
+  - prerequisites: Requires completed mission 1280
 - **TaRapedia** [God of Storms](https://tabularasa.fandom.com/wiki/God_of_Storms): giver: Surveyor Malya Odesha; at: Indra Pass; zone: Ashen Desert; level: <=42; requires: Missing Scientists; follow-up: None; XP: 190,000; credits: 8,400; items: Vextronics Rocket Launcher; Vitalius Electric Staff; AccuMax Incendiary Injector Gun; AccuMax Shotgun; reward from: Surveyor Malya Odesha
   - overview: Find the 10 Indra Lightning Resistors and reprogram them so they create a feedback loop to disrupt the Bane Conscription Facility. If you finish programming all 10 Resistors, then you will loose the ooportunity to find Maiek. Report back to Surveyor Odesha once you are finished so he can finish the …
   - objectives: • Sabotage Resistor 1 • Sabotage Resistor 2 • Sabotage Resistor 3 • Sabotage Resistor 4 • Sabotage Resistor 5 • Sabotage Resistor 6 • Sabotage Resistor 7 • Sabotage Resistor 8 • Sabotage Resistor 9 • Sabotage Resistor 10
   - walkthrough: NOTE: Surveyer Endala Berish will offer you a competing quest to rescue her brother. Once you accept "god of storms" you cannot get see or accept her quest.
 - **TaRapedia mission list** [Indra Pass mission list](https://tabularasa.fandom.com/wiki/Indra_Pass_mission_list): zone Ashen Desert, area Indra Pass, given by Surveyor Malya Odesha
 
-- **Chain** (explicit prerequisite links): Missing Scientists chain (3 missions), step 2
-  - Requires: Missing Scientists (id 1280) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_of_Storms), [TaRapedia](https://tabularasa.fandom.com/wiki/Missing_Scientists)
+- **Chain** (explicit prerequisite links): Missing Scientists chain (10 missions), step 2
+  - Requires: Missing Scientists (id 1280) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_of_Storms), [TaRapedia](https://tabularasa.fandom.com/wiki/Missing_Scientists), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
 ### 1282 — The Bonds of Blood [instance]
 
@@ -719,13 +729,18 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Instance:** Indra Caverns — NPC Researcher Endala Berish (NPC page lists this mission) is in Indra Caverns — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Researcher_Endala_Berish)
 - **Instance mentioned:** Bane Conscription Facility — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
 - **Rebuild summary:**
+  - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 200000 XP; 8600 credits; choose 1 of: Leech Gun, Electric Net Gun, Pistol, Incendiary Grenade Launcher — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 200,000 XP XP; 8,600 credits; Vitalius Leech Gun (Lvl44); Vextronics Electric Net Gun (Lvl41); ChiTech Pistol (Lvl40); Teleract Incendiary RPG Launcher (Lvl40) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Bonds_of_Blood)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: NPC Researcher Endala Berish: Ashen Desert, Indra Caverns, /loc 312, 324, 293 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Researcher_Endala_Berish)
 - **Client:** Infiltrate the Bane Conscription Base and find where they are holding Researcher Maiek Berish. If you find Maiek, then you will lose the opportunity to reprogram the Lightning Resistors and damage the Bane Conscription Facility. Return to Endala Berish in Indra Caves once you have found him.
   - objectives (client): Find Researcher Maiek Barish; Talk to Endala Berish; Flag Reader
+- **This PR:** revision `ashen_1_16_5`, level 42, solo, category 10000016 (Battlefield (Ashen Desert)), giver Researcher Endala Berish
+  - reward: 200000 XP; 8600 credits; choose 1 of: Leech Gun, Electric Net Gun, Pistol, Incendiary Grenade Launcher
+  - prerequisites: Requires completed mission 1280
 - **TaRapedia** [The Bonds of Blood](https://tabularasa.fandom.com/wiki/The_Bonds_of_Blood): giver: Researcher Endala Berish; at: Indra Pass; zone: Ashen Desert; requires: Missing Scientists; follow-up: None; XP: 200,000 XP; credits: 8,600; items: Vitalius Leech Gun (Lvl44); Vextronics Electric Net Gun (Lvl41); ChiTech Pistol (Lvl40); Teleract Incendiary RPG Launcher (Lvl40); reward from: Researcher Endala Berish
   - overview: • Find Researcher Endala Berish's brother in the Bane Conscription Base before it's too late.
   - objectives: • Find Researcher Maiek Barish
@@ -734,8 +749,8 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **NPCs (TaRapedia NPC pages):**
   - [Researcher Endala Berish](https://tabularasa.fandom.com/wiki/Researcher_Endala_Berish): Ashen Desert, Indra Caverns, /loc 312, 324, 293 (NPC page lists this mission)
 
-- **Chain** (explicit prerequisite links): Missing Scientists chain (3 missions), step 2
-  - Requires: Missing Scientists (id 1280) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Bonds_of_Blood)
+- **Chain** (explicit prerequisite links): Missing Scientists chain (10 missions), step 2
+  - Requires: Missing Scientists (id 1280) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Bonds_of_Blood), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
 ### 1283 — Good Day to Die
 
@@ -743,7 +758,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 45000 XP; 4100 credits; choose 1 of: Class VIII Concussion Grenade, Class VIII Basic Med Pack, Class VIII Fragmentation Grenade, Class VIII EMP Bomb — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 45,000 XP; 4,100 credits; Class VIII Concussion Grenade x3; Class VIII Basic Med Pack x6; Class VIII Fragmentation Grenade x3; Class VIII EMP Bomb — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Good_Day_to_Die)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -765,7 +780,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 40 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 47500 XP; 4200 credits; choose 1 of: Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade, Class VIII Basic Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 47,500 XP; 4,200 credits; Class VIII EMP Grenade x3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x3; Class VIII Basic Med Pack x6 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/You_Can%27t_Drink_Ash)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -785,7 +800,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 190000 XP; 8400 credits; choose 1 of: Stealth Armor Boots, Graviton Armor Helmet, Hazmat Armor Legs, Motor Assist Armor Legs — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 190,000 XP; 8,400 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Dearly_Departed)
   - drops / mission items: Yamamoto's Wedding Ring: Overview: Yamamoto's Wedding Ring was lost during a battle with the Bane. Captain Aiko Yamamoto kept it as a memento of his wife, who was slain at their hands. It … — source: [TaRapedia item](https://tabularasa.fandom.com/wiki/Yamamoto%27s_Wedding_Ring)
@@ -818,13 +833,17 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 
 - **Rebuild summary:**
+  - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 190000 XP; 8400 credits; choose 1 of: Bio Armor Gloves, Graviton Armor Helmet, Mech Armor Gloves, Stealth Armor Gloves — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 190000 XP; 8400 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Precious_Tools)
   - drops / mission items: Dropped by Overseer Jirex — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Precious_Tools)
   - location: zone Ashen Desert only
 - **Client:** Mechanic Raji Lasat in Ashoka Settlement has lost his lucky wrench while scavenging for parts in the Boneyard. He believes that one of the Thrax took it. Return Raji's Lucky Wrench to Mechanic Raji Lasat once you have found it.
   - objectives (client): Recover Raji's Lucky Wrench
+- **This PR:** revision `ashen_1_16_5`, level 42, solo, category 10000016 (Battlefield (Ashen Desert)), giver Mechanic Raji Lasat
+  - reward: 190000 XP; 8400 credits; choose 1 of: Bio Armor Gloves, Graviton Armor Helmet, Mech Armor Gloves, Stealth Armor Gloves
 - **TaRapedia** [Precious Tools](https://tabularasa.fandom.com/wiki/Precious_Tools) [stub]: giver: Mechanic Raji Lasat; at: Ashoka Settlement; zone: Ashen Desert; follow-up: None; XP: 190000; credits: 8400; reward from: Mechanic Raji Lasat
   - overview: Mechanic Raji Lasat in Ashoka Settlement has lost his lucky wrench while scavenging for parts in the Boneyard. He believes that one of the Thrax took it. Return Raji's Lucky Wrench once you have found it.
   - objectives: • Recover Raji's Lucky Wrench
@@ -839,7 +858,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 180000 XP; 8200 credits; choose 1 of: Motor Assist Armor Legs, Mech Armor Legs, Bio Armor Legs, Graviton Armor Legs — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 180,000 XP; 8,200 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Designer_Jewelry_Gone_Wrong)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -863,7 +882,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 180000 XP; 8200 credits; choose 1 of: Cryogenic Injector Gun, Laser Cannon, Pulse Chaingun, Pistol — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 180,000 XP; 8,200 credits; Vextronics Cryogenic Injector Gun; Vextronics Laser Cannon; Vextronics Pulse Chaingun; Vextronics Pistol — source: [TaRapedia](https://tabularasa.fandom.com/wiki/I_Wouldn%27t_Wear_It%2C_But...)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -889,7 +908,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 190000 XP; 8400 credits; choose 1 of: Electric Polarity Gun, Electric Net Gun, Sonic Cannon, Electric Chaingun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 190,000 XP; 8,400 credits; ChiTech Electric Polarity Gun; Vextronics Electric Net Gun; Vextronics Sonic Cannon; Vextronics Electric Chaingun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/A_New_Fad)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -914,7 +933,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 200000 XP; 8600 credits; choose 1 of: Sonic Torqueshell Rifle, Virulent Disperser, Electric Polarity Gun, Laser Pistol — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 200,000 XP; 8,600 credits; AccuMax Sonic Torqueshell Rifle; Eclipse Virulent Disperser; Vextronics Electric Polarity Gun; Vextronics Laser Pistol — source: [TaRapedia](https://tabularasa.fandom.com/wiki/All_the_Latest_Rage%21)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -939,7 +958,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 100000 XP; 6450 credits; choose 1 of: Flame Thrower, Incendiary Net Gun, Cryogenic Leech Gun, Pulse Rifle — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 6,450 credits; Vextronics Flame Thrower; Vextronics Incendiary Net Gun; Vextronics Cryogenic Leech Gun; Vextronics Pulse Rifle — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Analyzing_the_Harvesters)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -963,7 +982,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 50000 XP; 4300 credits; choose 1 of: Class VIII Basic Med Pack, Class VIII EMP Bomb, Class VIII Fragmentation Grenade, Class VIII Cryogenic Grenade — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 50000 XP; 4300 credits; Class VIII Basic Med Pack (6); Class VIII EMP Bomb; Class VIII Frag Grenade (3); Class VIII Cryogenic Grenade (3) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Murky_Waters)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -989,7 +1008,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 95000 XP; 6300 credits; choose 1 of: Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade, Class VIII Basic Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
@@ -1009,7 +1028,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 100000 XP; 6450 credits; choose 1 of: Mech Armor Legs, Graviton Armor Vest, Bio Armor Vest, Stealth Armor Vest — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 6,450 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Neurotoxins)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -1035,7 +1054,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 45000 XP; 4000 credits; choose 1 of: Armor Module: Resist Fire [4], Armor Module: Resist Ice [4], Armor Module: Resist Virulent [4], Armor Module: Resist Electric [4] — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 4,000 credits; Modification: Fire Resistance; Modification: Ice Resistance; Modification: Virulent Resistance; Modification: Electric Resistance — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Poisoning_the_Wellwater)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -1059,7 +1078,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 95000 XP; 6300 credits; choose 1 of: Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade, Class VIII Basic Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: Ulovik: /loc -235, 335, zone Ashen Desert — source: [Ellatha boss NPC](https://www.ellatha.com/tr/bossnpcview.asp?key=Ulovik&id=63)
@@ -1082,7 +1101,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 200000 XP; 8600 credits; choose 1 of: Incendiary Blade, Pulse Cannon, Photonic Shotgun, Cryogenic Injector Gun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 200,000 XP; 8,600 credits; Vextronics Incendiary Blade; Vextronics Pulse Cannon; Vextronics Photonic Shotgun; Vitalius Cryogenic Injector Gun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Death_from_Above)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -1113,7 +1132,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 100000 XP; 6450 credits; choose 1 of: Bio Armor Legs, Stealth Armor Helmet, Hazmat Armor Vest, Motor Assist Armor Legs — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 100,000 XP; 6,450 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Turning_Out_the_Lights)
   - drops / mission items: not found (not critical, or not a collect mission)
@@ -1140,7 +1159,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); guide mentions “ers, too, for that matter). The boss and the caretakers are level 30 while the other linkers are level 29. A” (context only; may be a creature or item level) — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/tabula-rasa-energy-center-guide)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 200000 XP; 8600 credits; choose 1 of: Mech Armor Boots, Graviton Armor Vest, Bio Armor Gloves, Reflective Armor Helmet — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 200,000 XP; 8,600 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/The_Strongest_Link_%28Ashen_Desert%29)
   - reward: “Wolfe gives you the choice of a Prodigy Graviton Armor Helmet (blue), Pulsar Bio Armor Gloves (blue), Pulsar Mech Armor Legs (purple), and a Vextronics Incendiary Net Gun (blue).” — source: [Ten Ton Hammer](https://www.tentonhammer.com/guides/tabula-rasa-energy-center-guide)
@@ -1179,7 +1198,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Rebuild summary:**
   - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
   - reward: 95000 XP; 6300 credits; choose 1 of: Class VIII EMP Grenade, Class VIII Res Trauma Kit, Class VIII Concussion Grenade, Class VIII Basic Med Pack — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
@@ -1196,13 +1215,17 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 
 - **Rebuild summary:**
+  - level: 41 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 95000 XP; 6300 credits; choose 1 of: Mech Armor Vest, Graviton Armor Legs, Hazmat Armor Boots, Reflective Armor Boots — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 95,000 XP; 6,300 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Supply_Logistics)
   - drops / mission items: Captain Emmons can be found on Stonewall Ridge — source: client text
   - location: zone Ashen Desert only
 - **Client:** Deliver the Tactical Military Supplies to the 5 Captains in the field. Captain Botha and Captain Harris can be found in Ashoka Settlement. Captain Yamamoto can be found in the Boneyard. Captain Emmons can be found on Stonewall Ridge. Captain Linier can be found in White Oasis Post. Report back to …
   - objectives (client): Deliver to Captain Botha; Deliver to Captain Harris; Deliver to Captain Emmons; Deliver to Captain Yamamoto; Deliver to Captain Linier
+- **This PR:** revision `ashen_1_16_5`, level 41, solo, category 10000016 (Battlefield (Ashen Desert)), giver Lieutenant Daniel Chase
+  - reward: 95000 XP; 6300 credits; choose 1 of: Mech Armor Vest, Graviton Armor Legs, Hazmat Armor Boots, Reflective Armor Boots
 - **TaRapedia** [Supply Logistics](https://tabularasa.fandom.com/wiki/Supply_Logistics): giver: Lieutenant Daniel Chase; at: Shadow's Edge Post; zone: Ashen Desert; requires: None; follow-up: None; XP: 95,000; credits: 6,300; reward from: Lieutenant Daniel Chase
   - overview: Deliver the Tactical Military Supplies to the 5 Captains in the field. Captain Botha and Captain Harris can be found in Ashoka Settlement. Captain Yamamoto can be found in The Boneyard. Captain Emmons can be found on Stonewall Ridge. Captain Linier can be found in White Oasis Post. Report back to …
   - objectives: • Deliver to Captain Botha • Deliver to Captain Harris • Deliver to Captain Emmons • Deliver to Captain Yamamoto • Deliver to Captain Linier
@@ -1215,13 +1238,18 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 - **Instance mentioned:** Indra Caverns — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
 - **Rebuild summary:**
+  - level: 43 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 120000 XP; 9000 credits; choose 1 of: Graviton Armor Legs, Hazmat Armor Helmet, Reflective Armor Gloves, Motor Assist Armor Helmet — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 120,000 XP; 9,000 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold)
   - drops / mission items: :Most were slaughtered during the attack, which must have come from somewhere within the caverns because our watch post at the entrance to the facility was attacked from behind — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold)
   - location: zone Ashen Desert only
 - **Client:** Get rid of any Bane manning Indra Watch Post. Check for the body of Guard Bendal, you may be able to find his key card for access to the facility. Once inside, seek out Sergeant Drof and his team. If they are still alive, deliver the supply package Diren provided you and ask Drof if he needs your …
   - objectives (client): Find Guard Rolim Bendal — Go to Indra Watch Post at the entrance of Indra Caverns and find the body of Guard Rolim Bendal. Search his body for a set of key cards to gain access to the …; Find the Missing Recon Team — Enter the Brann Facility and look for Sergeant Jonas Drof and his team. Deliver the supply package Major Diren provided you if he is still alive.; Take Back Indra Watch Post — Kill all of the Bane manning Indra Watch Post at the entrance to Indra Storage Facility.
+- **This PR:** revision `ashen_1_16_5`, level 43, solo, category 10000016 (Battlefield (Ashen Desert)), giver Major Darkua Diren → Sergeant Jonas Drof
+  - reward: 120000 XP; 9000 credits; choose 1 of: Graviton Armor Legs, Hazmat Armor Helmet, Reflective Armor Gloves, Motor Assist Armor Helmet
+  - prerequisites: Requires completed mission 1559
 - **TaRapedia** [Threshold](https://tabularasa.fandom.com/wiki/Threshold): giver: Major Darkua Diren; at: Indra Caverns; zone: Ashen Desert; requires: Indra Caverns; follow-up: Vindication; XP: 120,000; credits: 9,000; reward from: Sergeant Jonas Drof
   - overview: Get rid of any Bane manning Indra Watch Post. Check for the body of Guard Bendal, you may be able to find his key card for access to the facility. Once inside, seek out Sergeant Drof and his team. If they are still alive, deliver the supply package Diren provided you and ask Drof if he needs your …
   - objectives: • Take Back Indra Watch Post • Find Guard Rolim Bendal • Find the Missing Recon Team
@@ -1231,9 +1259,9 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Drops / item sources:**
   - :Most were slaughtered during the attack, which must have come from somewhere within the caverns because our watch post at the entrance to the facility was attacked from behind — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold)
 
-- **Chain** (explicit prerequisite links): Indra Caverns chain (4 missions), step 2
-  - Requires: Indra Caverns (id 1559) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Indra_Caverns_%28mission%29), [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold)
-  - Leads to: Vindication (id 1395) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold), [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication)
+- **Chain** (explicit prerequisite links): Missing Scientists chain (10 missions), step 3
+  - Requires: Indra Caverns (id 1559) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Indra_Caverns_%28mission%29), [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Vindication (id 1395) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold), [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 - **Requires an instance mission:** Indra Caverns (1559) — source: the chain links above
 
 ### 1395 — Vindication
@@ -1241,13 +1269,18 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 - **Instance mentioned:** Indra Caverns — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
 - **Rebuild summary:**
+  - level: 43 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 110000 XP; 8800 credits; choose 1 of: Cryogenic Blade, Virulent Disperser, Endothermic Polarity Gun, Cryogenic Leech Gun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 110,000 XP; 8,800 credits; Vextronics Cryogenic Blade; Vextronics Virulent Disperser; Vextronics Endothermic Polarity Gun; Vextronics Cryogenic Leech Gun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication)
   - drops / mission items: Use the Thrax Hand found on the Overseer's body to unlock Naimi's cell — source: client text
   - location: zone Ashen Desert only
 - **Client:** Sergeant Drof has asked you to find his missing scouts. Scout Naimi has probably been captured and has the Power Supply needed to reactivate the console. Scout Aksrah has the Radio. It's likely he may have been killed. Find the two Scouts, retrieve the requested items, and return to Drof.
   - objectives (client): Find Scout Aksrah — Find Scout Nunara Aksrah, or his body, and retrieve the missing radio.; Find Scout Naimi — Find and rescue Scout Hansa Naimi, and retrieve the power supply needed to activate the console in the Control Room.; Defeat Thrax Overseer Kuutk; Retrieve the Power Supply — Scout Naimi hid the power supply in a supply crate in one of the rooms in this facility before he was captured. Go get the power supply and return to Sergeant …; Free the Prisoner — Before you can rescue Scout Naimi, you'll need to find a way to unlock his cell. Use the Thrax Hand found on the Overseer's body to unlock Naimi's cell.
+- **This PR:** revision `ashen_1_16_5`, level 43, solo, category 10000016 (Battlefield (Ashen Desert)), giver Sergeant Jonas Drof
+  - reward: 110000 XP; 8800 credits; choose 1 of: Cryogenic Blade, Virulent Disperser, Endothermic Polarity Gun, Cryogenic Leech Gun
+  - prerequisites: Requires completed mission 1360
 - **TaRapedia** [Vindication](https://tabularasa.fandom.com/wiki/Vindication): giver: Sergeant Jonas Drof; at: Indra Caverns; zone: Ashen Desert; requires: Threshold; follow-up: Digging for the Truth; XP: 110,000; credits: 8,800; items: Vextronics Cryogenic Blade; Vextronics Virulent Disperser; Vextronics Endothermic Polarity Gun; Vextronics Cryogenic Leech Gun
   - overview: Sergeant Drof has asked you to find his missing scouts. Scout Naimi has probably been captured and has the Power Supply needed to reactivate the console. Scout Aksrah has the Radio. It's likely he may have been killed. Find the two Scouts, retrieve the requested items, and return to Drof.
   - objectives: • Find Scout Aksrah • Find Scout Naimi • Defeat Thrax Overseer Kuutk • Free the Prisoner • Retrieve the Power Supply
@@ -1255,101 +1288,178 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Drops / item sources:**
   - Use the Thrax Hand found on the Overseer's body to unlock Naimi's cell — source: client text
 
-- **Chain** (explicit prerequisite links): Indra Caverns chain (4 missions), step 3
-  - Requires: Threshold (id 1360) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold), [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication)
-  - Leads to: Digging for the Truth (id 1447) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Digging_for_the_Truth), [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication)
+- **Chain** (explicit prerequisite links): Missing Scientists chain (10 missions), step 4
+  - Requires: Threshold (id 1360) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold), [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Digging for the Truth (id 1447) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Digging_for_the_Truth), [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
 ### 1447 — Digging for the Truth
 
 
 - **Instance mentioned:** Indra Caverns — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
 - **Rebuild summary:**
+  - level: 43 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 110000 XP; 8800 credits; choose 1 of: Torqueshell Rifle, Sonic Disperser, Electric Rifle, Virulent Injector Gun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 110,000 XP; 8,800 credits; Teleract Torqueshell Rifle; Vitalius Sonic Disperser; Vextronics Electric Rifle; Vextronics Virulent Injector Gun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Digging_for_the_Truth)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** Explore the cave area outside the rear exit of the storage facility. Find out where the Bane came from, and see if you can figure out what they want with Indra Caverns.
   - objectives (client): Destroy Mining Equipment — It seems the Bane are mining resources from Indra Caverns. Now we know why they came here. Destroy all of the mining equipment in this area to disrupt their …; Find the Rear Cave Entrance — The Bane attacked the storage facility from within the caves. Explore the cave room outside the back exit of the facility and find the Bane's point of entry.; Explore the Tunnel — It appears the Bane dug through the mountain to reach the storage facility. See if this tunnel system leads anywhere and let us know what you find out.; Restore Power and Use the Teleporters — Use the power supply Drof gave you to restore power to the Power Supply Box to unlock the door to the rear exit of the facility. The Power Supply Box is …; Articulated Drill (1 of 6); Articulated Drill (2 of 6); Articulated Drill (3 of 6); Articulated Drill (4 of 6); Articulated Drill (5 of 6); Articulated Drill (6 of 6)
+- **This PR:** revision `ashen_1_16_5`, level 43, solo, category 10000016 (Battlefield (Ashen Desert)), giver Sergeant Jonas Drof
+  - reward: 110000 XP; 8800 credits; choose 1 of: Torqueshell Rifle, Sonic Disperser, Electric Rifle, Virulent Injector Gun
+  - prerequisites: Requires completed mission 1395
 - **TaRapedia** [Digging for the Truth](https://tabularasa.fandom.com/wiki/Digging_for_the_Truth) [stub]: giver: Sergeant Jonas Drof; at: Indra Caverns; zone: Ashen Desert; requires: Vindication; follow-up: None; XP: 110,000; credits: 8,800; items: Teleract Torqueshell Rifle; Vitalius Sonic Disperser; Vextronics Electric Rifle; Vextronics Virulent Injector Gun; reward from: Headquarters
   - overview: Explore the cave area outside the rear exit of the storage facility. Find out where the Bane came from, and see if you can figure out what they want with Indra Caverns.
   - objectives: • Restore Power and Use the Teleporters • Find the Rear Cave Entrance • Explore the Tunnel • Destroy Mining Equipment • Articulated Drill (1 of 6) • Articulated Drill (2 of 6) • Articulated Drill (3 of 6) • Articulated Drill (4 of 6) • Articulated Drill (5 of 6) • Articulated Drill (6 of 6)
 - **TaRapedia mission list** [Indra Caverns mission list](https://tabularasa.fandom.com/wiki/Indra_Caverns_mission_list): zone Ashen Desert, given by Sergeant Jonas Drof
 
-- **Chain** (explicit prerequisite links): Indra Caverns chain (4 missions), step 4
-  - Requires: Vindication (id 1395) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Digging_for_the_Truth), [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication)
+- **Chain** (explicit prerequisite links): Missing Scientists chain (10 missions), step 5
+  - Requires: Vindication (id 1395) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Digging_for_the_Truth), [TaRapedia](https://tabularasa.fandom.com/wiki/Vindication), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Meet Sergeant Drof (id 1532) — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
 ### 1451 — Subversion
 
 
 - **Instance mentioned:** Indra Caverns — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
 - **Rebuild summary:**
+  - level: 44 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 110000 XP; 9000 credits; choose 1 of: Pulse Rifle, Incendiary Staff, Direct Repair Tool, Leech Gun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 9,000 credits; Vextronics Pulse Rifle; AccuMax Incendiary Staff; Phoenix Direct Repair Tool; Titan Tissue Extractor — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Subversion)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** Shut down operations in Gotha Processing Plant. Re-program the Gas Flow Control Valves to divert gas flow. This should create a chain reaction causing the pipes to explode. Then, find your way to the Barracks and shut down all Thrax Life Support Systems. Speak to Sergeant Drof for your reward.
   - objectives (client): Sabotage Gotha Processing — Sabotage Gotha Processing Plant by re-programming each of the two Gas Flow Controls. You should be able to create a chain reaction causing an explosion in the …; Shut Down Thrax Life Support — Find the Thrax Barracks and shut down their Life Support Systems.; Gas Flow Control (1 of 2); Gas Flow Control (2 of 2); Thrax Life Support System (1 of 4); Thrax Life Support System (2 of 4)
+- **This PR:** revision `ashen_1_16_5`, level 44, solo, category 10000016 (Battlefield (Ashen Desert)), giver Sergeant Jonas Drof
+  - reward: 110000 XP; 9000 credits; choose 1 of: Pulse Rifle, Incendiary Staff, Direct Repair Tool, Leech Gun
+  - prerequisites: Requires completed mission 1532
 - **TaRapedia** [Subversion](https://tabularasa.fandom.com/wiki/Subversion) [bug noted]: giver: Sergeant Jonas Drof; at: Indra Caverns; zone: Ashen Desert; requires: Meet Sergeant Drof; follow-up: None; credits: 9,000; items: Vextronics Pulse Rifle; AccuMax Incendiary Staff; Phoenix Direct Repair Tool; Titan Tissue Extractor; reward from: Headquarters
   - overview: Shut down operations in Gotha Processing Plant. Re-program the Gas Flow Control Valves to divert gas flow. This should create a chain reaction causing the pipes to explode. Then, find your way to the Barracks and shut down all Thrax Life Support Systems. Speak to Sergeant Drof for your reward.
   - objectives: • Sabotage Gotha Processing • Shut Down Thrax Life Support • Gas Flow Control (1 of 2) • Gas Flow Control (2 of 2) • Thrax Life Support System (1 of 4) • Thrax Life Support System (2 of 4) • Thrax Life Support System (3 of 4) • Thrax Life Support System (4 of 4)
   - walkthrough: Take the east exit from the Juggernaut bay to reach the life support rooms. There are four switches on pedestals to activate - after you throw each one, 6 Thrax spawn. Once the objectives are complete, the mission text says to return to Sergeant Drof. However, the mission is completed by selecting the 'Radio HQ' button with the mission selected in the mission log, rather than by returning to the Sergeant.
 - **TaRapedia mission list** [Indra Caverns mission list](https://tabularasa.fandom.com/wiki/Indra_Caverns_mission_list): zone Ashen Desert, given by Sergeant Jonas Drof
 
-- **Chain** (explicit prerequisite links): Meet Sergeant Drof chain (2 missions), step 2
-  - Requires: Meet Sergeant Drof (id 1532) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Meet_Sergeant_Drof), [TaRapedia](https://tabularasa.fandom.com/wiki/Subversion)
+- **Chain** (explicit prerequisite links): Missing Scientists chain (10 missions), step 7
+  - Requires: Meet Sergeant Drof (id 1532) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Meet_Sergeant_Drof), [TaRapedia](https://tabularasa.fandom.com/wiki/Subversion), this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Desistance (id 1452) — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
 ### 1452 — Desistance
 
 
 - **Instance mentioned:** Indra Caverns — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
 - **Rebuild summary:**
+  - level: 44 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 120000 XP; 9000 credits; choose 1 of: Bio Armor Boots, Mech Armor Boots, Stealth Armor Gloves, Graviton Armor Gloves — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 120,000 XP; 9,000 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Desistance)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** On his way in, Scout Naimi spotted a Bane landing pad and what appears to be a security base for Gotha Processing Plant. Find a way through the processing plant and scout out the situation at the top of the mountain. Naimi will radio you with further instructions once you've reached the landing pad.
   - objectives (client): Unlock Juggernaut Bay Doors — Find the Juggernaut Operations room in the processing plant. Use the Door Security Console to unlock the doors leading to the Juggernaut Bay below.; Get Past the Juggernauts — Use one of the Juggernaut maintenance consoles in this room to get past the Juggernauts in the room below without a fight.; Bomb the Outpost Generator — You set off the siren and alerted the Bane's dropships as you reached the landing pad. Plant the bomb to destroy the Outpost Generator at the landing pad. …; Find the Landing Pad — Find a way to the Bane Landing Pad through Gotha Processing Plant.; Locate Bane Central Administration — Locate the Bane Central Administration building.; Defeat Overlord Kretas; Activate Kretas' Teleporter — Use Kretas' hand to activate the teleporter. Once the teleporter has been activated, it can be used to teleport back to Indra Watch Post near the exit to Indra …; Report to Major Diren
+- **This PR:** revision `ashen_1_16_5`, level 44, solo, category 10000016 (Battlefield (Ashen Desert)), giver Scout Hansa Naimi → Major Darkua Diren
+  - reward: 120000 XP; 9000 credits; choose 1 of: Bio Armor Boots, Mech Armor Boots, Stealth Armor Gloves, Graviton Armor Gloves
+  - prerequisites: Requires completed mission 1451
 - **TaRapedia** [Desistance](https://tabularasa.fandom.com/wiki/Desistance): giver: Scout Hansa Naimi; at: Indra Caverns; zone: Ashen Desert; requires: None; follow-up: None; XP: 120,000; credits: 9,000; reward from: Major Darkua Diren
   - overview: On his way in, Scout Naimi spotted a Bane landing pad and what appears to be a security base for Gotha Processing Plant. Find a way through the processing plant and scout out the situation at the top of the mountain. Naimi will radio you with further instructions once you've reached the landing pad.
   - objectives: • Unlock Juggernaut Bay Doors • Get Past the Juggernauts • Find the Landing Pad • Bomb the Outpost Generator • Locate Bane Central Administration • Defeat Overlord Kretas • Activate Kretas' Teleporter • Report to Major Diren
   - walkthrough: Go left at the first fork when you enter Gotha, which will eventually take you to some catwalks and a tangled mess of corridors. One of the paths in the tangled mess takes you to control rooms overlooking the Juggernaut bay, from which you can reprogram the Juggernauts and open the bay doors. Once in the Juggernaut bay, the south exit eventually leads up to the landing pad and generator. Overlord Kretas is in the building off the landing pad.
 - **TaRapedia mission list** [Indra Caverns mission list](https://tabularasa.fandom.com/wiki/Indra_Caverns_mission_list): zone Ashen Desert, given by Scout Hansa Naimi
 
+- **Chain** (explicit prerequisite links): Missing Scientists chain (10 missions), step 8
+  - Requires: Subversion (id 1451) — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+
+### 1497 — Raid the Conscription Facility
+
+
+- **Instance mentioned:** Bane Conscription Facility — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 95,000 XP; 8,400 credits — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Raid_the_Conscription_Facility)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Bring down the defenses of the Bane conscription facility.
+  - objectives (client): Bomb the Front Forcefield; Hack Computer Terminal to Stand Down Alarm
+- **TaRapedia** [Raid the Conscription Facility](https://tabularasa.fandom.com/wiki/Raid_the_Conscription_Facility): giver: Capt. Peacock; at: Bane Conscription Facility; zone: Ashen Desert; requires: Lockdown the Conscription Facility; follow-up: Blast the Biolab; XP: 95,000; credits: 8,400; reward from: Bane CommLink Terminal
+  - overview: Bring down the defenses of the Bane conscription facility.
+  - objectives: • Bomb the Front Forcefield • Hack Computer Terminal to Stand Down Alarm
+  - walkthrough: Be sure to pick up the Dominate logos before entering the facility proper.
+- **TaRapedia mission list** [Bane Conscription Facility mission list](https://tabularasa.fandom.com/wiki/Bane_Conscription_Facility_mission_list): zone Ashen Desert, given by Capt. Peacock
+
+- **Chain** (explicit prerequisite links): Lockdown the Conscription Facility chain (6 missions), step 2
+  - Requires: Lockdown the Conscription Facility (id 1500) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Lockdown_the_Conscription_Facility), [TaRapedia](https://tabularasa.fandom.com/wiki/Raid_the_Conscription_Facility)
+  - Leads to: Blast the Biolab (id 1498) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Blast_the_Biolab), [TaRapedia](https://tabularasa.fandom.com/wiki/Raid_the_Conscription_Facility)
+
+### 1498 — Blast the Biolab
+
+
+- **Instance mentioned:** Bane Conscription Facility — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 95,000 XP; 8,400 credits; Vextronics Incendiary Staff; Vextronics Cryogenic Net Gun; ChiTech Leech Gun; Teleract Laser Pistol — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Blast_the_Biolab)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: zone Ashen Desert only
+- **Client:** Gather bomb materials and secure a way to rendezvous with an operative.
+  - objectives (client): Gather Bio Materials; Gather Mechanical Parts; Activate Bane Teleporter; Give Bomb Materials to Slocombe; Use Bomb to Destroy Atta Lab; Hidden - gathering stuff counter
+- **TaRapedia** [Blast the Biolab](https://tabularasa.fandom.com/wiki/Blast_the_Biolab): giver: Bane CommLink Terminal; at: Bane Conscription Facility; zone: Ashen Desert; requires: Raid the Conscription Facility; follow-up: Into the Lion's Den; What Makes Them Tick; XP: 95,000; credits: 8,400; items: Vextronics Incendiary Staff; Vextronics Cryogenic Net Gun; ChiTech Leech Gun; Teleract Laser Pistol
+  - overview: Gather bomb materials and secure a way to rendezvous with an operative.
+  - objectives: • Gather Bio Materials • Gather Mechanical Parts • Activate Bane Teleporter • Give Bomb Materials to Slocombe • Use Bomb to Destroy Atta Lab
+  - walkthrough: The majority of the enemies here can be bypassed by simply ignoring them and running past, as many of the Atta and Bane are fighting each other.
+- **TaRapedia mission list** [Bane Conscription Facility mission list](https://tabularasa.fandom.com/wiki/Bane_Conscription_Facility_mission_list): zone Ashen Desert, given by Bane CommLink Terminal
+- **PlanetTR** [planettr.com:80/forums/archive/index.php/t-1365.html](https://web.archive.org/web/20071209022816/http://planettr.com:80/forums/archive/index.php/t-1365.html): “* Torcastra Prison: Fixed so the graveyard should display and work properly. / * Fixed: Blast the Biolab: Fixed objective indicators. / * Fixed: Into the Lion’s Den: Fixed objective indicators.”
+
+- **Chain** (explicit prerequisite links): Lockdown the Conscription Facility chain (6 missions), step 3
+  - Requires: Raid the Conscription Facility (id 1497) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Blast_the_Biolab), [TaRapedia](https://tabularasa.fandom.com/wiki/Raid_the_Conscription_Facility)
+  - Leads to: Into the Lion's Den (id 1499) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Blast_the_Biolab), [TaRapedia](https://tabularasa.fandom.com/wiki/Into_the_Lion%27s_Den)
+  - Leads to: What Makes Them Tick (id 1551) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Blast_the_Biolab), [TaRapedia](https://tabularasa.fandom.com/wiki/What_Makes_Them_Tick)
+
 ### 1532 — Meet Sergeant Drof
 
 
 - **Instance mentioned:** Indra Caverns — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
 - **Rebuild summary:**
+  - level: 43 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 60000 XP; 6750 credits; choose 1 of: Class IX Incendiary Grenade, Class IX Advanced Med Pack, Class IX EMP Grenade, Class IX Res Trauma Kit — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 60,000 XP; 6,750 credits; Class IX Incendiary Grenade (3); Class IX Advanced Med Pack (2); Class IX EMP Grenade (3); Class IX Res Trauma Kit — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Meet_Sergeant_Drof)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** Sergeant Drof and Scout Naimi were picked up by an AFS dropship in Indra Pass. They're coming to meet you near your current location. Meet Sergeant Drof at the top of the ridge in the Bane mining area, near the entrance to Gotha Processing Plant.
   - objectives (client): Proceed to Drof's New Location — Head towards the entrance to the Bane Processing Plant, at the top of the ridge in the mining area. Sergeant Drof is being dropped off by an AFS dropship in …
+- **This PR:** revision `ashen_1_16_5`, level 43, solo, category 10000016 (Battlefield (Ashen Desert))
+  - reward: 60000 XP; 6750 credits; choose 1 of: Class IX Incendiary Grenade ×3, Class IX Advanced Med Pack ×2, Class IX EMP Grenade ×3, Class IX Res Trauma Kit
+  - prerequisites: Requires completed mission 1447
 - **TaRapedia** [Meet Sergeant Drof](https://tabularasa.fandom.com/wiki/Meet_Sergeant_Drof): giver: Headquarters; at: Radio; zone: Ashen Desert; requires: None; follow-up: Subversion; XP: 60,000; credits: 6,750; items: Class IX Incendiary Grenade (3); Class IX Advanced Med Pack (2); Class IX EMP Grenade (3); Class IX Res Trauma Kit; reward from: Sergeant Jonas Drof
   - overview: Sergeant Drof and Scout Naimi were picked up by an AFS dropship in Indra Pass. They're coming to meet you near your current location. Meet Sergeant Drof at the top of the ridge in the Bane mining area, near the entrance to Gotha Processing Plant.
   - objectives: • Proceed to Drof's New Location
 - **TaRapedia mission list** [Indra Caverns mission list](https://tabularasa.fandom.com/wiki/Indra_Caverns_mission_list): zone Ashen Desert, given by Headquarters
 
-- **Chain** (explicit prerequisite links): Meet Sergeant Drof chain (2 missions), step 1
-  - Leads to: Subversion (id 1451) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Meet_Sergeant_Drof), [TaRapedia](https://tabularasa.fandom.com/wiki/Subversion)
+- **Chain** (explicit prerequisite links): Missing Scientists chain (10 missions), step 6
+  - Requires: Digging for the Truth (id 1447) — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Subversion (id 1451) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Meet_Sergeant_Drof), [TaRapedia](https://tabularasa.fandom.com/wiki/Subversion), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
 ### 1559 — Indra Caverns [instance]
 
 
 - **Instance:** Indra Caverns — client objective/log text: "Find Major Diren, he should be waiting for you just inside Indra Caverns."
 - **Rebuild summary:**
+  - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 60000 XP; 6750 credits; choose 1 of: Class IX Concussion Grenade, Class IX Basic Med Pack, Class IX Fragmentation Grenade, Class IX EMP Bomb — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 60,000 XP; 6,750 credits; Class IX Concussion Grenade; Class IX Basic Med Pack; Class IX Fragmentation Grenade; Class IX EMP Bomb — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Indra_Caverns_%28mission%29)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** Head into Indra Caverns and seek out Major Diren. He lost radio contact with a recon team inside the caverns after they were sent to investigate a Bane attack on an old Brann storage facility built inside the cave. The Major could probably use some assistance in finding his men.
   - objectives (client): Locate Indra Caverns — Locate the entrance to Indra Caverns.; Find Major Diren — Find Major Diren, he should be waiting for you just inside Indra Caverns.
+- **This PR:** revision `ashen_1_16_5`, level 42, solo, category 10000016 (Battlefield (Ashen Desert)), giver Surveyor Malya Odesha → Major Darkua Diren
+  - reward: 60000 XP; 6750 credits; choose 1 of: Class IX Concussion Grenade ×3, Class IX Basic Med Pack ×2, Class IX Fragmentation Grenade ×3, Class IX EMP Bomb
+  - prerequisites: Requires completed mission 1280
 - **TaRapedia** [Indra Caverns (mission)](https://tabularasa.fandom.com/wiki/Indra_Caverns_%28mission%29): giver: Surveyor Malya Odesha; at: Indra Pass; zone: Ashen Desert; requires: None; follow-up: Threshold; XP: 60,000; credits: 6,750; items: Class IX Concussion Grenade; Class IX Basic Med Pack; Class IX Fragmentation Grenade; Class IX EMP Bomb; reward from: Major Darkua Diren
   - overview: Head into Indra Caverns and seek out Major Diren. He lost radio contact with a recon team inside the caverns after they were sent to investigate a Bane attack on an old Brann storage facility built inside the cave. The Major could probably use some assistance in finding his men.
   - objectives: • Locate Indra Caverns • Find Major Diren
@@ -1357,22 +1467,27 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **TaRapedia mission list** [Indra Caverns mission list](https://tabularasa.fandom.com/wiki/Indra_Caverns_mission_list): zone Ashen Desert, given by Surveyor Malya Odesha
 - **GiddyGamer TR guides** [www.giddygamer.com:80/tabula/content/basics/zones.pdf](https://web.archive.org/web/20100326124735/http://www.giddygamer.com:80/tabula/content/basics/zones.pdf): “Indra Caverns Y / Known base camps / Known Instances / Lvl 32 - indicates the monster levels encountered in an instance / Almost all vendors offer repairs and ammo, plus a selection of wares specific to their trade. / Wormholes transport a character to a different planet - you don't need prior knowledge to use them / Drop Ships transport a character to another (known) dropship location in any zone or zone instance / Waypoints transport a character to a different locale within the zone - you must have previously visited the destination waypoint / Local Teleporters are generally found in Large Bases and Instances / Hospitals are resurrection points - when you die, you will be allowed to choose in which (known) hospital you wish to be revived / Information is based on in-game conditions during late beta testing, and can/will change frequently and without notice. / Revision Date: 2007/11/18 Icons © NCsoft © the Giddy Gamer http://www.giddygamer.com”
 
-- **Chain** (explicit prerequisite links): Indra Caverns chain (4 missions), step 1
-  - Leads to: Threshold (id 1360) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Indra_Caverns_%28mission%29), [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold)
+- **Chain** (explicit prerequisite links): Missing Scientists chain (10 missions), step 2
+  - Requires: Missing Scientists (id 1280) — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
+  - Leads to: Threshold (id 1360) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Indra_Caverns_%28mission%29), [TaRapedia](https://tabularasa.fandom.com/wiki/Threshold), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
 ### 1736 — Echoes in the Sand
 
 
 - **Rebuild summary:**
-  - level: 30 — source: [TR MMO DB](https://web.archive.org/web/20081216162301/http://tr.mmodb.com:80/quests/echoes-in-the-sand-642.php)
+  - level: 42 — source: this PR's World data (`mission_content_definition` / `mission_reward_*`); 30 — source: [TR MMO DB](https://web.archive.org/web/20081216162301/http://tr.mmodb.com:80/quests/echoes-in-the-sand-642.php)
   - level ESTIMATE from zone: the Ashen Desert zone level range is 40-42 — source: [Ellatha map: Ashen Desert](https://www.ellatha.com/tr/mapsview.asp?key=Ligo+Ashen+Desert) (a zone range, not this mission's own level)
-  - level ESTIMATE from zone: most Ashen Desert missions are level 39–42 (median 41, 10th–90th percentile) — derived from 46 missions in this file with a sourced level
+  - level ESTIMATE from zone: most Ashen Desert missions are level 40–43 (median 41, 10th–90th percentile) — derived from 57 missions in this file with a sourced level
+  - reward: 190000 XP; 8400 credits; choose 1 of: Laser Pistol, Laser Rifle, Photonic Shotgun, Laser Chaingun — source: this PR's World data (`mission_content_definition` / `mission_reward_*`)
   - reward: 190,000 XP; 8,400 credits; Vextronics Laser Pistol; Vextronics Laser Rifle; Vextronics Photonic Shotgun; Vextronics Laser Chaingun — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Echoes_in_the_Sand)
   - reward: 8400 (the page gives no unit; probably credits — ESTIMATE) — source: [TR MMO DB](https://web.archive.org/web/20081216162301/http://tr.mmodb.com:80/quests/echoes-in-the-sand-642.php)
   - drops / mission items: not found (not critical, or not a collect mission)
   - location: zone Ashen Desert only
 - **Client:** Escort the collaborative research team into Daedalus' Landing and recover information from the crash site. Once you've collected sufficient information, report back to Captain Botha at Ashoka Settlement.
   - objectives (client): Escort Researchers to Daedalus' Landing — Protect Researcher Jackson and Researcher Yorish and take them to Daedalus' Landing to investigate the crash site. If either researcher is killed, then you …; Escort Researchers back to Ashoka — With the data collected by the research team, return to Ashoka Settlement and report to Captain Botha.; Syndicate Researcher; AFS Researcher; Ambushes
+- **This PR:** revision `crucible_1_16_5`, level 42, solo, category 10000016 (Battlefield (Ashen Desert)), giver Captain Amandla Botha
+  - reward: 190000 XP; 8400 credits; choose 1 of: Laser Pistol, Laser Rifle, Photonic Shotgun, Laser Chaingun
+  - prerequisites: Requires completed mission 1218
 - **TaRapedia** [Echoes in the Sand](https://tabularasa.fandom.com/wiki/Echoes_in_the_Sand) [stub]: giver: Captain Amandla Botha; at: Ashoka Settlement; zone: Ashen Desert; requires: It Came From Erdas; follow-up: None; XP: 190,000; credits: 8,400; items: Vextronics Laser Pistol; Vextronics Laser Rifle; Vextronics Photonic Shotgun; Vextronics Laser Chaingun; reward from: Captain Amandla Botha
   - overview: ToDo
   - objectives: • Escort Researchers to Deadalus' Landing • Escort Researchers back to Ashoka • With the data collected by the research team, return to Ashoka Settlement and report to Captain Botha.
@@ -1382,7 +1497,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **TR MMO DB NPC** [Captain Amandla Botha](https://web.archive.org/web/20081216161843/http://tr.mmodb.com:80/bestiary/captain-amandla-botha-1022.php): Quest NPC, location Ashoka Settlement, zone Ashen Desert (starts this quest)
 
 - **Chain** (explicit prerequisite links): Calendar Girl chain (10 missions), step 7
-  - Requires: It Came From Erdas (id 1218) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Echoes_in_the_Sand), [TaRapedia](https://tabularasa.fandom.com/wiki/It_Came_From_Erdas)
+  - Requires: It Came From Erdas (id 1218) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Echoes_in_the_Sand), [TaRapedia](https://tabularasa.fandom.com/wiki/It_Came_From_Erdas), this PR's World data (`mission_content_definition` / `mission_reward_*`)
 
 ## Avernus Outpost
 
@@ -1485,6 +1600,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
   - Requires: Petrovich's Run (id 1535) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Assessing_The_Atta), [TaRapedia](https://tabularasa.fandom.com/wiki/Petrovich%27s_Run)
   - Leads to: God Save the Queen (id 1537) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Assessing_The_Atta), [TaRapedia](https://tabularasa.fandom.com/wiki/God_Save_the_Queen)
 - **Requires an instance mission:** Petrovich's Run (1535) — source: the chain links above
+
 ### 1537 — God Save the Queen [instance]
 
 
@@ -1510,6 +1626,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
   - Requires: Assessing The Atta (id 1536) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Assessing_The_Atta), [TaRapedia](https://tabularasa.fandom.com/wiki/God_Save_the_Queen)
   - Leads to: The Big Secret (id 1581) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_Save_the_Queen), [TaRapedia](https://tabularasa.fandom.com/wiki/The_Big_Secret)
 - **Requires an instance mission:** Assessing The Atta (1536) — source: the chain links above
+
 ### 1581 — The Big Secret [instance]
 
 
@@ -1534,4 +1651,29 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 - **Chain** (explicit prerequisite links): Petrovich's Run chain (4 missions), step 4
   - Requires: God Save the Queen (id 1537) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/God_Save_the_Queen), [TaRapedia](https://tabularasa.fandom.com/wiki/The_Big_Secret)
 - **Requires an instance mission:** God Save the Queen (1537) — source: the chain links above
+
+## Bane Conscription Facility
+
+### 1500 — Lockdown the Conscription Facility
+
+
+- **Instance mentioned:** Bane Conscription Facility — the name appears in the client mission text or the TaRapedia page; not shown to happen there (ESTIMATE)
+- **Rebuild summary:**
+  - level: not found (not critical)
+  - reward: 47.500 XP; 6,300 credits; Class VIII Fragmentation Grenade x3; Class VIII EMP Bomb; Class VIII Cryogenic Grenade x3; Class VIII Standard Med Pack x3 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Lockdown_the_Conscription_Facility)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Captain Aiko Yamamoto: Ashen Desert, Boneyard Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto)
+- **Client:** Rendezvous with Captain Peacock at the Bane Conscription Facility
+  - objectives (client): Rendevous with Captain Peacock at the Bane Conscription Facility
+- **TaRapedia** [Lockdown the Conscription Facility](https://tabularasa.fandom.com/wiki/Lockdown_the_Conscription_Facility): giver: Captain Aiko Yamamoto; at: Boneyard Outpost; zone: Bane Conscription Facility; requires: None; follow-up: Raid the Conscription Facility; XP: 47.500; credits: 6,300; items: Class VIII Fragmentation Grenade x3; Class VIII EMP Bomb; Class VIII Cryogenic Grenade x3; Class VIII Standard Med Pack x3; reward from: Capt. Peacock
+  - overview: Rendezvous with Captain Peacock at the Bane Conscription Facility.
+  - objectives: • Rendezvous with Captain Peacock at the Bane Conscription Facility
+  - walkthrough: Capt. Peacock is just inside the instance.
+- **TaRapedia mission list** [Bane Conscription Facility mission list](https://tabularasa.fandom.com/wiki/Bane_Conscription_Facility_mission_list): zone Ashen Desert, given by Captain Aiko Yamamoto
+- **TaRapedia mission list** [Boneyard Outpost mission list](https://tabularasa.fandom.com/wiki/Boneyard_Outpost_mission_list): zone Ashen Desert, area Boneyard Outpost, given by Captain Aiko Yamamoto
+- **NPCs (TaRapedia NPC pages):**
+  - [Captain Aiko Yamamoto](https://tabularasa.fandom.com/wiki/Captain_Aiko_Yamamoto): Ashen Desert, Boneyard Outpost (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Lockdown the Conscription Facility chain (6 missions), step 1
+  - Leads to: Raid the Conscription Facility (id 1497) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Lockdown_the_Conscription_Facility), [TaRapedia](https://tabularasa.fandom.com/wiki/Raid_the_Conscription_Facility)
 

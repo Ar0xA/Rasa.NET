@@ -695,7 +695,7 @@ namespace Rasa.Test.Missions.Wilderness
             Assert.AreEqual(Rasa.Test.Missions.Crucible.CrucibleMissionTests.Indicators, crucible.Length);
             Assert.AreEqual(Rasa.Test.Missions.Ashen.AshenMissionTests.Indicators + Rasa.Test.Missions.Ashen.AshenMissionTests.EchoesIndicators +
                 Rasa.Test.Missions.Ashen.AshenMissionTests.CavernsIndicators + Rasa.Test.Missions.Ashen.AshenMissionTests.OutpostIndicators +
-                Rasa.Test.Missions.Ashen.AshenMissionTests.HiveIndicators, ashen.Length);
+                Rasa.Test.Missions.Ashen.AshenMissionTests.HiveIndicators + Rasa.Test.Missions.Ashen.AshenMissionTests.EntryIndicators, ashen.Length);
             Assert.AreEqual(rows.Length, bootcamp.Length + wilderness.Length + plateau.Length + pools.Length + marshes.Length + crucible.Length + ashen.Length);
             // Bootcamp's keys are missionobjectiveindicatorlanguage ids: 430 "Eloh Approach" to 439
             // "Cave-in Location".

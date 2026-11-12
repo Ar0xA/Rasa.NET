@@ -45,7 +45,9 @@ namespace Rasa.Test.Missions.Plateau
             // Ashen set 16 (usabledata.lookup, 1.16.5.0): the first entry None.
             [24805] = 1,
             // Ashen set 17 (usabledata.lookup, 1.16.5.0): the first entry None.
-            [7895] = 1, [26500] = 1
+            [7895] = 1, [26500] = 1,
+            // Ashen set 19 (usabledata.lookup, 1.16.5.0): the first entry None.
+            [8044] = 1
         };
 
         [TestMethod]

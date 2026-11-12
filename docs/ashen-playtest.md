@@ -829,6 +829,95 @@ All ESTIMATE (set 18):
 - The Bane's rows (the nearest upstream rows and names), one of each, the pool's circle and respawn.
 - The armour pieces of 1536 (the version and level band TaRapedia names; "Experimental" is no client quality).
 
+Set 19, the Bane Conscription Facility, the entry and the biolab (migration `20271110001900_Ashen_conscription_entry`). The
+facility is a squad instance (map 1988), entered by its door in Ashen Desert (map_link 57, (427.74, 305.61, 206.80)); you arrive
+at (7.25, 153.5, -670.25). New NPCs: Capt. Peacock 790659 (6, 153.36, -646), 24 m on from the arrival, a public NPC 150 m and
+more from every Bane pool; Slocombe 790660 (1498's copy only, no public pool). The front force field
+(UsableForceFieldBaneOutpostWallMajorV01, class 9572, intact) across the HQ tunnel at (6.5, 129.5, -405) is each member's own
+1497 scene object (no world field): it stands for a member only while his 1497 objective 1 is open, and his charge takes it
+away. A Bane teleporter pair (local teleporters 921/922, class
+8044, linked both ways, public): 921 (17, 135.94, -370) on the HQ's round hall's east side <-> 922 (-161.5, 89, -245) in the
+biolab's service room. The pads' body (class 8044): a disc 0.68 m up; its rim is a 42 degree slope only on its south (-z) and
+north (+z) side within 0.5 m of its centre line (x), steeper elsewhere: step on from the north or south, in line with the pad's
+centre (AshenConscriptionEntryTests.ThePadsAreWalkedOverTheirShallowRim). Next free id 790661. Every walk below is the
+client's floor, checked both ways with a 0.5 m half width, the 55 degree climb rule and the collision of the set's objects (the
+charges, the terminal, the teleporter, the pads), each leg also with its start moved 0.13, 0.27 and 0.4 m (the way back from
+its last corner), with fix J's rules (start and end on the corners' own deck, no step over 0.6 m off the terrain onto a mesh).
+Each leg keeps 1.28 m (the charge's body 0.18 m + 0.6 m + the half width) from both charges: the walks end beside them, and
+the way from the field's charge to the terminal goes round it on its east side (9.5, -410). The hall pad's walk ends on its
+north rim 1.68 m from its centre, inside its 2 m trigger (ESTIMATE: the real client's position against that trigger).
+
+- [ ] 1500 Lockdown the Conscription Facility (Ligo Ashen Desert): Captain Yamamoto (Boneyard Outpost) offers it after 1581,
+  level 42. 1: go through the facility's door (marker on the plaza 22 m south of the door, Ashen Desert) and talk to Capt.
+  Peacock just inside (marker r8 on him, in the facility). Turn in at Peacock: 47500 XP, 6300 credits, one of Class VIII
+  Fragmentation Grenade 45447 x3, Class VIII EMP Bomb 111233 x1, Class VIII Cryogenic Grenade 111049 x3, Class VIII Standard
+  Med Pack 45064 x3.
+- [ ] 1497 Raid the Conscription Facility (Ligo Ashen Desert): Peacock offers it after 1500, level 42; the accept gives a
+  Detonator (111195). 1: walk down the yard into the HQ tunnel to your own Explosive Charge (class 7870) at (6.5, 137.61, -410),
+  5 m before the field; use it: it takes the Detonator, the field goes down, the charge is set. 2: through the tunnel into the
+  round hall: talk to your own Bane CommLink Terminal (class 10519, package 1929, named "Conscription Database Interface", 167) at (-4, 135.94, -372). Turned in by radio:
+  95000 XP, 8400 credits, one of Hellstrom Bio Armor Boots 46005, Pulsar Stealth Armor Helmet 39727, Voltrox Graviton Armor
+  Legs 25248, Audiodyne Motor Assist Armor Gloves 31088. The radio then offers 1498.
+- [ ] 1498 Blast the Biolab (Ligo Ashen Desert): offered by radio after 1497 (also on arriving in the facility with 1497
+  done), level 43. 1: five Bane Bio Material (111198), 2: five Bane Machine Parts (111197), each a 50 % drop of your own from
+  the Bane in the facility (bio: Caretaker 531011, Linker 531014; parts: Thrax Soldier 531008, Grenadier 531009, Technician
+  531010), only while you need more;
+  the markers on the pools 531064 and 531066 by the Atta Laboratory. When you hold five and five, 3 opens: your own Bane
+  teleporter (class 8044) on the round hall's north side (7, 135.94, -358) appears, usable (none before 3); its use turns it on and Slocombe comes
+  through beside it (1.5, 135.94, -359). 4: talk to Slocombe: he takes the five and five and gives you a bomb (111195). 5: take
+  the hall's pad 921 to the service room and walk up the overlook ramp to your own Explosive Charge at the Atta Laboratory's door
+  (-216, 96.01, -160); use it: it takes the bomb. Turned in by radio: 95000 XP, 8400 credits, one of Vextronics Incendiary Staff
+  49496, Cryogenic Net Gun 12129, ChiTech Leech Gun 45763, Teleract Laser Pistol 14492.
+
+Walks (set 19; client floor both ways): the arrival -> Peacock; Peacock -> the field's charge (the yard, the HQ tunnel); the
+charge -> the terminal (through the field's place, the tunnel's mouth into the round hall); the terminal -> Slocombe; Slocombe
+-> the hall pad; the service pad -> the lab's charge (AshenConscriptionEntryTests.Legs and Walks). With the field up, the walk
+through the tunnel is stopped (the client floor line and ForceFields.StopsPlayer).
+
+Fights (rule 3): no new hostile creature; the drops come from the facility's upstream Bane pools. Slocombe is unhurt by
+anything; Peacock is a public NPC far from every pool (no protection needed).
+
+Rule breaks (rule 2):
+- The field's charge stands 20.8 m outside 531081's circle and 26.6 m outside 531067's (the guards at the HQ tunnel's mouth:
+  the field is in the tunnel, the client map's only way into the facility from the yard).
+- The lab's charge stands 20.1 m outside 531064's circle and 22.9 m from the Atta Imperial Guard 520002 (a boss, rule 35 m), at
+  the Atta Laboratory's door: the lab is the objective, its pools stand in and around it.
+- The walks pass the upstream pools on the only way (2D): Peacock -> the field's charge passes 531083 (18.4 m outside its
+  circle, the yard), 531081 and 531067 (the tunnel's mouth); the charge -> the terminal passes 531081 and 531067; the service
+  pad -> the lab's charge passes 531064, 531066 and 520002 (the lab's own pools).
+
+Deviations (set 19):
+- 1497 and 1498 are turned in by radio: the client names the Bane CommLink Terminal as the receiver and the giver of 1498, and
+  an object can not take a mission in or offer one; its talk completes 2, and the radio offers 1498 to each member on his own
+  1497 reward (and on arrival). The client's texts name nobody to speak to.
+- The terminal stands in the HQ's round hall, not in Central Operations (6, 102, -318): on the client's floor Central
+  Operations is joined to the hall only by a 1.15 m step up and a spiral whose top lies 1.07-1.3 m under the hall's floor (the
+  probe's floods, 2026-11-12).
+- The Atta Laboratory's wing has no walk from the hall on the client's floor (the floods from the hall and Central Operations
+  never reach it); the pads 921/922 join them (ESTIMATE: retail may have had a way the client map lacks).
+- No lab object is destroyed: the bomb's charge at the lab's door is set (the client map has no destructible lab).
+- The field is each member's own and stands only while his 1497 objective 1 is open. A member who never took 1497 sees no
+  field and can walk on (ESTIMATE: retail most likely barred him until 1497; a mission scene shows its objects only to its
+  owner, and a public field would bar the players who completed 1497 in every later copy, so set 20's 1551, 1499 and 1501).
+  The field is not solid on the server for anyone. Real-client check: whether the client stops its owner at it (a scene
+  object gets no BlockInfo; the world fields do).
+
+Tester notes (set 19):
+- 1497 in a squad: each member has his own Detonator, charge and terminal; one member's charge use credits each member whose
+  1 is open and who still holds his Detonator (his Detonator taken, his charge set); a member without his Detonator is refused.
+  Each member sees only his own field: a mate who completed 1497 (or whose charge was set) walks through while yours stands.
+  An abandon takes your field away; taken again, it stands again.
+- 1498 in a squad: each member's drops, teleporter, Slocombe and bomb are his own; a member's teleporter use credits only the
+  members whose 3 is open (five and five held). An abandon keeps the gathered materials: taken again, they count at once.
+- The pads are public: any player may ride them.
+
+All ESTIMATE (set 19):
+- Levels 42 (1500, 1497) and 43 (1498); Peacock 45 and Slocombe 44, Harris' looks and stats; 1500 after 1581.
+- The places of Peacock, the field, both charges, the terminal, the teleporter, Slocombe and the pads.
+- The five and five (no source gives the counts), the 50 % drop chance, the drop creatures.
+- Every marker radius (10 m on the field's charge, 6 m on the objects, 8 m on the NPCs, pool circles + 5 m, 6 m before the door).
+- The Detonator as 1498's bomb (the client has no other bomb item for it).
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket

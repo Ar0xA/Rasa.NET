@@ -1229,7 +1229,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.AreEqual(down, All());
             Assert.AreEqual(others, Others(world), "Down: nothing else changes");
             Assert.IsTrue(AshenMissionTests.MissionIds.Where(id => !Missions.Contains(id) && !AshenAvernusOutpostTests.Missions.Contains(id) &&
-                !AshenAvernusHiveTests.Missions.Contains(id)).All(Has), "sets 1-15 stay");
+                !AshenAvernusHiveTests.Missions.Contains(id) && !AshenConscriptionEntryTests.Missions.Contains(id)).All(Has), "sets 1-15 stay");
             foreach (var sql in N.Down())
                 world.Database.ExecuteSqlRaw(CrucibleSql.Guard(sql));
             Assert.AreEqual(down, All(), "a second Down changes nothing");

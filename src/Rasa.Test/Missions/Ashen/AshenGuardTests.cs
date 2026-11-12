@@ -447,7 +447,7 @@ namespace Rasa.Test.Missions.Ashen
             var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision ||
                 entry.MissionId == AshenEchoesInTheSandV1.MissionId && entry.ContentRevision == Rasa.Services.Preloader.Missions.Crucible.CrucibleMissionDataV1.Revision).ToList();
             Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators + AshenMissionTests.CavernsIndicators + AshenMissionTests.OutpostIndicators +
-                AshenMissionTests.HiveIndicators, markers, "the Ashen markers");
+                AshenMissionTests.HiveIndicators + AshenMissionTests.EntryIndicators, markers, "the Ashen markers");
             var near = new List<string>();
             foreach (var marker in markers)
             {
@@ -483,7 +483,7 @@ namespace Rasa.Test.Missions.Ashen
                 .Where(marker => MissionMarkerProjection.ResolveMap(catalog, marker.MissionId, marker.ObjectiveId, new MissionIndicator { IndicatorId = marker.IndicatorId }) == Map)
                 .Select(marker => (Label: $"{marker.MissionId}.{marker.ObjectiveId}/{marker.IndicatorId}", At: new Vector3((float)marker.PosX, (float)marker.PosY, (float)marker.PosZ)))
                 .ToList();
-            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators, markers, "the Ashen markers on Ashen Desert");
+            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators + AshenMissionTests.EntryDesertIndicators, markers, "the Ashen markers on Ashen Desert");
             using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
             var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", MapName(harness)), meshes, 1);
             var (floors, _) = F.Surfaces(geometry, markers.Select(marker => (marker.At + new Vector3(0, MarkerHeight - F.MaxUnder, 0), F.Walkable)).ToList());
@@ -592,7 +592,9 @@ namespace Rasa.Test.Missions.Ashen
                 [AshenEchoesInTheSandV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint),
                 // Set 15: 1559's marker before the Indra Caverns door, from White Oasis Post's (as set 13's valley); it stands in
                 // the door's navmesh pocket (InTheDoorPocket). Fix H: its second marker on the valley's lift pad, from White Oasis Post's.
-                [AshenIndraCavernsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint)
+                [AshenIndraCavernsV1.MissionId] = ("the White Oasis Post waypoint", AshenLeadInsTests.WhiteOasisWaypoint),
+                // Set 19: 1500's marker before the Bane Conscription Facility's door, from Ashoka Settlement's (Yamamoto's).
+                [AshenLockdownTheConscriptionFacilityV1.MissionId] = ("the Ashoka Settlement waypoint", AshenLeadInsTests.AshokaWaypoint)
             };
             // A mission whose markers stand in more than one area: the other areas' waypoints (any one walks to the marker).
             var also = new Dictionary<uint, (string Label, Vector3 At)[]>
@@ -615,7 +617,7 @@ namespace Rasa.Test.Missions.Ashen
                 entry.MissionId == AshenEchoesInTheSandV1.MissionId && entry.ContentRevision == Rasa.Services.Preloader.Missions.Crucible.CrucibleMissionDataV1.Revision).ToList()
                 .Where(marker => MissionMarkerProjection.ResolveMap(catalog, marker.MissionId, marker.ObjectiveId, new MissionIndicator { IndicatorId = marker.IndicatorId }) == Map)
                 .ToList();
-            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators, markers, "the Ashen markers on Ashen Desert");
+            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators + AshenMissionTests.EntryDesertIndicators, markers, "the Ashen markers on Ashen Desert");
             var failures = new List<string>();
             foreach (var marker in markers)
             {
@@ -708,9 +710,9 @@ namespace Rasa.Test.Missions.Ashen
         {
             var places = Npcs().Select(pool => ($"pool {pool.DbId}", pool.Position, true)).ToList();
             // Set 15's scenes stand on Indra Caverns (AshenIndraFacilityTests checks their places), set 17's on Avernus Outpost
-            // (AshenAvernusOutpostTests).
+            // (AshenAvernusOutpostTests), set 19's in the Bane Conscription Facility (AshenConscriptionEntryTests).
             foreach (var (mission, scene) in AshenMissionTests.Scenes(harness).Where(entry => entry.Scene.MapContextId != AshenIndraFacilityNpcsV1.Caverns &&
-                entry.Scene.MapContextId != AshenAvernusOutpostNpcsV1.Outpost))
+                entry.Scene.MapContextId != AshenAvernusOutpostNpcsV1.Outpost && entry.Scene.MapContextId != AshenConscriptionEntryNpcsV1.Facility))
                 foreach (var actor in scene.Actors.Values.Where(actor => actor.Position != null))
                     places.Add(($"{mission} {actor.Role}", new Vector3(actor.Position.X, actor.Position.Y, actor.Position.Z),
                         actor.Kind == Rasa.Missions.Scenes.SceneActorKind.Creature));

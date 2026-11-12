@@ -1157,7 +1157,8 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsFalse(Missions.Any(Has));
             Assert.AreEqual(down, All());
             Assert.AreEqual(others, Others(world), "Down: nothing else changes");
-            Assert.IsTrue(AshenMissionTests.MissionIds.Where(id => !Missions.Contains(id) && !AshenAvernusHiveTests.Missions.Contains(id)).All(Has), "sets 1-16 stay");
+            Assert.IsTrue(AshenMissionTests.MissionIds.Where(id => !Missions.Contains(id) && !AshenAvernusHiveTests.Missions.Contains(id) &&
+                !AshenConscriptionEntryTests.Missions.Contains(id)).All(Has), "sets 1-16 stay");
             foreach (var sql in N.PadsDown())
                 world.Database.ExecuteSqlRaw(sql);
             foreach (var sql in N.Down())
