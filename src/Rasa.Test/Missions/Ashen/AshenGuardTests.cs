@@ -446,7 +446,8 @@ namespace Rasa.Test.Missions.Ashen
             var links = harness.World.Set<MapLinkEntry>().AsNoTracking().Where(link => link.Enabled != 0).ToList();
             var markers = harness.World.MissionIndicatorEntries.AsNoTracking().Where(entry => entry.ContentRevision == AshenMissionDataV1.Revision ||
                 entry.MissionId == AshenEchoesInTheSandV1.MissionId && entry.ContentRevision == Rasa.Services.Preloader.Missions.Crucible.CrucibleMissionDataV1.Revision).ToList();
-            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators + AshenMissionTests.CavernsIndicators, markers, "the Ashen markers");
+            Assert.HasCount(AshenMissionTests.Indicators + AshenMissionTests.EchoesIndicators + AshenMissionTests.CavernsIndicators + AshenMissionTests.OutpostIndicators,
+                markers, "the Ashen markers");
             var near = new List<string>();
             foreach (var marker in markers)
             {
@@ -706,8 +707,10 @@ namespace Rasa.Test.Missions.Ashen
         private static List<(string Label, Vector3 At, bool Npc)> Places(WildernessRuntimeTestHarness harness)
         {
             var places = Npcs().Select(pool => ($"pool {pool.DbId}", pool.Position, true)).ToList();
-            // Set 15's scenes stand on Indra Caverns (AshenIndraFacilityTests checks their places).
-            foreach (var (mission, scene) in AshenMissionTests.Scenes(harness).Where(entry => entry.Scene.MapContextId != AshenIndraFacilityNpcsV1.Caverns))
+            // Set 15's scenes stand on Indra Caverns (AshenIndraFacilityTests checks their places), set 17's on Avernus Outpost
+            // (AshenAvernusOutpostTests).
+            foreach (var (mission, scene) in AshenMissionTests.Scenes(harness).Where(entry => entry.Scene.MapContextId != AshenIndraFacilityNpcsV1.Caverns &&
+                entry.Scene.MapContextId != AshenAvernusOutpostNpcsV1.Outpost))
                 foreach (var actor in scene.Actors.Values.Where(actor => actor.Position != null))
                     places.Add(($"{mission} {actor.Role}", new Vector3(actor.Position.X, actor.Position.Y, actor.Position.Z),
                         actor.Kind == Rasa.Missions.Scenes.SceneActorKind.Creature));

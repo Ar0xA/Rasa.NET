@@ -654,6 +654,84 @@ All ESTIMATE (set 16):
 - 1532's radio offer at 1447's turn-in and on map arrival; requires 1447. 1452 requires 1451 (the story's order).
 - 1452's order 1, 2, 4, 3, 5, 6, 7, 8; the Juggernauts are statics, no creature.
 
+Set 17, Avernus Outpost, the outpost part (migration `20271110001700_Ashen_avernus_outpost`). All in Avernus Outpost (map 2110,
+a squad instance; its door is map link 59 from Ashen Desert, arrival (83.99, 528.5, 107.67)). New NPCs: Captain Sera Karter's
+second row 790640 (80.8, 528.5, 99.5) at the entrance; Commander Drazen 790641 (57.5, 477.97, -313) in the cavern south of the
+outpost; Captain Petrovich 790642 (909, 273.86, -246) in the AFS Graveyard and his second row 790643 (645.5, 352.67, -246.5) at
+the tunnel's top (Food Storage shelf); Petrovich's squad, an Avernus Outpost Officer 790644 and Avernus Outpost Soldier 790645
+(1535's scene only, no pool). The Avernus Invaders 790646 (hostile, an Atta Soldier 531015 copy, name 9675, level 41) in three
+pools of two or three (respawn: the row's 120 s; in a squad copy every pool comes back 45 min after its last death,
+SquadInstances.RespawnMinutes): 790647 (158, 528.25, 17) and 790648 (205, 515.85, 74) in the north ravine, 790649 (-26,
+528.87, -176) in the south-west yard. The Atta Teleporter: local teleporter pads 915 (64, 480.73, -312) by Drazen and 916 (890,
+278.11, -232) in the graveyard, linked both ways (class 25302); the graveyard has no walk from the outpost, the pad is the way.
+Next free id 790650. Every walk below is the client's floor, checked both ways with a 0.5 m half width and the 55 degree climb
+rule (AshenAvernusOutpostTests).
+
+- [ ] 1473 Overly Sensitive (Ligo Ashen Desert): Karter (outpost entrance) offers it, level 41. 1: search the courier bag in
+  the armour shop (102.9, 514.25, -56.7): the Armor Sample (111191). 2: destroy the prototype ammo in the weapon shop (141.4,
+  514.57, -49.1). 3: search the corpse in the tavern (194.7, 519.01, -31): the Commander's Diary (111190); it opens 5. 4: use the
+  four servers in the HQ (176.4, 532.66, -126.8 .. -132.8). 6: destroy the data backup black box beside them (175.8, 532.66,
+  -135.1). 5: search the corpse by the landing strip (8.9, 531.16, -124.9) for the security card (111189, hidden 7), use the
+  Universal Interior Teleporter west of the strip (28, 528.12, -106; locked to the card) while 5 is open: it sets you down in the
+  prison (-8, 520.01, -46); destroy the stasis tube (-6.5, 520.01, -50.2). Each marker is unnamed on its target (5: the tube,
+  the teleporter and the card's corpse). Turn in at Karter: 90000 XP, 6150 credits, one of Class VIII Cryogenic Grenade 111049
+  x3, Standard Med Pack 45064 x3, Incendiary Grenade 111039 x3, Advanced Med Pack 45065 x2.
+- [ ] 1533 Petrovich's Last Stand (Ligo Ashen Desert): Drazen (south cavern) offers it, level 41. No client objective: the
+  mission can be turned in at once; step on Drazen's pad (915), it sets you down in the graveyard; walk to Petrovich (15 m area
+  round him, hidden). Turn in at Petrovich: 90000 XP, 6150 credits, one of Class VIII EMP Grenade 111029 x3, Res Trauma Kit
+  47600 x1, Class VIII Concussion Grenade 111019 x3, Class VIII Basic Med Pack 45063 x6.
+- [ ] 1535 Petrovich's Run (Ligo Ashen Desert): Petrovich (graveyard) offers it, level 42. His own copy, the officer and two
+  soldiers stand by him from the accept (unhurt by anything). 1: the graveyard's four Atta pools (531049, 531050, 531060, 531063)
+  dead (markers on each). 2: about 2 s after the accept Petrovich leads up the tunnel (his route, speed 4), the squad follows
+  you; walk into the turn (775, 317.37, -112.5; r10). 3: talk to Petrovich there: two Atta Soldiers come down the tunnel at
+  you; both dead, two more; 4 completes when they are dead too. 5: Petrovich leads on to the top; walk to his second row at
+  the top: the squad goes. Turn in at Petrovich at the top: 90000 XP, 6150 credits, one of Class VIII Frag Grenade 45447 x3,
+  EMP Bomb 111233 x1, Cryogenic Grenade 111049 x3, Standard Med Pack 45064 x3.
+
+Walks (set 17; client floor both ways): the entrance -> Karter, the bag, the ammo, the tavern corpse, the four servers and
+the black box in the HQ, the strip corpse, the prison teleporter, the stasis tube (the prison open on the client floor),
+Drazen (the south road east of the open frame that closes it at z -129.5, the slope beside the fallen slab, the
+cave tunnel under the terrain's lip and west of its rubble); Drazen -> his pad; the graveyard pad -> Petrovich; Petrovich -> the
+turn; the turn -> the top (AshenAvernusOutpostTests.Legs and Walks). Steps, ramps and the HQ's door ramp are walked along their
+length, not climbed from the side (audit S-B): the entrance east of the 1.2 m block at (95-99, 73-74), the weapon shop through
+its door's middle, the HQ up its door ramp eastward, the strip corpse's platform by its south ramp. Every leg also passes with
+its start moved 0.13, 0.27 and 0.4 m (the samples fall elsewhere). Petrovich's two routes are checked on the navmesh.
+
+Fights (rule 3): the Invaders are Atta Soldier copies at level 41 in twos and threes; 1535's ambush is two Atta Soldiers at a
+time (never four at once); the squad is unhurt and fights with you.
+
+Rule breaks (rule 2):
+- Every upstream pool in Avernus Outpost (the hive and the graveyard) is a warcry pool: the 100 m warcry rule can not hold
+  for Drazen, Petrovich, the pads and the 1535 places (they keep 34 m and more outside every hostile pool's circle).
+- The walk to Drazen passes 531047 in the tunnel from the outpost to his cavern and 531061 (21.8 m outside its circle) on the
+  ramp down into the cavern (the only way); the turn -> top walk passes
+  531042 over the hive tunnel's top half (Petrovich's route); Petrovich -> the turn passes the graveyard's own pools (1 has
+  them dead first).
+- Drazen moved 50.9 m north-east of TaRapedia's place (it lies 1.4 m outside the Atta pool 531055's circle) and Petrovich to
+  the graveyard's middle (TaRapedia's place is inside 531050's circle).
+- Drazen stands 31.8 m on the flat outside pool 531061's circle (35.7 m in 3D: the pool is 18.6 m above him at the ramp's
+  top); the 34 m place rule holds only in 3D. His cavern has no place farther from it beside the pad.
+
+Tester notes (set 17):
+- Take a squad: the bag, corpses, servers, teleporter and the destructibles are personal; each member on 1473 gets his own
+  sample, diary and card. With a full bag the bag waits (search again with room). A mate whose mission-item bag is full
+  at the player's search gets no sample and his 1 stays open; with room, his own courier bag gives his.
+- 1535 in a squad: each member's wave counters (hidden 6, 7) open only with his own rest talk and his own first wave; a mate
+  who talks after the player's ambush gets his own two waves and his own 4.
+- 1473: a mate without the card (away at the player's search) is refused by his own teleporter.
+- 1535: the cave must be cleared after the accept or before it (a cleared cave completes 1 at the accept); Petrovich leads 2 s
+  later. Abandoned, 1535 starts over at the graveyard.
+- The Atta Teleporter pads are public: any player may ride them.
+
+All ESTIMATE (set 17):
+- Levels 41 (1473, 1533) and 42 (1535); Karter 48, Drazen and Petrovich 44, the squad and the Invader rows' levels (42, 41).
+- The places of the objects (TaRapedia's /loc, moved to a floor seen from all round), the pads, Drazen, both Petrovich rows,
+  the squad, the turn, the ambush and the top; the Invader pools (the only client floor off every walk and place).
+- 1535's ready timer (2 s), the ambush's two waves of two, Petrovich's speed.
+- Every marker and area radius (1473: 4 m on objects, 6 m on the servers; 1533: the 15 m area; 1535: the 10 m turn and top
+  areas, 8 m on Petrovich, 15 m over the ambush, pool circles + 4 m): no source gives them.
+- No prerequisites (none sourced). The Atta Invader Chief (9677) is not built: no source gives its level, stats or place.
+
 ## Deviations (client/server limits)
 
 - 1274: one marker, not two. The Ridge's other automatic Fithik pool 540066 puts its Fithik in an isolated navmesh pocket
@@ -796,6 +874,14 @@ All ESTIMATE (set 16):
 - 1452 (fix J): Kretas (6) opens with Locate Bane Central Administration (5) when the generator (3) completes, so a member
   who never walked into Central Administration's 16 m can still do 6, 7 and 8; Diren then refuses the turn-in until he
   walks back into the area (5 completes there).
+- 1473: the prison has no force field on the client floor (the client map places none); its door is open, so the stasis
+  tube can be reached on foot too. The teleporter (locked to the card) is the intended way in.
+- 1473: the stasis tube only takes damage while 5 is open (the 2008 patch note), not before the diary.
+- 1533: the client gives 1533 no objective; the server's one hidden objective (an area round Petrovich) holds the reward.
+- 1535: Petrovich and his squad are unhurt by anything (Invulnerable): the client has no fail text for a death.
+- 1535: the lead starts from a 2 s scene timer after the accept (a scene start inside the accept is refused).
+- The Atta Teleporter (915/916): local teleporter pads that are not gated; any player may ride them.
+- The Avernus Invaders in the north ravine stand on a navmesh island of their own: they do not chase into the base.
 
 ## Server data that differs from the sources (not changed)
 

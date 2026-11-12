@@ -1,6 +1,6 @@
 # Ligo Ashen Desert missions: sources (cross-reference)
 
-The 56 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
+The 59 missions of the Ligo Ashen Desert quest PR, taken from the full mission cross-reference of the 1.16.5.0
 client. For each mission: the client text and objectives, the sources found (TaRapedia, TR MMO DB, Ellatha,
 Ten Ton Hammer, archived fan and official pages, patch notes) and a rebuild summary with the source of each
 value. Values without a source are marked ESTIMATE. "This PR" rows (where present) show the data this PR adds.
@@ -10,6 +10,7 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 | Zone | Missions |
 | --- | ---: |
 | Ashen Desert | 56 |
+| Avernus Outpost | 3 |
 
 ## Ashen Desert
 
@@ -1382,4 +1383,81 @@ Playtest status and the deviations from the original game: `docs/ashen-playtest.
 
 - **Chain** (explicit prerequisite links): Calendar Girl chain (10 missions), step 7
   - Requires: It Came From Erdas (id 1218) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Echoes_in_the_Sand), [TaRapedia](https://tabularasa.fandom.com/wiki/It_Came_From_Erdas)
+
+## Avernus Outpost
+
+### 1473 — Overly Sensitive [instance]
+
+
+- **Instance:** Avernus Outpost — NPC Captain Sera Karter (Avernus Outpost) (listed under this NPC on a TaRapedia mission list) is in Avernus Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Sera_Karter_%28Avernus_Outpost%29)
+- **Rebuild summary:**
+  - level: not found (not critical)
+  - reward: 90,000 XP; 6,150 credits; Class VIII Cryogenic Grenade x 3; Class VIII Standard Med Pack x 3; Class VIII Incendiary Grenade x 3; Class VIII Advanced Med Pack x 2 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Overly_Sensitive)
+  - drops / mission items: * The Avernus Commanders Diary can be found on a Rotting Human Corpse in the Tavern (194 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Overly_Sensitive)
+  - location: NPC Captain Sera Karter (Avernus Outpost): Avernus Outpost, Atta Hive, /loc 80.3, 528.5, 99.5 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Sera_Karter_%28Avernus_Outpost%29)
+  - location: * The Classified Armor Sample can be found in a small Courier Bag in the Armor Shop (104.9, 514.4, -56.7). — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Overly_Sensitive)
+  - location: It's pretty easy to destroy (141.4, 515.6, -48.6). — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Overly_Sensitive)
+- **Client:** Head to Avernus Outpost and bring back the Armor Sample and the Commander's Diary. While you're there, destroy the prototype Ammunition, the Data Backup Machine, shut down the 4 servers, and destroy whatever secret thing the AFS have stashed in the high security area. You may need to find a key …
+  - objectives (client): Armor Sample; Destroy Prototype Ammo; Comander's Diary; Shut Down the Servers; Secret Stash Destroyed; Destroy Data Backup Machine
+- **TaRapedia** [Overly Sensitive](https://tabularasa.fandom.com/wiki/Overly_Sensitive) [stub, bug noted]: giver: Captain Sera Karter; at: Shadow's Edge Post; zone: Avernus Outpost; requires: None; follow-up: None; XP: 90,000; credits: 6,150; items: Class VIII Cryogenic Grenade x 3; Class VIII Standard Med Pack x 3; Class VIII Incendiary Grenade x 3; Class VIII Advanced Med Pack x 2; reward from: Captain Sera Karter
+  - overview: Head to Avernus Outpost and bring back the Armor Sample and the Commander's Diary. While you're there, destroy the prototype Ammunition, the Data Backup Machine, shut down the 4 servers, and destroy whatever secret thing the AFS have stashed in the high security area. You may need to find a key …
+  - objectives: • Armor Sample • x 1 • Destroy Prototype Ammo • Prototype Ammo Destroyed x 1 • Shut Down the Servers • Servers Shutdown x 4 • Destroy Data Backup Machine • Data Backup Destroyed x 1 • Comander's Diary • x 1 • Secret Stash Destroyed • Secret Experiment Destroyed x 1
+  - walkthrough: Throughout most of the instance you will fight a smattering of Atta called Avernus Invaders, usually in groups of two or three, and an occasional elite commanding unit that has considerably more health. • The Classified Armor Sample can be found in a small Courier Bag in the Armor Shop (104.9, 514.4, -56.7). • The Prototype Ammo is a crate in the back corner of the Weapon Shop. It's pretty easy to destroy (141.4, 515.6, -48.6). • The Avernus Commanders Diary can be found on a Rotting Human Corpse in the Tavern (194.7, 519.0, -31.0). • The four servers are a set of Computer Terminals all lined …
+- **TaRapedia mission list** [Avernus Outpost mission list](https://tabularasa.fandom.com/wiki/Avernus_Outpost_mission_list): zone Ashen Desert, given by Captain Sera Karter (Avernus Outpost)
+- **TaRapedia mission list** [Shadow's Edge Post mission list](https://tabularasa.fandom.com/wiki/Shadow%27s_Edge_Post_mission_list): zone Ashen Desert, area Shadow's Edge Post, given by Captain Sera Karter (Ashen Desert)
+- **IGN TR boards** [vnboards.ign.com/tabula_rasa_general_board/b22750/106585290/r106594805 …](https://web.archive.org/web/20080518034441/http://vnboards.ign.com/tabula_rasa_general_board/b22750/106585290/r106594805/): “* Fixed Ashen Desert TOO to give credit for completion of Bane Conscription Facility. / * Fixed Avernus Outpost: Overly Sensitive to not allow secret research to be destroyed before mission objective is active. / * Fixed Mires mob Deddarlik so that he respawns.”
+- **Where (locations / coordinates):**
+  - * The Classified Armor Sample can be found in a small Courier Bag in the Armor Shop (104.9, 514.4, -56.7). — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Overly_Sensitive)
+  - It's pretty easy to destroy (141.4, 515.6, -48.6). — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Overly_Sensitive)
+  - * The Avernus Commanders Diary can be found on a Rotting Human Corpse in the Tavern (194.7, 519.0, -31.0). — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Overly_Sensitive)
+  - Simply use them to shut them down (178.4, 532.7, -129.8). — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Overly_Sensitive)
+- **NPCs (TaRapedia NPC pages):**
+  - [Captain Sera Karter (Avernus Outpost)](https://tabularasa.fandom.com/wiki/Captain_Sera_Karter_%28Avernus_Outpost%29): Avernus Outpost, Atta Hive, /loc 80.3, 528.5, 99.5 (listed under this NPC on a TaRapedia mission list)
+- **Mission items (TaRapedia item pages):**
+  - [Avernus Commanders Diary](https://tabularasa.fandom.com/wiki/Avernus_Commanders_Diary): no description
+  - [Avernus Outpost Clearance Card](https://tabularasa.fandom.com/wiki/Avernus_Outpost_Clearance_Card): no description
+  - [Classified Armor Sample](https://tabularasa.fandom.com/wiki/Classified_Armor_Sample): no description
+- **Drops / item sources:**
+  - * The Avernus Commanders Diary can be found on a Rotting Human Corpse in the Tavern (194 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Overly_Sensitive)
+
+### 1533 — Petrovich's Last Stand [instance]
+
+
+- **Instance:** Avernus Outpost — NPC Commander Drazen (named as giver/receiver) is in Avernus Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Commander_Drazen)
+- **Rebuild summary:**
+  - level: not found (not critical)
+  - reward: 90,000 XP; 6,150 credits; Class VIII EMP Grenade x 3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x 3; Class VIII Basic Med Pack x 6 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Petrovich%27s_Last_Stand)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Commander Drazen: Avernus Outpost, Atta Hive, /loc 31.0, 479.3, -356.5 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Commander_Drazen)
+- **Client:** Commander Drazen wants you to go through the Atta Teleporter and find Captain Petrovich.
+- **TaRapedia** [Petrovich's Last Stand](https://tabularasa.fandom.com/wiki/Petrovich%27s_Last_Stand) [stub]: giver: Commander Drazen; at: Avernus Outpost; zone: Avernus Outpost; requires: None; follow-up: None; XP: 90,000; credits: 6,150; items: Class VIII EMP Grenade x 3; Class VIII Res Trauma Kit; Class VIII Concussion Grenade x 3; Class VIII Basic Med Pack x 6; reward from: Captain Petrovich
+  - overview: •; Commander Drazen wants you to go through the Atta Teleporter and find Captain Petrovich.
+  - objectives: None.
+  - walkthrough: Simply enter the nearby Atta Teleporter and talk to Captain Petrovich just ahead.
+- **TaRapedia mission list** [Avernus Outpost mission list](https://tabularasa.fandom.com/wiki/Avernus_Outpost_mission_list): zone Ashen Desert, given by Commander Drazen
+- **NPCs (TaRapedia NPC pages):**
+  - [Commander Drazen](https://tabularasa.fandom.com/wiki/Commander_Drazen): Avernus Outpost, Atta Hive, /loc 31.0, 479.3, -356.5 (named as giver/receiver)
+  - [Captain Petrovich](https://tabularasa.fandom.com/wiki/Captain_Petrovich): Avernus Outpost, Atta Hive, /loc 952.0, 274.3, -275.0 (named as giver/receiver)
+
+### 1535 — Petrovich's Run [instance]
+
+
+- **Instance:** Avernus Outpost — NPC Captain Petrovich (named as giver/receiver) is in Avernus Outpost — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Petrovich)
+- **Rebuild summary:**
+  - level: not found (not critical)
+  - reward: 90,000 XP; 6,150 credits; Class VIII Fragmentation Grenade x 3; Class VIII EMP Bomb; Class VIII Cryogenic Grenade x 3; Class VIII Standard Med Pack x 3 — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Petrovich%27s_Run)
+  - drops / mission items: not found (not critical, or not a collect mission)
+  - location: NPC Captain Petrovich: Avernus Outpost, Atta Hive, /loc 952.0, 274.3, -275.0 — source: [TaRapedia NPC](https://tabularasa.fandom.com/wiki/Captain_Petrovich)
+- **Client:** Captain Petrovich wants the room cleared. Then he wants you to follow him up the Tunnel.
+  - objectives (client): Clear the Cave; Tunnel Run; Rest; Fend off the Ambush!; All The Way To The Top
+- **TaRapedia** [Petrovich's Run](https://tabularasa.fandom.com/wiki/Petrovich%27s_Run) [stub]: giver: Captain Petrovich; at: Avernus Outpost; zone: Avernus Outpost; requires: None; follow-up: Assessing The Atta; XP: 90,000; credits: 6,150; items: Class VIII Fragmentation Grenade x 3; Class VIII EMP Bomb; Class VIII Cryogenic Grenade x 3; Class VIII Standard Med Pack x 3; reward from: Captain Petrovich
+  - overview: •; Captain Petrovich wants the room cleared. Then he wants you to follow him up the Tunnel.
+  - objectives: Clear the Cave: Tunnel Run: Rest: Fend off the Ambush!: All The Way To The Top:
+  - walkthrough: The mission's pretty simple. First clear the current room of remaining Atta. A couple will attack after you kill the few still around. Then follow Petrovich and his squad up the tunnel, killing random Atta as you go. At the big turn, you will take a break, Petrovich will speak to you, and you will be ambushed by a few more Atta. Finally, follow them up the rest of the tunnel and clear out the remaining Atta. Speak to Petrovich again to complete the mission.
+- **TaRapedia mission list** [Avernus Outpost mission list](https://tabularasa.fandom.com/wiki/Avernus_Outpost_mission_list): zone Ashen Desert, given by Captain Petrovich
+- **NPCs (TaRapedia NPC pages):**
+  - [Captain Petrovich](https://tabularasa.fandom.com/wiki/Captain_Petrovich): Avernus Outpost, Atta Hive, /loc 952.0, 274.3, -275.0 (named as giver/receiver)
+
+- **Chain** (explicit prerequisite links): Petrovich's Run chain (4 missions), step 1
+  - Leads to: Assessing The Atta (id 1536) — source: [TaRapedia](https://tabularasa.fandom.com/wiki/Assessing_The_Atta), [TaRapedia](https://tabularasa.fandom.com/wiki/Petrovich%27s_Run)
 

@@ -1338,7 +1338,7 @@ namespace Rasa.Test.Missions.Ashen
                 member.Player.MapChannel?.ClientList.Remove(member);
                 member.Player.MapChannel = copy;
                 member.Player.RuntimeMapChannel = copy;
-                member.Player.MapContextId = Map;
+                member.Player.MapContextId = copy.MapInfo.MapContextId;
                 copy.ClientList.Add(member);
                 member.SetWorldPosition(giver.Position + new Vector3(0, 0, 1), 0);
                 CellManager.Instance.AddToWorld(member);
@@ -1419,13 +1419,13 @@ namespace Rasa.Test.Missions.Ashen
             }
 
             /// <summary>The mate's use of an object from beside it, and its recovery if one is due.</summary>
-            internal void Use(DynamicObject obj)
+            internal void Use(DynamicObject obj, uint argument = 1)
             {
                 Beside(obj.Position + new Vector3(0, 0, 1));
                 var count = _copy.PerformRecovery.Count;
                 _harness.Objects.RequestUseObjectPacket(Client, new RequestUseObjectPacket
                 {
-                    EntityId = obj.EntityId, ActionId = ActionId.UseObject, ActionArgId = 1
+                    EntityId = obj.EntityId, ActionId = ActionId.UseObject, ActionArgId = argument
                 });
                 if (_copy.PerformRecovery.Count > count)
                 {
