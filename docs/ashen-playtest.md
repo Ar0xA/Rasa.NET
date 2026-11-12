@@ -687,7 +687,9 @@ rule (AshenAvernusOutpostTests).
   four servers in the HQ (176.4, 532.66, -126.8 .. -132.8). 6: destroy the data backup black box beside them (175.8, 532.66,
   -135.1). 5: search the corpse by the landing strip (8.9, 531.16, -124.9) for the security card (111189, hidden 7), use the
   Universal Interior Teleporter west of the strip (28, 528.12, -106; locked to the card) while 5 is open: it sets you down in the
-  prison (-8, 520.01, -46); destroy the stasis tube (-6.5, 520.01, -50.2). Each marker is unnamed on its target (5: the tube,
+  prison (-8, 520.01, -46); destroy the stasis tube (-6.5, 520.01, -50.2). The prison is a closed room in the client: leave it
+  by stepping onto its Universal Interior Teleporter (local teleporter 923, (-14, 520.01, -44), fix L): it sets you down by
+  the inbound teleporter (31, 528.12, -109). Each marker is unnamed on its target (5: the tube,
   the teleporter and the card's corpse). Turn in at Karter: 90000 XP, 6150 credits, one of Class VIII Cryogenic Grenade 111049
   x3, Standard Med Pack 45064 x3, Incendiary Grenade 111039 x3, Advanced Med Pack 45065 x2.
 - [ ] 1533 Petrovich's Last Stand (Ligo Ashen Desert): Drazen (south cavern) offers it, level 41. No client objective: the
@@ -703,7 +705,8 @@ rule (AshenAvernusOutpostTests).
   EMP Bomb 111233 x1, Cryogenic Grenade 111049 x3, Standard Med Pack 45064 x3.
 
 Walks (set 17; client floor both ways): the entrance -> Karter, the bag, the ammo, the tavern corpse, the four servers and
-the black box in the HQ, the strip corpse, the prison teleporter, the stasis tube (the prison open on the client floor),
+the black box in the HQ, the strip corpse, the prison teleporter; in the prison (closed in the client, fix L) the arrival -> the
+stasis tube and -> its way out 923; the way out's arrival 924 -> the strip road and the plaza;
 Drazen (the south road east of the open frame that closes it at z -129.5, the slope beside the fallen slab, the
 cave tunnel under the terrain's lip and west of its rubble); Drazen -> his pad; the graveyard pad -> Petrovich; Petrovich -> the
 turn; the turn -> the top (AshenAvernusOutpostTests.Legs and Walks). Steps, ramps and the HQ's door ramp are walked along their
@@ -923,6 +926,8 @@ Tester notes (set 19):
   An abandon takes your field away; taken again, it stands again.
 - 1498 in a squad: each member's drops, teleporter, Slocombe and bomb are his own; a member's teleporter use credits only the
   members whose 3 is open (five and five held). An abandon keeps the gathered materials: taken again, they count at once.
+- 1498 (fix L, to-fix row 47): in the squad's copy the drop pools 531064 (bio) and 531066 (parts) come back 120 s after
+  they are cleared (their own respawn time; 1498's scene names them), not after the copy's 45 minutes.
 - The pads are public: any player may ride them.
 
 All ESTIMATE (set 19):
@@ -1074,8 +1079,13 @@ All ESTIMATE (set 19):
 - 1452 (fix J): Kretas (6) opens with Locate Bane Central Administration (5) when the generator (3) completes, so a member
   who never walked into Central Administration's 16 m can still do 6, 7 and 8; Diren then refuses the turn-in until he
   walks back into the area (5 completes there).
-- 1473: the prison has no force field on the client floor (the client map places none); its door is open, so the stasis
-  tube can be reached on foot too. The teleporter (locked to the card) is the intended way in.
+- 1473 (fix L, to-fix row 46): the prison is a closed room in the real client (walls in 12 directions; the walk out by its
+  east stair stops at the stair's foot), though the client collision the server reads (arch_hum_fort_prison_v02.geo) has a
+  stair, corridor and ramp out to the east and the client map places no force field: the walk checks take the room as the
+  client has it (AshenAvernusOutpostTests.ClientClosedRooms). The teleporter (locked to the card) is the only way in; the
+  way out is a one-way local teleporter, 923 (class 7895, the inbound teleporter's look) in the room to 924 (class 0, not
+  drawn) by the inbound teleporter, public: anyone in the room leaves by it at any time (ESTIMATE: retail's way out is
+  not known).
 - 1473: the stasis tube only takes damage while 5 is open (the 2008 patch note), not before the diary.
 - 1533: the client gives 1533 no objective; the server's one hidden objective (an area round Petrovich) holds the reward.
 - 1535: Petrovich and his squad are unhurt by anything (Invulnerable): the client has no fail text for a death.
@@ -1263,6 +1273,19 @@ All ESTIMATE (set 19):
   ArchHumTeleporterV02), local_teleporter_link 913 -> 914 and 914 -> 913; 1559's objective 1 marker 1000000001 (r4) on 913;
   1559's evidence row 4. Cause: to-fix row 33 (the Indra Caverns door's island has no walk-in: upstream N23, N26; set 15
   could not be started). Inserts guarded; Down deletes exactly these rows.
+
+## Server data changed by fix job L (20271110001920)
+
+- New rows: local teleporters 923 "Local Teleporter: Avernus Outpost prison, the way out (fix L)" (-14, 520.01, -44; class
+  7895 UsableTwoStateHumTeleporter) and 924 "Local Teleporter: Avernus Outpost, out of the prison (fix L)" (31, 528.12, -109;
+  class 0, an arrival only) on Avernus Outpost (type 1); local_teleporter_link 923 -> 924 (one way); 1473's evidence row 4.
+  Cause: to-fix row 46 (the prison is closed in the real client; 1473 could not be turned in without /suicide).
+- 1498's scene (set 19's row, our own) gets two public-spawn actors, the upstream pools 531064 and 531066 (not changed), so
+  they return on their own respawn time in a squad's copy; 1498's evidence row 4. Cause: to-fix row 47. The scene UPDATE
+  only where the row is set 19's exactly; inserts guarded; Down restores set 19's scene and deletes exactly these rows.
+- Upstream pool 531066 (the facility's lab chunnel): its centre's height from 103.9 to 105.27, the navmesh's floor straight
+  above (it lay 1.37 m under it; as a scene's public spawn it is now a mission placement, MissionGroundTests). x and z kept.
+  Guarded on its exact place; Down restores the stored 103.9000015258789.
 
 ## Server data changed by set 8 (upstream rows)
 

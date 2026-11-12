@@ -1185,7 +1185,7 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>An object's collision mesh put into the map's geometry at its place (as MapGeometry.Load places the map's own).</summary>
-        private static void AddObject(MapGeometry geometry, MeshLibrary meshes, int classId, Vector3 at, float yaw)
+        internal static void AddObject(MapGeometry geometry, MeshLibrary meshes, int classId, Vector3 at, float yaw)
         {
             var mesh = meshes.GetForClass(classId);
             if (mesh == null || !mesh.HasCollision)
@@ -1219,17 +1219,28 @@ namespace Rasa.Test.Missions.Ashen
             Facility.Stand(copy, pool);
             for (var round = 0; round < 5 && Standing() == null; round++)
             {
-                // None of these kinds left standing: the pool's others down too, then its respawn (as AshenAvernusHiveTests.ResetBane).
+                // None of these kinds left standing: the pool's others down too, then the clock runs until the pool comes back on
+                // its own (fix L, to-fix row 47: no reset of its cleared mark, no forced respawn; a pool left to the squad copy's
+                // 45 min fails here).
                 foreach (var other in Here(copy).Where(one => one.SpawnPool?.DbId == pool && one.State != CharacterState.Dead).ToArray())
                     Kill(harness, copy, other);
-                foreach (var entry in copy.SpawnPools.Where(entry => entry.DbId == pool))
+                var all = copy.SpawnPools.ToArray();
+                try
                 {
-                    entry.ClearedAtUtcMs = 0;
-                    entry.UpdateTimer = entry.RespawnTime;
+                    copy.SpawnPools.Clear();
+                    copy.SpawnPools.AddRange(all.Where(entry => entry.DbId == pool));
+                    for (var second = 0; second <= 130 && !Here(copy).Any(one => one.SpawnPool?.DbId == pool && one.State != CharacterState.Dead); second++)
+                    {
+                        harness.UtcNow = harness.UtcNow.AddSeconds(1);
+                        SpawnPoolManager.Instance.SpawnPoolWorker(copy, 1000);
+                    }
                 }
-                Spawn(copy, pool);
-                if (Standing() == null)
-                    Respawn(copy, pool);
+                finally
+                {
+                    copy.SpawnPools.Clear();
+                    copy.SpawnPools.AddRange(all);
+                }
+                harness.Drain();
             }
             var creature = Standing();
             Assert.IsNotNull(creature, $"a {string.Join("/", kinds)} of pool {pool}");

@@ -949,6 +949,8 @@ namespace Rasa.Test.Missions.Ashen
                         && !AshenFixGV1.Evidences.Any(fix => fix.Mission == mission && fix.Evidence == entry.EvidenceId && entry.SourceUri == AshenFixGV1.Source)
                         && !(mission == AshenFixHV1.Mission && entry.EvidenceId == AshenFixHV1.EvidenceId && entry.SourceUri == AshenFixHV1.Source)
                         && !(mission == AshenFixIV1.Mission && entry.EvidenceId == AshenFixIV1.EvidenceId && entry.SourceUri == AshenFixIV1.Source)
+                        && !(mission == AshenFixLV1.Mission && entry.EvidenceId == AshenFixLV1.EvidenceId && entry.SourceUri == AshenFixLV1.Source)
+                        && !(mission == AshenFixLV1.Blast && entry.EvidenceId == AshenFixLV1.BlastEvidenceId && entry.SourceUri == AshenFixLV1.Source)
                         && !(entry.SourceUri == AshenFixJV1.Source && entry.Confidence == 0.3 && entry.SourceKind == MissionEvidenceSourceKind.Reconstruction &&
                              ((mission == AshenFixJV1.Threshold && entry.EvidenceId == AshenFixJV1.ThresholdEvidence) ||
                               (mission == AshenFixJV1.Digging && entry.EvidenceId == AshenFixJV1.DiggingEvidence) ||
@@ -1990,7 +1992,7 @@ namespace Rasa.Test.Missions.Ashen
             // Fix H's two pads (913, 914; a later migration) go and come back with the roll back to before fix D.
             string OtherTeleporters() => string.Join("; ", world.TeleporterEntries.AsNoTracking().Where(row => row.Id != 208 && row.Id != AshenFixHV1.LowerPad && row.Id != AshenFixHV1.UpperPad &&
                 row.Id != AshenAvernusOutpostNpcsV1.CavernPad && row.Id != AshenAvernusOutpostNpcsV1.GraveyardPad && !AshenAvernusHiveTests.Pads.Contains(row.Id) &&
-                !AshenConscriptionEntryTests.Pads.Contains(row.Id))
+                !AshenConscriptionEntryTests.Pads.Contains(row.Id) && row.Id != AshenFixLV1.PrisonPad && row.Id != AshenFixLV1.OutsidePad)
                 .OrderBy(row => row.Id).AsEnumerable().Select(row => System.FormattableString.Invariant($"{row.Id}:{row.PosX:R},{row.PosY:R},{row.PosZ:R},{row.Rotation:R}")));
             var fixedHospital = (-94.13672, 296.5, -828.72266, 3.7, (byte)5);
             var upstreamHospital = (-94.13672, 269.3, -828.72266, 3.7, (byte)5);

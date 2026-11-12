@@ -49,7 +49,8 @@ namespace Rasa.Services.Preloader.Missions.Ashen
     ///  - The teleporter the client's UsableTwoStateHumTeleporter (7895, name override 52 "Universal Interior Teleporter": the class
     ///    has no display text) west of the landing strip, locked to the card (in its first state, 55): its use, while 5 is open,
     ///    takes the player into the prison beside the tube (a move on this map). The card is kept (more than one way in). The
-    ///    client map has no force field round the prison: its door is open on the client floor (a deviation, docs).
+    ///    client map has no force field round the prison. (Fix L, to-fix row 46: the prison is a closed room in the real client;
+    ///    its way out is local teleporter 923, AshenFixLV1.)
     ///  - The items go at the turn-in (cleanup Remove). The rewards by their client names, each a stack, one to choose: Class VIII
     ///    Cryogenic Grenade (111049) x3, Standard Med Pack (45064) x3, Incendiary Grenade (111039) x3, Advanced Med Pack (45065) x2.
     ///  - Markers (unnamed): 1 the bag, 2 the ammo, 3 the diary's corpse, 4 the servers, 5 the stash, the teleporter and the card's

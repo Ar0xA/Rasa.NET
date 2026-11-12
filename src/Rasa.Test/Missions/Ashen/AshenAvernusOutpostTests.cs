@@ -355,14 +355,15 @@ namespace Rasa.Test.Missions.Ashen
                 if (markers[i].At.Y - markerFloors[i] > markers[i].Reach)
                     failures.Add($"{markers[i].Label}: client floor {markerFloors[i]}");
             }
-            Assert.HasCount(25, places);
+            Assert.HasCount(27, places);
             Assert.IsEmpty(failures, $"{failures.Count}: " + string.Join("; ", failures));
         }
 
         /// <summary>
         /// The walks on the client's floor (AshenFixBTests.ClientFloorLine with a player's half width, PlayerHalfWidth 0.5 m, fix
         /// G's 55-degree climb rule), every leg there and back by the corners Legs names (a client-floor flood's way, 2026-11-12),
-        /// also with its start moved 0.13, 0.27 and 0.4 m along its first stretch (StartShifts).
+        /// also with its start moved 0.13, 0.27 and 0.4 m along its first stretch (StartShifts). No leg goes into or out of a room
+        /// the real client keeps closed (ClientClosedRooms: the prison, fix L; the server's collision has it open).
         /// Every walk keeps HostileClearance (30 m, 2D) outside the circle of every hostile pool but those it names (the upstream
         /// pools on the only way: 531047 in the tunnel from the outpost to Drazen's cavern and 531061 by the ramp down into it, 531042 over the hive tunnel's top half;
         /// docs/ashen-playtest.md). The outpost and Drazen's cavern are one walk area; the graveyard is reached only by the pad.
@@ -394,6 +395,8 @@ namespace Rasa.Test.Missions.Ashen
                         walked++;
                         if (AshenFixBTests.ClientFloorLine(geometry, line, line[^1], null, PlayerHalfWidth) is { } why)
                             failures.Add(FormattableString.Invariant($"{leg} {direction} (start +{shift} m): {why}"));
+                        if (ClosedRoomCrossing(line) is { } wall)
+                            failures.Add(FormattableString.Invariant($"{leg} {direction} (start +{shift} m): {wall}"));
                     }
                 }
             }
@@ -547,6 +550,11 @@ namespace Rasa.Test.Missions.Ashen
             Assert.AreEqual(((UseObjectState)Overly.DestroyedState, MissionObjectiveState.Completed),
                 (SceneObject(harness, copy, Overly.MissionId, Overly.StashRole).StateId, Objective(harness, Overly.MissionId, Overly.SecretStash)), "the stash destroyed, 5 done");
             Assert.IsTrue(harness.Client.Player.Missions[Overly.MissionId].Completeable, "to be turned in");
+
+            // Fix L (to-fix row 46): the prison is closed in the client; its way out (923) sets the player down by the inbound teleporter (924).
+            Pads(harness, copy);
+            Teleport(harness, copy, copy.Teleporters[AshenFixLV1.PrisonPad]);
+            Assert.IsLessThan(1.01f, Vector3.Distance(V(AshenFixLV1.OutsidePadAt), harness.Client.Player.Position), "out of the prison, by the inbound teleporter");
 
             karter = Giver(copy, N.Karter);
             FullBagWaits(harness, karter, Overly.MissionId, 0, ConsumableFiller);
@@ -1219,6 +1227,7 @@ namespace Rasa.Test.Missions.Ashen
                 ("the tavern corpse", ToVector(Overly.DiaryAt), true, F.ObjectMiddle, Clearance), ("the data backup", ToVector(Overly.BackupAt), true, F.ObjectMiddle, Clearance),
                 ("the strip corpse", ToVector(Overly.CardAt), true, F.ObjectMiddle, Clearance), ("the prison teleporter", ToVector(Overly.TeleporterAt), true, F.ObjectMiddle, Clearance),
                 ("the secret stash", ToVector(Overly.StashAt), true, F.ObjectMiddle, Clearance), ("the prison arrival", ToVector(Overly.PrisonArrival), false, 0, Clearance),
+                ("the prison's way out (fix L)", V(AshenFixLV1.PrisonPadAt), false, 0, Clearance), ("the way out's arrival (fix L)", V(AshenFixLV1.OutsidePadAt), false, 0, Clearance),
                 ("the officer", ToVector(Run.OfficerAt), false, 0, Clearance), ("soldier 1", ToVector(Run.SoldiersAt[0]), false, 0, Clearance),
                 ("soldier 2", ToVector(Run.SoldiersAt[1]), false, 0, Clearance), ("the turn", ToVector(Run.RestAt), true, F.NpcMiddle, Clearance)
             };
@@ -1228,6 +1237,45 @@ namespace Rasa.Test.Missions.Ashen
                 places.Add(($"ambush {member + 1}", ToVector(Run.AmbushAt[member]), false, 0, Clearance));
             places.Add(("the tunnel's top", ToVector(Run.TopWay[^1]), false, 0, Clearance));
             return places.Select(place => ((string Label, Vector3 At, bool Ring, float Middle, float Clearance))place).ToList();
+        }
+
+        /// <summary>
+        /// The rooms the real client keeps closed where the client collision the server reads (MapGeometry) has a way in: label, the
+        /// walkable box measured in the client (x, z), its floor's height. The prison (to-fix row 46, AshenFixLV1.PrisonBox): its
+        /// east stair, corridor and ramp are open in arch_hum_fort_prison_v02.geo, and ClientFloorLine walks them; the real client
+        /// stops at the stair's foot. ClientFloorLine cannot see this wall, so the walk checks take the measured box as one.
+        /// </summary>
+        internal static readonly (string Label, (double MinX, double MaxX, double MinZ, double MaxZ, double Y) Box)[] ClientClosedRooms =
+        {
+            ("the prison", AshenFixLV1.PrisonBox)
+        };
+
+        /// <summary>How far over or under a closed room's floor a point still counts as in the room (a floor above or below is another).</summary>
+        private const float ClosedRoomReach = 3;
+
+        /// <summary>
+        /// Where <paramref name="line"/> (corners, sampled every 0.25 m) goes into or out of a room of ClientClosedRooms, or null when it
+        /// stays inside one or outside all.
+        /// </summary>
+        internal static string ClosedRoomCrossing(IReadOnlyList<Vector3> line)
+        {
+            foreach (var (label, box) in ClientClosedRooms)
+            {
+                bool In(Vector3 at) => at.X >= box.MinX && at.X <= box.MaxX && at.Z >= box.MinZ && at.Z <= box.MaxZ && MathF.Abs(at.Y - (float)box.Y) <= ClosedRoomReach;
+                var was = In(line[0]);
+                for (var k = 1; k < line.Count; k++)
+                {
+                    var steps = Math.Max(1, (int)MathF.Ceiling(Vector3.Distance(line[k - 1], line[k]) / 0.25f));
+                    for (var s = 1; s <= steps; s++)
+                    {
+                        var at = Vector3.Lerp(line[k - 1], line[k], s / (float)steps);
+                        if (In(at) == was)
+                            continue;
+                        return FormattableString.Invariant($"goes {(was ? "out of" : "into")} {label} at ({at.X:0.0}, {at.Y:0.00}, {at.Z:0.0}), a room the real client keeps closed");
+                    }
+                }
+            }
+            return null;
         }
 
         /// <summary>The start shifts (m along a leg's first stretch) each leg is also walked at (ThePlacesAreWalkedToOnTheClientsFloor).</summary>
@@ -1343,12 +1391,23 @@ namespace Rasa.Test.Missions.Ashen
                 new(94f, 517.37f, -105f), new(103f, 526.87f, -114f), new(103f, 527.62f, -117f), new(103f, 528f, -119f),
                 new(98f, 528f, -120f), new(42f, 528f, -120f), new(28f, 528.12f, -106f)
             },
-            ["to the prison"] = new Vector3[]
+            // Fix L (to-fix row 46): the prison is closed in the client (ClientClosedRooms), so it is reached by the teleporter
+            // only, and left by its way out (923): these legs stay inside it. Set 17's leg in by the east stair, which the server's
+            // collision has open, is gone (the real client stops at the stair's foot).
+            ["in the prison to the stash"] = new Vector3[]
             {
-                new(101f, 528.5f, 71f), new(99f, 528.5f, 66f),
-                new(99f, 527.12f, 57f), new(101f, 527.12f, 38f), new(91f, 527.12f, 28f), new(84f, 527.12f, 23f),
-                new(77f, 526.23f, 3f), new(76.65f, 525.96f, 3.35f), new(75.65f, 525.71f, 2.35f), new(76f, 525.37f, 1f),
-                new(69f, 515.87f, -37f), new(-8f, 520.01f, -46f), new(-8f, 520.01f, -49f), new(-6.5f, 520.01f, -50.2f)
+                new(-8f, 520.01f, -46f), new(-8f, 520.01f, -49f), new(-6.5f, 520.01f, -50.2f)
+            },
+            // Onto 923 from the east along its local x axis (fix L audit R1): over its low rim (0.18 m, 24 degrees), not its north
+            // side's 0.59 m step; to its centre, 2 m inside its trigger's edge (AshenFixLTests.ThePrisonPadIsWalkedOntoOverItsLowRim).
+            ["in the prison to the way out"] = new Vector3[]
+            {
+                new(-8f, 520.01f, -46f), new(-11f, 520.01f, -44f), new(-14f, 520.01f, -44f)
+            },
+            // From the way out's arrival (924) by the inbound teleporter onto the strip road and to the plaza (set 17's way back).
+            ["from the way out's arrival"] = new Vector3[]
+            {
+                new(31f, 528.12f, -109f), new(42f, 528f, -120f), new(98f, 528f, -120f), new(103f, 528f, -119f)
             },
             ["to the south road"] = new Vector3[]
             {
@@ -1429,7 +1488,9 @@ namespace Rasa.Test.Missions.Ashen
                 ("the entrance to the data backup", new[] { "the entrance", "to the plaza", "across the plaza to the HQ", "into the HQ", "to the black box" }, none, ToVector(Overly.BackupAt)),
                 ("the entrance to the strip corpse", new[] { "the entrance", "to the plaza", "across to the landing strip", "to the strip corpse" }, none, ToVector(Overly.CardAt)),
                 ("the entrance to the prison teleporter", new[] { "the entrance", "to the prison teleporter" }, none, ToVector(Overly.TeleporterAt)),
-                ("the entrance to the secret stash (the prison open on the client floor)", new[] { "the entrance", "to the prison" }, none, ToVector(Overly.StashAt)),
+                ("the prison arrival to the secret stash", new[] { "in the prison to the stash" }, none, ToVector(Overly.StashAt)),
+                ("the prison arrival to its way out (fix L)", new[] { "in the prison to the way out" }, none, V(AshenFixLV1.PrisonPadAt)),
+                ("the way out's arrival to the plaza (fix L)", new[] { "from the way out's arrival" }, none, new Vector3(103f, 528f, -119f)),
                 ("the entrance to Drazen", new[] { "the entrance", "to the south road", "down the south road", "down the cavern tunnel", "into the cavern", "to Drazen" }, DrazenTunnelPools, V(N.DrazenAt)),
                 ("Drazen to his pad", new[] { "from Drazen", "to his pad" }, none, V(N.CavernPadAt)),
                 ("the graveyard's pad to Petrovich", new[] { "the graveyard pad to Petrovich" }, none, V(N.PetrovichAt)),
@@ -1467,10 +1528,11 @@ namespace Rasa.Test.Missions.Ashen
             harness.Drain();
         }
 
-        /// <summary>The pad rows on the copy, as InitTeleporters puts them on a loaded map (AshenFixHTests.Pads), and the links.</summary>
-        private static void Pads(WildernessRuntimeTestHarness harness, MapChannel copy)
+        /// <summary>The pad rows on the copy (set 17's, fix L's), as InitTeleporters puts them on a loaded map (AshenFixHTests.Pads), and the links.</summary>
+        internal static void Pads(WildernessRuntimeTestHarness harness, MapChannel copy)
         {
-            foreach (var row in harness.World.TeleporterEntries.AsNoTracking().Where(row => row.Id == N.CavernPad || row.Id == N.GraveyardPad).ToList())
+            var ids = new[] { N.CavernPad, N.GraveyardPad, AshenFixLV1.PrisonPad, AshenFixLV1.OutsidePad };
+            foreach (var row in harness.World.TeleporterEntries.AsNoTracking().Where(row => ids.Contains(row.Id)).ToList())
             {
                 if (copy.Teleporters.TryGetValue(row.Id, out var standing))
                 {
@@ -1498,7 +1560,7 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>Through the pad onto the far one (AshenFixHTests.Teleport).</summary>
-        private static void Teleport(WildernessRuntimeTestHarness harness, MapChannel map, DynamicObject pad)
+        internal static void Teleport(WildernessRuntimeTestHarness harness, MapChannel map, DynamicObject pad)
         {
             // Off the pad first: a player set down on it (an earlier test's arrival, the same character) is not taken until he
             // has stepped off it (PlayerTransfer.ArrivalPad).
