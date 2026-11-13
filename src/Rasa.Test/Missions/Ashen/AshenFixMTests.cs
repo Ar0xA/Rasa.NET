@@ -79,7 +79,7 @@ namespace Rasa.Test.Missions.Ashen
             ["area: 1536/1"] = new() { [531051] = 16 },
             ["place: the men's stop"] = new() { [531051] = 15.5f },
             ["place: the Bane's pool"] = new() { [AshenAvernusHiveNpcsV1.BanePool] = 0 },
-            ["leg: the bottom to the Bane 6"] = new() { [AshenAvernusHiveNpcsV1.BanePool] = 0 },
+            ["leg: the bottom to the Bane"] = new() { [AshenAvernusHiveNpcsV1.BanePool] = 0 },
             ["leg: Peacock to the field's charge"] = new() { [531068] = 8.5f }
         };
 

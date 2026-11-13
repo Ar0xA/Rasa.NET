@@ -773,9 +773,9 @@ Captain Tananda 790650 (449, 391.46, -45) at the Cave In; Sgt. Frogga 790651 (65
 Vandeweghe 790652 (fix M: (294, 216.61, -330) in the hollow down the Queen's Chamber tunnel; set 18's (349, 233.11, -260) on
 the ramp over the chamber; 1537's copy only, no public pool); the Eloh
 Zuriel 790653 (628.6, 276, -677.8) in the Eloh Sanctuary. The Bane of the Queen's Chamber: a Caretaker 790654, a Fithik 790655, a Mutated Miasma 790656 (name 9037: the
-client has no "Altered Miasma") and a Thrax Tunneler 790657 (name 9892), level 43, one each in pool 790658 (147, 194.11, -590;
+client has no "Altered Miasma") and a Thrax Tunneler 790657 (name 9892), level 43, one each in pool 790658 (fix R: (225, 158.75, -502);
 r5; its row's respawn is 120 s, but in the squad's copy, the only place it stands, a cleared pool comes back 45 min after
-the last of it died) on the chamber's west ledge. Two Atta Teleporter pairs (local teleporters, class 25302, linked both ways):
+the last of it died) on the chamber's floor (set 18's (147, 194.11, -590) on the west ledge, an island; fix R). Two Atta Teleporter pairs (local teleporters, class 25302, linked both ways):
 917 (509, 368.37, -506) near the southern tunnel's end <-> 918 (fix M: (306, 218.11, -326) in the hollow; set 18's (340,
 238.11, -252)) over the Queen's Chamber; 919 (470, 385.83,
 -324) on the Food Storage's west side <-> 920 (628, 275.98, -639) in the Eloh Sanctuary's entrance. Next free id 790659. Every
@@ -972,6 +972,19 @@ Places, radii and respawn kept. 1535's marker 3 round 790701 widens from 10 to 1
 point, and 4 m). 790701 stays 12 m from 531060's island spit (row 54): no place 20 m and more from the island
 passed the floor, sight and reach checks in fix O's probes (the floor east of it is off the client floor, the floor south is
 531050's), so it is not moved.
+
+Fix job R (migration `20271110002140_Ashen_fix_r`, real client 2026-11-13), a delta on fix P. 1537's objective 6 could not
+be reached: set 18's Bane pool 790658 stood on the Queen's Chamber's west ledge (147, 194.11, -590), and its way up from the
+chamber's floor at (243..238, -667..-668) is a terrain slope of 48-50 degrees over 2 m (single 56-58 degree triangles; the
+55-degree rule passed it with the leg's start unshifted only, as one steep sample). The real client stopped at (240.1, 169.6,
+-664.1) and (237.8, 169.9, -663.3), as on fix N's refused slope (row 50). The server navmesh does not join it either: the ledge
+is an island of 10457 m2, the bottom and the chamber's floor one region of 31662 m2. The pool and 1537's marker 6 (radius 9
+kept) move to the chamber's floor on the way from the bottom, (225, 158.75, -502): navmesh ground, floor of 0-38 degrees for
+7 m round, 66 m from the bottom (Vandeweghe). Its walk from the bottom climbs at most 37 degrees over 2 m (AshenFixRTests,
+under 45). Rule break: the place is 60 m+ outside every hostile pool's circle, but 70.9 m (not 100 m) outside upstream
+warcry pool 531043's (the chamber's Atta, (275.3, 166.9, -583.7) r20) and 89.8 m outside 531044's (an island 29 m above, set
+18's walk down already passes it); no place on the chamber floor keeps 100 m from 531043 but the bottom itself. The walk
+keeps 30 m+ from 531043's circle; the warcry only calls if 531043 is fought. No source places the Bane.
 
 Set 19, the Bane Conscription Facility, the entry and the biolab (migration `20271110001900_Ashen_conscription_entry`). The
 facility is a squad instance (map 1988), entered by its door in Ashen Desert (map_link 57, (427.74, 305.61, 206.80)); you arrive

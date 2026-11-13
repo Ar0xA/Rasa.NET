@@ -29,6 +29,7 @@ namespace Rasa.Test.Missions.Ashen
     using static PlateauCampResistanceTests;
     using N = AshenAvernusHiveNpcsV1;
     using M = AshenFixMV1;
+    using R = AshenFixRV1;
     using Outpost = AshenAvernusOutpostNpcsV1;
     using Atta = AshenAssessingTheAttaV1;
     using Queen = AshenGodSaveTheQueenV1;
@@ -97,7 +98,7 @@ namespace Rasa.Test.Missions.Ashen
             yield return (1536, Atta.ReturnToPetrovich, top.X, top.Z, Atta.NpcMarkerRadius);
             var pad = N.TunnelPadAt;
             var colonel = M.VandewegheAt;
-            var pool = N.BaneAt;
+            var pool = R.BaneAt;
             yield return (1537, Queen.FindTheTeleporter, pad.X, pad.Z, Queen.PadRadius);
             yield return (1537, Queen.TeleportToTheChamber, colonel.X, colonel.Z, Queen.ColonelRadius);
             yield return (1537, Queen.Colonel, colonel.X, colonel.Z, Queen.NpcMarkerRadius);
@@ -206,13 +207,19 @@ namespace Rasa.Test.Missions.Ashen
                 (bane.MapContextId, bane.Creature1Id, bane.Creature2Id, bane.Creature3Id, bane.Creature4Id, (uint)bane.Radius, (uint)bane.RespawnTime), "the Bane's pool");
             Assert.AreEqual(((byte)1, (byte)1, (byte)1, (byte)1, 0U, 0U), (bane.Creature1MaxCount, bane.Creature2MaxCount, bane.Creature3MaxCount, bane.Creature4MaxCount, bane.Creature5Id, bane.Creature6Id), "one each");
             Assert.IsTrue(hostile.Any(pool => pool.Id == N.BanePool), "the Bane's pool hostile");
-            var at = V(N.BaneAt);
+            // Fix R: the Bane's pool on the chamber's floor, 60 m+ outside every hostile pool's circle; 100 m+ outside every warcry
+            // pool's but 531043's, the chamber's Atta, and 531044's, an island 29 m above (rule breaks, docs/ashen-playtest.md: no
+            // place on the chamber's floor but the bottom keeps 100 m from 531043).
+            var at = V(R.BaneAt);
             foreach (var other in hostile.Where(other => other.Id != N.BanePool))
             {
-                var crier = new[] { other.Creature1Id, other.Creature2Id, other.Creature3Id, other.Creature4Id, other.Creature5Id, other.Creature6Id }.Any(criers.Contains);
+                var crier = new[] { other.Creature1Id, other.Creature2Id, other.Creature3Id, other.Creature4Id, other.Creature5Id, other.Creature6Id }.Any(criers.Contains)
+                    && !WarcryBreaks.Contains(other.Id);
                 Assert.IsGreaterThanOrEqualTo(crier ? 100f : 60f, Facility.Gap(at, other) - N.BaneRadius,
                     $"the Bane's pool {(crier ? 100 : 60)} m+ outside hostile pool {other.Id}'s circle");
             }
+            foreach (var id in WarcryBreaks)
+                Assert.IsLessThan(100f, Facility.Gap(at, hostile.Single(other => other.Id == id)) - N.BaneRadius, $"{id}'s break is not stale");
 
             var pads = world.TeleporterEntries.AsNoTracking().Where(row => Pads.Contains(row.Id)).OrderBy(row => row.Id).ToList();
             Assert.HasCount(4, pads);
@@ -1083,11 +1090,15 @@ namespace Rasa.Test.Missions.Ashen
             ("the west pad", V(N.WestPadAt), false, 0, Clearance), ("the sanctuary pad", V(N.SanctuaryPadAt), false, 0, Clearance),
             ("the man 1's place", ToVector(Atta.MenAt[0]), false, 0, Clearance), ("the man 2's place", ToVector(Atta.MenAt[1]), false, 0, Clearance),
             ("the men's stop", ToVector(Atta.TunnelWay[^1]), false, 0, 19), ("the tunnel's bottom", ToVector(Queen.BottomAt), true, F.NpcMiddle, Clearance),
-            ("the round room", ToVector(Secret.ChamberAt), false, 0, Clearance), ("the Bane's pool", V(N.BaneAt), false, 0, 100),
+            ("the round room", ToVector(Secret.ChamberAt), false, 0, Clearance), ("the Bane's pool", V(R.BaneAt), false, 0, 60),
             ("Petrovich at the top", V(Outpost.PetrovichTopAt), true, F.NpcMiddle, Clearance)
         };
 
         private const float Clearance = 34;
+
+        /// <summary>The upstream warcry pools under 100 m from the Bane's pool since fix R (breaks): 531043, the Queen's Chamber's Atta,
+        /// 70.9 m outside both circles; 531044, an island 29 m above the chamber's floor (not on the bottom's navmesh region), 89.8 m.</summary>
+        internal static readonly uint[] WarcryBreaks = { 531043, 531044 };
 
         /// <summary>How far each leg's start is moved along its first stretch for the walk's recheck (as AshenAvernusOutpostTests).</summary>
         private static readonly float[] StartShifts = { 0, 0.13f, 0.27f, 0.4f };
@@ -1168,32 +1179,12 @@ namespace Rasa.Test.Missions.Ashen
                 new(144f, 168.28f, -418f), new(184f, 159.17f, -418f), new(224f, 153.26f, -418f), new(264f, 150.83f, -418f),
                 new(273f, 144.52f, -449f), new(273f, 144.25f, -462f)
             },
-            ["the bottom to the Bane 1"] = new Vector3[]
+            ["the bottom to the Bane"] = new Vector3[]
             {
+                // Fix R: the Bane's pool on the chamber's floor (set 18's way on to the west ledge climbed a 48-50 degree slope at
+                // (240, -668) the real client did not climb, onto a navmesh island; AshenFixRTests).
                 new(273f, 144.25f, -462f), new(257f, 151.86f, -473f), new(256f, 153.39f, -482f), new(251f, 154.11f, -488f),
-                new(227f, 158.36f, -504f), new(224f, 153.61f, -526f), new(224f, 156.61f, -543f)
-            },
-            ["the bottom to the Bane 2"] = new Vector3[]
-            {
-                new(224f, 156.61f, -543f), new(224f, 159.36f, -547f), new(221f, 159.86f, -555f), new(221f, 163.36f, -578f),
-                new(222f, 162.86f, -602f), new(225f, 162.36f, -622f), new(243f, 166.36f, -644f), new(243f, 171.11f, -667f),
-                new(242f, 171.86f, -667f), new(242f, 172.86f, -668f), new(240f, 174.61f, -668f)
-            },
-            ["the bottom to the Bane 3"] = new Vector3[]
-            {
-                new(240f, 174.61f, -668f), new(238f, 176.36f, -668f)
-            },
-            ["the bottom to the Bane 4"] = new Vector3[]
-            {
-                new(238f, 176.36f, -668f), new(215f, 180.36f, -668f), new(209f, 180.61f, -661f)
-            },
-            ["the bottom to the Bane 5"] = new Vector3[]
-            {
-                new(209f, 180.61f, -661f), new(178f, 182.33f, -659f), new(178f, 181.33f, -656f), new(157f, 194.11f, -637f)
-            },
-            ["the bottom to the Bane 6"] = new Vector3[]
-            {
-                new(157f, 194.11f, -637f), new(147f, 194.61f, -607f), new(147f, 194.11f, -590f)
+                new(225f, 158.75f, -502f)
             },
             ["to the west pad"] = new Vector3[]
             {
@@ -1216,8 +1207,7 @@ namespace Rasa.Test.Missions.Ashen
                 ("Petrovich to the southern tunnel's pad (1537)", new[] { "from Petrovich", "to the southern pad 1", "to the southern pad 2" }, SouthernTunnelPools, V(N.TunnelPadAt)),
                 ("the queen pad to Vandeweghe (1537)", new[] { "the queen pad to Vandeweghe" }, QueenPadPools, V(M.VandewegheAt)),
                 ("Vandeweghe down to the bottom (1537)", new[] { "down to the bottom 1", "down to the bottom 2" }, ChamberTunnelPools, ToVector(Queen.BottomAt) with { Y = 144.25f }),
-                ("the bottom to the Bane (1537)", new[] { "the bottom to the Bane 1", "the bottom to the Bane 2", "the bottom to the Bane 3", "the bottom to the Bane 4",
-                    "the bottom to the Bane 5", "the bottom to the Bane 6" }, none, V(N.BaneAt)),
+                ("the bottom to the Bane (1537)", new[] { "the bottom to the Bane" }, none, V(R.BaneAt)),
                 ("Petrovich to the west pad (1581)", new[] { "from Petrovich", "to the west pad" }, WestSidePools, V(N.WestPadAt)),
                 ("the sanctuary pad to Zuriel (1581)", new[] { "the sanctuary pad to Zuriel" }, none, V(N.ZurielAt))
             };
