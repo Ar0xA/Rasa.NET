@@ -207,7 +207,8 @@ namespace Rasa.Test.Missions.Ashen
             var ids = string.Join(", ", Pads);
             Assert.AreEqual(2, Links($"from_teleporter_id IN ({ids}) OR to_teleporter_id IN ({ids})"), "no other link");
             Assert.IsFalse(world.TeleporterEntries.AsNoTracking().Where(row => row.MapContextId == Map && !Pads.Contains(row.Id)).AsEnumerable().Any(row =>
-                (uint)row.Type == 1 && N.Pads.Any(pad => Vector2.Distance(new((float)row.PosX, (float)row.PosZ), new((float)pad.At.X, (float)pad.At.Z)) < 10)), "no other pad by them");
+                (uint)row.Type == 1 && N.Pads.Any(pad => Vector2.Distance(new((float)row.PosX, (float)row.PosZ), new((float)AshenFixS2V1.Moved(pad.Id, pad.At).X, (float)AshenFixS2V1.Moved(pad.Id, pad.At).Z)) < 5)),
+                "no other pad by them (5 m: 2 m triggers; S2's 921 and 925 stand 7 m apart in Central Operations)");
 
             var failures = new List<string>();
             foreach (var (label, place, _, _, clearance) in Places())
