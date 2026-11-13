@@ -153,7 +153,8 @@ namespace Rasa.Test.Missions.Ashen
         /// Every place, leg and area of sets 15-19 on the three squad maps against every hostile pool's spawn ground on its map
         /// (upstream and ours; AshenSpawnReach.Ground, 1500 seeded draws a pool): fix M's places and legs keep 20 m (AshenSpawnReach
         /// .Clearance) from every pool; every other one keeps AggroRange (18 m) from every pool but its own, the ones its walks name
-        /// as passed and the documented breaks (Breaks, each at its least distance). Set 17's Petrovich, pad 916's walk to him,
+        /// as passed and the documented breaks (Breaks, each at its least distance; each break's label must be an item and each
+        /// of its pools within AggroRange of it, so a stale break fails). Set 17's Petrovich, pad 916's walk to him,
         /// set 18's Vandeweghe and queen pad failed it (0.3-4.0 m from 531050's and 531058's draws).
         /// </summary>
         [TestMethod]
@@ -163,6 +164,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.AreEqual(AshenSpawnReach.AggroRange, new Creature().AggroRange, "Creature.AggroRange");
             var failures = new List<string>();
             var report = new List<string>();
+            var measured = new Dictionary<string, Dictionary<uint, float>>();
             foreach (var (map, into, hostile) in new (uint, Func<MapChannel>, Func<List<SpawnPoolEntry>>)[]
             {
                 (AshenIndraFacilityNpcsV1.Caverns, () => AshenGothaPlantTests.IntoGotha(harness), () => AshenIndraFacilityTests.HostilePools(harness)),
@@ -179,6 +181,8 @@ namespace Rasa.Test.Missions.Ashen
                 {
                     var reach = AshenSpawnReach.Reach(item.Points, ground);
                     var breaks = Breaks.GetValueOrDefault(item.Label) ?? new Dictionary<uint, float>();
+                    if (Breaks.ContainsKey(item.Label))
+                        measured[item.Label] = reach.ToDictionary(r => r.Pool, r => r.Near);
                     foreach (var (pool, near, at) in reach)
                     {
                         var where = FormattableString.Invariant($"{map} {item.Label}: {near:0.0} m from pool {pool}'s spawn draws at ({at.X:0.0}, {at.Y:0.0}, {at.Z:0.0})");
@@ -222,6 +226,18 @@ namespace Rasa.Test.Missions.Ashen
                     Assert.IsLessThan(AshenSpawnReach.AggroRange, near, "set 19's lab charge stood within 520002's reach");
                 }
             }
+            // No stale break: each names an item that is measured, and each of its pools is really within AggroRange of it.
+            foreach (var (label, pools) in Breaks)
+            {
+                if (!measured.TryGetValue(label, out var near))
+                {
+                    failures.Add($"break {label}: no such place, leg or area");
+                    continue;
+                }
+                foreach (var pool in pools.Keys)
+                    if (!near.TryGetValue(pool, out var at) || at >= AshenSpawnReach.AggroRange)
+                        failures.Add(FormattableString.Invariant($"break {label}: pool {pool} {(near.ContainsKey(pool) ? $"{at:0.0} m" : "not drawn")}, not within {AshenSpawnReach.AggroRange} m (a stale break)"));
+            }
             Console.WriteLine(string.Join("\n", report));
             Assert.IsEmpty(failures, $"{failures.Count}: " + string.Join("; ", failures));
         }
@@ -239,6 +255,7 @@ namespace Rasa.Test.Missions.Ashen
             using var harness = WildernessRuntimeTestHarness.Create();
             using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
             var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", AshenIndraFacilityTests.MapName(harness, N.Outpost)), meshes, 1);
+            var onPads = AddPads(harness, geometry, meshes);
             var nav = Outpost.IntoOutpost(harness).NavMesh;
             var legs = new[]
             {
@@ -253,8 +270,9 @@ namespace Rasa.Test.Missions.Ashen
             Assert.AreEqual(V(M.VandewegheAt), legs[3][^1], "to Vandeweghe");
             Assert.AreEqual(V(M.VandewegheAt), legs[4][0], "from Vandeweghe");
             var failures = new List<string>();
-            foreach (var corners in legs)
+            foreach (var corners0 in legs)
             {
+                var corners = onPads(corners0);
                 var name = FormattableString.Invariant($"({corners[0].X:0}, {corners[0].Z:0})->({corners[^1].X:0}, {corners[^1].Z:0})");
                 var first = Vector2.Distance(new(corners[0].X, corners[0].Z), new(corners[1].X, corners[1].Z));
                 foreach (var shift in new[] { 0f, 0.13f, 0.27f, 0.4f }.Where(shift => shift == 0 || first > shift + 0.05f))
@@ -274,6 +292,33 @@ namespace Rasa.Test.Missions.Ashen
                 }
             }
             Assert.IsEmpty(failures, $"{failures.Count}: " + string.Join("; ", failures));
+        }
+
+        /// <summary>
+        /// The pads 915-920 (class 25302, prop_atta_teleporter_v01.geo) put into the map's geometry at their live rows (place,
+        /// rotation), as AshenConscriptionEntryTests does for its 8044 pads: the client map places none, so without them a walk
+        /// onto a pad was checked against the bare ground under it. The pad's mesh has collision: the platform
+        /// (1.13 m up, x -1.4..1.4, z -2.2..2.2), its ramp to the south (-z), and a wall 7.2 m high round its west, north and east
+        /// (a horseshoe from (-3.3, -2.7) by (-4.6, 1.0), (-3.4, 6.5) and (0, 9.8) to (3.3, -2.7), local; the probe, 2026-11-13),
+        /// open only on the ramp's side. Returns the lift for a leg: a
+        /// corner on a pad's point (its base, as the rows and the legs give it) goes up to the platform's top (the mesh's highest
+        /// point within 1 m of its middle), where a player stands after the pad's arrival and before he walks down the ramp.
+        /// </summary>
+        internal static Func<IReadOnlyList<Vector3>, Vector3[]> AddPads(WildernessRuntimeTestHarness harness, MapGeometry geometry, MeshLibrary meshes)
+        {
+            var mesh = meshes.GetForClass((int)N.PadClass);
+            Assert.IsTrue(mesh is { HasCollision: true }, "the 25302 pad's mesh has collision");
+            var top = mesh.Vertices.Where(point => MathF.Abs(point.X) < 1 && MathF.Abs(point.Z) < 1).Max(point => point.Y);
+            Assert.IsTrue(top is > 1f and < 1.3f, $"the platform's top {top} m up (1.1-1.22 m, the probe)");
+            var rows = harness.World.TeleporterEntries.AsNoTracking().Where(row => row.Id >= M.CavernPad && row.Id <= 920 && row.MapContextId == N.Outpost).ToList();
+            Assert.HasCount(6, rows, "pads 915-920");
+            foreach (var row in rows)
+            {
+                Assert.AreEqual(N.PadClass, row.ClassId, $"pad {row.Id}'s class");
+                AshenConscriptionEntryTests.AddObject(geometry, meshes, (int)row.ClassId, new Vector3((float)row.PosX, (float)row.PosY, (float)row.PosZ), (float)row.Rotation);
+            }
+            var bases = rows.Select(row => new Vector3((float)row.PosX, (float)row.PosY, (float)row.PosZ)).ToList();
+            return corners => corners.Select(corner => bases.Any(pad => Vector3.Distance(pad, corner) < 0.01f) ? corner + new Vector3(0, top, 0) : corner).ToArray();
         }
 
         /// <summary>

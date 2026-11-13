@@ -379,12 +379,14 @@ namespace Rasa.Test.Missions.Ashen
             using var harness = WildernessRuntimeTestHarness.Create();
             using var meshes = new MeshLibrary(dataDir, F.MeshCsv());
             var geometry = MapGeometry.Load(Path.Combine(dataDir, "maps", Facility.MapName(harness, Map)), meshes, 1);
+            var onPads = AshenFixMTests.AddPads(harness, geometry, meshes);
             var hostile = HostilePools(harness);
             var failures = new List<string>();
             var walked = 0;
             var expected = 0;
-            foreach (var (leg, corners) in Legs)
+            foreach (var (leg, corners0) in Legs)
             {
+                var corners = onPads(corners0);
                 // Each leg as given and with its start moved StartShifts along its first stretch: the samples (every 0.5 m) fall
                 // elsewhere, so a step or a wall the samples happen to straddle is not missed (audit S-B follow-up).
                 var first = Vector2.Distance(new(corners[0].X, corners[0].Z), new(corners[1].X, corners[1].Z));
