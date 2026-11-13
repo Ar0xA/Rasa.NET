@@ -195,7 +195,8 @@ namespace Rasa.Test.Missions.Ashen
         [TestMethod]
         public void TheRowsAreFixOs()
         {
-            using var harness = WildernessRuntimeTestHarness.Create();
+            // At fix O's own migration: fix P (20271110002120) resizes the two pools after it (AshenFixPTests).
+            using var harness = WildernessRuntimeTestHarness.Create(targetWorldMigration: FixO);
             var world = harness.World;
             Assert.AreEqual(Mine(world), Expected, "fix O's rows");
         }

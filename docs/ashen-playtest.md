@@ -963,6 +963,15 @@ to the tunnel (850, -245.4) -> (804, -245); 790701's round (972, -212), east of 
 shelf. Expect the island Atta inside the rock west of the graveyard (around (822-831, -243 to -236)) and in the east rock
 (around (968-972, -228 to -224)): ignore them.
 
+Fix job P (migration `20271110002120_Ashen_fix_p`, real client 2026-11-13), a delta on fix O. Deviation: our replacement
+pools sized for one player; user review. 1535's objective 1 (all four pools dead at once, a cleared pool refilled only after
+the squad copy's 45 min) was too much for one player: 790700's nine Atta stand beside 531049's nine island Atta and the
+Harvesters' warcries chain. Fix O's counts were upstream's (ESTIMATE); fix P sets them: 790700 one Atta Soldier 531015 (was
+2-3), one or two Atta Harvesters 531016 (was 3-4), no Atta Grub 531017 (was 0-2); 790701 one or two Harvesters (was 2-4).
+Places, radii and respawn kept. 790701 stays 12 m from 531060's island spit (row 54): no place 20 m and more from the island
+passed the floor, sight and reach checks in fix O's probes (the floor east of it is off the client floor, the floor south is
+531050's), so it is not moved.
+
 Set 19, the Bane Conscription Facility, the entry and the biolab (migration `20271110001900_Ashen_conscription_entry`). The
 facility is a squad instance (map 1988), entered by its door in Ashen Desert (map_link 57, (427.74, 305.61, 206.80)); you arrive
 at (7.25, 153.5, -670.25). New NPCs: Capt. Peacock 790659 (6, 153.36, -646), 24 m on from the arrival, a public NPC 150 m and
