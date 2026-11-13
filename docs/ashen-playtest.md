@@ -948,7 +948,8 @@ your target from here" from 8.9-15 m (a chase stops at the island's edge nearest
 - Two pools of ours with the same creatures and counts count instead: 790700 (814, 289.12, -248) r 4 for 531049 (Atta
   Soldiers 2-3, Harvesters 3-4, Grubs 0-2), on the floor 1535's walk to the tunnel crosses; 790701 (972, 274.08, -212) r 6
   for 531060 (Harvesters 2-4), on the floor north of the island, reached from Petrovich by the navmesh's way east. Objective
-  1's markers 1 and 3 move to them (radius the circle + 4 m). Killing the island pools does nothing for the objective.
+  1's markers 1 and 3 move to them (radius the circle + 4 m; 790701's draws reach 14.0 m from its point, outside its
+  10 m marker). Killing the island pools does nothing for the objective.
 - Their draws are all on the main floor, on the client floor (790701: one draw 0.89 m over it, the navmesh's step height), seen
   from the walk to them and walked to (AshenFixOTests).
 - Rule break (60 m between hostile pools): 790700 stands beside 531049's island and 790701 beside 531060's island and 531050's

@@ -744,8 +744,14 @@ namespace Rasa.Test.Missions.Ashen
 
             // 1: the cave's four pools (fix O: 790700 and 790701 for upstream 531049 and 531060, whose islands no longer count).
             CollectionAssert.AreEqual(new uint[] { AshenFixOV1.WestPool, 531050, AshenFixOV1.EastPool, 531063 }, AshenFixOV1.CavePools.Select(pool => pool.Pool).ToArray(), "the four pools");
-            KillPools(harness, copy, new uint[] { AshenFixOV1.WestIsland, AshenFixOV1.EastIsland, 531050 });
+            // Set 17's four (the islands, 531050, 531063) dead at once: they would have completed 1; fix O's triggers do not.
+            KillPools(harness, copy, new uint[] { AshenFixOV1.WestIsland, AshenFixOV1.EastIsland, 531050, 531063 });
             Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Run.MissionId, Run.ClearTheCave), "the islands' pools no longer count");
+            // 531063 back (a pool counts while it is dead), so that the next three kills leave one of the four standing.
+            foreach (var pool in copy.SpawnPools.Where(pool => pool.DbId == 531063))
+                pool.ClearedAtUtcMs = 0;
+            Spawn(copy, new uint[] { 531063 });
+            Assert.IsTrue(Here(copy).Any(creature => creature.SpawnPool?.DbId == 531063 && creature.State != CharacterState.Dead), "531063 stands again");
             KillPools(harness, copy, AshenFixOV1.CavePools.Take(3).Select(pool => pool.Pool).ToArray());
             Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Run.MissionId, Run.ClearTheCave), "three pools of four");
             ReloadAndRecover(harness, copy);
