@@ -1149,8 +1149,9 @@ namespace Rasa.Test.Missions.Ashen
             },
             ["to the southern pad 2"] = new Vector3[]
             {
-                new(520f, 364.61f, -490f), new(521f, 367.61f, -501f), new(513f, 367.62f, -508f), new(509f, 368.74f, -511.5f),
-                new(509f, 368.37f, -506f)
+                // Fix M follow-up: clear of pad 917's east wall and its ramp's end (AshenFixMTests.AddPads), onto the ramp from the south.
+                new(520f, 364.61f, -490f), new(521f, 367.61f, -501f), new(516f, 367.4f, -504f), new(514f, 367.9f, -508.5f),
+                new(512.5f, 368.4f, -511.9f), new(509f, 368.9f, -512f), new(509f, 368.37f, -506f)
             },
             ["down to the bottom 1"] = new Vector3[]
             {
@@ -1198,8 +1199,9 @@ namespace Rasa.Test.Missions.Ashen
             {
                 new(646f, 352.76f, -246f), new(606f, 351.36f, -246f), new(595f, 353.61f, -275f), new(595f, 358.61f, -292f),
                 new(567f, 368.36f, -313f), new(557f, 370.62f, -312f), new(522f, 375.12f, -309f),
-                new(521f, 375.12f, -311f), new(481f, 380.12f, -311f), new(477f, 382.87f, -321f), new(470f, 386.08f, -331f),
-                new(470f, 385.83f, -324f)
+                // Fix M follow-up: clear of pad 919's east wall (AshenFixMTests.AddPads), 20.2 m from 531052's draws.
+                new(521f, 375.12f, -311f), new(481f, 380.12f, -311f), new(477f, 382.87f, -321f), new(474f, 385.1f, -327.8f),
+                new(470f, 386.08f, -330.5f), new(470f, 385.83f, -324f)
             },
         };
 

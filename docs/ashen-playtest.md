@@ -869,7 +869,8 @@ AshenFixMTests.ThePlacesAndWalksKeepOutOfThePoolsReach: OK 20 m and more, RISK 1
 - Every walk onto or off a pad (915-920) goes by its ramp on the south (-z) side, both ways
   (AshenFixMTests.ThePadsAreWalkedOnAndOffByTheirRampsOnly; ESTIMATE of the ramp side, the pads' geometry and row 48).
 - Every set 17 and 18 leg is now walked with fix J's rampFoot rule (0.6 m terrain-to-mesh step). Rerouted: the plaza climb
-  (the real client stopped at (99.15, 522.38, -110.72), under a rock face, row 45; the check passed it); the shops' corner
+  (the real client stopped at (99.15, 522.38, -110.72), under a rock face, row 45; the check passed it; since the follow-up
+  the real client's own walked way up the ramp (93.6, -105.2) -> (102, -110.4), see the walk points); the shops' corner
   at (82, -54) (a 0.71 m step onto a mesh); the hive's legs from Petrovich past (585.4, -296.5) and (570.5, -305.3) (0.61-0.65 m
   steps).
 - Petrovich, Drazen 790641 and Petrovich at the top 790643 are named public-spawn actors (1533's scene: Petrovich, Drazen;
@@ -892,15 +893,24 @@ AshenFixMTests.ThePlacesAndWalksKeepOutOfThePoolsReach: OK 20 m and more, RISK 1
   ways with fix J's rules (rampFoot, 0.5 m half width, start shifts 0.13/0.27/0.4 m), each corner by a complete navmesh path.
 
 New walk points (fix M), for the tester:
-- 1533: Drazen (57.5, 478.62, -315) -> south-west to pad 915's ramp foot (48, 477.49, -324.5) -> north up the ramp onto the
-  pad (48, 477.12, -318). Step off it the same way (south).
+- The pads 915-920 (class 25302) have a wall 7.2 m high round their west, north and east sides (a horseshoe out to 4.6 m
+  either side and 9.8 m north of the pad's middle; the client mesh, 2026-11-13), open only on the ramp's side (south): walk
+  round it, never along it.
+- 1533: Drazen (57.5, 478.62, -315) -> south to (56, 479.62, -325) -> west to pad 915's ramp foot (48, 477.49, -324.5) ->
+  north up the ramp onto the pad (48, 477.12, -318). Step off it the same way (south).
+- 1533 into the cavern: ... (34, 492.11, -290) -> (43, 479.55, -308) -> south down the west side of pad 915's wall (42,
+  476.6, -316) -> (42, 476.9, -324) -> east past the ramp (54, 479.1, -326) -> north to Drazen (57.5, 478.62, -315). Not
+  through (47, -311), inside the wall (the real client stopped at (44.7, -310.2)).
 - Set 17 plaza (1473's servers, black box, strip corpse, prison teleporter): ... (75, 514.37, -72) -> (88, 514.12, -85) ->
-  (96.5, 514.37, -82.5) -> east up the stair (109, 522, -82) -> (112, 522, -83.5) -> north up (112, 526, -90.5) -> (118, 526,
-  -91.5) -> north up (118, 528, -97.5) -> (117, 528, -101.5) -> (112, 528.12, -105) -> (110, 527.87, -110) -> (104, 526.37,
-  -110) -> (103, 526.62, -113) -> the plaza (103, 528, -119). Not the old diagonal (94, -105) -> (103, -114).
+  (92.8, 516.07, -104.4) -> the ramp's foot (93.6, 516.97, -105.2) -> up the ramp to (102, 525.37, -110.4) -> (103.6, 527.12,
+  -112.4) -> the plaza (103, 528, -119): the way the real client walked (row 45, 2026-11-13; the client checker passes it).
+  Not the straight (94, -101.5) -> (103, -114), which stops at (93.61, -101.54) (the checker refuses it too).
 - Set 17 shops (1473's bag, ammo, tavern): (75, 514.37, -47) -> (90, 514.12, -50) -> (90, 514.12, -68) -> on as before.
 - Set 18 from Petrovich at the top to the southern pad 917 and the west pad 919: ... (595, 358.61, -292) -> (567, 368.36,
-  -313) -> (557, 370.62, -312) -> on as before (917: south; 919: west along z -309).
+  -313) -> (557, 370.62, -312) -> on as before (917: south; 919: west along z -309). The last steps: to 917 ... (521, 367.61,
+  -501) -> (516, 367.4, -504) -> (514, 367.9, -508.5) -> (512.5, 368.4, -511.9) -> west to the ramp foot (509, 368.9, -512)
+  -> north up onto the pad; to 919 ... (477, 382.87, -321) -> (474, 385.1, -327.8) -> west to the ramp foot (470, 386.08,
+  -330.5) -> north up onto the pad.
 - 1533: pad 915 by Drazen -> arrival on pad 916 (888, 282.86, -212) -> down its ramp south to (888, 281.36, -218.5) -> west to
   Petrovich (873, 284.11, -219). The area (15 m) is entered on the walk west.
 - Back to pad 916 (row 48, try 3: set 17's pad at (890, -232) stopped a player coming from the east-south-east, 4.4 m from

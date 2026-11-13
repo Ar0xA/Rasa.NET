@@ -1293,8 +1293,9 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>Fix M's pad 915 outside 531061's circle (26.8 m in 3D; a rule break of the 34 m place rule, docs/ashen-playtest.md).</summary>
         private const float CavernPadClearance = 26.5f;
 
-        /// <summary>The upstream pools a walk passes (rule breaks, docs/ashen-playtest.md): 531047 in the tunnel from the outpost to Drazen's cavern and 531061 by the ramp down into it (21.8 m outside its circle: the ramp is the only way down); 531042 by the hive tunnel's top half.</summary>
-        private static readonly uint[] DrazenTunnelPools = { 531047, 531061 };
+        /// <summary>The upstream pools a walk passes (rule breaks, docs/ashen-playtest.md): 531047 in the tunnel from the outpost to Drazen's cavern and 531061 by the ramp down into it (21.8 m outside its circle: the ramp is the only way down); 531055 south of pad 915 (24.7 m outside
+        /// its circle, 38.5 m from its draws: the way round the pad's walls, fix M follow-up); 531042 by the hive tunnel's top half.</summary>
+        private static readonly uint[] DrazenTunnelPools = { 531047, 531061, 531055 };
         private static readonly uint[] HiveTunnelPools = { 531042 };
 
         /// <summary>
@@ -1349,9 +1350,9 @@ namespace Rasa.Test.Missions.Ashen
                 new(99f, 527.12f, 57f), new(101f, 527.12f, 38f), new(91f, 527.12f, 28f), new(84f, 527.12f, 23f),
                 new(77f, 526.23f, 3f), new(76.65f, 525.96f, 3.35f), new(75.65f, 525.71f, 2.35f), new(76f, 525.37f, 1f),
                 new(75f, 524.37f, -3f), new(75f, 523.12f, -8f), new(75f, 514.37f, -72f), new(88f, 514.12f, -85f),
-                new(96.5f, 514.37f, -82.5f), new(109f, 522f, -82f), new(112f, 522f, -83.5f), new(112f, 526f, -90.5f), new(118f, 526f, -91.5f),
-                new(118f, 528f, -97.5f), new(117f, 528f, -101.5f), new(112f, 528.12f, -105f), new(110f, 527.87f, -110f), new(104f, 526.37f, -110f),
-                new(103f, 526.62f, -113f), new(103f, 528f, -119f)
+                // Row 45, the real client's walked way up the ramp (93.6, -105.2) -> (102, -110.4) (2026-11-13), not fix M's east stair.
+                new(92.8f, 516.07f, -104.4f), new(93.6f, 516.97f, -105.2f), new(102f, 525.37f, -110.4f), new(103.6f, 527.12f, -112.4f),
+                new(103f, 528f, -119f)
             },
             ["across to the landing strip"] = new Vector3[]
             {
@@ -1399,9 +1400,9 @@ namespace Rasa.Test.Missions.Ashen
                 new(99f, 527.12f, 57f), new(101f, 527.12f, 38f), new(91f, 527.12f, 28f), new(84f, 527.12f, 23f),
                 new(77f, 526.23f, 3f), new(76.65f, 525.96f, 3.35f), new(75.65f, 525.71f, 2.35f), new(76f, 525.37f, 1f),
                 new(75f, 524.37f, -3f), new(75f, 523.12f, -8f), new(75f, 514.37f, -72f), new(88f, 514.12f, -85f),
-                new(96.5f, 514.37f, -82.5f), new(109f, 522f, -82f), new(112f, 522f, -83.5f), new(112f, 526f, -90.5f), new(118f, 526f, -91.5f),
-                new(118f, 528f, -97.5f), new(117f, 528f, -101.5f), new(112f, 528.12f, -105f), new(110f, 527.87f, -110f), new(104f, 526.37f, -110f),
-                new(103f, 526.62f, -113f), new(103f, 528f, -119f),
+                // Row 45, the real client's walked way up the ramp (93.6, -105.2) -> (102, -110.4) (2026-11-13), not fix M's east stair.
+                new(92.8f, 516.07f, -104.4f), new(93.6f, 516.97f, -105.2f), new(102f, 525.37f, -110.4f), new(103.6f, 527.12f, -112.4f),
+                new(103f, 528f, -119f),
                 new(98f, 528f, -120f), new(42f, 528f, -120f), new(28f, 528.12f, -106f)
             },
             // Fix L (to-fix row 46): the prison is closed in the client (ClientClosedRooms), so it is reached by the teleporter
@@ -1444,10 +1445,12 @@ namespace Rasa.Test.Missions.Ashen
                 new(57.5f, 508.8f, -171.5f), new(55f, 500.47f, -212f), new(42f, 496.53f, -229f), new(33f, 492.1f, -236f),
                 new(32f, 492f, -246f), new(40f, 494.55f, -262f), new(37f, 493.94f, -271f)
             },
+            // Fix M follow-up: round pad 915's walls (its horseshoe, AshenFixMTests.AddPads) by their west side and the ramp's
+            // south, not through (47, -311) inside them (the real client stopped at (44.7, -310.2), 2026-11-13).
             ["into the cavern"] = new Vector3[]
             {
-                new(37f, 493.94f, -271f), new(34f, 492.11f, -290f), new(43f, 479.55f, -308f), new(47f, 477.32f, -311f),
-                new(57.5f, 478.62f, -315f)
+                new(37f, 493.94f, -271f), new(34f, 492.11f, -290f), new(43f, 479.55f, -308f), new(42f, 476.6f, -316f),
+                new(42f, 476.9f, -324f), new(54f, 479.1f, -326f), new(57.5f, 478.62f, -315f)
             },
             ["to Drazen"] = new Vector3[]
             {
@@ -1478,9 +1481,10 @@ namespace Rasa.Test.Missions.Ashen
             },
             // Fix M: pad 915 on the flat floor south-west of Drazen, walked onto up its ramp from the south (the client lets no one
             // off its west side, the tester 2026-11-12).
+            // Fix M follow-up: south first, clear of pad 915's east wall, then west to the ramp's foot and north up it.
             ["to his pad"] = new Vector3[]
             {
-                new(57.5f, 478.62f, -315f), new(48f, 477.49f, -324.5f), new(48f, 477.12f, -318f)
+                new(57.5f, 478.62f, -315f), new(56f, 479.62f, -325f), new(48f, 477.49f, -324.5f), new(48f, 477.12f, -318f)
             },
             // Fix M (row 48): down pad 916's ramp to the south, then west to Petrovich.
             ["the graveyard pad to Petrovich"] = new Vector3[]
