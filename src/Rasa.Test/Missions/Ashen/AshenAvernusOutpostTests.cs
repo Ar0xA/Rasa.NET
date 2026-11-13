@@ -93,7 +93,7 @@ namespace Rasa.Test.Missions.Ashen
             yield return (1473, Overly.SecretStash, Overly.TeleporterAt.X, Overly.TeleporterAt.Z, Overly.ObjectMarkerRadius);
             yield return (1473, Overly.SecretStash, Overly.CardAt.X, Overly.CardAt.Z, Overly.ObjectMarkerRadius);
             yield return (1473, Overly.DataBackup, Overly.BackupAt.X, Overly.BackupAt.Z, Overly.ObjectMarkerRadius);
-            foreach (var (_, at, radius) in Run.CavePools)
+            foreach (var (_, at, radius) in AshenFixOV1.CavePools)
                 yield return (1535, Run.ClearTheCave, at.X, at.Z, radius + Run.PoolMarkerPadding);
             yield return (1535, Run.TunnelRun, Run.RestAt.X, Run.RestAt.Z, Run.RestRadius);
             yield return (1535, Run.Rest, Run.RestAt.X, Run.RestAt.Z, Run.NpcMarkerRadius);
@@ -348,7 +348,7 @@ namespace Rasa.Test.Missions.Ashen
                 .ToList();
             Assert.HasCount(16, markers, "the set's markers");
             // A cave pool's marker stands at its pool's centre (upstream: 11-14 m over the cave's floor for some): checked on the floor below.
-            var poolMarkers = Run.CavePools.Select(pool => V(pool.At)).ToList();
+            var poolMarkers = AshenFixOV1.CavePools.Where(pool => pool.Pool < AshenFixOV1.WestPool).Select(pool => V(pool.At)).ToList();
             var (markerFloors, _) = F.Surfaces(geometry, markers.Select(marker => (marker.At + new Vector3(0, 2 - F.MaxUnder, 0), F.Walkable)).ToList());
             for (var i = 0; i < markers.Count; i++)
             {
@@ -742,12 +742,15 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.IsTrue(Rasa.Game.Missions.World.CreatureGameplayRules.IsInvulnerable(member), $"{role}: unhurt by anything");
             }
 
-            // 1: the cave's four pools.
-            KillPools(harness, copy, Run.CavePools.Take(3).Select(pool => pool.Pool).ToArray());
+            // 1: the cave's four pools (fix O: 790700 and 790701 for upstream 531049 and 531060, whose islands no longer count).
+            CollectionAssert.AreEqual(new uint[] { AshenFixOV1.WestPool, 531050, AshenFixOV1.EastPool, 531063 }, AshenFixOV1.CavePools.Select(pool => pool.Pool).ToArray(), "the four pools");
+            KillPools(harness, copy, new uint[] { AshenFixOV1.WestIsland, AshenFixOV1.EastIsland, 531050 });
+            Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Run.MissionId, Run.ClearTheCave), "the islands' pools no longer count");
+            KillPools(harness, copy, AshenFixOV1.CavePools.Take(3).Select(pool => pool.Pool).ToArray());
             Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Run.MissionId, Run.ClearTheCave), "three pools of four");
             ReloadAndRecover(harness, copy);
             Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Run.MissionId, Run.ClearTheCave), "kept at a reload");
-            KillPools(harness, copy, Run.CavePools.Skip(3).Select(pool => pool.Pool).ToArray());
+            KillPools(harness, copy, AshenFixOV1.CavePools.Skip(3).Select(pool => pool.Pool).ToArray());
             for (var tick = 0; tick < 12; tick++)       // the squad's ready timer (2 s) and the lead's start
                 Tick(harness, copy, 250);
             Assert.AreEqual((MissionObjectiveState.Completed, MissionObjectiveState.Incomplete),
@@ -828,7 +831,7 @@ namespace Rasa.Test.Missions.Ashen
             Accept(harness, petrovich, Run.MissionId);
             Tick(harness, copy, 250);
             using var mate = new Facility.SquadMate(harness, copy, petrovich, Run.MissionId, Array.Empty<uint>());
-            KillPools(harness, copy, Run.CavePools.Select(pool => pool.Pool).ToArray());
+            KillPools(harness, copy, AshenFixOV1.CavePools.Select(pool => pool.Pool).ToArray());
             for (var tick = 0; tick < 12; tick++)
                 Tick(harness, copy, 250);
             Assert.AreEqual((MissionObjectiveState.Completed, MissionObjectiveState.Incomplete), (mate.Of(Run.ClearTheCave), mate.Of(Run.TunnelRun)),
@@ -856,7 +859,7 @@ namespace Rasa.Test.Missions.Ashen
             Accept(harness, petrovich, Run.MissionId);
             Tick(harness, copy, 250);
             using var mate = new Facility.SquadMate(harness, copy, petrovich, Run.MissionId, Array.Empty<uint>());
-            KillPools(harness, copy, Run.CavePools.Select(pool => pool.Pool).ToArray());
+            KillPools(harness, copy, AshenFixOV1.CavePools.Select(pool => pool.Pool).ToArray());
             for (var tick = 0; tick < 12; tick++)
                 Tick(harness, copy, 250);
             Assert.AreEqual((MissionObjectiveState.Incomplete, MissionObjectiveState.Incomplete), (Objective(harness, Run.MissionId, Run.TunnelRun), mate.Of(Run.TunnelRun)),
@@ -928,7 +931,7 @@ namespace Rasa.Test.Missions.Ashen
             Accept(harness, petrovich, Run.MissionId);
             Tick(harness, copy, 250);
             using var mate = new Facility.SquadMate(harness, copy, petrovich, Run.MissionId, Array.Empty<uint>());
-            KillPools(harness, copy, Run.CavePools.Select(pool => pool.Pool).ToArray());
+            KillPools(harness, copy, AshenFixOV1.CavePools.Select(pool => pool.Pool).ToArray());
             for (var tick = 0; tick < 12; tick++)
                 Tick(harness, copy, 250);
 
@@ -1068,7 +1071,7 @@ namespace Rasa.Test.Missions.Ashen
             var petrovich = Giver(copy, N.Petrovich);
             Accept(harness, petrovich, Run.MissionId);
             Tick(harness, copy, 250);
-            KillPools(harness, copy, Run.CavePools.Select(pool => pool.Pool).ToArray());
+            KillPools(harness, copy, AshenFixOV1.CavePools.Select(pool => pool.Pool).ToArray());
             for (var tick = 0; tick < 12; tick++)
                 Tick(harness, copy, 250);
             Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Run.MissionId, Run.TunnelRun), "on the way");
@@ -1497,7 +1500,8 @@ namespace Rasa.Test.Missions.Ashen
         internal static List<(string Label, string[] Legs, uint[] Passes, Vector3 Target)> Walks()
         {
             var none = System.Array.Empty<uint>();
-            var cave = Run.CavePools.Select(pool => pool.Pool).ToArray();
+            // Fix O: the walk also passes the upstream islands 531049 and 531060 (no longer 1, their creatures cannot step off them).
+            var cave = AshenFixOV1.CavePools.Select(pool => pool.Pool).Append(AshenFixOV1.WestIsland).Append(AshenFixOV1.EastIsland).ToArray();
             return new List<(string, string[], uint[], Vector3)>
             {
                 ("the entrance to Karter", new[] { "to Karter" }, none, V(N.KarterAt)),
@@ -1528,7 +1532,7 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>The cave's pools standing again (an earlier test's kills and cleared marks gone).</summary>
         private static void ResetCave(MapChannel copy)
         {
-            var cave = Run.CavePools.Select(pool => pool.Pool).ToArray();
+            var cave = AshenFixOV1.CavePools.Select(pool => pool.Pool).ToArray();
             foreach (var pool in copy.SpawnPools.Where(pool => cave.Contains(pool.DbId)))
                 pool.ClearedAtUtcMs = 0;
         }

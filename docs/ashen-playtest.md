@@ -703,8 +703,8 @@ rule (AshenAvernusOutpostTests).
   round him, hidden; fix M: down pad 916's ramp to the south, then 15 m west). Turn in at Petrovich: 90000 XP, 6150 credits, one of Class VIII EMP Grenade 111029 x3, Res Trauma Kit
   47600 x1, Class VIII Concussion Grenade 111019 x3, Class VIII Basic Med Pack 45063 x6.
 - [ ] 1535 Petrovich's Run (Ligo Ashen Desert): Petrovich (graveyard) offers it, level 42. His own copy, the officer and two
-  soldiers stand by him from the accept (unhurt by anything). 1: the graveyard's four Atta pools (531049, 531050, 531060, 531063)
-  dead (markers on each). 2: about 2 s after the accept Petrovich leads up the tunnel (his route, speed 4), the squad follows
+  soldiers stand by him from the accept (unhurt by anything). 1: the graveyard's four Atta pools (fix O: 790700, 531050, 790701, 531063)
+  dead at once (markers on each; the client shows no counter). 2: about 2 s after the accept Petrovich leads up the tunnel (his route, speed 4), the squad follows
   you; walk into the turn (775, 317.37, -112.5; r10). 3: talk to Petrovich there: two Atta Soldiers come down the tunnel at
   you; both dead, two more; 4 completes when they are dead too. 5: Petrovich leads on to the top; walk to his second row at
   the top: the squad goes. Turn in at Petrovich at the top: 90000 XP, 6150 credits, one of Class VIII Frag Grenade 45447 x3,
@@ -938,6 +938,29 @@ Rule breaks measured by fix M (not moved; AshenFixMTests.Breaks):
   passes 9.7 m from 531068's draws, beside 531067 and 531081 it already passes (the yard is the only way; 1497's own field).
 - Kept as before (the pools a walk names as passed): every leg through set 16's plant rooms, the hive tunnels, 1535's cave and
   1498's biolab. Their draws reach 0-5 m of the walks: expect fights there.
+
+Fix job O (migration `20271110002110_Ashen_fix_o`, real client 2026-11-13), a delta on set 17 and fix M. 1535's objective 1
+(the graveyard's four pools dead at once; no counter in the client) could not complete: two of its upstream pools stand their
+Atta on navmesh islands inside the client's rock (as upstream N29). 531049 (821.3, 289, -240.5) r 20: a 22 m2 island west of
+the graveyard; the tester saw seven Atta on one point (831.2, 288.8, -238.8) inside the rock wall, no model, "You cannot see
+your target from here" from 8.9-15 m (a chase stops at the island's edge nearest the player, ESTIMATE). 531060 (974.5, 274.1,
+-230.4) r 13.7: an 8.8 m2 island, not seen from the floor round it (ESTIMATE: the same in the client). The upstream rows stay.
+- Two pools of ours with the same creatures and counts count instead: 790700 (814, 289.12, -248) r 4 for 531049 (Atta
+  Soldiers 2-3, Harvesters 3-4, Grubs 0-2), on the floor 1535's walk to the tunnel crosses; 790701 (972, 274.08, -212) r 6
+  for 531060 (Harvesters 2-4), on the floor north of the island, reached from Petrovich by the navmesh's way east. Objective
+  1's markers 1 and 3 move to them (radius the circle + 4 m). Killing the island pools does nothing for the objective.
+- Their draws are all on the main floor, on the client floor (790701: one draw 0.89 m over it, the navmesh's step height), seen
+  from the walk to them and walked to (AshenFixOTests).
+- Rule break (60 m between hostile pools): 790700 stands beside 531049's island and 790701 beside 531060's island and 531050's
+  draws (the objective's own). The island creatures cannot step off their islands (no navmesh path), so they never join a
+  fight on the floor (ESTIMATE from the probe); they may still stand inside the rock, unseen. 1535's walk to the tunnel passes
+  2.4 m from 531049's island draws (the walk names both islands as passed): a chase in the rock is possible there, not a
+  fight on the walk.
+
+New walk points (fix O), for the tester: 790700's Atta stand on the graveyard floor round (814, -248), just south of the walk
+to the tunnel (850, -245.4) -> (804, -245); 790701's round (972, -212), east of Petrovich: from him east along the north
+shelf. Expect the island Atta inside the rock west of the graveyard (around (822-831, -243 to -236)) and in the east rock
+(around (968-972, -228 to -224)): ignore them.
 
 Set 19, the Bane Conscription Facility, the entry and the biolab (migration `20271110001900_Ashen_conscription_entry`). The
 facility is a squad instance (map 1988), entered by its door in Ashen Desert (map_link 57, (427.74, 305.61, 206.80)); you arrive
