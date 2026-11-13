@@ -1378,9 +1378,17 @@ namespace Rasa.Test.Missions.Ashen
             // and more from 531092's middle (25 m outside its circle, AshenFixKTests): from the bridge's west end (-289, -287) onto
             // the deck, north along the dish's east rim, west along its north rim, south along its west rim to the pad.
             ["the plant 23: (-232, -319) to (-289, -287)"] = new Vector3[] { new(-231.91f, 173.6f, -319.2f), new(-241.91f, 177.5f, -307.2f), new(-247.11f, 177.61f, -301.2f), new(-250.18f, 177.61f, -298.88f), new(-257.28f, 177.61f, -291.88f), new(-260, 177.61f, -291), new(-264.78f, 177.61f, -289.88f), new(-289.13f, 177.61f, -286.65f) },
+            // Fix N (row 50): fix K's way kept the pit's trench rim 0.25-0.5 m from the pit (5 m down) at (-362, -265) and (-378, -274..-296);
+            // the real client fell in. From (-351, -260) (fix K's corner) the way now keeps 2.25 m and more from the pit's edge on the
+            // rim (AshenFixBTests.PadDeckEdgeMargin 2 m, checked; a 0.5 m grid search, 2026-11-13, found a way 3 m from the edge at
+            // every grid point) round its north-west corner, then south on the terrain west of the rim (x -391, 2 m east of the
+            // generator's body, 14 m from the pit). Pool 531093's spawn ground is the deck north of the rim: the way passes it as
+            // close as fix K's did (4.8 m at (-351, -260)); a way 8 m from it squeezes past the pit's edge at (-347, -268.5).
             // Fix J (row 43): the Outpost Generator's body (arch_bane_outpost_generator_v01) is solid from x -409 to -393; the pad walk
             // ends east of it on the floor the client uses (175.81), 4.5 m from the pad's middle (r14), the client's stops at x -392.1.
-            ["the plant 24: (-289, -287) north round the landing pad to the pad (-390.8, -297)"] = new Vector3[] { new(-289.13f, 177.61f, -286.65f), new(-329, 175.43f, -287), new(-341, 175.93f, -265), new(-352, 176.37f, -260), new(-359, 176.98f, -265), new(-364, 177.04f, -265), new(-378, 176.37f, -274), new(-379, 176.37f, -296), new(-390, 175.81f, -296), new(-390.8f, 175.81f, -297) },
+            ["the plant 24: (-289, -287) north round the landing pad to the pad (-390.8, -297)"] = new Vector3[] { new(-289.13f, 177.61f, -286.65f), new(-329, 175.43f, -287), new(-341, 175.93f, -265), new(-351, 176.37f, -260), new(-367, 176.52f, -264),
+                new(-380.5f, 176.37f, -273), new(-381.5f, 176.61f, -274.5f), new(-384, 176.37f, -274), new(-387.5f, 176.06f, -274), new(-391, 175.81f, -276), new(-391, 175.81f, -296),
+                new(-390.8f, 175.81f, -297) },
             ["the plant 29: (-309, -53) to (-338, -180)"] = new Vector3[] { new(-309, 129.55f, -53), new(-309, 129.6f, -95), new(-328.15f, 129.6f, -114.57f), new(-335.75f, 129.6f, -126.5f), new(-336, 129.6f, -155), new(-333, 130.5f, -160), new(-337.59f, 129.68f, -177.84f), new(-338, 129.6f, -180) },
             ["the plant 30: (-338, -180) to (-337.5, -248.5)"] = new Vector3[] { new(-338, 129.6f, -180), new(-338.58f, 129.31f, -194.39f), new(-337.71f, 128.83f, -219.14f), new(-337.54f, 128.35f, -243.61f), new(-337.5f, 128.25f, -248.5f) },
             ["the plant 31: (-337.5, -248.5) to (-308.5, -363.5), part 1"] = new Vector3[] { new(-337.5f, 128.25f, -248.5f), new(-337, 128.52f, -264.25f), new(-337, 128.51f, -280), new(-335, 128.02f, -283.5f), new(-333.42f, 128.03f, -294.5f) },

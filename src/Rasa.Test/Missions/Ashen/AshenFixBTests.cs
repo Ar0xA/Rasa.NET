@@ -264,9 +264,11 @@ namespace Rasa.Test.Missions.Ashen
         /// the real client stayed on 1451's lower deck beside the ramp up to life support 1) the walk must start and end on its
         /// corners' own deck (DeckMatch, not the highest floor within 1 m / 1.5 m): a leg that ends on another deck has to climb
         /// to it on the client floor from a start on the lower one, at the ramp's foot (MaxClientStep keeps it off the ramp's
-        /// side but for its last metre at the foot), not from a start that snapped onto the ramp beside it.
+        /// side but for its last metre at the foot), not from a start that snapped onto the ramp beside it. With
+        /// <paramref name="edgeMargin"/> (Ashen fix N, row 50: the real client fell off 1452's pad trench rim where the line kept it)
+        /// every sample keeps that far (2D) from a drop deeper than EdgeDrop (DropEdge). Every walk refuses a climb on RefusedSlopes.
         /// </summary>
-        internal static string ClientFloorLine(MapGeometry geometry, IReadOnlyList<Vector3> corners, Vector3 to, Func<Vector3, bool> meshFloorOnly = null, float halfWidth = 0, List<Vector3> track = null, bool rampFoot = false)
+        internal static string ClientFloorLine(MapGeometry geometry, IReadOnlyList<Vector3> corners, Vector3 to, Func<Vector3, bool> meshFloorOnly = null, float halfWidth = 0, List<Vector3> track = null, bool rampFoot = false, float edgeMargin = 0)
         {
             // Points every Spacing along the corners as one line (a short leg between corners is sampled too), and the last corner.
             var points = new List<Vector3> { corners[0] };
@@ -282,6 +284,7 @@ namespace Rasa.Test.Missions.Ashen
             if (Vector2.Distance(new(points[^1].X, points[^1].Z), new(corners[^1].X, corners[^1].Z)) > 0.01f)
                 points.Add(corners[^1]);
             var near = F.Near(geometry, points, 2);
+            var edgeNear = edgeMargin > 0 ? F.Near(geometry, points, edgeMargin + 1) : null;
             bool OnTerrain((Vector3 A, Vector3 B, Vector3 C) t) =>
                 new[] { t.A, t.B, t.C }.All(v => geometry.Terrain.Height(v.X, v.Z) is { } h && MathF.Abs(h - v.Y) < 0.01f);
             List<(Vector3 A, Vector3 B, Vector3 C)> Floor(int i) => meshFloorOnly?.Invoke(points[i]) == true ? near[i].Where(t => !OnTerrain(t)).ToList() : near[i];
@@ -295,6 +298,13 @@ namespace Rasa.Test.Missions.Ashen
                 if (F.FloorAt(Floor(i), points[i] with { Y = y }, y - 2.5f, y + MaxClientStep) is not { } floor)
                     return FormattableString.Invariant($"no client floor within {MaxClientStep} m up at ({points[i].X:0.0}, {points[i].Z:0.0}) from {y:0.00} (navmesh {points[i].Y:0.00})");
                 var here = points[i] with { Y = floor };
+                // edgeMargin (fix N, row 50): the client walks off a deck's edge that the line keeps by less than the margin.
+                if (edgeMargin > 0 && DropEdge(edgeNear[i], here, edgeMargin) is { } edge)
+                    return FormattableString.Invariant($"within {edge.Distance:0.00} m of a {here.Y - edge.At.Y:0.0} m drop at ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0}) to ({edge.At.X:0.0}, {edge.At.Y:0.00}, {edge.At.Z:0.0}): an edge the client walks off (margin {edgeMargin} m)");
+                // Fix N (row 50): a terrain slope the real client refused though it is under MaxClimbAngle here (RefusedSlopes).
+                if (floors.Count > 0 && here.Y - floors[^1].Y > 0.02f && RefusedSlopeAt(here) is { } refused && Under(Floor(i), here) is { } ground && OnTerrain(ground)
+                    && FloorNormal(Floor(i), here) is { } slope && slope < RefusedSlopeNormal)
+                    return FormattableString.Invariant($"climbs {refused} at ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0}): the real client does not climb it");
                 // The client's slope limit (fix G): a floor steeper than MaxClimbAngle is climbed nowhere, also not across its
                 // fall line; only a walk that goes down on it (it slides) passes. One steep sample alone (one triangle of the 1 m
                 // terrain grid) is let pass; a second within SteepRun of it is a slope the player slides off.
@@ -370,6 +380,71 @@ namespace Rasa.Test.Missions.Ashen
         /// client did not climb 1452's pad trench rim (1.09 m on this heightmap, about 1.5 m from where it stood). ESTIMATE.
         /// </summary>
         internal const float TerrainEdge = 0.6f;
+
+        /// <summary>
+        /// ClientFloorLine's edge rule (Ashen fix N, to-fix row 50): a drop deeper than this beside the walk is a fall the walk
+        /// must keep its edge margin from. Fix K's way round 1452's landing pad kept the pad's trench rim (176.4) 0.25-0.5 m from
+        /// the pit 5.1-5.3 m below it (171.1-171.3); the real client fell into the pit there (2026-11-13). 2 m: over
+        /// MaxClientStep, a drop the client does not step back up (ESTIMATE).
+        /// </summary>
+        internal const float EdgeDrop = 2f;
+
+        /// <summary>
+        /// The edge margin the 1452 pad deck walks keep (fix N): 2 m from a drop deeper than EdgeDrop. The body's half width
+        /// (0.5 m) and 1.5 m for the client's walk off its line (ESTIMATE: the tester's drop was on a line 0.5 m from the pit's
+        /// edge, on the rim's 30-40 degree slope down to it; the client turns at a corner in an arc, not on the point).
+        /// </summary>
+        internal const float PadDeckEdgeMargin = 2f;
+
+        /// <summary>
+        /// The nearest drop deeper than EdgeDrop within <paramref name="margin"/> (2D) of <paramref name="at"/> (its floor): a
+        /// spot whose floor and the floor 0.5 m (a body's half width) further out both lie EdgeDrop or more under it, reached at
+        /// knee height without a wall or rail in the way (a tunnel wall's gap under its top is no drop). Null if none.
+        /// </summary>
+        internal static (float Distance, Vector3 At)? DropEdge(List<(Vector3 A, Vector3 B, Vector3 C)> triangles, Vector3 at, float margin)
+        {
+            const int Directions = 16;
+            for (var r = 0.25f; r <= margin + 0.001f; r += 0.25f)
+                for (var k = 0; k < Directions; k++)
+                {
+                    var direction = new Vector3(MathF.Cos(k * 2 * MathF.PI / Directions), 0, MathF.Sin(k * 2 * MathF.PI / Directions));
+                    var spot = at + direction * r;
+                    var further = spot + direction * 0.5f;
+                    if (F.FloorAt(triangles, spot, at.Y - 40, at.Y + MaxClientStep) is { } low && at.Y - low > EdgeDrop
+                        && F.FloorAt(triangles, further, at.Y - 40, at.Y + MaxClientStep) is { } beyond && at.Y - beyond > EdgeDrop
+                        && F.Clear(triangles, at + new Vector3(0, Knee, 0), further with { Y = at.Y + Knee }))
+                        return (r, spot with { Y = low });
+                }
+            return null;
+        }
+
+        /// <summary>
+        /// Terrain slopes the real client refused to climb that the 55 degree rule passes (fix N, to-fix row 50): 1452's landing pad
+        /// pit's north-east slope on Indra Caverns (2055), from the pit floor (170.8-171.3) up to the deck's ground (175.8). On the 1 m
+        /// heightmap its floor is 44-51 degrees along the climb (one or two triangles of 56-58), 47-48 degrees over 2 m; the tester's
+        /// climb on the navmesh's way out ((-343.5, 171.2, -276.8) > (-340.3, 174.8, -274.0) > (-339.5, 176.4, -268.8)) stopped, two
+        /// tries (2026-11-13). Not a lower global limit: walks of the Ashen tests climb up to 47.6 degrees over 2 m (all 1231 passing walks, measured
+        /// 2026-11-13) and 50 degrees failed walks the real client made (fix G). ESTIMATE: the client's own terrain triangles or
+        /// contact differ from this heightmap's here. A sample counts when it climbs on terrain steeper than 35 degrees (RefusedSlopeNormal) inside the box (x, z) and height band: the
+        /// slope's steep part (its foot to 0.3 m under the deck's ground; fix K's leg 24 crosses its gentle east part at 174-175.9).
+        /// </summary>
+        internal static readonly (string Name, Vector2 Lo, Vector2 Hi, float Bottom, float Top)[] RefusedSlopes =
+        {
+            ("the landing pad pit's north-east slope (Indra Caverns, row 50)", new(-345, -279), new(-337.5f, -268), 170, 175.5f)
+        };
+
+        /// <summary>The floor normal's y under which a climbing sample on a RefusedSlopes entry counts: steeper than 35 degrees (the
+        /// slope's climb is 39-51 degrees from its foot up; the pit's floor beside it 7-24, walked across).</summary>
+        internal static readonly float RefusedSlopeNormal = MathF.Cos(35 * MathF.PI / 180);
+
+        /// <summary>The RefusedSlopes entry <paramref name="at"/> stands in, or null.</summary>
+        internal static string RefusedSlopeAt(Vector3 at)
+        {
+            foreach (var (name, lo, hi, bottom, top) in RefusedSlopes)
+                if (at.X >= lo.X && at.X <= hi.X && at.Z >= lo.Y && at.Z <= hi.Y && at.Y >= bottom && at.Y <= top)
+                    return name;
+            return null;
+        }
 
         /// <summary>The floor triangle right under <paramref name="at"/> (within 2 cm), if any.</summary>
         private static (Vector3 A, Vector3 B, Vector3 C)? Under(List<(Vector3 A, Vector3 B, Vector3 C)> triangles, Vector3 at)

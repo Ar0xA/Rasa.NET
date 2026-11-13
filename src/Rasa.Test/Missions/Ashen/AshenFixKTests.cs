@@ -64,6 +64,13 @@ namespace Rasa.Test.Missions.Ashen
         /// </summary>
         private static readonly Dictionary<uint, float> Kept = new() { [531086] = 16 };
 
+        /// <summary>
+        /// Fix N (row 50): how near the way comes to 531093's draws at the least (its rule break): 3.5 m (these draws are not seeded; under the measure so another draw does not fail it, ESTIMATE), as fix K's way (4.8 m at
+        /// (-351, -260), seeded draws, AshenSpawnReach; the tester passed it without a fight, row 50). The deck north of the pit is
+        /// that pool's ground: a way north of the rim comes 0.2 m from it, one 8 m from it squeezes past the pit's edge.
+        /// </summary>
+        internal const float NorthPoolKept = 3.5f;
+
         /// <summary>The draws per pool (each a spawn's choice, SpawnPoolManager).</summary>
         private const int Draws = 1500;
 
@@ -135,7 +142,7 @@ namespace Rasa.Test.Missions.Ashen
         /// The walks to the pad and the charge keep ReachClearance (20 m, 3D) from every spawn draw of 531092 (24.6 m, at the pad's
         /// east edge) and AggroRange (18 m) or more from those of every other hostile pool of Indra Caverns with an area (531086:
         /// Kept; each pool drawn Draws times as its spawns draw, SpawnPoolManager), but 531093's (a rule break: the way north passes
-        /// its draws on the deck's north half, 4-5 m at (-352, -260); the deck's only other way west passes 531092's). Fix J's way
+        /// its draws on the deck's north half, NorthPoolKept (3.5 m) or more, 4-5 m at (-351, -260); the deck's only other way west passes 531092's). Fix J's way
         /// came within 0.4 m of 531092's draws.
         /// </summary>
         [TestMethod]
@@ -173,6 +180,8 @@ namespace Rasa.Test.Missions.Ashen
                             failures.Add(FormattableString.Invariant($"fix J's way: {near:0.0} m from 531092's draws, it went through them (row 44)"));
                         continue;
                     }
+                    if (pool.DbId == PadDeckNorthPool && near < NorthPoolKept)
+                        failures.Add(FormattableString.Invariant($"{label}: {near:0.0} m from 531093's spawn draws at ({at.X:0.0}, {at.Y:0.0}, {at.Z:0.0}) (fix N keeps {NorthPoolKept})"));
                     if (pool.DbId != PadDeckNorthPool && near < rule)
                         failures.Add(FormattableString.Invariant($"{label}: {near:0.0} m from pool {pool.DbId}'s spawn draws at ({at.X:0.0}, {at.Y:0.0}, {at.Z:0.0}) (its rule {rule})"));
                 }
@@ -186,7 +195,9 @@ namespace Rasa.Test.Missions.Ashen
         /// (AshenFixBTests.ClientFloorLine, rampFoot, 0.5 m half width), there and back, each with its start moved 0.13, 0.27 and
         /// 0.4 m along it at either end; the walked floor 0.6 m to either side out of the scene's object bodies (the generator's,
         /// AshenFixJTests.TheWalksEndOutsideTheSceneBodies) and 1.28 m from the charge's middle (its body 0.18 m, 0.6 m, the half
-        /// width; set 19's rule).
+        /// width; set 19's rule). Fix N (row 50): the legs on the pad deck (24, 44) keep AshenFixBTests.PadDeckEdgeMargin (2 m) from
+        /// a drop (the pit round the landing pad; the real client fell off fix K's way on its rim); leg 23 runs in the bridge's
+        /// tunnel, whose wall meshes the edge check sees through to the rooms 30 m below (no edge rule there; walked by the tester).
         /// </summary>
         [TestMethod]
         public void ThePadDeckLegsPassFixJsRulesWithShiftedStarts()
@@ -248,7 +259,7 @@ namespace Rasa.Test.Missions.Ashen
                         var shifted = line.ToList();
                         shifted[0] = Vector3.Lerp(line[0], line[1], shift / first);
                         var track = new List<Vector3>();
-                        if (AshenFixBTests.ClientFloorLine(geometry, shifted, shifted[^1], null, G.WalkHalfWidth, track, rampFoot: true) is { } why)
+                        if (AshenFixBTests.ClientFloorLine(geometry, shifted, shifted[^1], null, G.WalkHalfWidth, track, rampFoot: true, edgeMargin: leg == G.PadDeck[0] ? 0 : AshenFixBTests.PadDeckEdgeMargin) is { } why)
                             failures.Add($"{leg} {direction} +{shift}: {why}");
                         else if (Bodies(track) is { } body)
                             failures.Add($"{leg} {direction} +{shift}: {body}");

@@ -604,10 +604,15 @@ spawn ground (a spawn draw lands up to 36.7 m from its middle, Detour's whole po
 landing pad's dish, 25 m and more outside 531092's circle (51.2 m from its middle; 24.6 m from its nearest spawn draw, over
 its 18 m aggro, 3D, Creature.AggroRange). Walk points (x, y, z) from the ramp's landing: (-231.9, 173.6, -319.2),
 (-241.9, 177.5, -307.2), (-247.1, 177.61, -301.2), (-250.2, 177.61, -298.9), (-257.3, 177.61, -291.9), (-260, 177.61, -291),
-(-264.8, 177.61, -289.9), (-289.1, 177.61, -286.7), (-329, 175.43, -287), (-341, 175.93, -265), (-352, 176.37, -260),
-(-359, 176.98, -265), (-364, 177.04, -265), (-378, 176.37, -274), (-379, 176.37, -296), (-390, 175.81, -296), the pad
-(-390.8, 175.81, -297), beside the charge (-390.8, 175.81, -301) (AshenGothaPlantTests legs 23, 24, 44; AshenFixKTests:
-client floor both ways with shifted starts at either end, out of the generator's body, 1.28 m from the charge). Hostile pools
+(-264.8, 177.61, -289.9), (-289.1, 177.61, -286.7), (-329, 175.43, -287), (-341, 175.93, -265), (-351, 176.37, -260),
+(-367, 176.52, -264), (-380.5, 176.37, -273), (-381.5, 176.61, -274.5), (-384, 176.37, -274), (-387.5, 176.06, -274),
+(-391, 175.81, -276), (-391, 175.81, -296), the pad (-390.8, 175.81, -297), beside the charge (-390.8, 175.81, -301)
+(AshenGothaPlantTests legs 23, 24, 44; AshenFixKTests: client floor both ways with shifted starts at either end, out of the
+generator's body, 1.28 m from the charge). Fix N (row 50): fix K's way west of (-351, -260) ran on the landing pad pit's
+trench rim 0.25-0.5 m from the pit (5 m down); the real client fell in and could not get out (the pit's walls are the
+trench's; its north-east slope, 44-51 degrees on the heightmap, the client does not climb; its south side is 531092's
+ground). The way now keeps 2.25 m and more from the pit's edge (the check's edge margin, 2 m, AshenFixNTests) round its
+north-west corner and walks south on the terrain west of the rim. If you fall into the pit: /stuck. Hostile pools
 each 1451/1452 walk passes (the plant's own; the 30 m walk rule is not kept in it): valve 1 (Alpha): 531086, 531088, 531089;
 valve 2 (Beta): 531086, 531089, 531091, 531093; life support 1: 531086, 531087, 531089, 531090, 531093; life support 2:
 531086, 531087, 531089, 531090, 531093; life support 3: 531086, 531087, 531089, 531090, 531093; life support 4: 531086,
@@ -626,8 +631,9 @@ Rule breaks inside the plant and the mining cave (rule 2; the plant's rooms are 
 - 1447: the Bane tunnel runs through pool 531094 and over 531088 and 531089 (its only way to the mining area).
 - 1451: the valves stand 20 m (Alpha) and 15 m (Beta) outside the nearest hostile pool's circle; the life support systems
   about 25 m (the barracks halls' own pools); the walks to them pass the plant's pools (listed in the test's walks).
-- 1452 (fix K): the way north round the dish passes pool 531093's spawn ground on the deck's north half (4-5 m from its
-  nearest draw at (-352, -260); about 16 % of its draws stand within its 18 m aggro of the way: with its 2-4 Thrax Soldiers
+- 1452 (fix K, fix N): the way north round the dish passes pool 531093's spawn ground on the deck's north half (4-5 m from
+  its nearest draw at (-351, -260); fix N keeps it there: the deck north of the pit's rim is that ground, a way 8 m from it
+  squeezes past the pit's edge at (-347, -268.5)); about 16 % of its draws stand within its 18 m aggro of the way: with its 2-4 Thrax Soldiers
   and Grenadier, one or two may come, ESTIMATE). The deck's only two ways west pass 531092's draws (south) or 531093's
   (north); north is the smaller pool (531092: 5-7 with Linkers, a Technician and a Caretaker; it killed the tester on fix
   J's way). Set 16's legs 01 and 13 pass the bay pool 531086's draws at about 18 m ((-324, 129.6, -110)).
