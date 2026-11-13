@@ -141,14 +141,12 @@ namespace Rasa.Test.Missions.Ashen
                 var hi = draws.Aggregate(Vector3.Max);
                 var farthest = draws.Max(d => Vector2.Distance(new(d.X, d.Z), new(centre.X, centre.Z)));
                 report.Add(FormattableString.Invariant($"{pool}: islands {island}, off the floor {off}/{sampled.Count}, unseen {unseen}, not walked {unwalked}; box ({lo.X:0.0}, {lo.Z:0.0})-({hi.X:0.0}, {hi.Z:0.0}), farthest {farthest:0.00} m"));
-                // The farthest draw from the pool's point (across the ground), against its marker (the circle + 4 m). 790700's within
-                // its 8 m marker; 790701's whole polygons reach 14.0 m (draws near (961, -205)), outside its 10 m marker: pinned
-                // until a later delta widens the marker (fix O's audit).
-                var marker = (pool == O.WestPool ? O.WestRadius : O.EastRadius) + Run.PoolMarkerPadding;
-                if (pool == O.WestPool)
-                    Assert.IsLessThanOrEqualTo((float)marker, farthest, FormattableString.Invariant($"{pool}: farthest draw {farthest:0.00} m within its {marker} m marker"));
-                else
-                    Assert.AreEqual(14.0f, farthest, 0.1f, FormattableString.Invariant($"{pool}: farthest draw {farthest:0.00} m (its marker {marker} m)"));
+                // The farthest draw from the pool's point (across the ground), inside its marker: 790700's 8 m (its circle + 4 m);
+                // 790701's whole polygons reach 14.0 m (draws near (961, -205)), inside fix P's 18 m (fix O's 10 m did not hold it).
+                var marker = pool == O.WestPool ? O.WestRadius + Run.PoolMarkerPadding : AshenFixPV1.EastMarkerNow;
+                Assert.IsLessThanOrEqualTo((float)marker, farthest, FormattableString.Invariant($"{pool}: farthest draw {farthest:0.00} m within its {marker} m marker"));
+                if (pool == O.EastPool)
+                    Assert.AreEqual(14.0f, farthest, 0.1f, FormattableString.Invariant($"{pool}: farthest draw {farthest:0.00} m"));
                 if (island > 0) failures.Add($"{pool}: {island} draws on an island or not reached from Petrovich");
                 if (off > 0) failures.Add($"{pool}: {off} sampled draws off the client floor");
                 if (unseen > 0) failures.Add($"{pool}: {unseen} sampled draws unseen from the walk");

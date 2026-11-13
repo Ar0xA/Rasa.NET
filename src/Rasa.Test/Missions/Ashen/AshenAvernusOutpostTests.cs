@@ -93,8 +93,9 @@ namespace Rasa.Test.Missions.Ashen
             yield return (1473, Overly.SecretStash, Overly.TeleporterAt.X, Overly.TeleporterAt.Z, Overly.ObjectMarkerRadius);
             yield return (1473, Overly.SecretStash, Overly.CardAt.X, Overly.CardAt.Z, Overly.ObjectMarkerRadius);
             yield return (1473, Overly.DataBackup, Overly.BackupAt.X, Overly.BackupAt.Z, Overly.ObjectMarkerRadius);
-            foreach (var (_, at, radius) in AshenFixOV1.CavePools)
-                yield return (1535, Run.ClearTheCave, at.X, at.Z, radius + Run.PoolMarkerPadding);
+            // Fix P: 790701's marker round its farthest draw (14.0 m) and 4 m.
+            foreach (var (pool, at, radius) in AshenFixOV1.CavePools)
+                yield return (1535, Run.ClearTheCave, at.X, at.Z, pool == AshenFixOV1.EastPool ? AshenFixPV1.EastMarkerNow : radius + Run.PoolMarkerPadding);
             yield return (1535, Run.TunnelRun, Run.RestAt.X, Run.RestAt.Z, Run.RestRadius);
             yield return (1535, Run.Rest, Run.RestAt.X, Run.RestAt.Z, Run.NpcMarkerRadius);
             yield return (1535, Run.FendOff, Run.RestAt.X, Run.RestAt.Z, Run.AmbushMarkerRadius);

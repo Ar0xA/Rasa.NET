@@ -949,7 +949,7 @@ your target from here" from 8.9-15 m (a chase stops at the island's edge nearest
   Soldiers 2-3, Harvesters 3-4, Grubs 0-2), on the floor 1535's walk to the tunnel crosses; 790701 (972, 274.08, -212) r 6
   for 531060 (Harvesters 2-4), on the floor north of the island, reached from Petrovich by the navmesh's way east. Objective
   1's markers 1 and 3 move to them (radius the circle + 4 m; 790701's draws reach 14.0 m from its point, outside its
-  10 m marker). Killing the island pools does nothing for the objective.
+  10 m marker: fix P widens it to 18 m). Killing the island pools does nothing for the objective.
 - Their draws are all on the main floor, on the client floor (790701: one draw 0.89 m over it, the navmesh's step height), seen
   from the walk to them and walked to (AshenFixOTests).
 - Rule break (60 m between hostile pools): 790700 stands beside 531049's island and 790701 beside 531060's island and 531050's
@@ -968,7 +968,8 @@ pools sized for one player; user review. 1535's objective 1 (all four pools dead
 the squad copy's 45 min) was too much for one player: 790700's nine Atta stand beside 531049's nine island Atta and the
 Harvesters' warcries chain. Fix O's counts were upstream's (ESTIMATE); fix P sets them: 790700 one Atta Soldier 531015 (was
 2-3), one or two Atta Harvesters 531016 (was 3-4), no Atta Grub 531017 (was 0-2); 790701 one or two Harvesters (was 2-4).
-Places, radii and respawn kept. 790701 stays 12 m from 531060's island spit (row 54): no place 20 m and more from the island
+Places, radii and respawn kept. 1535's marker 3 round 790701 widens from 10 to 18 m (its draws reach 14.0 m from its
+point, and 4 m). 790701 stays 12 m from 531060's island spit (row 54): no place 20 m and more from the island
 passed the floor, sight and reach checks in fix O's probes (the floor east of it is off the client floor, the floor south is
 531050's), so it is not moved.
 

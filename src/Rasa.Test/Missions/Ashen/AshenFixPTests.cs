@@ -25,20 +25,21 @@ namespace Rasa.Test.Missions.Ashen
 
         private const string Now =
             "790700 814.000,289.120,-248.000 r4 531015/1-1 531016/1-2 531017/0-0 respawn 1200 | " +
-            "790701 972.000,274.080,-212.000 r6 531016/1-2 0/0-0 0/0-0 respawn 1200 | evidence 1";
+            "790701 972.000,274.080,-212.000 r6 531016/1-2 0/0-0 0/0-0 respawn 1200 | marker 18 | evidence 1";
 
         private const string Before =
             "790700 814.000,289.120,-248.000 r4 531015/2-3 531016/3-4 531017/0-2 respawn 1200 | " +
-            "790701 972.000,274.080,-212.000 r6 531016/2-4 0/0-0 0/0-0 respawn 1200 | evidence 0";
+            "790701 972.000,274.080,-212.000 r6 531016/2-4 0/0-0 0/0-0 respawn 1200 | marker 10 | evidence 0";
 
         private static string Mine(DbContext db) => string.Join(" | ",
             db.Set<SpawnPoolEntry>().AsNoTracking().Where(entry => entry.Id == O.WestPool || entry.Id == O.EastPool).OrderBy(entry => entry.Id).AsEnumerable()
                 .Select(entry => FormattableString.Invariant($"{entry.Id} {entry.PosX:0.000},{entry.PosY:0.000},{entry.PosZ:0.000} r{entry.Radius:0.###} ") +
                     $"{entry.Creature1Id}/{entry.Creature1MinCount}-{entry.Creature1MaxCount} {entry.Creature2Id}/{entry.Creature2MinCount}-{entry.Creature2MaxCount} " +
                     $"{entry.Creature3Id}/{entry.Creature3MinCount}-{entry.Creature3MaxCount} respawn {entry.RespawnTime}")
+                .Append(FormattableString.Invariant($"marker {db.Set<MissionIndicatorEntry>().AsNoTracking().Single(entry => entry.MissionId == P.Run && entry.ContentRevision == AshenMissionDataV1.Revision && entry.IndicatorId == O.EastMarker).Radius:0.###}"))
                 .Append($"evidence {db.Set<MissionEvidenceEntry>().AsNoTracking().Count(entry => entry.SourceUri == P.Source)}"));
 
-        /// <summary>Fix P's counts on fix O's pools (places, radii and respawn kept) and its evidence row.</summary>
+        /// <summary>Fix P's counts on fix O's pools (places, radii and respawn kept), 790701's 18 m marker and its evidence row.</summary>
         [TestMethod]
         public void ThePoolsAreSizedForOnePlayer()
         {
@@ -47,7 +48,7 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>
-        /// Fix P's migration rolled back and forth, baselined at its own migration: Down gives back fix O's counts and no fix P
+        /// Fix P's migration rolled back and forth, baselined at its own migration: Down gives back fix O's counts and 10 m marker and no fix P
         /// evidence, as a database migrated only to fix O holds them; no other pool or evidence changes; a second Down and a second
         /// Up change nothing.
         /// </summary>

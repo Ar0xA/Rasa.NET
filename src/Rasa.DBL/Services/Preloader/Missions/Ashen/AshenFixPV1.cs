@@ -11,7 +11,8 @@ namespace Rasa.Services.Preloader.Missions.Ashen
     /// the Harvesters' warcries chain. Fix O's pools are ours to size: one player's (a deviation, user review).
     ///  - 790700: Atta Soldier 531015 2-3 -> 1, Atta Harvester 531016 3-4 -> 1-2, Atta Grub 531017 0-2 -> none.
     ///  - 790701: Atta Harvester 531016 2-4 -> 1-2.
-    /// Places and radii kept (fix O's). Each UPDATE guarded on fix O's exact counts; Down puts them back.
+    ///  - 1535's marker 3 (790701's) radius 10 -> 18: its draws reach 14.0 m from its point (AshenFixOTests), and 4 m padding.
+    /// Places and radii kept (fix O's). Each UPDATE guarded on fix O's exact values; Down puts them back.
     /// </summary>
     public static class AshenFixPV1
     {
@@ -24,20 +25,25 @@ namespace Rasa.Services.Preloader.Missions.Ashen
             EastBefore = { (531016, 2, 4), (0, 0, 0), (0, 0, 0) },
             EastNow = { (531016, 1, 2), (0, 0, 0), (0, 0, 0) };
 
+        /// <summary>790701's marker (fix O's 10 m: its circle and 4 m) round its farthest draw, 14.0 m, and 4 m.</summary>
+        public const double EastMarkerBefore = 10, EastMarkerNow = 18;
+
         public const uint Evidence = 6;
         public const string Source = "repository:AshenFixPV1";
         public const string RunNote =
             "Fix job P (real client 2026-11-13): fix O's pools sized for one player (a deviation, user review): 790700 one Atta " +
-            "Soldier and one or two Harvesters (was 2-3, 3-4 and 0-2 Grubs), 790701 one or two Harvesters (was 2-4). ESTIMATE.";
+            "Soldier and one or two Harvesters (was 2-3, 3-4 and 0-2 Grubs), 790701 one or two Harvesters (was 2-4); 1535's marker 3 round 790701 10 -> 18 m (its draws reach 14 m). ESTIMATE.";
 
         public static IEnumerable<string> UpSql()
         {
             yield return CountsSql(WestPool, WestNow, WestBefore);
             yield return CountsSql(EastPool, EastNow, EastBefore);
+            yield return MarkerSql(EastMarkerNow, EastMarkerBefore);
         }
 
         public static IEnumerable<string> DownSql()
         {
+            yield return MarkerSql(EastMarkerBefore, EastMarkerNow);
             yield return CountsSql(EastPool, EastBefore, EastNow);
             yield return CountsSql(WestPool, WestBefore, WestNow);
         }
@@ -56,6 +62,11 @@ namespace Rasa.Services.Preloader.Missions.Ashen
             foreach (var sql in DownSql())
                 migration.Sql(sql);
         }
+
+        private static string MarkerSql(double to, double from) =>
+            $"UPDATE mission_indicator SET radius = {to.ToString("R", System.Globalization.CultureInfo.InvariantCulture)} WHERE mission_id = {Run} " +
+            $"AND content_revision = '{AshenMissionDataV1.Revision}' AND objective_id = {AshenFixOV1.ClearTheCave} AND indicator_id = {AshenFixOV1.EastMarker} " +
+            $"AND ABS(pos_x - 972) < 0.001 AND ABS(pos_z - (-212)) < 0.001 AND ABS(radius - {from.ToString("R", System.Globalization.CultureInfo.InvariantCulture)}) < 0.001;";
 
         private static string CountsSql(uint pool, (uint Id, uint Min, uint Max)[] to, (uint Id, uint Min, uint Max)[] from) =>
             $"UPDATE spawnpool SET creature_1_min_count = {to[0].Min}, creature_1_max_count = {to[0].Max}, " +
