@@ -1428,7 +1428,7 @@ namespace Rasa.Test.Missions.Ashen
                 yield return ((int)N.PadClass, V(pad.At), 0);
             foreach (var pad in AshenConscriptionEntryNpcsV1.Pads)
                 yield return ((int)AshenConscriptionEntryNpcsV1.PadClass, V(pad.At), 0);
-            yield return ((int)Raid.TerminalClass, ToVector(Raid.TerminalAt), (float)Raid.TerminalOrientation);
+            yield return ((int)Raid.TerminalClass, ToVector(AshenFixSV1.TerminalAt), (float)Raid.TerminalOrientation);
             yield return ((int)Blast.TeleporterClass, ToVector(Blast.TeleporterAt), 0);
             yield return ((int)Tick551.SampleClass, ToVector(Tick551.SampleAt), 0);
             yield return ((int)Den.SwitchClass, ToVector(Den.SwitchAt), 0);

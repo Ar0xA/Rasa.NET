@@ -1012,7 +1012,7 @@ north rim 1.68 m from its centre, inside its 2 m trigger (ESTIMATE: the real cli
 - [ ] 1497 Raid the Conscription Facility (Ligo Ashen Desert): Peacock offers it after 1500, level 42; the accept gives a
   Detonator (111195). 1: walk down the yard into the HQ tunnel to your own Explosive Charge (class 7870) at (6.5, 137.61, -410),
   5 m before the field; use it: it takes the Detonator, the field goes down, the charge is set. 2: through the tunnel into the
-  round hall: talk to your own Bane CommLink Terminal (class 10519, package 1929, named "Conscription Database Interface", 167) at (-4, 135.94, -372). Turned in by radio:
+  tunnel's end deck: talk to your own Bane CommLink Terminal (class 10519, package 1929, named "Conscription Database Interface", 167) at (12, 137.6, -379.5) (fix S; set 19's (-4, 135.94, -372)). Turned in by radio:
   95000 XP, 8400 credits, one of Hellstrom Bio Armor Boots 46005, Pulsar Stealth Armor Helmet 39727, Voltrox Graviton Armor
   Legs 25248, Audiodyne Motor Assist Armor Gloves 31088. The radio then offers 1498.
 - [ ] 1498 Blast the Biolab (Ligo Ashen Desert): offered by radio after 1497 (also on arriving in the facility with 1497
@@ -1050,6 +1050,12 @@ Deviations (set 19):
 - The terminal stands in the HQ's round hall, not in Central Operations (6, 102, -318): on the client's floor Central
   Operations is joined to the hall only by a 1.15 m step up and a spiral whose top lies 1.07-1.3 m under the hall's floor (the
   probe's floods, 2026-11-12).
+- Fix S (20271110002150, real client 2026-11-13): the round hall's floor at 135.94 is the terrain heightmap alone, which the
+  server navmesh and our collision reader (no terrain holes) take as floor; the real client has none there: on set 19's corners
+  it walked down the spiral tunnel ramp under it (to (-2.0, 121.9, -371.6), 14 m under the terminal). 1497's terminal and its
+  marker 251 moved onto the HQ tunnel's end deck (12, 137.6, -379.5); the walk ends 2.55 m west of it (9.5, 137.61, -380).
+  Slocombe, the teleporter and the hall pads 921, 925, 927 still stand on that terrain (ESTIMATE: not reachable by a real
+  client; a later fix).
 - The Atta Laboratory's wing has no walk from the hall on the client's floor (the floods from the hall and Central Operations
   never reach it); the pads 921/922 join them (ESTIMATE: retail may have had a way the client map lacks).
 - No lab object is destroyed: the bomb's charge at the lab's door is set (the client map has no destructible lab).

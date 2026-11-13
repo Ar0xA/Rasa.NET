@@ -399,7 +399,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.AreEqual(M.LastStandNow(), Scene(M.LastStand), "1533's scene");
             Assert.AreEqual(M.RunNow(), Scene(M.Run), "1535's scene");
             Assert.AreEqual(M.QueenNow(), Scene(M.Queen), "1537's scene");
-            Assert.AreEqual(M.RaidNow(), Scene(M.Raid), "1497's scene");
+            Assert.AreEqual(AshenFixSV1.RaidNow(), Scene(M.Raid), "1497's scene (fix M's, the terminal moved by fix S since)");
             Assert.AreEqual(M.BlastNow(), Scene(M.Blast), "1498's scene");
             Assert.AreNotEqual(M.BlastBefore(), M.BlastNow());
             var lab = world.MissionIndicatorEntries.AsNoTracking().Single(entry => entry.MissionId == M.Blast && entry.ContentRevision == revision && entry.ObjectiveId == M.LabChargeObjective);

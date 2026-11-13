@@ -92,7 +92,7 @@ namespace Rasa.Test.Missions.Ashen
             yield return (Lockdown.MissionId, Lockdown.Rendezvous, Lockdown.DoorMarkerAt.X, Lockdown.DoorMarkerAt.Z, Lockdown.DoorMarkerRadius);
             yield return (Lockdown.MissionId, Lockdown.Rendezvous, N.PeacockAt.X, N.PeacockAt.Z, Lockdown.NpcMarkerRadius);
             yield return (Raid.MissionId, Raid.BombTheField, Raid.ChargeAt.X, Raid.ChargeAt.Z, Raid.FieldMarkerRadius);
-            yield return (Raid.MissionId, Raid.HackTheTerminal, Raid.TerminalAt.X, Raid.TerminalAt.Z, Raid.ObjectMarkerRadius);
+            yield return (Raid.MissionId, Raid.HackTheTerminal, AshenFixSV1.TerminalAt.X, AshenFixSV1.TerminalAt.Z, Raid.ObjectMarkerRadius);
             yield return (Blast.MissionId, Blast.BioMaterials, Blast.BioPoolAt.X, Blast.BioPoolAt.Z, Blast.BioPoolRadius + Blast.PoolMarkerPadding);
             yield return (Blast.MissionId, Blast.MechanicalParts, Blast.PartsPoolAt.X, Blast.PartsPoolAt.Z, Blast.PartsPoolRadius + Blast.PoolMarkerPadding);
             yield return (Blast.MissionId, Blast.Teleporter, Blast.TeleporterAt.X, Blast.TeleporterAt.Z, Blast.ObjectMarkerRadius);
@@ -515,7 +515,7 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.AreEqual((Raid.ChargeClass, ToVector(Raid.ChargeAt), harness.Client.Player.Id, true),
                     ((uint)charge.EntityClassId, charge.Position, charge.SceneOwnerCharacterId, charge.IsEnabled), "the player's own charge");
                 var terminal = SceneObject(harness, copy, Raid.MissionId, Raid.TerminalRole);
-                Assert.AreEqual((Raid.TerminalClass, ToVector(Raid.TerminalAt), Raid.TerminalPackage, harness.Client.Player.Id, Raid.TerminalName),
+                Assert.AreEqual((Raid.TerminalClass, ToVector(AshenFixSV1.TerminalAt), Raid.TerminalPackage, harness.Client.Player.Id, Raid.TerminalName),
                     ((uint)terminal.EntityClassId, terminal.Position, terminal.MissionConversation.NpcPackageId, terminal.SceneOwnerCharacterId, terminal.NameOverrideId),
                     "the player's own terminal, named Conscription Database Interface");
                 Assert.IsEmpty(TerminalTopics(harness, harness.Client, terminal), "the terminal talks nothing before 2");
@@ -1086,7 +1086,7 @@ namespace Rasa.Test.Missions.Ashen
         internal static List<(string Label, Vector3 At, bool Ring, float Middle, float Clearance)> Places() => new()
         {
             ("Peacock", V(N.PeacockAt), true, F.NpcMiddle, Clearance), ("the field's charge", ToVector(Raid.ChargeAt), true, F.ObjectMiddle, 20),
-            ("the terminal", ToVector(Raid.TerminalAt), true, F.ObjectMiddle, Clearance), ("the teleporter", ToVector(Blast.TeleporterAt), true, F.ObjectMiddle, Clearance),
+            ("the terminal", ToVector(AshenFixSV1.TerminalAt), true, F.ObjectMiddle, Clearance), ("the teleporter", ToVector(Blast.TeleporterAt), true, F.ObjectMiddle, Clearance),
             ("Slocombe", ToVector(Blast.SlocombeAt), true, F.NpcMiddle, Clearance), ("the hall pad", V(N.HallPadAt), false, 0, Clearance),
             ("the service pad", V(N.ServicePadAt), false, 0, Clearance), ("the lab's charge", V(AshenFixMV1.LabChargeAt), true, F.ObjectMiddle, 20)
         };
@@ -1116,14 +1116,16 @@ namespace Rasa.Test.Missions.Ashen
                 new(6f, 153.36f, -646f), new(4f, 151.4f, -606f), new(3f, 145.78f, -566f), new(-3f, 143.6f, -540f), new(-3f, 137.09f, -495f),
                 new(0f, 136.09f, -455f), new(6f, 137.39f, -440f), new(6.5f, 137.61f, -412f)
             },
+            // Fix S: to the terminal on the HQ tunnel's end deck (set 19's way on into the "hall" ran on terrain the real client has
+            // no floor on: AshenFixSTests), mid-tunnel (x 7-7.5, the tunnel x 4-10) from the charge's east side, first on the tester's line (9.5, -410) > (5, -390).
             ["the charge to the terminal"] = new Vector3[]
             {
-                new(6.5f, 137.61f, -412f), new(9.5f, 137.61f, -410f), new(5f, 137.61f, -390f), new(13f, 135.94f, -369f), new(13.5f, 135.94f, -366f), new(12f, 135.94f, -361f),
-                new(1.5f, 135.94f, -361.5f), new(-2f, 135.94f, -362f), new(-2f, 135.94f, -372f)
+                new(6.5f, 137.61f, -412f), new(9.5f, 137.61f, -410f), new(7.25f, 137.61f, -400f), new(7.5f, 137.61f, -386f), new(9.5f, 137.61f, -380f)
             },
+            // ESTIMATE (fix S): set 19's way on to Slocombe in the "hall", on the terrain the real client has no floor on (a later fix).
             ["the terminal to Slocombe"] = new Vector3[]
             {
-                new(-2f, 135.94f, -372f), new(-2f, 135.94f, -362f), new(1.5f, 135.94f, -361.5f)
+                new(9.5f, 137.61f, -380f), new(13f, 135.94f, -369f), new(13.5f, 135.94f, -366f), new(12f, 135.94f, -361f), new(1.5f, 135.94f, -361.5f)
             },
             ["Slocombe to the hall pad"] = new Vector3[]
             {
@@ -1154,7 +1156,7 @@ namespace Rasa.Test.Missions.Ashen
             {
                 ("the door to Peacock (1500)", new[] { "the door to Peacock" }, none, V(N.PeacockAt)),
                 ("Peacock to the field's charge (1497)", new[] { "Peacock to the field's charge" }, YardPools, new Vector3(6.5f, 137.61f, -412f)),
-                ("the charge to the terminal (1497)", new[] { "the charge to the terminal" }, TunnelMouthPools, new Vector3(-2, 135.94f, -372)),
+                ("the charge to the terminal (1497)", new[] { "the charge to the terminal" }, TunnelMouthPools, ToVector(AshenFixSV1.TerminalStand)),
                 ("the terminal to Slocombe and the teleporter (1498)", new[] { "the terminal to Slocombe" }, none, new Vector3(1.5f, 135.94f, -361.5f)),
                 ("Slocombe to the hall pad (1498)", new[] { "Slocombe to the hall pad" }, none, HallPadFoot),
                 ("the service pad to the lab's charge (1498)", new[] { "the service pad to the lab's charge" }, LabPools, LabChargeSide)
@@ -1177,7 +1179,7 @@ namespace Rasa.Test.Missions.Ashen
         private static IEnumerable<(int Class, Vector3 At, float Yaw)> Objects()
         {
             yield return ((int)Raid.ChargeClass, ToVector(Raid.ChargeAt), 0);
-            yield return ((int)Raid.TerminalClass, ToVector(Raid.TerminalAt), (float)Raid.TerminalOrientation);
+            yield return ((int)Raid.TerminalClass, ToVector(AshenFixSV1.TerminalAt), (float)Raid.TerminalOrientation);
             yield return ((int)Blast.TeleporterClass, ToVector(Blast.TeleporterAt), 0);
             yield return ((int)Blast.ChargeClass, V(AshenFixMV1.LabChargeAt), 0);
             foreach (var pad in N.Pads)
