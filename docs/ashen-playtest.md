@@ -601,8 +601,8 @@ The pad route (fix J, row 44, the tester's way) climbs to the landing at (-232, 
 its side (the check's rampFoot rule refuses a step of more than 0.6 m off the terrain onto a mesh). Fix K (row 44, deaths 7
 and 8): fix J's loop south round the trench at (-340, -304) ran 2-7 m outside upstream pool 531092's circle, through its
 spawn ground (a spawn draw lands up to 36.7 m from its middle, Detour's whole polygons); the way now goes north round the
-landing pad's dish, 25 m and more outside 531092's circle (51.2 m from its middle; 24.6 m from its nearest spawn draw, over
-its 18 m aggro, 3D, Creature.AggroRange). Walk points (x, y, z) from the ramp's landing: (-231.9, 173.6, -319.2),
+landing pad's dish, 25 m and more outside 531092's circle (51.2 m from its middle; 27.67 m from its nearest seeded spawn draw at
+(-329, -287), over its 18 m aggro, 3D, Creature.AggroRange; fix N). Walk points (x, y, z) from the ramp's landing: (-231.9, 173.6, -319.2),
 (-241.9, 177.5, -307.2), (-247.1, 177.61, -301.2), (-250.2, 177.61, -298.9), (-257.3, 177.61, -291.9), (-260, 177.61, -291),
 (-264.8, 177.61, -289.9), (-289.1, 177.61, -286.7), (-329, 175.43, -287), (-341, 175.93, -265), (-351, 176.37, -260),
 (-367, 176.52, -264), (-380.5, 176.37, -273), (-381.5, 176.61, -274.5), (-384, 176.37, -274), (-387.5, 176.06, -274),

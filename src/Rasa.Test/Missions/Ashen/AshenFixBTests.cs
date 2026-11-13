@@ -285,6 +285,7 @@ namespace Rasa.Test.Missions.Ashen
                 points.Add(corners[^1]);
             var near = F.Near(geometry, points, 2);
             var edgeNear = edgeMargin > 0 ? F.Near(geometry, points, edgeMargin + 1) : null;
+            var slopeMap = SlopeMapOf(geometry);
             bool OnTerrain((Vector3 A, Vector3 B, Vector3 C) t) =>
                 new[] { t.A, t.B, t.C }.All(v => geometry.Terrain.Height(v.X, v.Z) is { } h && MathF.Abs(h - v.Y) < 0.01f);
             List<(Vector3 A, Vector3 B, Vector3 C)> Floor(int i) => meshFloorOnly?.Invoke(points[i]) == true ? near[i].Where(t => !OnTerrain(t)).ToList() : near[i];
@@ -302,7 +303,7 @@ namespace Rasa.Test.Missions.Ashen
                 if (edgeMargin > 0 && DropEdge(edgeNear[i], here, edgeMargin) is { } edge)
                     return FormattableString.Invariant($"within {edge.Distance:0.00} m of a {here.Y - edge.At.Y:0.0} m drop at ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0}) to ({edge.At.X:0.0}, {edge.At.Y:0.00}, {edge.At.Z:0.0}): an edge the client walks off (margin {edgeMargin} m)");
                 // Fix N (row 50): a terrain slope the real client refused though it is under MaxClimbAngle here (RefusedSlopes).
-                if (floors.Count > 0 && here.Y - floors[^1].Y > 0.02f && RefusedSlopeAt(here) is { } refused && Under(Floor(i), here) is { } ground && OnTerrain(ground)
+                if (floors.Count > 0 && here.Y - floors[^1].Y > 0.02f && RefusedSlopeAt(slopeMap, here) is { } refused && Under(Floor(i), here) is { } ground && OnTerrain(ground)
                     && FloorNormal(Floor(i), here) is { } slope && slope < RefusedSlopeNormal)
                     return FormattableString.Invariant($"climbs {refused} at ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0}): the real client does not climb it");
                 // The client's slope limit (fix G): a floor steeper than MaxClimbAngle is climbed nowhere, also not across its
@@ -399,7 +400,9 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>
         /// The nearest drop deeper than EdgeDrop within <paramref name="margin"/> (2D) of <paramref name="at"/> (its floor): a
         /// spot whose floor and the floor 0.5 m (a body's half width) further out both lie EdgeDrop or more under it, reached at
-        /// knee height without a wall or rail in the way (a tunnel wall's gap under its top is no drop). Null if none.
+        /// knee height without a wall or rail in the way. Null if none. It sees through a wall whose collision mesh has a gap at knee
+        /// height: in set 16's bridge tunnel (leg 23) it finds drops of 28-35 m to the rooms under the tunnel 0.25-1 m from the
+        /// line, where the real client walked; so the rule is ClientFloorLine's opt-in edgeMargin, set on the pad deck legs only.
         /// </summary>
         internal static (float Distance, Vector3 At)? DropEdge(List<(Vector3 A, Vector3 B, Vector3 C)> triangles, Vector3 at, float margin)
         {
@@ -426,22 +429,55 @@ namespace Rasa.Test.Missions.Ashen
         /// tries (2026-11-13). Not a lower global limit: walks of the Ashen tests climb up to 47.6 degrees over 2 m (all 1231 passing walks, measured
         /// 2026-11-13) and 50 degrees failed walks the real client made (fix G). ESTIMATE: the client's own terrain triangles or
         /// contact differ from this heightmap's here. A sample counts when it climbs on terrain steeper than 35 degrees (RefusedSlopeNormal) inside the box (x, z) and height band: the
-        /// slope's steep part (its foot to 0.3 m under the deck's ground; fix K's leg 24 crosses its gentle east part at 174-175.9).
+        /// slope's steep part (its foot to 0.3 m under the deck's ground). Leg 24 (fix K's and fix N's) passes through the box's
+        /// north-east corner on the deck's ground (175.81-175.82, 0-7 degrees, measured 2026-11-13): over the band and under 35 degrees.
         /// </summary>
-        internal static readonly (string Name, Vector2 Lo, Vector2 Hi, float Bottom, float Top)[] RefusedSlopes =
+        internal static readonly (string Map, string Name, Vector2 Lo, Vector2 Hi, float Bottom, float Top)[] RefusedSlopes =
         {
-            ("the landing pad pit's north-east slope (Indra Caverns, row 50)", new(-345, -279), new(-337.5f, -268), 170, 175.5f)
+            (IndraCaverns, "the landing pad pit's north-east slope (Indra Caverns, row 50)", new(-345, -279), new(-337.5f, -268), 170, 175.5f)
         };
+
+        /// <summary>Indra Caverns (2055), the client map of 1451/1452's squad copy.</summary>
+        internal const string IndraCaverns = "adv_arieki_ligo_ashendesert_indracaverns";
+
+        /// <summary>Each RefusedSlopes map's terrain, read once: a walk's geometry is that map when its terrain is the same.</summary>
+        private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, Lazy<TerrainHeightmap>> SlopeMaps = new();
+
+        /// <summary>The map key a geometry's walks are on, cached per geometry (MapGeometry has no name).</summary>
+        private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<MapGeometry, string> GeometryMaps = new();
+
+        /// <summary>
+        /// The RefusedSlopes map <paramref name="geometry"/> was loaded from, or "" when none: its terrain has that map's bounds,
+        /// grid and heights (at its middle and four points round it). A walk on any other map never meets a RefusedSlopes entry.
+        /// </summary>
+        internal static string SlopeMapOf(MapGeometry geometry) => GeometryMaps.GetValue(geometry, g =>
+        {
+            if (g.Terrain is not { } terrain)
+                return "";
+            foreach (var map in RefusedSlopes.Select(entry => entry.Map).Distinct())
+            {
+                var known = SlopeMaps.GetOrAdd(map, name => new Lazy<TerrainHeightmap>(() =>
+                    new TerrainHeightmap(Directory.EnumerateFiles(Path.Combine(F.ClientData(), "maps", name), "*_terrain.glm").First()))).Value;
+                if (known.BoundsMin != terrain.BoundsMin || known.BoundsMax != terrain.BoundsMax || known.Columns != terrain.Columns || known.Rows != terrain.Rows)
+                    continue;
+                var middle = (known.BoundsMin + known.BoundsMax) / 2;
+                var quarter = (known.BoundsMax - known.BoundsMin) / 4;
+                if (new[] { Vector3.Zero, quarter, -quarter, quarter with { Z = -quarter.Z }, quarter with { X = -quarter.X } }
+                    .All(offset => known.Height(middle.X + offset.X, middle.Z + offset.Z) == terrain.Height(middle.X + offset.X, middle.Z + offset.Z)))
+                    return map;
+            }
+            return "";
+        });
 
         /// <summary>The floor normal's y under which a climbing sample on a RefusedSlopes entry counts: steeper than 35 degrees (the
         /// slope's climb is 39-51 degrees from its foot up; the pit's floor beside it 7-24, walked across).</summary>
         internal static readonly float RefusedSlopeNormal = MathF.Cos(35 * MathF.PI / 180);
 
-        /// <summary>The RefusedSlopes entry <paramref name="at"/> stands in, or null.</summary>
-        internal static string RefusedSlopeAt(Vector3 at)
+        /// <summary>The RefusedSlopes entry of map <paramref name="map"/> (SlopeMapOf) <paramref name="at"/> stands in, or null.</summary>
+        internal static string RefusedSlopeAt(string map, Vector3 at)
         {
-            foreach (var (name, lo, hi, bottom, top) in RefusedSlopes)
-                if (at.X >= lo.X && at.X <= hi.X && at.Z >= lo.Y && at.Z <= hi.Y && at.Y >= bottom && at.Y <= top)
+            foreach (var (on, name, lo, hi, bottom, top) in RefusedSlopes)
+                if (on == map && at.X >= lo.X && at.X <= hi.X && at.Z >= lo.Y && at.Z <= hi.Y && at.Y >= bottom && at.Y <= top)
                     return name;
             return null;
         }

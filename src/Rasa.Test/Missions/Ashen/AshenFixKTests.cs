@@ -65,14 +65,11 @@ namespace Rasa.Test.Missions.Ashen
         private static readonly Dictionary<uint, float> Kept = new() { [531086] = 16 };
 
         /// <summary>
-        /// Fix N (row 50): how near the way comes to 531093's draws at the least (its rule break): 3.5 m (these draws are not seeded; under the measure so another draw does not fail it, ESTIMATE), as fix K's way (4.8 m at
-        /// (-351, -260), seeded draws, AshenSpawnReach; the tester passed it without a fight, row 50). The deck north of the pit is
+        /// Fix N (row 50): how near the way comes to 531093's draws at the least (its rule break): 3.5 m, as fix K's way (4.84 m at
+        /// (-351, -260), seeded draws, AshenSpawnReach, pinned in PinnedNorth; the tester passed it without a fight, row 50). The deck north of the pit is
         /// that pool's ground: a way north of the rim comes 0.2 m from it, one 8 m from it squeezes past the pit's edge.
         /// </summary>
         internal const float NorthPoolKept = 3.5f;
-
-        /// <summary>The draws per pool (each a spawn's choice, SpawnPoolManager).</summary>
-        private const int Draws = 1500;
 
         /// <summary>Fix J's way over the deck (the plant 23 from (-289, -287), 24, 26, 27, 28): it broke the rules (the regression).</summary>
         internal static readonly Vector3[] FixJWay =
@@ -139,9 +136,9 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>
-        /// The walks to the pad and the charge keep ReachClearance (20 m, 3D) from every spawn draw of 531092 (24.6 m, at the pad's
-        /// east edge) and AggroRange (18 m) or more from those of every other hostile pool of Indra Caverns with an area (531086:
-        /// Kept; each pool drawn Draws times as its spawns draw, SpawnPoolManager), but 531093's (a rule break: the way north passes
+        /// The walks to the pad and the charge keep ReachClearance (20 m, 3D) from every spawn draw of 531092 (27.67 m at (-329,
+        /// -287), the deck's south-east corner; seeded draws since fix N) and AggroRange (18 m) or more from those of every other hostile pool of Indra Caverns with an area (531086:
+        /// Kept; each pool drawn as its spawns draw with a fixed seed, AshenSpawnReach.Ground), but 531093's (a rule break: the way north passes
         /// its draws on the deck's north half, NorthPoolKept (3.5 m) or more, 4-5 m at (-351, -260); the deck's only other way west passes 531092's). Fix J's way
         /// came within 0.4 m of 531092's draws.
         /// </summary>
@@ -157,17 +154,12 @@ namespace Rasa.Test.Missions.Ashen
             var walks = PadWalks().Select(walk => (walk.Label, Points: Samples(walk.Line))).Append(("fix J's way", Samples(FixJWay))).ToList();
             var failures = new List<string>();
             var report = new List<string>();
+            // Fix N: the seeded ground (AshenSpawnReach.Ground, the same draws each run), not a fresh random draw each run.
+            var ground = AshenSpawnReach.Ground(copy, pools.Select(pool => pool.DbId));
+            var pinned = new Dictionary<string, float>();
             foreach (var pool in pools)
             {
-                var draws = new List<Vector3>();
-                for (var k = 0; k < Draws; k++)
-                {
-                    var draw = NavMeshManager.RandomPointAround(copy, pool.Position, pool.Radius);
-                    if (draw == null && SpawnPoolManager.Anchor(copy, pool) is { } anchor)
-                        draw = NavMeshManager.RandomPointAround(copy, anchor, pool.Radius) ?? anchor;
-                    if (draw is { } point)
-                        draws.Add(point);
-                }
+                var draws = ground[pool.DbId];
                 Assert.IsNotEmpty(draws, $"pool {pool.DbId} draws");
                 foreach (var (label, points) in walks)
                 {
@@ -180,6 +172,8 @@ namespace Rasa.Test.Missions.Ashen
                             failures.Add(FormattableString.Invariant($"fix J's way: {near:0.0} m from 531092's draws, it went through them (row 44)"));
                         continue;
                     }
+                    if (label != "fix J's way" && pool.DbId is PadDeckNorthPool or PadDeckSouthPool)
+                        pinned[FormattableString.Invariant($"{label} / {pool.DbId}")] = near;
                     if (pool.DbId == PadDeckNorthPool && near < NorthPoolKept)
                         failures.Add(FormattableString.Invariant($"{label}: {near:0.0} m from 531093's spawn draws at ({at.X:0.0}, {at.Y:0.0}, {at.Z:0.0}) (fix N keeps {NorthPoolKept})"));
                     if (pool.DbId != PadDeckNorthPool && near < rule)
@@ -188,7 +182,18 @@ namespace Rasa.Test.Missions.Ashen
             }
             Console.WriteLine(string.Join("\n", report));
             Assert.IsEmpty(failures, $"{failures.Count}: " + string.Join("; ", failures));
+            foreach (var label in new[] { "the landing pad from Drof at the plant", "the explosive charge from Drof at the plant" })
+            {
+                Assert.AreEqual(PinnedNorth, pinned[$"{label} / {PadDeckNorthPool}"], 0.05, $"{label}: 531093's seeded draws (fix N)");
+                Assert.AreEqual(PinnedSouth, pinned[$"{label} / {PadDeckSouthPool}"], 0.05, $"{label}: 531092's seeded draws (fix N)");
+            }
         }
+
+        /// <summary>
+        /// Fix N: the least distance (3D) of the pad walks from 531093's and 531092's seeded draws (AshenSpawnReach.Ground,
+        /// 2026-11-13): 4.84 m at (-351, 176.4, -260) and 27.67 m at (-329, 175.4, -287).
+        /// </summary>
+        internal const float PinnedNorth = 4.84f, PinnedSouth = 27.67f;
 
         /// <summary>
         /// Fix K's legs over the deck and fix J's last leg (the pad to beside the charge) on the client floor with fix J's rules

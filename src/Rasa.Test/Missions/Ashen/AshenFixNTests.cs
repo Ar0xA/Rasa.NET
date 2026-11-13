@@ -78,8 +78,11 @@ namespace Rasa.Test.Missions.Ashen
                 var why = Walk(line, B.PadDeckEdgeMargin);
                 StringAssert.Contains(why ?? "", "an edge the client walks off", $"the drop legs {direction}: {why}");
             }
-            Assert.IsNull(Walk(FixKWay, 0), "fix K's leg 24 passed fix K's rules");
-            StringAssert.Contains(Walk(FixKWay, B.PadDeckEdgeMargin) ?? "", "an edge the client walks off", "fix K's leg 24 with the edge margin");
+            foreach (var (line, direction) in new[] { (FixKWay.ToList(), "there"), (FixKWay.Reverse().ToList(), "back") })
+            {
+                Assert.IsNull(Walk(line, 0), $"fix K's leg 24 {direction} passed fix K's rules");
+                StringAssert.Contains(Walk(line, B.PadDeckEdgeMargin) ?? "", "an edge the client walks off", $"fix K's leg 24 {direction} with the edge margin");
+            }
 
             var near = F.Near(geometry, new List<Vector3> { InThePit, RimAbove }, 1);
             var pit = F.FloorAt(near[0], InThePit, InThePit.Y - 2, InThePit.Y + 1);
@@ -127,6 +130,13 @@ namespace Rasa.Test.Missions.Ashen
                 StringAssert.Contains(why ?? "", "the real client does not climb it", $"{name}: {why}");
             }
             Assert.IsNull(B.ClientFloorLine(geometry, new[] { PitSlope[^1], PitSlope[0] }, PitSlope[0], null, G.WalkHalfWidth), "down the slope passes");
+
+            // The entry is Indra Caverns' only: the geometry is known as that map, another map's is not.
+            Assert.AreEqual(B.IndraCaverns, B.SlopeMapOf(geometry), "the walks' geometry is Indra Caverns");
+            var dataDir = F.ClientData();
+            var desert = MapGeometry.Load(Path.Combine(dataDir, "maps", "adv_arieki_ligo_ashendesert"), meshes, 1);
+            Assert.AreEqual("", B.SlopeMapOf(desert), "Ligo Ashen Desert has no refused slope");
+            Assert.IsNull(B.RefusedSlopeAt(B.SlopeMapOf(desert), PitSlope[1]), "not at the same x, z on another map");
         }
 
         /// <summary>
@@ -142,7 +152,7 @@ namespace Rasa.Test.Missions.Ashen
             {
                 var track = new List<Vector3>();
                 Assert.IsNull(Walk(line, B.PadDeckEdgeMargin, track), $"the new way {direction}");
-                Assert.IsTrue(track.All(at => B.RefusedSlopeAt(at) == null), $"{direction}: never on a refused slope");
+                Assert.IsTrue(track.All(at => B.RefusedSlopeAt(B.IndraCaverns, at) == null), $"{direction}: never on a refused slope");
             }
             var west = way.Where(at => at.X <= -390.5f).ToList();
             Assert.IsGreaterThan(1, west.Count, "the way's part on the terrain west of the rim");
