@@ -28,6 +28,7 @@ namespace Rasa.Test.Missions.Ashen
     using static MarshesPreoDasTests;
     using static PlateauCampResistanceTests;
     using N = AshenAvernusHiveNpcsV1;
+    using M = AshenFixMV1;
     using Outpost = AshenAvernusOutpostNpcsV1;
     using Atta = AshenAssessingTheAttaV1;
     using Queen = AshenGodSaveTheQueenV1;
@@ -64,6 +65,10 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>The pads set 18 adds.</summary>
         internal static readonly uint[] Pads = N.Pads.Select(pad => pad.Id).ToArray();
 
+        /// <summary>The pads where they stand now: the queen pad 918 at fix M's place (AshenFixMV1), the others set 18's.</summary>
+        internal static readonly (uint Id, string Description, (double X, double Y, double Z) At, uint To)[] LivePads =
+            N.Pads.Select(pad => pad.Id == M.QueenPad ? pad with { At = M.QueenPadAt } : pad).ToArray();
+
         private const float PlayerHalfWidth = AshenAvernusOutpostTests.PlayerHalfWidth;
 
         private Func<MissionApplication> _missions;
@@ -91,7 +96,7 @@ namespace Rasa.Test.Missions.Ashen
             yield return (1536, Atta.TanandasStory, tananda.X, tananda.Z, Atta.NpcMarkerRadius);
             yield return (1536, Atta.ReturnToPetrovich, top.X, top.Z, Atta.NpcMarkerRadius);
             var pad = N.TunnelPadAt;
-            var colonel = N.VandewegheAt;
+            var colonel = M.VandewegheAt;
             var pool = N.BaneAt;
             yield return (1537, Queen.FindTheTeleporter, pad.X, pad.Z, Queen.PadRadius);
             yield return (1537, Queen.TeleportToTheChamber, colonel.X, colonel.Z, Queen.ColonelRadius);
@@ -211,7 +216,7 @@ namespace Rasa.Test.Missions.Ashen
 
             var pads = world.TeleporterEntries.AsNoTracking().Where(row => Pads.Contains(row.Id)).OrderBy(row => row.Id).ToList();
             Assert.HasCount(4, pads);
-            foreach (var (row, (id, _, place, _)) in pads.Zip(N.Pads))
+            foreach (var (row, (id, _, place, _)) in pads.Zip(LivePads))
             {
                 Assert.AreEqual((id, Map, N.PadClass, N.LocalTeleporter, 0.0), (row.Id, row.MapContextId, row.ClassId, (uint)row.Type, row.Rotation), $"{row.Id}");
                 Assert.IsLessThan(0.01f, Vector3.Distance(V(place), new Vector3((float)row.PosX, (float)row.PosY, (float)row.PosZ)), $"{row.Id} place");
@@ -222,7 +227,7 @@ namespace Rasa.Test.Missions.Ashen
             var ids = string.Join(", ", Pads);
             Assert.AreEqual(4, Links($"from_teleporter_id IN ({ids}) OR to_teleporter_id IN ({ids})"), "no other link");
             Assert.IsFalse(world.TeleporterEntries.AsNoTracking().Where(row => row.MapContextId == Map && !Pads.Contains(row.Id)).AsEnumerable().Any(row =>
-                (uint)row.Type == 1 && N.Pads.Any(pad => Vector2.Distance(new((float)row.PosX, (float)row.PosZ), new((float)pad.At.X, (float)pad.At.Z)) < 10)), "no other pad by them");
+                (uint)row.Type == 1 && LivePads.Any(pad => Vector2.Distance(new((float)row.PosX, (float)row.PosZ), new((float)pad.At.X, (float)pad.At.Z)) < 10)), "no other pad by them");
 
             var failures = new List<string>();
             foreach (var (label, place, _, _, clearance) in Places())
@@ -271,7 +276,7 @@ namespace Rasa.Test.Missions.Ashen
             using var harness = WildernessRuntimeTestHarness.Create();
             var copy = IntoHive(harness);
             LoadPads(harness, copy);
-            foreach (var (from, to, beyond) in new[] { (N.TunnelPad, N.QueenPad, V(N.VandewegheAt)), (N.WestPad, N.SanctuaryPad, V(N.ZurielAt)) })
+            foreach (var (from, to, beyond) in new[] { (N.TunnelPad, N.QueenPad, V(M.VandewegheAt)), (N.WestPad, N.SanctuaryPad, V(N.ZurielAt)) })
             {
                 var there = copy.Teleporters[from];
                 var back = copy.Teleporters[to];
@@ -388,7 +393,7 @@ namespace Rasa.Test.Missions.Ashen
                         walked++;
                         var line = line0.ToList();
                         line[0] = Vector3.Lerp(line0[0], line0[1], shift / first);
-                        if (AshenFixBTests.ClientFloorLine(geometry, line, line[^1], null, PlayerHalfWidth) is { } why)
+                        if (AshenFixBTests.ClientFloorLine(geometry, line, line[^1], null, PlayerHalfWidth, rampFoot: true) is { } why)
                             failures.Add(FormattableString.Invariant($"{leg} {direction} (start +{shift} m): {why}"));
                     }
                 }
@@ -426,7 +431,7 @@ namespace Rasa.Test.Missions.Ashen
             {
                 var line = Line(legs);
                 foreach (var (end, next) in new[] { (line[0], line[1]), (line[^1], line[^2]) })
-                    foreach (var (id, _, at, _) in N.Pads.Where(pad => Vector3.Distance(V(pad.At), end) < 0.01f))
+                    foreach (var (id, _, at, _) in LivePads.Where(pad => Vector3.Distance(V(pad.At), end) < 0.01f))
                     {
                         reached.Add(id);
                         var pad = V(at);
@@ -453,7 +458,7 @@ namespace Rasa.Test.Missions.Ashen
             foreach (var (name, from, points) in new[]
                      {
                          ("the first man", ToVector(Atta.MenAt[0]), Atta.TunnelWay), ("the second man", ToVector(Atta.MenAt[1]), Atta.TunnelWay[..^1]),
-                         ("Vandeweghe", V(N.VandewegheAt), Queen.DownWay)
+                         ("Vandeweghe", V(M.VandewegheAt), M.DownWay)
                      })
             {
                 var previous = nav.Nearest(from) ?? from;
@@ -581,7 +586,7 @@ namespace Rasa.Test.Missions.Ashen
                 (Objective(harness, Queen.MissionId, Queen.FindTheTeleporter), Objective(harness, Queen.MissionId, Queen.TeleportToTheChamber)), "at the pad: 1 done, 2 open");
             Teleport(harness, copy, copy.Teleporters[N.TunnelPad]);
             Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Queen.MissionId, Queen.TeleportToTheChamber), "the pad's arrival is short of Vandeweghe");
-            Enter(harness, V(N.VandewegheAt));
+            Enter(harness, V(M.VandewegheAt));
             Assert.AreEqual((MissionObjectiveState.Completed, MissionObjectiveState.Incomplete),
                 (Objective(harness, Queen.MissionId, Queen.TeleportToTheChamber), Objective(harness, Queen.MissionId, Queen.Colonel)), "by Vandeweghe: 2 done, 3 open");
 
@@ -696,11 +701,11 @@ namespace Rasa.Test.Missions.Ashen
 
             // The mate catches up.
             MateEnters(harness, mate, V(N.TunnelPadAt) + new Vector3(30, 0, 0), V(N.TunnelPadAt));
-            MateEnters(harness, mate, V(N.QueenPadAt), V(N.VandewegheAt));
+            MateEnters(harness, mate, V(M.QueenPadAt), V(M.VandewegheAt));
             Assert.AreEqual((MissionObjectiveState.Completed, MissionObjectiveState.Completed, MissionObjectiveState.Incomplete),
                 (mate.Of(Queen.FindTheTeleporter), mate.Of(Queen.TeleportToTheChamber), mate.Of(Queen.Colonel)), "the mate's 1, 2 done, 3 open");
             MateTalks(harness, copy, mate, MateCreature(harness, copy, mate, Queen.MissionId, Queen.ColonelRole), Queen.MissionId, Queen.Colonel);
-            MateEnters(harness, mate, V(N.VandewegheAt), ToVector(Queen.BottomAt));
+            MateEnters(harness, mate, V(M.VandewegheAt), ToVector(Queen.BottomAt));
             Assert.AreEqual(MissionObjectiveState.Incomplete, mate.Of(Queen.TalkToVandeweghe), "the mate's 5 open");
             Assert.AreEqual(MissionObjectiveState.Inactive, mate.Of(Queen.SweepTheRoom), "the mate's 6 still waits");
             MateTalks(harness, copy, mate, MateCreature(harness, copy, mate, Queen.MissionId, Queen.ColonelRole), Queen.MissionId, Queen.TalkToVandeweghe);
@@ -726,11 +731,11 @@ namespace Rasa.Test.Missions.Ashen
             Tick(harness, copy, 250);
             Enter(harness, V(N.TunnelPadAt));
             Teleport(harness, copy, copy.Teleporters[N.TunnelPad]);
-            Enter(harness, V(N.VandewegheAt));
+            Enter(harness, V(M.VandewegheAt));
             Talk(harness, SceneCreature(harness, copy, Queen.MissionId, Queen.ColonelRole), Queen.MissionId, Queen.Colonel);
             for (var tick = 0; tick < 8; tick++)
                 Tick(harness, copy, 1000);
-            Assert.IsGreaterThan(3f, Vector3.Distance(SceneCreature(harness, copy, Queen.MissionId, Queen.ColonelRole).Position, V(N.VandewegheAt)), "on his way");
+            Assert.IsGreaterThan(3f, Vector3.Distance(SceneCreature(harness, copy, Queen.MissionId, Queen.ColonelRole).Position, V(M.VandewegheAt)), "on his way");
             Assert.IsTrue(harness.Manager.TryAbandon(harness.Client, Queen.MissionId));
             harness.Drain();
             for (var tick = 0; tick < 4; tick++)
@@ -740,7 +745,7 @@ namespace Rasa.Test.Missions.Ashen
             Tick(harness, copy, 250);
             var colonel = SceneCreature(harness, copy, Queen.MissionId, Queen.ColonelRole);
             Assert.IsNotNull(colonel, "the copy again");
-            Assert.IsLessThan(1.5f, Vector3.Distance(colonel.Position, V(N.VandewegheAt)), "at his place");
+            Assert.IsLessThan(1.5f, Vector3.Distance(colonel.Position, V(M.VandewegheAt)), "at his place");
             Assert.AreEqual((MissionObjectiveState.Incomplete, MissionObjectiveState.Inactive, MissionObjectiveState.Inactive),
                 (Objective(harness, Queen.MissionId, Queen.FindTheTeleporter), Objective(harness, Queen.MissionId, Queen.TeleportToTheChamber),
                     Objective(harness, Queen.MissionId, Queen.Colonel)), "1 open, 2 and 3 wait");
@@ -777,7 +782,7 @@ namespace Rasa.Test.Missions.Ashen
             Tick(harness, copy, 250);
             var colonel = SceneCreature(harness, copy, Queen.MissionId, Queen.ColonelRole);
             Assert.IsNotNull(colonel, "the copy again");
-            Assert.IsLessThan(1.5f, Vector3.Distance(colonel.Position, V(N.VandewegheAt)), "at his place");
+            Assert.IsLessThan(1.5f, Vector3.Distance(colonel.Position, V(M.VandewegheAt)), "at his place");
             Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Queen.MissionId, Queen.FindTheTeleporter), "1 open");
             foreach (var objective in new[] { Queen.TeleportToTheChamber, Queen.Colonel, Queen.FollowVandeweghe, Queen.TalkToVandeweghe, Queen.SweepTheRoom, Queen.TalkAgain })
                 Assert.AreEqual(MissionObjectiveState.Inactive, Objective(harness, Queen.MissionId, objective), $"{objective} waits");
@@ -1064,14 +1069,14 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>
         /// The set's places: label, place, whether it is seen from the ring, the height looked at, its clearance (34 m, 2D, outside
         /// every hostile pool's circle; the breaks, each the nearest upstream warcry pool on the only floor there: Tananda 20.0 m
-        /// and the men's stop 20.0 m from 531051 at the Cave In, Vandeweghe 13.6 m and the queen pad 21.9 m from 531058 over the
+        /// and the men's stop 20.0 m from 531051 at the Cave In, fix M: Vandeweghe 18.8 m and the queen pad 22.4 m from 531062 in the hollow down the
         /// Queen's Chamber; docs/ashen-playtest.md).
         /// </summary>
         internal static List<(string Label, Vector3 At, bool Ring, float Middle, float Clearance)> Places() => new()
         {
             ("Tananda", V(N.TanandaAt), true, F.NpcMiddle, 19), ("Frogga", V(N.FroggaAt), true, F.NpcMiddle, Clearance),
-            ("Vandeweghe", V(N.VandewegheAt), true, F.NpcMiddle, 13), ("Zuriel", V(N.ZurielAt), true, F.NpcMiddle, Clearance),
-            ("the southern tunnel's pad", V(N.TunnelPadAt), false, 0, Clearance), ("the queen pad", V(N.QueenPadAt), false, 0, 21),
+            ("Vandeweghe", V(M.VandewegheAt), true, F.NpcMiddle, 18), ("Zuriel", V(N.ZurielAt), true, F.NpcMiddle, Clearance),
+            ("the southern tunnel's pad", V(N.TunnelPadAt), false, 0, Clearance), ("the queen pad", V(M.QueenPadAt), false, 0, 22),
             ("the west pad", V(N.WestPadAt), false, 0, Clearance), ("the sanctuary pad", V(N.SanctuaryPadAt), false, 0, Clearance),
             ("the man 1's place", ToVector(Atta.MenAt[0]), false, 0, Clearance), ("the man 2's place", ToVector(Atta.MenAt[1]), false, 0, Clearance),
             ("the men's stop", ToVector(Atta.TunnelWay[^1]), false, 0, 19), ("the tunnel's bottom", ToVector(Queen.BottomAt), true, F.NpcMiddle, Clearance),
@@ -1088,7 +1093,7 @@ namespace Rasa.Test.Missions.Ashen
         private static readonly uint[] NorthernTunnelPools = { 531045, 531051 };
         private static readonly uint[] SouthernTunnelPools = { 531046, 531057, 531059 };
         private static readonly uint[] WestSidePools = { 531048, 531057, 531059 };
-        private static readonly uint[] QueenPadPools = { 531058 };
+        private static readonly uint[] QueenPadPools = { 531062 };
         private static readonly uint[] ChamberTunnelPools = { 531044, 531056, 531058, 531062 };
 
         /// <summary>
@@ -1105,9 +1110,10 @@ namespace Rasa.Test.Missions.Ashen
             {
                 new(645.5f, 352.67f, -246.5f), new(652f, 353.32f, -238f)
             },
+            // Fix M (row 48): the queen pad and Vandeweghe in the hollow down the tunnel, off 531058's spawn ground.
             ["the queen pad to Vandeweghe"] = new Vector3[]
             {
-                new(340f, 238.11f, -252f), new(340f, 238.65f, -258f), new(349f, 233.11f, -260f)
+                new(306f, 218.11f, -326f), new(306f, 218.36f, -332.5f), new(294f, 216.61f, -330f)
             },
             ["the sanctuary pad to Zuriel"] = new Vector3[]
             {
@@ -1134,7 +1140,7 @@ namespace Rasa.Test.Missions.Ashen
             ["to the southern pad 1"] = new Vector3[]
             {
                 new(646f, 352.76f, -246f), new(606f, 351.36f, -246f), new(595f, 353.61f, -275f), new(595f, 358.61f, -292f),
-                new(578f, 364.86f, -300f), new(578f, 364.86f, -302f), new(557f, 370.62f, -312f), new(557f, 372.16f, -352f),
+                new(567f, 368.36f, -313f), new(557f, 370.62f, -312f), new(557f, 372.16f, -352f),
                 new(557f, 372.33f, -392f), new(557f, 373.25f, -413f), new(537f, 369.72f, -425f), new(520f, 363.49f, -433f),
                 new(520f, 358.36f, -447f), new(522f, 361.61f, -469f), new(521f, 362.36f, -483f), new(520f, 364.61f, -490f)
             },
@@ -1145,8 +1151,8 @@ namespace Rasa.Test.Missions.Ashen
             },
             ["down to the bottom 1"] = new Vector3[]
             {
-                new(349f, 233.11f, -260f), new(330f, 236.36f, -281f), new(319f, 220.86f, -310f), new(306f, 217.86f, -337f),
-                new(282f, 219.86f, -342f), new(257f, 216.36f, -327f), new(231f, 217.11f, -315f), new(205f, 219.61f, -323f),
+                new(294f, 216.61f, -330f), new(290f, 216.9f, -336f), new(290f, 218.5f, -340.33f), new(282f, 219.86f, -342f),
+                new(257f, 216.36f, -327f), new(231f, 217.11f, -315f), new(205f, 219.61f, -323f),
                 new(208f, 218.36f, -326f), new(208f, 216.61f, -341f), new(210f, 215.86f, -348f), new(210f, 215.86f, -351f),
                 new(203f, 216.41f, -378f), new(215f, 217.71f, -388f), new(214f, 217.14f, -395f), new(208f, 214.7f, -411f),
                 new(168f, 208.89f, -411f)
@@ -1188,7 +1194,7 @@ namespace Rasa.Test.Missions.Ashen
             ["to the west pad"] = new Vector3[]
             {
                 new(646f, 352.76f, -246f), new(606f, 351.36f, -246f), new(595f, 353.61f, -275f), new(595f, 358.61f, -292f),
-                new(578f, 364.86f, -300f), new(578f, 364.86f, -302f), new(562f, 369.37f, -309f), new(522f, 375.12f, -309f),
+                new(567f, 368.36f, -313f), new(557f, 370.62f, -312f), new(522f, 375.12f, -309f),
                 new(521f, 375.12f, -311f), new(481f, 380.12f, -311f), new(477f, 382.87f, -321f), new(470f, 386.08f, -331f),
                 new(470f, 385.83f, -324f)
             },
@@ -1203,7 +1209,7 @@ namespace Rasa.Test.Missions.Ashen
                 ("Petrovich to Frogga", new[] { "to Frogga" }, none, V(N.FroggaAt)),
                 ("Petrovich to Tananda (1536)", new[] { "from Petrovich", "to Tananda 1", "to Tananda 2", "to Tananda 3" }, NorthernTunnelPools, V(N.TanandaAt)),
                 ("Petrovich to the southern tunnel's pad (1537)", new[] { "from Petrovich", "to the southern pad 1", "to the southern pad 2" }, SouthernTunnelPools, V(N.TunnelPadAt)),
-                ("the queen pad to Vandeweghe (1537)", new[] { "the queen pad to Vandeweghe" }, QueenPadPools, V(N.VandewegheAt)),
+                ("the queen pad to Vandeweghe (1537)", new[] { "the queen pad to Vandeweghe" }, QueenPadPools, V(M.VandewegheAt)),
                 ("Vandeweghe down to the bottom (1537)", new[] { "down to the bottom 1", "down to the bottom 2" }, ChamberTunnelPools, ToVector(Queen.BottomAt) with { Y = 144.25f }),
                 ("the bottom to the Bane (1537)", new[] { "the bottom to the Bane 1", "the bottom to the Bane 2", "the bottom to the Bane 3", "the bottom to the Bane 4",
                     "the bottom to the Bane 5", "the bottom to the Bane 6" }, none, V(N.BaneAt)),
@@ -1220,7 +1226,7 @@ namespace Rasa.Test.Missions.Ashen
         {
             Enter(harness, V(N.TunnelPadAt));
             Teleport(harness, copy, copy.Teleporters[N.TunnelPad]);
-            Enter(harness, V(N.VandewegheAt));
+            Enter(harness, V(M.VandewegheAt));
             Talk(harness, SceneCreature(harness, copy, Queen.MissionId, Queen.ColonelRole), Queen.MissionId, Queen.Colonel);
             Tick(harness, copy, 250);
             Enter(harness, ToVector(Queen.BottomAt));

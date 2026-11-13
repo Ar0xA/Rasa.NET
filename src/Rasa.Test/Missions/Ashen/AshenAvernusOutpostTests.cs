@@ -28,6 +28,7 @@ namespace Rasa.Test.Missions.Ashen
     using static MarshesPreoDasTests;
     using static PlateauCampResistanceTests;
     using N = AshenAvernusOutpostNpcsV1;
+    using M = AshenFixMV1;
     using Overly = AshenOverlySensitiveV1;
     using Last = AshenPetrovichsLastStandV1;
     using Run = AshenPetrovichsRunV1;
@@ -212,20 +213,23 @@ namespace Rasa.Test.Missions.Ashen
 
             var pads = world.TeleporterEntries.AsNoTracking().Where(row => row.Id == N.CavernPad || row.Id == N.GraveyardPad).OrderBy(row => row.Id).ToList();
             Assert.HasCount(2, pads);
-            foreach (var (row, at) in pads.Zip(new[] { V(N.CavernPadAt), V(N.GraveyardPadAt) }))
+            foreach (var (row, at) in pads.Zip(new[] { V(M.CavernPadAt), V(M.GraveyardPadAt) }))
             {
                 Assert.AreEqual((Map, N.PadClass, N.LocalTeleporter, 0.0), (row.MapContextId, row.ClassId, (uint)row.Type, row.Rotation), $"{row.Id}");
                 var place = new Vector3((float)row.PosX, (float)row.PosY, (float)row.PosZ);
                 Assert.IsLessThan(0.01f, Vector3.Distance(at, place), $"{row.Id} place");
-                Assert.IsGreaterThanOrEqualTo(34f, hostile.Min(other => Facility.Gap(place, other)), $"pad {row.Id}: 34 m+ outside every hostile pool's circle");
+                // Fix M: pad 915 on the flat floor south-west of Drazen, 26.8 m (3D) outside 531061's circle (a rule break, docs; far
+                // from every pool's spawn draws, AshenFixMTests).
+                var rule = row.Id == N.CavernPad ? CavernPadClearance : 34f;
+                Assert.IsGreaterThanOrEqualTo(rule, hostile.Min(other => Facility.Gap(place, other)), $"pad {row.Id}: {rule} m+ outside every hostile pool's circle");
             }
             int Links(string where) => world.Database.SqlQueryRaw<int>($"SELECT COUNT(*) AS Value FROM local_teleporter_link WHERE {where}").AsEnumerable().Single();
             Assert.AreEqual(1, Links($"from_teleporter_id = {N.CavernPad} AND to_teleporter_id = {N.GraveyardPad}"), "cavern to graveyard");
             Assert.AreEqual(1, Links($"from_teleporter_id = {N.GraveyardPad} AND to_teleporter_id = {N.CavernPad}"), "graveyard to cavern");
             Assert.AreEqual(2, Links($"from_teleporter_id IN ({N.CavernPad}, {N.GraveyardPad}) OR to_teleporter_id IN ({N.CavernPad}, {N.GraveyardPad})"), "no other link");
             Assert.IsFalse(world.TeleporterEntries.AsNoTracking().Where(row => row.MapContextId == Map && row.Id != N.CavernPad && row.Id != N.GraveyardPad).AsEnumerable().Any(row =>
-                (uint)row.Type == 1 && (Vector2.Distance(new((float)row.PosX, (float)row.PosZ), new((float)N.CavernPadAt.X, (float)N.CavernPadAt.Z)) < 10 ||
-                    Vector2.Distance(new((float)row.PosX, (float)row.PosZ), new((float)N.GraveyardPadAt.X, (float)N.GraveyardPadAt.Z)) < 10)), "no other pad by them");
+                (uint)row.Type == 1 && (Vector2.Distance(new((float)row.PosX, (float)row.PosZ), new((float)M.CavernPadAt.X, (float)M.CavernPadAt.Z)) < 10 ||
+                    Vector2.Distance(new((float)row.PosX, (float)row.PosZ), new((float)M.GraveyardPadAt.X, (float)M.GraveyardPadAt.Z)) < 10)), "no other pad by them");
         }
 
         /// <summary>
@@ -274,17 +278,17 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsTrue(copy.Teleporters.TryGetValue(N.GraveyardPad, out var graveyard), "the graveyard's pad");
 
             Teleport(harness, copy, cavern);
-            Assert.IsLessThan(3f, Vector3.Distance(V(N.GraveyardPadAt), harness.Client.Player.Position), "in the graveyard");
+            Assert.IsLessThan(3f, Vector3.Distance(V(M.GraveyardPadAt), harness.Client.Player.Position), "in the graveyard");
             harness.Objects.DynamicObjectProximityWorker(copy, graveyard, 0);
             Assert.IsNull(harness.Client.PendingTransfer, "not sent straight back");
-            harness.MoveTo(V(N.PetrovichAt));
+            harness.MoveTo(V(M.PetrovichAt));
             harness.Drain();
             harness.Objects.DynamicObjectProximityWorker(copy, graveyard, 0);
             Assert.IsNull(harness.Client.PendingTransfer, "off the pad");
             Teleport(harness, copy, graveyard);
-            Assert.IsLessThan(3f, Vector3.Distance(V(N.CavernPadAt), harness.Client.Player.Position), "back in Drazen's cavern");
+            Assert.IsLessThan(3f, Vector3.Distance(V(M.CavernPadAt), harness.Client.Player.Position), "back in Drazen's cavern");
             var up = new Vector3(0, 1, 0);
-            Assert.IsGreaterThan(2f, Vector3.Distance(V(N.GraveyardPadAt) + up, V(N.CavernPadAt)), "the arrivals off the other trigger");
+            Assert.IsGreaterThan(2f, Vector3.Distance(V(M.GraveyardPadAt) + up, V(M.CavernPadAt)), "the arrivals off the other trigger");
         }
 
         /// <summary>
@@ -361,7 +365,7 @@ namespace Rasa.Test.Missions.Ashen
 
         /// <summary>
         /// The walks on the client's floor (AshenFixBTests.ClientFloorLine with a player's half width, PlayerHalfWidth 0.5 m, fix
-        /// G's 55-degree climb rule), every leg there and back by the corners Legs names (a client-floor flood's way, 2026-11-12),
+        /// G's 55-degree climb rule, fix J's rampFoot rule since fix M), every leg there and back by the corners Legs names (a client-floor flood's way, 2026-11-12),
         /// also with its start moved 0.13, 0.27 and 0.4 m along its first stretch (StartShifts). No leg goes into or out of a room
         /// the real client keeps closed (ClientClosedRooms: the prison, fix L; the server's collision has it open).
         /// Every walk keeps HostileClearance (30 m, 2D) outside the circle of every hostile pool but those it names (the upstream
@@ -393,7 +397,7 @@ namespace Rasa.Test.Missions.Ashen
                     foreach (var (line, direction) in new[] { (there, "there"), (back, "back") })
                     {
                         walked++;
-                        if (AshenFixBTests.ClientFloorLine(geometry, line, line[^1], null, PlayerHalfWidth) is { } why)
+                        if (AshenFixBTests.ClientFloorLine(geometry, line, line[^1], null, PlayerHalfWidth, rampFoot: true) is { } why)
                             failures.Add(FormattableString.Invariant($"{leg} {direction} (start +{shift} m): {why}"));
                         if (ClosedRoomCrossing(line) is { } wall)
                             failures.Add(FormattableString.Invariant($"{leg} {direction} (start +{shift} m): {wall}"));
@@ -425,7 +429,7 @@ namespace Rasa.Test.Missions.Ashen
             var copy = IntoOutpost(harness);
             var nav = copy.NavMesh;
             var failures = new List<string>();
-            foreach (var (name, from, points) in new[] { ("up the tunnel", V(N.PetrovichAt), Run.TunnelWay), ("to the top", ToVector(Run.RestAt), Run.TopWay) })
+            foreach (var (name, from, points) in new[] { ("up the tunnel", V(M.PetrovichAt), Run.TunnelWay), ("to the top", ToVector(Run.RestAt), Run.TopWay) })
             {
                 var previous = nav.Nearest(from) ?? from;
                 foreach (var point in points.Select(point => ToVector(point)))
@@ -436,7 +440,7 @@ namespace Rasa.Test.Missions.Ashen
                     previous = point;
                 }
             }
-            foreach (var at in Run.SoldiersAt.Append(Run.OfficerAt).Select(point => ToVector(point)))
+            foreach (var at in M.SoldiersAt.Append(M.OfficerAt).Select(point => ToVector(point)))
                 if (nav.GroundHeight(at + new Vector3(0, 1, 0)) is not { } ground || MathF.Abs(ground - at.Y) > 1f)
                     failures.Add($"the squad's place {at}: navmesh {nav.GroundHeight(at + new Vector3(0, 1, 0))}");
             Assert.IsEmpty(failures, string.Join("; ", failures));
@@ -683,7 +687,7 @@ namespace Rasa.Test.Missions.Ashen
 
             Teleport(harness, copy, copy.Teleporters[N.CavernPad]);
             Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Last.MissionId, Last.InTheGraveyard), "the pad's arrival is short of Petrovich");
-            Enter(harness, V(N.PetrovichAt));
+            Enter(harness, V(M.PetrovichAt));
             Assert.AreEqual(MissionObjectiveState.Completed, Objective(harness, Last.MissionId, Last.InTheGraveyard), "at Petrovich");
             var petrovich = Giver(copy, N.Petrovich);
             FullBagWaits(harness, petrovich, Last.MissionId, 1, ConsumableFiller);
@@ -750,7 +754,7 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.AreEqual(harness.Client.Player.Id, SceneCreature(harness, copy, Run.MissionId, role).SpawnPool.FollowOwnerCharacterId, $"{role} follows the player");
 
             // 2: up the tunnel to the turn.
-            harness.MoveTo(V(N.PetrovichAt) + new Vector3(0, 0, 3));
+            harness.MoveTo(V(M.PetrovichAt) + new Vector3(0, 0, 3));
             for (var second = 0; second < 120 && Vector3.Distance(SceneCreature(harness, copy, Run.MissionId, Run.PetrovichRole).Position, ToVector(Run.RestAt)) > 1.5f; second++)
                 Tick(harness, copy, 1000);
             Assert.IsLessThanOrEqualTo(1.5f, Vector3.Distance(SceneCreature(harness, copy, Run.MissionId, Run.PetrovichRole).Position, ToVector(Run.RestAt)), "Petrovich at the turn");
@@ -1221,20 +1225,20 @@ namespace Rasa.Test.Missions.Ashen
             var places = new List<(string, Vector3, bool, float, float)>
             {
                 ("Captain Karter", V(N.KarterAt), true, F.NpcMiddle, Clearance), ("Commander Drazen", V(N.DrazenAt), true, F.NpcMiddle, Clearance),
-                ("Petrovich in the graveyard", V(N.PetrovichAt), true, F.NpcMiddle, Clearance), ("Petrovich at the top", V(N.PetrovichTopAt), true, F.NpcMiddle, Clearance),
-                ("Drazen's pad", V(N.CavernPadAt), false, 0, Clearance), ("the graveyard's pad", V(N.GraveyardPadAt), false, 0, Clearance),
+                ("Petrovich in the graveyard", V(M.PetrovichAt), true, F.NpcMiddle, Clearance), ("Petrovich at the top", V(N.PetrovichTopAt), true, F.NpcMiddle, Clearance),
+                ("Drazen's pad", V(M.CavernPadAt), false, 0, CavernPadClearance), ("the graveyard's pad", V(M.GraveyardPadAt), false, 0, Clearance),
                 ("the courier bag", ToVector(Overly.BagAt), true, F.ObjectMiddle, Clearance), ("the prototype ammo", ToVector(Overly.AmmoAt), true, F.ObjectMiddle, Clearance),
                 ("the tavern corpse", ToVector(Overly.DiaryAt), true, F.ObjectMiddle, Clearance), ("the data backup", ToVector(Overly.BackupAt), true, F.ObjectMiddle, Clearance),
                 ("the strip corpse", ToVector(Overly.CardAt), true, F.ObjectMiddle, Clearance), ("the prison teleporter", ToVector(Overly.TeleporterAt), true, F.ObjectMiddle, Clearance),
                 ("the secret stash", ToVector(Overly.StashAt), true, F.ObjectMiddle, Clearance), ("the prison arrival", ToVector(Overly.PrisonArrival), false, 0, Clearance),
                 ("the prison's way out (fix L)", V(AshenFixLV1.PrisonPadAt), false, 0, Clearance), ("the way out's arrival (fix L)", V(AshenFixLV1.OutsidePadAt), false, 0, Clearance),
-                ("the officer", ToVector(Run.OfficerAt), false, 0, Clearance), ("soldier 1", ToVector(Run.SoldiersAt[0]), false, 0, Clearance),
-                ("soldier 2", ToVector(Run.SoldiersAt[1]), false, 0, Clearance), ("the turn", ToVector(Run.RestAt), true, F.NpcMiddle, Clearance)
+                ("the officer", ToVector(M.OfficerAt), false, 0, Clearance), ("soldier 1", ToVector(M.SoldiersAt[0]), false, 0, Clearance),
+                ("soldier 2", ToVector(M.SoldiersAt[1]), false, 0, Clearance), ("the turn", ToVector(Run.RestAt), true, F.NpcMiddle, Clearance)
             };
             for (var index = 0; index < Overly.ServersAt.Length; index++)
                 places.Add(($"server {index + 1}", ToVector(Overly.ServersAt[index]), true, F.ObjectMiddle, Clearance));
             for (var member = 0; member < Run.AmbushAt.Length; member++)
-                places.Add(($"ambush {member + 1}", ToVector(Run.AmbushAt[member]), false, 0, Clearance));
+                places.Add(($"ambush {member + 1}", ToVector(M.AmbushAt[member]), false, 0, Clearance));
             places.Add(("the tunnel's top", ToVector(Run.TopWay[^1]), false, 0, Clearance));
             return places.Select(place => ((string Label, Vector3 At, bool Ring, float Middle, float Clearance))place).ToList();
         }
@@ -1284,6 +1288,9 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>How far outside every hostile pool's circle a place stands (2D; 30 m walk clearance and a margin).</summary>
         private const float Clearance = 34;
 
+        /// <summary>Fix M's pad 915 outside 531061's circle (26.8 m in 3D; a rule break of the 34 m place rule, docs/ashen-playtest.md).</summary>
+        private const float CavernPadClearance = 26.5f;
+
         /// <summary>The upstream pools a walk passes (rule breaks, docs/ashen-playtest.md): 531047 in the tunnel from the outpost to Drazen's cavern and 531061 by the ramp down into it (21.8 m outside its circle: the ramp is the only way down); 531042 by the hive tunnel's top half.</summary>
         private static readonly uint[] DrazenTunnelPools = { 531047, 531061 };
         private static readonly uint[] HiveTunnelPools = { 531042 };
@@ -1309,8 +1316,8 @@ namespace Rasa.Test.Missions.Ashen
                 new(101f, 528.5f, 71f), new(99f, 528.5f, 66f),
                 new(99f, 527.12f, 57f), new(101f, 527.12f, 38f), new(91f, 527.12f, 28f), new(84f, 527.12f, 23f),
                 new(77f, 526.23f, 3f), new(76.65f, 525.96f, 3.35f), new(75.65f, 525.71f, 2.35f), new(76f, 525.37f, 1f),
-                new(75f, 524.37f, -3f), new(75f, 523.12f, -8f), new(75f, 514.37f, -47f), new(82f, 515.15f, -54f),
-                new(83f, 514.67f, -60f), new(90f, 514.12f, -68f), new(95f, 514.12f, -68f), new(102.9f, 514.25f, -56.7f)
+                new(75f, 524.37f, -3f), new(75f, 523.12f, -8f), new(75f, 514.37f, -47f), new(90f, 514.12f, -50f),
+                new(90f, 514.12f, -68f), new(95f, 514.12f, -68f), new(102.9f, 514.25f, -56.7f)
             },
             // Audit S-B: through the middle of the weapon shop's door (x 135-137), off its posts.
             ["to the weapon shop"] = new Vector3[]
@@ -1318,7 +1325,7 @@ namespace Rasa.Test.Missions.Ashen
                 new(101f, 528.5f, 71f), new(99f, 528.5f, 66f), new(99f, 527.12f, 57f), new(101f, 527.12f, 38f),
                 new(91f, 527.12f, 28f), new(84f, 527.12f, 23f), new(77f, 526.23f, 3f), new(76.65f, 525.96f, 3.35f),
                 new(75.65f, 525.71f, 2.35f), new(76f, 525.37f, 1f), new(75f, 524.37f, -3f), new(75f, 523.12f, -8f),
-                new(75f, 514.37f, -47f), new(82f, 515.15f, -54f), new(83f, 514.67f, -60f), new(90f, 514.12f, -68f),
+                new(75f, 514.37f, -47f), new(90f, 514.12f, -50f), new(90f, 514.12f, -68f),
                 new(131f, 514.12f, -68f), new(136f, 514.37f, -66f), new(136f, 514.56f, -62f), new(136f, 514.29f, -56f)
             },
             ["to the ammo"] = new Vector3[]
@@ -1330,8 +1337,8 @@ namespace Rasa.Test.Missions.Ashen
                 new(101f, 528.5f, 71f), new(99f, 528.5f, 66f),
                 new(99f, 527.12f, 57f), new(101f, 527.12f, 38f), new(91f, 527.12f, 28f), new(84f, 527.12f, 23f),
                 new(77f, 526.23f, 3f), new(76.65f, 525.96f, 3.35f), new(75.65f, 525.71f, 2.35f), new(76f, 525.37f, 1f),
-                new(75f, 524.37f, -3f), new(75f, 523.12f, -8f), new(75f, 514.37f, -47f), new(82f, 515.15f, -54f),
-                new(83f, 514.67f, -60f), new(90f, 514.12f, -68f), new(189f, 517.87f, -68f), new(192f, 519.12f, -65f),
+                new(75f, 524.37f, -3f), new(75f, 523.12f, -8f), new(75f, 514.37f, -47f), new(90f, 514.12f, -50f),
+                new(90f, 514.12f, -68f), new(189f, 517.87f, -68f), new(192f, 519.12f, -65f),
                 new(197f, 518.89f, -43f), new(194.7f, 519.01f, -31f)
             },
             ["to the plaza"] = new Vector3[]
@@ -1340,7 +1347,9 @@ namespace Rasa.Test.Missions.Ashen
                 new(99f, 527.12f, 57f), new(101f, 527.12f, 38f), new(91f, 527.12f, 28f), new(84f, 527.12f, 23f),
                 new(77f, 526.23f, 3f), new(76.65f, 525.96f, 3.35f), new(75.65f, 525.71f, 2.35f), new(76f, 525.37f, 1f),
                 new(75f, 524.37f, -3f), new(75f, 523.12f, -8f), new(75f, 514.37f, -72f), new(88f, 514.12f, -85f),
-                new(94f, 517.37f, -105f), new(103f, 526.87f, -114f), new(103f, 527.62f, -117f), new(103f, 528f, -119f)
+                new(96.5f, 514.37f, -82.5f), new(109f, 522f, -82f), new(112f, 522f, -83.5f), new(112f, 526f, -90.5f), new(118f, 526f, -91.5f),
+                new(118f, 528f, -97.5f), new(117f, 528f, -101.5f), new(112f, 528.12f, -105f), new(110f, 527.87f, -110f), new(104f, 526.37f, -110f),
+                new(103f, 526.62f, -113f), new(103f, 528f, -119f)
             },
             ["across to the landing strip"] = new Vector3[]
             {
@@ -1388,7 +1397,9 @@ namespace Rasa.Test.Missions.Ashen
                 new(99f, 527.12f, 57f), new(101f, 527.12f, 38f), new(91f, 527.12f, 28f), new(84f, 527.12f, 23f),
                 new(77f, 526.23f, 3f), new(76.65f, 525.96f, 3.35f), new(75.65f, 525.71f, 2.35f), new(76f, 525.37f, 1f),
                 new(75f, 524.37f, -3f), new(75f, 523.12f, -8f), new(75f, 514.37f, -72f), new(88f, 514.12f, -85f),
-                new(94f, 517.37f, -105f), new(103f, 526.87f, -114f), new(103f, 527.62f, -117f), new(103f, 528f, -119f),
+                new(96.5f, 514.37f, -82.5f), new(109f, 522f, -82f), new(112f, 522f, -83.5f), new(112f, 526f, -90.5f), new(118f, 526f, -91.5f),
+                new(118f, 528f, -97.5f), new(117f, 528f, -101.5f), new(112f, 528.12f, -105f), new(110f, 527.87f, -110f), new(104f, 526.37f, -110f),
+                new(103f, 526.62f, -113f), new(103f, 528f, -119f),
                 new(98f, 528f, -120f), new(42f, 528f, -120f), new(28f, 528.12f, -106f)
             },
             // Fix L (to-fix row 46): the prison is closed in the client (ClientClosedRooms), so it is reached by the teleporter
@@ -1440,9 +1451,12 @@ namespace Rasa.Test.Missions.Ashen
             {
                 new(57.5f, 478.62f, -315f), new(57.5f, 477.97f, -313f)
             },
+            // Fix M (row 48): from Petrovich's place on the graveyard's north-west shelf, south-west round the stone at (860.6,
+            // -223.7), onto set 17's line at (850, -245.4).
             ["the graveyard to the tunnel"] = new Vector3[]
             {
-                new(909f, 273.86f, -246f), new(804f, 288.71f, -245f), new(793f, 297.02f, -233f), new(790f, 296.52f, -231f)
+                new(873f, 284.11f, -219f), new(862f, 285.36f, -236f), new(850f, 286f, -245.44f), new(804f, 288.71f, -245f),
+                new(793f, 297.02f, -233f), new(790f, 296.52f, -231f)
             },
             ["up the tunnel to the turn"] = new Vector3[]
             {
@@ -1460,13 +1474,16 @@ namespace Rasa.Test.Missions.Ashen
             {
                 new(57.5f, 477.97f, -313f), new(57.5f, 478.62f, -315f)
             },
+            // Fix M: pad 915 on the flat floor south-west of Drazen, walked onto up its ramp from the south (the client lets no one
+            // off its west side, the tester 2026-11-12).
             ["to his pad"] = new Vector3[]
             {
-                new(57.5f, 478.62f, -315f), new(64f, 480.73f, -312f)
+                new(57.5f, 478.62f, -315f), new(48f, 477.49f, -324.5f), new(48f, 477.12f, -318f)
             },
+            // Fix M (row 48): down pad 916's ramp to the south, then west to Petrovich.
             ["the graveyard pad to Petrovich"] = new Vector3[]
             {
-                new(890f, 278.11f, -232f), new(909f, 273.86f, -246f)
+                new(888f, 281.86f, -212f), new(888f, 281.36f, -218.5f), new(873f, 284.11f, -219f)
             },
         };
 
@@ -1492,8 +1509,8 @@ namespace Rasa.Test.Missions.Ashen
                 ("the prison arrival to its way out (fix L)", new[] { "in the prison to the way out" }, none, V(AshenFixLV1.PrisonPadAt)),
                 ("the way out's arrival to the plaza (fix L)", new[] { "from the way out's arrival" }, none, new Vector3(103f, 528f, -119f)),
                 ("the entrance to Drazen", new[] { "the entrance", "to the south road", "down the south road", "down the cavern tunnel", "into the cavern", "to Drazen" }, DrazenTunnelPools, V(N.DrazenAt)),
-                ("Drazen to his pad", new[] { "from Drazen", "to his pad" }, none, V(N.CavernPadAt)),
-                ("the graveyard's pad to Petrovich", new[] { "the graveyard pad to Petrovich" }, none, V(N.PetrovichAt)),
+                ("Drazen to his pad", new[] { "from Drazen", "to his pad" }, new uint[] { 531055, 531061 }, V(M.CavernPadAt)),
+                ("the graveyard's pad to Petrovich", new[] { "the graveyard pad to Petrovich" }, none, V(M.PetrovichAt)),
                 ("Petrovich to the turn (1535; the cave's pools cleared by 1)", new[] { "the graveyard to the tunnel", "up the tunnel to the turn" }, cave, ToVector(Run.RestAt)),
                 ("the turn to the top (1535)", new[] { "the turn to the top" }, HiveTunnelPools, V(N.PetrovichTopAt))
             };

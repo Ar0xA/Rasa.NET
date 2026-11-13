@@ -954,7 +954,10 @@ namespace Rasa.Test.Missions.Ashen
                         && !(entry.SourceUri == AshenFixJV1.Source && entry.Confidence == 0.3 && entry.SourceKind == MissionEvidenceSourceKind.Reconstruction &&
                              ((mission == AshenFixJV1.Threshold && entry.EvidenceId == AshenFixJV1.ThresholdEvidence) ||
                               (mission == AshenFixJV1.Digging && entry.EvidenceId == AshenFixJV1.DiggingEvidence) ||
-                              (mission == AshenFixJV1.Desistance && entry.EvidenceId == AshenFixJV1.DesistanceEvidence))))
+                              (mission == AshenFixJV1.Desistance && entry.EvidenceId == AshenFixJV1.DesistanceEvidence)))
+                        && !(entry.SourceUri == AshenFixMV1.Source && entry.Confidence == 0.3 && entry.SourceKind == MissionEvidenceSourceKind.Reconstruction &&
+                             ((entry.EvidenceId == AshenFixMV1.Evidence && (mission == AshenFixMV1.LastStand || mission == AshenFixMV1.Run || mission == AshenFixMV1.Queen || mission == AshenFixMV1.Raid)) ||
+                              (entry.EvidenceId == AshenFixMV1.BlastEvidence && mission == AshenFixMV1.Blast))))
                         .OrderBy(entry => entry.EvidenceId)
                         .Select(entry => (entry.SourceKind, entry.Confidence)).ToArray(), $"{mission} evidence");
         }

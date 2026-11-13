@@ -671,13 +671,13 @@ All ESTIMATE (set 16):
 Set 17, Avernus Outpost, the outpost part (migration `20271110001700_Ashen_avernus_outpost`). All in Avernus Outpost (map 2110,
 a squad instance; its door is map link 59 from Ashen Desert, arrival (83.99, 528.5, 107.67)). New NPCs: Captain Sera Karter's
 second row 790640 (80.8, 528.5, 99.5) at the entrance; Commander Drazen 790641 (57.5, 477.97, -313) in the cavern south of the
-outpost; Captain Petrovich 790642 (909, 273.86, -246) in the AFS Graveyard and his second row 790643 (645.5, 352.67, -246.5) at
+outpost; Captain Petrovich 790642 (fix M: (873, 284.11, -219); set 17's (909, 273.86, -246)) in the AFS Graveyard and his second row 790643 (645.5, 352.67, -246.5) at
 the tunnel's top (Food Storage shelf); Petrovich's squad, an Avernus Outpost Officer 790644 and Avernus Outpost Soldier 790645
 (1535's scene only, no pool). The Avernus Invaders 790646 (hostile, an Atta Soldier 531015 copy, name 9675, level 41) in three
 pools of two or three (respawn: the row's 120 s; in a squad copy every pool comes back 45 min after its last death,
 SquadInstances.RespawnMinutes): 790647 (158, 528.25, 17) and 790648 (205, 515.85, 74) in the north ravine, 790649 (-26,
-528.87, -176) in the south-west yard. The Atta Teleporter: local teleporter pads 915 (64, 480.73, -312) by Drazen and 916 (890,
-278.11, -232) in the graveyard, linked both ways (class 25302); the graveyard has no walk from the outpost, the pad is the way.
+528.87, -176) in the south-west yard. The Atta Teleporter: local teleporter pads 915 (fix M: (48, 477.12, -318); set 17's (64, 480.73, -312)) by Drazen and 916 (fix M: (888,
+281.86, -212); set 17's (890, 278.11, -232)) in the graveyard, linked both ways (class 25302); the graveyard has no walk from the outpost, the pad is the way.
 Next free id 790650. Every walk below is the client's floor, checked both ways with a 0.5 m half width and the 55 degree climb
 rule (AshenAvernusOutpostTests).
 
@@ -694,7 +694,7 @@ rule (AshenAvernusOutpostTests).
   x3, Standard Med Pack 45064 x3, Incendiary Grenade 111039 x3, Advanced Med Pack 45065 x2.
 - [ ] 1533 Petrovich's Last Stand (Ligo Ashen Desert): Drazen (south cavern) offers it, level 41. No client objective: the
   mission can be turned in at once; step on Drazen's pad (915), it sets you down in the graveyard; walk to Petrovich (15 m area
-  round him, hidden). Turn in at Petrovich: 90000 XP, 6150 credits, one of Class VIII EMP Grenade 111029 x3, Res Trauma Kit
+  round him, hidden; fix M: down pad 916's ramp to the south, then 15 m west). Turn in at Petrovich: 90000 XP, 6150 credits, one of Class VIII EMP Grenade 111029 x3, Res Trauma Kit
   47600 x1, Class VIII Concussion Grenade 111019 x3, Class VIII Basic Med Pack 45063 x6.
 - [ ] 1535 Petrovich's Run (Ligo Ashen Desert): Petrovich (graveyard) offers it, level 42. His own copy, the officer and two
   soldiers stand by him from the accept (unhurt by anything). 1: the graveyard's four Atta pools (531049, 531050, 531060, 531063)
@@ -714,8 +714,7 @@ length, not climbed from the side (audit S-B): the entrance east of the 1.2 m bl
 its door's middle, the HQ up its door ramp eastward, the strip corpse's platform by its south ramp. Every leg also passes with
 its start moved 0.13, 0.27 and 0.4 m (the samples fall elsewhere; the walk test does this for every leg). The steep diagonal
 stretches left in the walks are on terrain or cave ramp meshes, not on a static's stair, and under the client's 55-degree
-limit (probe 2026-11-12, the floor's source and slope every 0.5 m): (94, -105) -> (103, -114) to the plaza, terrain, 45-51
-degrees, 45 degrees off its fall line; (77, 3) -> (76.65, 3.35) on the trunk, terrain, 14 degrees; (189, -68) -> (192, -65)
+limit (probe 2026-11-12, the floor's source and slope every 0.5 m): (77, 3) -> (76.65, 3.35) on the trunk, terrain, 14 degrees; (189, -68) -> (192, -65)
 to the tavern, terrain, 29 degrees; (34, -290) -> (43, -308) into Drazen's cavern, the cave ramp
 terra_arieki_cavern_endcap_02_24m_v02 (class 6988) with terrain at its top, 29-48 degrees, 30-37 degrees off its fall line;
 (754, -115) -> (746, -128) at the turn, the cave ramp terra_arieki_cavern_turn_ramp_v01 (class 9557), 28-44 degrees, up to 70
@@ -733,7 +732,7 @@ Rule breaks (rule 2):
   531042 over the hive tunnel's top half (Petrovich's route); Petrovich -> the turn passes the graveyard's own pools (1 has
   them dead first).
 - Drazen moved 50.9 m north-east of TaRapedia's place (it lies 1.4 m outside the Atta pool 531055's circle) and Petrovich to
-  the graveyard's middle (TaRapedia's place is inside 531050's circle).
+  the graveyard's north-west shelf (fix M; TaRapedia's place is inside 531050's circle, set 17's middle on its spawn ground).
 - Drazen stands 31.8 m on the flat outside pool 531061's circle (35.7 m in 3D: the pool is 18.6 m above him at the ramp's
   top); the 34 m place rule holds only in 3D. His cavern has no place farther from it beside the pad.
 
@@ -765,12 +764,14 @@ All ESTIMATE (set 17):
 Set 18, Avernus Outpost, the hive (migration `20271110001800_Ashen_avernus_hive`). All in Avernus Outpost (map 2110). All three
 are given at Petrovich's second row 790643 (645.5, 352.67, -246.5) on the Food Storage shelf (1535's receiver). New NPCs:
 Captain Tananda 790650 (449, 391.46, -45) at the Cave In; Sgt. Frogga 790651 (652, 353.32, -238) by Petrovich; Colonel
-Vandeweghe 790652 (349, 233.11, -260; 1537's copy only, no public pool) on the ramp over the Queen's Chamber; the Eloh
+Vandeweghe 790652 (fix M: (294, 216.61, -330) in the hollow down the Queen's Chamber tunnel; set 18's (349, 233.11, -260) on
+the ramp over the chamber; 1537's copy only, no public pool); the Eloh
 Zuriel 790653 (628.6, 276, -677.8) in the Eloh Sanctuary. The Bane of the Queen's Chamber: a Caretaker 790654, a Fithik 790655, a Mutated Miasma 790656 (name 9037: the
 client has no "Altered Miasma") and a Thrax Tunneler 790657 (name 9892), level 43, one each in pool 790658 (147, 194.11, -590;
 r5; its row's respawn is 120 s, but in the squad's copy, the only place it stands, a cleared pool comes back 45 min after
 the last of it died) on the chamber's west ledge. Two Atta Teleporter pairs (local teleporters, class 25302, linked both ways):
-917 (509, 368.37, -506) near the southern tunnel's end <-> 918 (340, 238.11, -252) over the Queen's Chamber; 919 (470, 385.83,
+917 (509, 368.37, -506) near the southern tunnel's end <-> 918 (fix M: (306, 218.11, -326) in the hollow; set 18's (340,
+238.11, -252)) over the Queen's Chamber; 919 (470, 385.83,
 -324) on the Food Storage's west side <-> 920 (628, 275.98, -639) in the Eloh Sanctuary's entrance. Next free id 790659. Every
 walk below is the client's floor, checked both ways with a 0.5 m half width and the 55 degree climb rule (AshenAvernusHiveTests).
 The pads' body (prop_atta_teleporter_v01.geo): a platform 1.1-1.22 m high whose only way up is a ramp on its south (-z) side;
@@ -814,14 +815,16 @@ Rule breaks (rule 2):
   Vandeweghe, the pads and the walks in the hive. The Bane's pool keeps it (its circle 106 m and more outside every Atta
   pool's circle); Zuriel (75.7 m) and the sanctuary pad (36.9 m) keep 34 m.
 - Tananda stands 20.0 m outside 531051's circle (the Cave In: TaRapedia's place is inside it; the farthest floor she is seen
-  from all round at); the men stop there too. Vandeweghe stands 13.6 m and the queen pad 21.9 m outside 531058's circle (the
-  ramp over the chamber; TaRapedia's place is 6 m outside it).
+  from all round at); the men stop there too. Fix M: Vandeweghe stands 18.8 m and the queen pad 22.4 m outside 531062's
+  circle (the hollow down the tunnel; 26.5 and 26.4 m from every pool's spawn draws). Set 18 had them 13.6 and 21.9 m outside
+  531058's circle, but on its spawn ground (0.5 and 4.0 m).
 - The walks pass the upstream pools on the only way (2D, every leg also checked with its start moved 0.13, 0.27 and 0.4 m):
   Petrovich -> Tananda goes through 531045 and 531051 (the northern tunnel); Petrovich -> the southern pad through 531046
   and 531057 and 7.6 m outside 531059; Petrovich -> the west pad through 531057, 13.0 m outside 531048 and 18.1 m outside
   531059 (the floor round 531057 is the only way that passes the shifted check: the west side's 56-degree spot at (469,
-  -282.5) and hump at (468, -317.6) fail it); the queen pad -> Vandeweghe 13.6 m outside 531058; Vandeweghe -> the bottom
-  through 531044, 1.7 m outside 531058 and 20.3 / 21.8 m outside 531056 and 531062 (his lead's way down).
+  -282.5) and hump at (468, -317.6) fail it); Vandeweghe -> the bottom through 531044 and 531062's spawn ground (his lead's
+  way down; fix M: it no longer passes 531058); the queen pad -> Vandeweghe 18.8 m outside 531062's circle (fix M; 26.5 m
+  from its draws).
 - Set 18 spawns no scene object (its actors are creatures); no walk crosses one of the pads 917-920 but at its end.
 - The meshes under the walks (the probe, 2026-11-12): the hive's floor is the terrain heightmap nearly everywhere. The zig-zag
   climb to the Bane's ledge (the bottom -> the Bane, 2-3) and the queen pad -> Vandeweghe are terrain (no stair or ramp mesh).
@@ -845,6 +848,80 @@ All ESTIMATE (set 18):
   place. The men's and Vandeweghe's routes (the client-floor walk's corners on the navmesh), their speed, the 2 s timer.
 - The Bane's rows (the nearest upstream rows and names), one of each, the pool's circle and respawn.
 - The armour pieces of 1536 (the version and level band TaRapedia names; "Experimental" is no client quality).
+
+Fix job M (migration `20271110001930_Ashen_fix_m`, to-fix row 48), a delta on sets 17 and 18 (and on fix L for 1498's scene). A creature notices a player
+within 18 m (Creature.AggroRange, 3D, no line of sight) of where it stands, and a pool with a circle stands its creatures
+anywhere on the navmesh polygons that touch the circle (NavMeshManager.RandomPointAround): 531050 (r20) draws up to 67 m
+from its middle. The circle rules on paper (places 34 m, walks 30 m) protect nobody; the places and walks of sets 15-19 on the
+squad maps are now measured against 1500 seeded spawn draws of every hostile pool (AshenSpawnReach,
+AshenFixMTests.ThePlacesAndWalksKeepOutOfThePoolsReach: OK 20 m and more, RISK 18-20 m, FAIL under 18 m).
+- Petrovich 790642 (1533's receiver, 1535's giver) stood 0.6 m from 531050's draws; the real client died on the walk from
+  pad 916 (Atta Soldier Trooper 2554 about 13 m from him) and later found him dead (his pool came back only after the squad
+  copy's 45 min). He moves to the graveyard's north-west shelf (873, 284.11, -219): 40.8 m from every pool's draws, 36 m
+  outside 531049's circle. 1533's 15 m area, 1535's copy of him and his squad (officer (871, 284.61, -216), soldiers (872,
+  284.36, -221) and (875, 283.86, -217)) move with him. Pad 916 (19.7 m from 531050's draws) moves to (888, 281.86, -212):
+  30.9 m.
+- Pad 915 (Drazen's): the real client does not let a player step off its west side (row 48, 2026-11-12), and its south
+  (ramp) side at (64, 480.73, -312) is a 42-45 degree hillside. It moves to the flat floor south-west of Drazen (48, 477.12,
+  -318), its ramp foot (48, 477.49, -324.5) on the same floor. Rule break: 26.8 m (3D) outside 531061's circle on paper (34 m
+  rule); the walk to it from Drazen passes 25.3 m outside 531055's circle (30 m walk rule). Both far from every pool's
+  spawn draws (20 m and more).
+- Every walk onto or off a pad (915-920) goes by its ramp on the south (-z) side, both ways
+  (AshenFixMTests.ThePadsAreWalkedOnAndOffByTheirRampsOnly; ESTIMATE of the ramp side, the pads' geometry and row 48).
+- Every set 17 and 18 leg is now walked with fix J's rampFoot rule (0.6 m terrain-to-mesh step). Rerouted: the plaza climb
+  (the real client stopped at (99.15, 522.38, -110.72), under a rock face, row 45; the check passed it); the shops' corner
+  at (82, -54) (a 0.71 m step onto a mesh); the hive's legs from Petrovich past (585.4, -296.5) and (570.5, -305.3) (0.61-0.65 m
+  steps).
+- Petrovich, Drazen 790641 and Petrovich at the top 790643 are named public-spawn actors (1533's scene: Petrovich, Drazen;
+  1535's: Petrovich at the top): killed in a squad's copy, each comes back on his pool's own time (2 s), as Tananda. A plain
+  pool NPC can not be made unhurt by data (only a scene role is). Karter (106 m from every pool's draws) is left as he is.
+- Vandeweghe (1537) stood 0.5 m and the queen pad 918 4.0 m from 531058's draws (its whole ramp). They move to the hollow down
+  the Queen's Chamber tunnel: Vandeweghe (294, 216.61, -330), 26.5 m from every pool's draws; pad 918 (306, 218.11, -326),
+  26.4 m; its pair 917 stays. 1537's area 2 and markers 2 and 3 move with him; his lead down starts at his place (set 18's
+  first route point (316, 224.28, -332), back up toward 531058, dropped). The pad's arrival is 12.6 m from him (his area 6 m).
+- Two placements off the navmesh (MissionGroundTests, found by fix L's run): 1535's first ambush man (both waves) from (745,
+  329.96, -135), 1.81 m sideways off it, to (745.2, 330.48, -136.8); 1497's front field (set 19) from (6.5, 129.5, -405), 6.87 m
+  from the navmesh (an object's 6 m), up to (6.5, 131, -405): its foot still 0.5 m under the tunnel's lowest floor (131.5), and
+  it still closes the tunnel wall to wall (AshenConscriptionEntryTests).
+- 1498's lab charge (a delta on fix L's scene, set 19) from the Atta Laboratory's door (-216, 96.01, -160), 13.6 m from the
+  Atta Imperial Guard 520002's draws (a boss pool without a circle), 9 m south along the hall to (-213, 96.01, -169): 21.7 m
+  from 520002's draws, 23.6-24.8 m from the lab's own 531064 and 531066, 20.6 and 20.4 m outside their circles (set 19's 20 m
+  rule). Objective 5's marker moves with it. The walk from the service pad ends beside it at (-211.41, 96.01, -169.84), 23.4 m from
+  520002's draws (set 19's end was 15.3 m).
+- All new places ESTIMATE (client-floor and navmesh probe, 2026-11-12): on the client floor, seen from all round, walked both
+  ways with fix J's rules (rampFoot, 0.5 m half width, start shifts 0.13/0.27/0.4 m), each corner by a complete navmesh path.
+
+New walk points (fix M), for the tester:
+- 1533: Drazen (57.5, 478.62, -315) -> south-west to pad 915's ramp foot (48, 477.49, -324.5) -> north up the ramp onto the
+  pad (48, 477.12, -318). Step off it the same way (south).
+- Set 17 plaza (1473's servers, black box, strip corpse, prison teleporter): ... (75, 514.37, -72) -> (88, 514.12, -85) ->
+  (96.5, 514.37, -82.5) -> east up the stair (109, 522, -82) -> (112, 522, -83.5) -> north up (112, 526, -90.5) -> (118, 526,
+  -91.5) -> north up (118, 528, -97.5) -> (117, 528, -101.5) -> (112, 528.12, -105) -> (110, 527.87, -110) -> (104, 526.37,
+  -110) -> (103, 526.62, -113) -> the plaza (103, 528, -119). Not the old diagonal (94, -105) -> (103, -114).
+- Set 17 shops (1473's bag, ammo, tavern): (75, 514.37, -47) -> (90, 514.12, -50) -> (90, 514.12, -68) -> on as before.
+- Set 18 from Petrovich at the top to the southern pad 917 and the west pad 919: ... (595, 358.61, -292) -> (567, 368.36,
+  -313) -> (557, 370.62, -312) -> on as before (917: south; 919: west along z -309).
+- 1533: pad 915 by Drazen -> arrival on pad 916 (888, 282.86, -212) -> down its ramp south to (888, 281.36, -218.5) -> west to
+  Petrovich (873, 284.11, -219). The area (15 m) is entered on the walk west.
+- Back to pad 916 (row 48, try 3: set 17's pad at (890, -232) stopped a player coming from the east-south-east, 4.4 m from
+  its middle): Petrovich (873, 284.11, -219) -> east 15 m to the ramp foot (888, 281.36, -218.5) -> north up the ramp onto the
+  pad (888, 281.86, -212), 21.5 m in all. Never onto a pad from its east, west or north side.
+- 1498: the service pad -> ... (-194, 96.63, -175) -> (-196, 96, -178) -> north-west to beside the charge (-211.41, 96.01,
+  -169.84); the charge (-213, 96.01, -169) stands in the hall 9 m south of the lab's door, not at the door.
+- 1535: Petrovich (873, -219) -> (862, 285.36, -236) -> (850, 286, -245.4) -> set 17's line to the tunnel (804, 288.71, -245).
+- 1537: pad 917 -> arrival on pad 918 (306, 219.11, -326) -> down its ramp south to (306, 218.36, -332.5) -> west to Vandeweghe
+  (294, 216.61, -330); down: (290, 216.9, -336) -> (290, 218.5, -340.33) -> set 18's way at (282, 219.86, -342).
+
+Rule breaks measured by fix M (not moved; AshenFixMTests.Breaks):
+- 1395's walk into the Watch Post passes 1360's own pool 790565 (1395 requires 1360).
+- Set 16: valve 1 stands in 531088's room (its walk passes it); Kretas' teleporter 18.0 m and the Teleportation Console 19.8 m
+  from 531095's draws (their walk passes 12.4 m); 1452's Central Administration area round Kretas (its own target).
+- Tananda, her area and the men's stop 16.6-17.1 m from 531051's draws: the Cave In's floor has no spot 20 m off them (the best,
+  19.8 m, a corner), and the walk there passes through them.
+- Set 19: Peacock -> the field's charge
+  passes 9.7 m from 531068's draws, beside 531067 and 531081 it already passes (the yard is the only way; 1497's own field).
+- Kept as before (the pools a walk names as passed): every leg through set 16's plant rooms, the hive tunnels, 1535's cave and
+  1498's biolab. Their draws reach 0-5 m of the walks: expect fights there.
 
 Set 19, the Bane Conscription Facility, the entry and the biolab (migration `20271110001900_Ashen_conscription_entry`). The
 facility is a squad instance (map 1988), entered by its door in Ashen Desert (map_link 57, (427.74, 305.61, 206.80)); you arrive
@@ -897,8 +974,8 @@ anything; Peacock is a public NPC far from every pool (no protection needed).
 Rule breaks (rule 2):
 - The field's charge stands 20.8 m outside 531081's circle and 26.6 m outside 531067's (the guards at the HQ tunnel's mouth:
   the field is in the tunnel, the client map's only way into the facility from the yard).
-- The lab's charge stands 20.1 m outside 531064's circle and 22.9 m from the Atta Imperial Guard 520002 (a boss, rule 35 m), at
-  the Atta Laboratory's door: the lab is the objective, its pools stand in and around it.
+- The lab's charge (fix M's place, 9 m south of the Atta Laboratory's door) stands 20.6 and 20.4 m outside 531064's and 531066's circles and 31.4 m
+  from the Atta Imperial Guard 520002 (a boss, rule 35 m): the lab is the objective, its pools stand in and around it.
 - The walks pass the upstream pools on the only way (2D): Peacock -> the field's charge passes 531083 (18.4 m outside its
   circle, the yard), 531081 and 531067 (the tunnel's mouth); the charge -> the terminal passes 531081 and 531067; the service
   pad -> the lab's charge passes 531064, 531066 and 520002 (the lab's own pools).
@@ -1097,7 +1174,8 @@ All ESTIMATE (set 19):
 - 1537: Vandeweghe is unhurt by anything (the client has no fail text). His lead does not wait for the player.
 - 1537: Vandeweghe has no public NPC, only each player's own copy while 1537 runs (user review). The ramp's tip is the only
   floor round TaRapedia's place, and no spot on it 15 m (the start-up safe-ground check) outside 531058's circle is seen from
-  all round; a public NPC there fails that check. A player without 1537 does not see him.
+  all round; a public NPC there fails that check. A player without 1537 does not see him. Fix M moved him and the queen pad
+  off the ramp (on 531058's spawn ground) to the hollow down the tunnel.
 - 1537: "Sweep the Room" is one pool of the four Bane kinds, one each (no source gives their number); the sweep counts the
   pool cleared, also one cleared before 6 opens while it is still down.
 - 1581: no Targets of Opportunity operation (1580, upstream content, out of scope).

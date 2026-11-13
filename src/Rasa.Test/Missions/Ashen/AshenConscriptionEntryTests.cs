@@ -97,7 +97,7 @@ namespace Rasa.Test.Missions.Ashen
             yield return (Blast.MissionId, Blast.MechanicalParts, Blast.PartsPoolAt.X, Blast.PartsPoolAt.Z, Blast.PartsPoolRadius + Blast.PoolMarkerPadding);
             yield return (Blast.MissionId, Blast.Teleporter, Blast.TeleporterAt.X, Blast.TeleporterAt.Z, Blast.ObjectMarkerRadius);
             yield return (Blast.MissionId, Blast.GiveToSlocombe, Blast.SlocombeAt.X, Blast.SlocombeAt.Z, Blast.NpcMarkerRadius);
-            yield return (Blast.MissionId, Blast.DestroyTheLab, Blast.ChargeAt.X, Blast.ChargeAt.Z, Blast.ObjectMarkerRadius);
+            yield return (Blast.MissionId, Blast.DestroyTheLab, (float)AshenFixMV1.LabChargeAt.X, (float)AshenFixMV1.LabChargeAt.Z, Blast.ObjectMarkerRadius);
         }
 
         /// <summary>The map a set 19 marker is on: 1500's first before the door on Ashen Desert, all others in the facility.</summary>
@@ -380,7 +380,7 @@ namespace Rasa.Test.Missions.Ashen
             var reach = meshes.GetForClass((int)Raid.ChargeClass).Vertices.Max(point => MathF.Sqrt(point.X * point.X + point.Z * point.Z));
             var keep = reach + AshenFixBTests.TerrainEdge + PlayerHalfWidth;
             foreach (var (leg, corners) in Legs)
-                foreach (var charge in new[] { ToVector(Raid.ChargeAt), ToVector(Blast.ChargeAt) })
+                foreach (var charge in new[] { ToVector(Raid.ChargeAt), V(AshenFixMV1.LabChargeAt) })
                     for (var k = 1; k < corners.Length; k++)
                         if (Flat(corners[k - 1], corners[k], charge) < keep)
                             failures.Add(FormattableString.Invariant($"{leg} passes {Flat(corners[k - 1], corners[k], charge):0.00} m from the charge at ({charge.X}, {charge.Z}), {keep:0.00} wanted"));
@@ -396,7 +396,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsTrue(open.Min() > -3.5f && open.Max() < 16.5f, "walls on both sides of the swept width");
 
             // The field up: the walk from the charge through the tunnel is stopped (both ways).
-            AddObject(geometry, meshes, (int)N.FieldClass, V(N.FieldAt), (float)N.FieldYaw);
+            AddObject(geometry, meshes, (int)N.FieldClass, V(AshenFixMV1.FieldAt), (float)N.FieldYaw);
             foreach (var x in open)
             {
                 Assert.IsNotNull(AshenFixBTests.ClientFloorLine(geometry, Across(x), Across(x)[^1]), FormattableString.Invariant($"the field stops the walk in at x {x}"));
@@ -711,7 +711,7 @@ namespace Rasa.Test.Missions.Ashen
                 Assert.IsFalse(visible.Contains(hidden), $"{hidden} is hidden");
             Assert.IsNull(FindSceneObject(harness, copy, Blast.MissionId, Blast.TeleporterRole), "no teleporter before 3");
             var charge = SceneObject(harness, copy, Blast.MissionId, Blast.ChargeRole);
-            Assert.AreEqual((Blast.ChargeClass, false, ToVector(Blast.ChargeAt)), ((uint)charge.EntityClassId, charge.IsEnabled, charge.Position), "the lab's charge, not usable yet");
+            Assert.AreEqual((Blast.ChargeClass, false, V(AshenFixMV1.LabChargeAt)), ((uint)charge.EntityClassId, charge.IsEnabled, charge.Position), "the lab's charge, not usable yet");
             Assert.IsNull(SceneCreature(harness, copy, Blast.MissionId, Blast.SlocombeRole), "no Slocombe yet");
 
             // 1, 2: the drops.
@@ -1080,15 +1080,15 @@ namespace Rasa.Test.Missions.Ashen
         /// <summary>
         /// The set's places: label, place, whether it is seen from the ring, the height looked at, its clearance (34 m, 2D, outside
         /// every hostile pool's circle; the breaks, each the nearest upstream pool on the only floor there: the field's charge
-        /// 20.8 m from 531081 (the HQ tunnel's mouth), the lab's charge 20.1 m from 531064 and 22.9 m from the boss pool 520002
-        /// (the Atta Imperial Guard, 35 m rule) at the Atta Laboratory's door; docs/ashen-playtest.md).
+        /// 20.8 m from 531081 (the HQ tunnel's mouth), the lab's charge (fix M's place, 9 m south of the Atta Laboratory's door)
+        /// 20.6 and 20.4 m outside 531064's and 531066's circles and 31.4 m from the boss pool 520002 (the Atta Imperial Guard, 35 m rule); docs/ashen-playtest.md).
         /// </summary>
         internal static List<(string Label, Vector3 At, bool Ring, float Middle, float Clearance)> Places() => new()
         {
             ("Peacock", V(N.PeacockAt), true, F.NpcMiddle, Clearance), ("the field's charge", ToVector(Raid.ChargeAt), true, F.ObjectMiddle, 20),
             ("the terminal", ToVector(Raid.TerminalAt), true, F.ObjectMiddle, Clearance), ("the teleporter", ToVector(Blast.TeleporterAt), true, F.ObjectMiddle, Clearance),
             ("Slocombe", ToVector(Blast.SlocombeAt), true, F.NpcMiddle, Clearance), ("the hall pad", V(N.HallPadAt), false, 0, Clearance),
-            ("the service pad", V(N.ServicePadAt), false, 0, Clearance), ("the lab's charge", ToVector(Blast.ChargeAt), true, F.ObjectMiddle, 20)
+            ("the service pad", V(N.ServicePadAt), false, 0, Clearance), ("the lab's charge", V(AshenFixMV1.LabChargeAt), true, F.ObjectMiddle, 20)
         };
 
         private const float Clearance = 34;
@@ -1132,7 +1132,7 @@ namespace Rasa.Test.Missions.Ashen
             ["the service pad to the lab's charge"] = new Vector3[]
             {
                 new(-161.5f, 89.5f, -245f), new(-163f, 105.81f, -205f), new(-163f, 105.58f, -181f), new(-160f, 105.59f, -157f), new(-162f, 105.98f, -156f),
-                new(-176f, 106f, -156f), new(-177f, 105.78f, -155f), new(-194f, 96.63f, -175f), new(-196f, 96f, -178f), new(-214.66f, 96.01f, -161.2f)
+                new(-176f, 106f, -156f), new(-177f, 105.78f, -155f), new(-194f, 96.63f, -175f), new(-196f, 96f, -178f), new(-211.41f, 96.01f, -169.84f)
             },
         };
 
@@ -1144,7 +1144,7 @@ namespace Rasa.Test.Missions.Ashen
         private static readonly Vector3 HallPadFoot = new(16.85f, 136.45f, -368.4f);
 
         /// <summary>Where the lab's walk ends: beside its charge, 1.8 m back along the way in (not on it).</summary>
-        private static readonly Vector3 LabChargeSide = new(-214.66f, 96.01f, -161.2f);
+        private static readonly Vector3 LabChargeSide = new(-211.41f, 96.01f, -169.84f);
 
         /// <summary>The walks: label, its legs, the pools it passes (rule breaks), its target.</summary>
         internal static List<(string Label, string[] Legs, uint[] Passes, Vector3 Target)> Walks()
@@ -1179,7 +1179,7 @@ namespace Rasa.Test.Missions.Ashen
             yield return ((int)Raid.ChargeClass, ToVector(Raid.ChargeAt), 0);
             yield return ((int)Raid.TerminalClass, ToVector(Raid.TerminalAt), (float)Raid.TerminalOrientation);
             yield return ((int)Blast.TeleporterClass, ToVector(Blast.TeleporterAt), 0);
-            yield return ((int)Blast.ChargeClass, ToVector(Blast.ChargeAt), 0);
+            yield return ((int)Blast.ChargeClass, V(AshenFixMV1.LabChargeAt), 0);
             foreach (var pad in N.Pads)
                 yield return ((int)N.PadClass, V(pad.At), 0);
         }
@@ -1285,7 +1285,7 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsNotNull(field, $"{when}: his field");
             Assert.AreEqual((N.FieldClass, (UseObjectState)Raid.FieldUp, false, client.Player.Id),
                 ((uint)field.EntityClassId, field.StateId, field.IsEnabled, field.SceneOwnerCharacterId), $"{when}: his own, intact");
-            Assert.IsLessThan(0.01f, Vector3.Distance(V(N.FieldAt), field.Position), $"{when}: at its place");
+            Assert.IsLessThan(0.01f, Vector3.Distance(V(AshenFixMV1.FieldAt), field.Position), $"{when}: at its place");
             CollectionAssert.AreEqual(new[] { field }, Fields(copy, client), $"{when}: the one field he is shown");
         }
 
