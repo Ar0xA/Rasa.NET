@@ -232,7 +232,7 @@ namespace Rasa.Test.Missions.Ashen
             foreach (var (row, (id, _, place, _)) in pads.Zip(N.Pads))
             {
                 Assert.AreEqual((id, Map, N.PadClass, N.LocalTeleporter, 0.0), (row.Id, row.MapContextId, row.ClassId, (uint)row.Type, row.Rotation), $"{row.Id}");
-                Assert.IsLessThan(0.01f, Vector3.Distance(V(place), new Vector3((float)row.PosX, (float)row.PosY, (float)row.PosZ)), $"{row.Id} place");
+                Assert.IsLessThan(0.01f, Vector3.Distance(V(AshenFixS2V1.Moved(id, place)), new Vector3((float)row.PosX, (float)row.PosY, (float)row.PosZ)), $"{row.Id} place");
             }
             int Links(string where) => world.Database.SqlQueryRaw<int>($"SELECT COUNT(*) AS Value FROM local_teleporter_link WHERE {where}").AsEnumerable().Single();
             foreach (var (id, _, _, to) in N.Pads)
@@ -337,7 +337,7 @@ namespace Rasa.Test.Missions.Ashen
                 Teleport(harness, copy, back);
                 Assert.IsLessThan(3f, Vector3.Distance(there.Position, harness.Client.Player.Position), $"back at {hall}");
                 Assert.IsGreaterThan(2f, Vector3.Distance(back.Position + Vector3.UnitY, there.Position), "the arrivals off the other trigger");
-                harness.MoveTo(new Vector3(6, 135.94f, -370));
+                harness.MoveTo(ToVector(AshenFixS2V1.RampFoot));
                 harness.Drain();
             }
         }
@@ -399,7 +399,7 @@ namespace Rasa.Test.Missions.Ashen
                         walked++;
                         var line = given.ToList();
                         line[0] = Vector3.Lerp(given[0], given[1], shift / first);
-                        if (AshenFixBTests.ClientFloorLine(leg == ThunderheadLeg ? thunderGeometry : geometry, line, line[^1], null, PlayerHalfWidth, rampFoot: true) is { } why)
+                        if (AshenFixBTests.ClientFloorLine(leg == ThunderheadLeg ? thunderGeometry : geometry, line, line[^1], leg == ThunderheadLeg ? null : AshenFixS2Tests.OverTheRamp, PlayerHalfWidth, rampFoot: true) is { } why)
                             failures.Add(FormattableString.Invariant($"{leg} {direction} (start +{shift} m): {why}"));
                     }
                 }
@@ -512,7 +512,7 @@ namespace Rasa.Test.Missions.Ashen
             {
                 var line = Line(legs);
                 foreach (var (end, next) in new[] { (line[0], line[1]), (line[^1], line[^2]) })
-                    foreach (var (id, _, at, _) in N.Pads.Where(pad => Vector3.Distance(V(pad.At), end) < 2f))
+                    foreach (var (id, _, at, _) in N.Pads.Select(pad => (pad.Id, pad.Description, AshenFixS2V1.Moved(pad.Id, pad.At), pad.To)).Where(pad => Vector3.Distance(V(pad.Item3), end) < 2f))
                     {
                         reached.Add(id);
                         if (Vector2.Distance(new((float)at.X, (float)at.Z), new(end.X, end.Z)) < 0.01f)
@@ -1294,8 +1294,8 @@ namespace Rasa.Test.Missions.Ashen
         /// </summary>
         internal static List<(string Label, Vector3 At, bool Ring, float Middle, float Clearance)> Places() => new()
         {
-            ("the hall's east-wing pad", V(N.HallWingPadAt), false, 0, Clearance), ("the east wing's pad", V(N.WingPadAt), false, 0, Clearance),
-            ("the hall's fortress pad", V(N.HallFortressPadAt), false, 0, Clearance), ("the fortress' pad", V(N.FortressPadAt), false, 0, ExtractionClearance),
+            ("the hall's east-wing pad", V(AshenFixS2V1.PadAt(N.HallWingPad)), false, 0, Clearance), ("the east wing's pad", V(N.WingPadAt), false, 0, Clearance),
+            ("the hall's fortress pad", V(AshenFixS2V1.PadAt(N.HallFortressPad)), false, 0, Clearance), ("the fortress' pad", V(N.FortressPadAt), false, 0, ExtractionClearance),
             ("the Enraged Atta's pool", V(N.EnragedAttaAt), false, 0, 60), ("the queen's pool", V(N.QueenAt), false, 0, 60),
             ("the DNA sample", ToVector(Tick551.SampleAt), true, F.ObjectMiddle, Clearance),
             ("Humphries", ToVector(Den.HumphriesAt), true, F.NpcMiddle, Clearance), ("Lukaz", ToVector(Den.LukazAt), true, F.NpcMiddle, Clearance),
@@ -1325,11 +1325,11 @@ namespace Rasa.Test.Missions.Ashen
         private const string ThunderheadLeg = "Thunderhead: the base's waypoint to Jawan";
 
         /// <summary>
-        /// Where the hall pads' walks end: up the pad's shallow rim (its north side for 925, its south side for 927), 1.6 m from its
-        /// centre, inside the pad's 2 m trigger (DynamicObjectManager.LocalTeleporterWorker, IsNear2m) and short of the rim's top (the
-        /// 0.6 m terrain-edge rule, fix J), as set 19's hall pad. The walks from the far pads start on the pad's disc (0.6 m up).
+        /// Where the hall pads' walks end (fix S2, Central Operations): on the pad's disc 1.5 m south of its centre, over its shallow
+        /// south rim (the pad's frame stands on its east side), inside the pad's 2 m trigger
+        /// (DynamicObjectManager.LocalTeleporterWorker, IsNear2m). The walks from the far pads start on the pad's disc (0.6 m up).
         /// </summary>
-        private static readonly Vector3 HallWingPadFoot = new(-2f, 136.45f, -377.4f), HallFortressPadFoot = new(16.5f, 136.45f, -360.6f);
+        private static readonly Vector3 HallWingPadFoot = new(-7f, 104.2f, -319.5f), HallFortressPadFoot = new(21.5f, 104.18f, -320.5f);
 
         /// <summary>
         /// The legs of the set's walks on the client's floor, each walked there and back on its own (corners: a client-floor
@@ -1337,32 +1337,33 @@ namespace Rasa.Test.Missions.Ashen
         /// </summary>
         internal static readonly Dictionary<string, Vector3[]> Legs = new()
         {
-            ["the hall to the east-wing pad"] = new Vector3[]
+            // Fix S2: the hall pads in Central Operations, reached down the spiral ramp from the tunnel's end deck (set 19's leg).
+            ["the deck down to Central Operations"] = AshenConscriptionEntryTests.Legs["the terminal to Central Operations"],
+            ["Central Operations to the east-wing pad"] = new Vector3[]
             {
-                new(13f, 135.94f, -369f), new(13.5f, 135.94f, -366f), new(12f, 135.94f, -361f), new(1.5f, 135.94f, -361.5f), new(-2f, 135.94f, -362f),
-                new(-2f, 135.94f, -372f), new(-2f, 136.45f, -377.4f)
+                new(7f, 103.81f, -340f), new(-4.5f, 103.62f, -321f), new(-7f, 103.62f, -321f), new(-7f, 104.2f, -319.5f)
             },
-            ["the hall to the fortress pad"] = new Vector3[]
+            ["Central Operations to the fortress pad"] = new Vector3[]
             {
-                new(13f, 135.94f, -369f), new(13.5f, 135.94f, -366f), new(12.5f, 135.94f, -363f), new(16.5f, 135.94f, -363f), new(16.5f, 136.45f, -360.6f)
+                new(7f, 103.81f, -340f), new(18.5f, 103.62f, -322f), new(21.5f, 103.62f, -322.5f), new(21.5f, 104.18f, -320.5f)
             },
             ["the east wing's pad to the ledge"] = new Vector3[]
             {
                 new(288f, 96.62f, -156f), new(288f, 96.02f, -146f), new(286f, 96.02f, -129f), new(281f, 96.02f, -121f), new(277f, 96.01f, -116f),
-                new(272f, 96.02f, -109f), new(265f, 96.01f, -104f), new(259f, 96.02f, -102f), new(254f, 96.02f, -99f), new(245f, 96.02f, -98f), new(240f, 96.02f, -100f)
+                new(272f, 96.02f, -109f), new(265f, 96.01f, -104f), new(259f, 96.02f, -102f), new(254f, 96.02f, -99f), new(245f, 96.02f, -98f), new(240f, 96.02f, -98.5f)
             },
             ["the ledge to Lukaz"] = new Vector3[]
             {
-                new(240f, 96.02f, -100f), new(240f, 96.84f, -86f), new(240f, 97.61f, -70f), new(239f, 97.61f, -56f), new(238.5f, 97.61f, -52.5f)
+                new(240f, 96.02f, -98.5f), new(240f, 96.84f, -86f), new(240f, 97.61f, -70f), new(239f, 97.61f, -56f), new(238.5f, 97.61f, -52.5f)
             },
             ["the ledge to the ramp"] = new Vector3[]
             {
-                new(240f, 96.02f, -100f), new(229f, 96.01f, -99f), new(218f, 96.02f, -102f), new(208f, 96.01f, -108f), new(200f, 96.01f, -117f),
-                new(196f, 96.01f, -123f), new(186f, 96.01f, -123f), new(186f, 105.11f, -139f)
+                new(240f, 96.02f, -98.5f), new(229f, 96.01f, -98f), new(218f, 96.02f, -101f), new(208f, 96.01f, -108f), new(200f, 96.01f, -117f),
+                new(196f, 96.01f, -123f), new(186.4f, 96.01f, -123f), new(186.4f, 105.11f, -139f)
             },
             ["the ramp down to Humphries"] = new Vector3[]
             {
-                new(186f, 105.11f, -139f), new(182f, 105.6f, -144f), new(163f, 105.6f, -144f), new(164f, 105.6f, -121f), new(168f, 105.6f, -115f),
+                new(186.4f, 105.11f, -139f), new(182f, 105.6f, -144f), new(163f, 105.6f, -144f), new(164f, 105.6f, -121f), new(168f, 105.6f, -115f),
                 new(168f, 105.58f, -100f), new(166f, 105.59f, -91f), new(167f, 105.2f, -77f), new(174f, 105f, -73f), new(194f, 97.14f, -73f),
                 new(198f, 97f, -66f), new(199f, 89.39f, -51f), new(201f, 89.27f, -41f), new(208f, 88.92f, -41f), new(222f, 81.03f, -41f),
                 new(235f, 81.22f, -42f), new(238f, 81.2f, -46f), new(239f, 81f, -62f), new(240f, 81.25f, -75f), new(239f, 80.97f, -100f), new(238f, 80.97f, -147f)
@@ -1404,9 +1405,9 @@ namespace Rasa.Test.Missions.Ashen
             var none = Array.Empty<uint>();
             return new List<(string, string[], uint[], Vector3)>
             {
-                ("the hall to the east-wing pad", new[] { "the hall to the east-wing pad" }, none, HallWingPadFoot),
-                ("the hall to the fortress pad", new[] { "the hall to the fortress pad" }, none, HallFortressPadFoot),
-                ("the pad to the arena's ledge (1499)", new[] { "the east wing's pad to the ledge" }, none, new Vector3(240, 96.02f, -100)),
+                ("the deck to the east-wing pad", new[] { "the deck down to Central Operations", "Central Operations to the east-wing pad" }, none, HallWingPadFoot),
+                ("the deck to the fortress pad", new[] { "the deck down to Central Operations", "Central Operations to the fortress pad" }, none, HallFortressPadFoot),
+                ("the pad to the arena's ledge (1499)", new[] { "the east wing's pad to the ledge" }, none, new Vector3(240, 96.02f, -98.5f)),
                 ("the ledge to Lukaz and the Cell Door Control (1499)", new[] { "the ledge to Lukaz" }, none, new Vector3(238.5f, 97.61f, -52.5f)),
                 ("the ledge down to Humphries (1499)", new[] { "the ledge to the ramp", "the ramp down to Humphries" }, RampPools, new Vector3(238, 80.97f, -147)),
                 ("the pad to the Enraged Atta (1551)", new[] { "the east wing's pad to the Enraged Atta" }, new[] { N.EnragedAttaPool }, new Vector3(350, 97.61f, -108)),
@@ -1425,11 +1426,11 @@ namespace Rasa.Test.Missions.Ashen
         private static IEnumerable<(int Class, Vector3 At, float Yaw)> Objects()
         {
             foreach (var pad in N.Pads)
-                yield return ((int)N.PadClass, V(pad.At), 0);
+                yield return ((int)N.PadClass, V(AshenFixS2V1.Moved(pad.Id, pad.At)), 0);
             foreach (var pad in AshenConscriptionEntryNpcsV1.Pads)
-                yield return ((int)AshenConscriptionEntryNpcsV1.PadClass, V(pad.At), 0);
+                yield return ((int)AshenConscriptionEntryNpcsV1.PadClass, V(AshenFixS2V1.Moved(pad.Id, pad.At)), 0);
             yield return ((int)Raid.TerminalClass, ToVector(AshenFixSV1.TerminalAt), (float)Raid.TerminalOrientation);
-            yield return ((int)Blast.TeleporterClass, ToVector(Blast.TeleporterAt), 0);
+            yield return ((int)Blast.TeleporterClass, ToVector(AshenFixS2V1.TeleporterAt), 0);
             yield return ((int)Tick551.SampleClass, ToVector(Tick551.SampleAt), 0);
             yield return ((int)Den.SwitchClass, ToVector(Den.SwitchAt), 0);
             yield return ((int)Queen.QueenClass, ToVector(Queen.QueenAt), 0);

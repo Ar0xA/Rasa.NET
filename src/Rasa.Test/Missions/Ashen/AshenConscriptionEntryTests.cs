@@ -95,8 +95,8 @@ namespace Rasa.Test.Missions.Ashen
             yield return (Raid.MissionId, Raid.HackTheTerminal, AshenFixSV1.TerminalAt.X, AshenFixSV1.TerminalAt.Z, Raid.ObjectMarkerRadius);
             yield return (Blast.MissionId, Blast.BioMaterials, Blast.BioPoolAt.X, Blast.BioPoolAt.Z, Blast.BioPoolRadius + Blast.PoolMarkerPadding);
             yield return (Blast.MissionId, Blast.MechanicalParts, Blast.PartsPoolAt.X, Blast.PartsPoolAt.Z, Blast.PartsPoolRadius + Blast.PoolMarkerPadding);
-            yield return (Blast.MissionId, Blast.Teleporter, Blast.TeleporterAt.X, Blast.TeleporterAt.Z, Blast.ObjectMarkerRadius);
-            yield return (Blast.MissionId, Blast.GiveToSlocombe, Blast.SlocombeAt.X, Blast.SlocombeAt.Z, Blast.NpcMarkerRadius);
+            yield return (Blast.MissionId, Blast.Teleporter, AshenFixS2V1.TeleporterAt.X, AshenFixS2V1.TeleporterAt.Z, Blast.ObjectMarkerRadius);
+            yield return (Blast.MissionId, Blast.GiveToSlocombe, AshenFixS2V1.SlocombeAt.X, AshenFixS2V1.SlocombeAt.Z, Blast.NpcMarkerRadius);
             yield return (Blast.MissionId, Blast.DestroyTheLab, (float)AshenFixMV1.LabChargeAt.X, (float)AshenFixMV1.LabChargeAt.Z, Blast.ObjectMarkerRadius);
         }
 
@@ -199,7 +199,7 @@ namespace Rasa.Test.Missions.Ashen
             foreach (var (row, (id, _, place, _)) in pads.Zip(N.Pads))
             {
                 Assert.AreEqual((id, Map, N.PadClass, N.LocalTeleporter, 0.0), (row.Id, row.MapContextId, row.ClassId, (uint)row.Type, row.Rotation), $"{row.Id}");
-                Assert.IsLessThan(0.01f, Vector3.Distance(V(place), new Vector3((float)row.PosX, (float)row.PosY, (float)row.PosZ)), $"{row.Id} place");
+                Assert.IsLessThan(0.01f, Vector3.Distance(V(AshenFixS2V1.Moved(id, place)), new Vector3((float)row.PosX, (float)row.PosY, (float)row.PosZ)), $"{row.Id} place");
             }
             int Links(string where) => world.Database.SqlQueryRaw<int>($"SELECT COUNT(*) AS Value FROM local_teleporter_link WHERE {where}").AsEnumerable().Single();
             foreach (var (id, _, _, to) in N.Pads)
@@ -363,7 +363,7 @@ namespace Rasa.Test.Missions.Ashen
                         walked++;
                         var line = given.ToList();
                         line[0] = Vector3.Lerp(given[0], given[1], shift / first);
-                        if (AshenFixBTests.ClientFloorLine(geometry, line, line[^1], null, PlayerHalfWidth, rampFoot: true) is { } why)
+                        if (AshenFixBTests.ClientFloorLine(geometry, line, line[^1], AshenFixS2Tests.OverTheRamp, PlayerHalfWidth, rampFoot: true) is { } why)
                             failures.Add(FormattableString.Invariant($"{leg} {direction} (start +{shift} m): {why}"));
                     }
                 }
@@ -432,7 +432,7 @@ namespace Rasa.Test.Missions.Ashen
             {
                 var line = Line(legs);
                 foreach (var (end, next) in new[] { (line[0], line[1]), (line[^1], line[^2]) })
-                    foreach (var (id, _, at, _) in N.Pads.Where(pad => Vector3.Distance(V(pad.At), end) < 2f))
+                    foreach (var (id, _, at, _) in N.Pads.Select(pad => (pad.Id, pad.Description, AshenFixS2V1.Moved(pad.Id, pad.At), pad.To)).Where(pad => Vector3.Distance(V(pad.Item3), end) < 2f))
                     {
                         reached.Add(id);
                         if (Vector2.Distance(new((float)at.X, (float)at.Z), new(end.X, end.Z)) < 0.01f)
@@ -730,7 +730,7 @@ namespace Rasa.Test.Missions.Ashen
                     Objective(harness, Blast.MissionId, Blast.Teleporter), SceneObject(harness, copy, Blast.MissionId, Blast.TeleporterRole).IsEnabled),
                 "five machine parts: 2 and 6 done, 3 open, the teleporter usable");
             var teleporter = SceneObject(harness, copy, Blast.MissionId, Blast.TeleporterRole);
-            Assert.AreEqual((Blast.TeleporterClass, (UseObjectState)Blast.TeleporterOff, true, ToVector(Blast.TeleporterAt), harness.Client.Player.Id),
+            Assert.AreEqual((Blast.TeleporterClass, (UseObjectState)Blast.TeleporterOff, true, ToVector(AshenFixS2V1.TeleporterAt), harness.Client.Player.Id),
                 ((uint)teleporter.EntityClassId, teleporter.StateId, teleporter.IsEnabled, teleporter.Position, teleporter.SceneOwnerCharacterId), "the player's own teleporter, dark, usable");
 
             // 3: the teleporter; Slocombe comes.
@@ -744,7 +744,7 @@ namespace Rasa.Test.Missions.Ashen
             var slocombe = SceneCreature(harness, copy, Blast.MissionId, Blast.SlocombeRole);
             Assert.IsNotNull(slocombe, "Slocombe stands by the teleporter, also after a reload");
             Assert.AreEqual((N.Slocombe, N.SlocombePackage, TargetCategory.Friendly), (slocombe.DbId, slocombe.Npc?.NpcPackageId, slocombe.TargetCategory), "a copy of his row");
-            Assert.IsLessThan(1.5f, Vector3.Distance(ToVector(Blast.SlocombeAt), slocombe.Position), "at his place");
+            Assert.IsLessThan(1.5f, Vector3.Distance(ToVector(AshenFixS2V1.SlocombeAt), slocombe.Position), "at his place");
             Assert.IsTrue(Rasa.Game.Missions.World.CreatureGameplayRules.IsInvulnerable(slocombe), "unhurt by anything");
             Assert.AreEqual(((UseObjectState)Blast.TeleporterOn, false),
                 (SceneObject(harness, copy, Blast.MissionId, Blast.TeleporterRole).StateId, SceneObject(harness, copy, Blast.MissionId, Blast.TeleporterRole).IsEnabled), "on after a reload");
@@ -1086,8 +1086,8 @@ namespace Rasa.Test.Missions.Ashen
         internal static List<(string Label, Vector3 At, bool Ring, float Middle, float Clearance)> Places() => new()
         {
             ("Peacock", V(N.PeacockAt), true, F.NpcMiddle, Clearance), ("the field's charge", ToVector(Raid.ChargeAt), true, F.ObjectMiddle, 20),
-            ("the terminal", ToVector(AshenFixSV1.TerminalAt), true, F.ObjectMiddle, Clearance), ("the teleporter", ToVector(Blast.TeleporterAt), true, F.ObjectMiddle, Clearance),
-            ("Slocombe", ToVector(Blast.SlocombeAt), true, F.NpcMiddle, Clearance), ("the hall pad", V(N.HallPadAt), false, 0, Clearance),
+            ("the terminal", ToVector(AshenFixSV1.TerminalAt), true, F.ObjectMiddle, Clearance), ("the teleporter", ToVector(AshenFixS2V1.TeleporterAt), true, F.ObjectMiddle, Clearance),
+            ("Slocombe", ToVector(AshenFixS2V1.SlocombeAt), true, F.NpcMiddle, Clearance), ("the hall pad", V(AshenFixS2V1.PadAt(N.HallPad)), false, 0, Clearance),
             ("the service pad", V(N.ServicePadAt), false, 0, Clearance), ("the lab's charge", V(AshenFixMV1.LabChargeAt), true, F.ObjectMiddle, 20)
         };
 
@@ -1113,7 +1113,7 @@ namespace Rasa.Test.Missions.Ashen
             },
             ["Peacock to the field's charge"] = new Vector3[]
             {
-                new(6f, 153.36f, -646f), new(4f, 151.4f, -606f), new(3f, 145.78f, -566f), new(-3f, 143.6f, -540f), new(-3f, 137.09f, -495f),
+                new(6f, 153.36f, -646f), new(4f, 151.4f, -606f), new(3f, 145.78f, -566f), new(-3f, 143.6f, -540f), new(-2f, 137.09f, -495f),
                 new(0f, 136.09f, -455f), new(6f, 137.39f, -440f), new(6.5f, 137.61f, -412f)
             },
             // Fix S: to the terminal on the HQ tunnel's end deck (set 19's way on into the "hall" ran on terrain the real client has
@@ -1122,14 +1122,24 @@ namespace Rasa.Test.Missions.Ashen
             {
                 new(6.5f, 137.61f, -412f), new(9.5f, 137.61f, -410f), new(7.25f, 137.61f, -400f), new(7.5f, 137.61f, -386f), new(9.5f, 137.61f, -380f)
             },
-            // ESTIMATE (fix S): set 19's way on to Slocombe in the "hall", on the terrain the real client has no floor on (a later fix).
-            ["the terminal to Slocombe"] = new Vector3[]
+            // Fix S2: down the spiral tunnel ramp (class 4153) to Central Operations' north door, on the ramp's mesh (the "hall" above
+            // it is terrain the client has no floor on); its first loop the real client's own (2026-11-13 20:02, 1 m further out
+            // at x 14), the rest a mesh-only flood's way (AshenFixS2Tests): it keeps 2 m from every drop, both ways.
+            ["the terminal to Central Operations"] = new Vector3[]
             {
-                new(9.5f, 137.61f, -380f), new(13f, 135.94f, -369f), new(13.5f, 135.94f, -366f), new(12f, 135.94f, -361f), new(1.5f, 135.94f, -361.5f)
+                new(9.5f, 137.61f, -380f), new(12f, 137.5f, -378f), new(14f, 134.9f, -369f), new(14f, 132.92f, -366f), new(12f, 130.42f, -361f),
+                new(1.5f, 126.69f, -361.5f), new(-2f, 125.6f, -362f), new(-2f, 121.92f, -371.5f), new(-1f, 120.3f, -374.5f), new(3.65f, 119.36f, -374.85f),
+                new(12f, 114.49f, -374.5f), new(13.5f, 112.02f, -369.5f), new(13.5f, 111.14f, -368.5f), new(7.5f, 105.27f, -351f), new(7f, 103.97f, -343f),
+                new(7f, 103.81f, -340f)
             },
-            ["Slocombe to the hall pad"] = new Vector3[]
+            ["Central Operations to Slocombe"] = new Vector3[]
             {
-                new(1.5f, 135.94f, -361.5f), new(12f, 135.94f, -361f), new(16.7f, 135.94f, -365f), new(16.7f, 135.94f, -368f), new(16.85f, 136.45f, -368.4f)
+                new(7f, 103.81f, -340f), new(15.5f, 103.62f, -327.5f), new(18.3f, 103.65f, -328.2f)
+            },
+            // Onto pad 921 over its shallow north rim (its frame stands on its east side).
+            ["Central Operations to the hall pad"] = new Vector3[]
+            {
+                new(7f, 103.81f, -340f), new(-4.5f, 103.62f, -321f), new(-7f, 103.62f, -321f), new(-7f, 104.27f, -323.4f)
             },
             ["the service pad to the lab's charge"] = new Vector3[]
             {
@@ -1140,10 +1150,10 @@ namespace Rasa.Test.Missions.Ashen
 
 
         /// <summary>
-        /// Where the hall pad's walk ends: up its shallow north rim, 1.68 m from its centre, inside the pad's 2 m trigger
-        /// (DynamicObjectManager.LocalTeleporterWorker, IsNear2m) and short of the rim's top (the 0.6 m terrain-edge rule, fix J).
+        /// Where the hall pad's walk ends (fix S2, Central Operations): on its disc 1.6 m north of its centre, inside the pad's 2 m
+        /// trigger (DynamicObjectManager.LocalTeleporterWorker, IsNear2m).
         /// </summary>
-        private static readonly Vector3 HallPadFoot = new(16.85f, 136.45f, -368.4f);
+        private static readonly Vector3 HallPadFoot = new(-7f, 104.27f, -323.4f);
 
         /// <summary>Where the lab's walk ends: beside its charge, 1.8 m back along the way in (not on it).</summary>
         private static readonly Vector3 LabChargeSide = new(-211.41f, 96.01f, -169.84f);
@@ -1157,8 +1167,8 @@ namespace Rasa.Test.Missions.Ashen
                 ("the door to Peacock (1500)", new[] { "the door to Peacock" }, none, V(N.PeacockAt)),
                 ("Peacock to the field's charge (1497)", new[] { "Peacock to the field's charge" }, YardPools, new Vector3(6.5f, 137.61f, -412f)),
                 ("the charge to the terminal (1497)", new[] { "the charge to the terminal" }, TunnelMouthPools, ToVector(AshenFixSV1.TerminalStand)),
-                ("the terminal to Slocombe and the teleporter (1498)", new[] { "the terminal to Slocombe" }, none, new Vector3(1.5f, 135.94f, -361.5f)),
-                ("Slocombe to the hall pad (1498)", new[] { "Slocombe to the hall pad" }, none, HallPadFoot),
+                ("the terminal to Slocombe and the teleporter (1498)", new[] { "the terminal to Central Operations", "Central Operations to Slocombe" }, none, ToVector(AshenFixS2V1.Stand)),
+                ("Central Operations to the hall pad (1498)", new[] { "Central Operations to the hall pad" }, none, HallPadFoot),
                 ("the service pad to the lab's charge (1498)", new[] { "the service pad to the lab's charge" }, LabPools, LabChargeSide)
             };
         }
@@ -1180,10 +1190,10 @@ namespace Rasa.Test.Missions.Ashen
         {
             yield return ((int)Raid.ChargeClass, ToVector(Raid.ChargeAt), 0);
             yield return ((int)Raid.TerminalClass, ToVector(AshenFixSV1.TerminalAt), (float)Raid.TerminalOrientation);
-            yield return ((int)Blast.TeleporterClass, ToVector(Blast.TeleporterAt), 0);
+            yield return ((int)Blast.TeleporterClass, ToVector(AshenFixS2V1.TeleporterAt), 0);
             yield return ((int)Blast.ChargeClass, V(AshenFixMV1.LabChargeAt), 0);
             foreach (var pad in N.Pads)
-                yield return ((int)N.PadClass, V(pad.At), 0);
+                yield return ((int)N.PadClass, V(AshenFixS2V1.Moved(pad.Id, pad.At)), 0);
         }
 
         /// <summary>An object's collision mesh put into the map's geometry at its place (as MapGeometry.Load places the map's own).</summary>

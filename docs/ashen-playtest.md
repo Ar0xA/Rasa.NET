@@ -993,7 +993,7 @@ more from every Bane pool; Slocombe 790660 (1498's copy only, no public pool). T
 (UsableForceFieldBaneOutpostWallMajorV01, class 9572, intact) across the HQ tunnel at (6.5, 129.5, -405) is each member's own
 1497 scene object (no world field): it stands for a member only while his 1497 objective 1 is open, and his charge takes it
 away. A Bane teleporter pair (local teleporters 921/922, class
-8044, linked both ways, public): 921 (17, 135.94, -370) on the HQ's round hall's east side <-> 922 (-161.5, 89, -245) in the
+8044, linked both ways, public): 921 (-7, 103.7, -325) in Central Operations' west (fix S2; set 19's (17, 135.94, -370) on the HQ's round hall's east side) <-> 922 (-161.5, 89, -245) in the
 biolab's service room. The pads' body (class 8044): a disc 0.68 m up; its rim is a 42 degree slope only on its south (-z) and
 north (+z) side within 0.5 m of its centre line (x), steeper elsewhere: step on from the north or south, in line with the pad's
 centre (AshenConscriptionEntryTests.ThePadsAreWalkedOverTheirShallowRim). Next free id 790661. Every walk below is the
@@ -1020,8 +1020,8 @@ north rim 1.68 m from its centre, inside its 2 m trigger (ESTIMATE: the real cli
   the Bane in the facility (bio: Caretaker 531011, Linker 531014; parts: Thrax Soldier 531008, Grenadier 531009, Technician
   531010), only while you need more;
   the markers on the pools 531064 and 531066 by the Atta Laboratory. When you hold five and five, 3 opens: your own Bane
-  teleporter (class 8044) on the round hall's north side (7, 135.94, -358) appears, usable (none before 3); its use turns it on and Slocombe comes
-  through beside it (1.5, 135.94, -359). 4: talk to Slocombe: he takes the five and five and gives you a bomb (111195). 5: take
+  teleporter (class 8044) in Central Operations' east (19.8, 103.62, -325.6) (fix S2; set 19's (7, 135.94, -358)) appears, usable (none before 3); its use turns it on and Slocombe comes
+  through beside it (17, 103.62, -326.2) (fix S2; set 19's (1.5, 135.94, -359)); both are used from (18.3, 103.65, -328.2). 4: talk to Slocombe: he takes the five and five and gives you a bomb (111195). 5: take
   the hall's pad 921 to the service room and walk up the overlook ramp to your own Explosive Charge at the Atta Laboratory's door
   (-216, 96.01, -160); use it: it takes the bomb. Turned in by radio: 95000 XP, 8400 credits, one of Vextronics Incendiary Staff
   49496, Cryogenic Net Gun 12129, ChiTech Leech Gun 45763, Teleract Laser Pistol 14492.
@@ -1054,8 +1054,21 @@ Deviations (set 19):
   server navmesh and our collision reader (no terrain holes) take as floor; the real client has none there: on set 19's corners
   it walked down the spiral tunnel ramp under it (to (-2.0, 121.9, -371.6), 14 m under the terminal). 1497's terminal and its
   marker 251 moved onto the HQ tunnel's end deck (12, 137.6, -379.5); the walk ends 2.55 m west of it (9.5, 137.61, -380).
-  Slocombe, the teleporter and the hall pads 921, 925, 927 still stand on that terrain (ESTIMATE: not reachable by a real
-  client; a later fix).
+  Slocombe, the teleporter and the hall pads 921, 925, 927 stood on that terrain too: fix S2 moved them.
+- Fix S2 (20271110002160): the way on from the deck is down the spiral tunnel ramp (class 4153) to Central Operations (the
+  round room at 103.6 at its foot): (9.5, 137.61, -380) > (12, -378) > (14, 134.9, -369) > (14, 132.92, -366) > (12, 130.42, -361)
+  > (1.5, 126.69, -361.5) > (-2, 125.6, -362) > (-2, 121.92, -371.5) > (-1, 120.3, -374.5) > (3.65, 119.36, -374.85) >
+  (12, 114.49, -374.5) > (13.5, 112.02, -369.5) > (13.5, 111.14, -368.5) > (7.5, 105.27, -351) > (7, 103.97, -343) > (7, 103.81,
+  -340); its first loop the real client's own, all of it 2 m from every drop (the well has knee-high walls), both ways. The
+  teleporter (19.8, 103.62, -325.6) and Slocombe (17, 103.62, -326.2) (markers 287 and 3 with them), pads 921 (-7, 103.7, -325),
+  925 (-7, 103.62, -318), 927 (21.5, 103.62, -319); class 8044's frame stands on its east side, so the pad walks step on over
+  its shallow north rim (921) or south rim (925, 927). Break: the server navmesh has the terrain plate, not the ramp, so Central
+  Operations is a navmesh region of its own (no NPC route of 1498, 1551, 1499 or 1501 crosses it; none moves an NPC).
+- Walk breaks (2 m edge margin, fix S2 sweep): the lab's deck to its ramp (1498, -162..-176) stays on its line at z -156, under 1 m
+  from a 10 m drop; the walkway's middle line (z -155.2 to -155.8) has knee-high obstacles, so the break is noted, not fixed; set 20's ramp up from the ledge (x 186.4,
+  z -123..-139) runs mid-ramp, about 1.5 m from drops of 2-9 m on both sides, the ramp 3 m wide. The ledge (240, 96.02, -98.5)
+  keeps 2 m+ from its 4.9 m drop south; Peacock's way to the charge keeps x -2 at z -495, off the yard's 25 m pit; at z -540 it
+  stays at x -3 (a 2-2.4 m terrain dip 1-2 m west, a break: x -2 climbs a 55 degree step there).
 - The Atta Laboratory's wing has no walk from the hall on the client's floor (the floods from the hall and Central Operations
   never reach it); the pads 921/922 join them (ESTIMATE: retail may have had a way the client map lacks).
 - No lab object is destroyed: the bomb's charge at the lab's door is set (the client map has no destructible lab).
@@ -1093,8 +1106,8 @@ three pools are named by 1551's and 1501's scenes as public-spawn actors: in a s
 time (90 s, 300 s, 900 s), not 45 min after its last death. New friendly rows: Lt. Humphries 790668, Lukaz 790669 and the Brann
 Prisoner 790670 (1499's copies only, no public pool); Commander Jawan 790671 on Thunderhead (map 1911) at (672, 339, -527), 8.7 m
 from the base's waypoint (Thunderhead Base Services): Thunderhead's missions are not built, he is only there for 1501. Two Bane
-teleporter pairs (local teleporters, class 8044, public, linked both ways): 925 (-2, 135.94, -379) on the HQ round hall's
-south-west <-> 926 (288, 96.02, -156) in the east wing's arena ring; 927 (16.5, 135.94, -359) on the hall's north <-> 928 (6.5,
+teleporter pairs (local teleporters, class 8044, public, linked both ways): 925 (-7, 103.62, -318) in Central Operations' west (fix S2; set 20's (-2, 135.94, -379) on the HQ round hall's
+south-west <-> 926 (288, 96.02, -156) in the east wing's arena ring; 927 (21.5, 103.62, -319) in Central Operations' east (fix S2; set 20's (16.5, 135.94, -359) on the hall's north) <-> 928 (6.5,
 77.61, 110) on the deck before Information Extraction (north of the stair from Enslaver pool 531075's room, outside 1501's area). Step on the pads from the north or south, as set 19's. Next free id 790672.
 Every walk below is the client's floor, checked both ways with a 0.5 m half width, the 55 degree climb rule and the collision of
 the set's objects, each leg also with its start moved 0.13, 0.27 and 0.4 m.
