@@ -35,6 +35,7 @@ namespace Rasa.Test.Missions.Ashen
     using Raid = AshenRaidTheConscriptionFacilityV1;
     using Blast = AshenBlastTheBiolabV1;
     using Tick551 = AshenWhatMakesThemTickV1;
+    using V2 = AshenFixV2V1;
     using Den = AshenIntoTheLionsDenV1;
     using Queen = AshenSaveTheQueenV1;
     using Facility = AshenIndraFacilityTests;
@@ -105,7 +106,7 @@ namespace Rasa.Test.Missions.Ashen
             yield return (Queen.MissionId, Queen.FindTheQueen, Queen.ExtractionMarkerAt.X, Queen.ExtractionMarkerAt.Z, Queen.ExtractionRadius);
             yield return (Queen.MissionId, Queen.KillTheEnslaver, N.XahnAt.X, N.XahnAt.Z, Queen.BossMarkerRadius);
             yield return (Queen.MissionId, Queen.TalkToTheQueen, Queen.QueenAt.X, Queen.QueenAt.Z, Queen.ObjectMarkerRadius);
-            yield return (Queen.MissionId, Queen.EndTheSuffering, Queen.DeviceAt.X, Queen.DeviceAt.Z, Queen.ObjectMarkerRadius);
+            yield return (Queen.MissionId, Queen.EndTheSuffering, V2.ConsoleAt.X, V2.ConsoleAt.Z, Queen.ObjectMarkerRadius);   // fix V2: on the console
             yield return (Queen.MissionId, Queen.SecureTheEgg, Queen.EggAt.X, Queen.EggAt.Z, Queen.ObjectMarkerRadius);
             yield return (Queen.MissionId, Queen.ToYamamoto, AshenLeadInNpcsV1.YamamotoAt.X, AshenLeadInNpcsV1.YamamotoAt.Z, Queen.NpcMarkerRadius);
             yield return (Queen.MissionId, Queen.ToJawan, N.JawanAt.X, N.JawanAt.Z, Queen.NpcMarkerRadius);
@@ -367,7 +368,7 @@ namespace Rasa.Test.Missions.Ashen
             CheckPlaces(thunderhead.NavMesh, thunderGeometry, new() { ("Jawan", V(N.JawanAt), true, F.NpcMiddle, 100) },
                 HostilePools(harness, N.Thunderhead), failures);
             CheckMarkers(harness, thunderhead.NavMesh, thunderGeometry, N.Thunderhead, 1, failures);
-            Assert.HasCount(16, places);
+            Assert.HasCount(17, places);
             Assert.IsEmpty(failures, $"{failures.Count}: " + string.Join("; ", failures));
         }
 
@@ -476,7 +477,7 @@ namespace Rasa.Test.Missions.Ashen
         private static readonly Dictionary<string, uint[]> ReachOwn = new()
         {
             ["the DNA sample"] = new[] { N.QueenPool },
-            ["the queen's talk"] = new[] { N.XahnPool }, ["the Life Support System"] = new[] { N.XahnPool }, ["the egg"] = new[] { N.XahnPool },
+            ["the queen's talk"] = new[] { N.XahnPool }, ["the Life Support System"] = new[] { N.XahnPool }, ["the Life Support System's console"] = new[] { N.XahnPool }, ["the egg"] = new[] { N.XahnPool },
             ["Information Extraction's marker"] = new[] { N.XahnPool }
         };
 
@@ -490,7 +491,8 @@ namespace Rasa.Test.Missions.Ashen
             ["the ledge down to Humphries (1499)"] = new[] { 531065u },
             // Into Information Extraction between its Enslaver cells (15-17 m off their draws at z 126-128, round the raised step
             // at x 6.5, z 129-136): TaRapedia puts Xahn, the queen and the egg among the four cells.
-            ["the pad to the queen's life support and the egg (1501)"] = new[] { 531073u, 531076u }
+            ["the pad to the queen's life support and the egg (1501)"] = new[] { 531073u, 531076u },
+            ["the pad to the Life Support System's console (1501, fix V2)"] = new[] { 531073u, 531076u }
         };
 
         /// <summary>
@@ -1041,9 +1043,11 @@ namespace Rasa.Test.Missions.Ashen
 
         /// <summary>
         /// Save the Queen through: by radio on the 1499 reward (not before). Taken: 1 open, the rest waits; the player's own queen
-        /// talk object, Life Support System (on, not usable, named 153), egg and egg talk stand. In Information Extraction 1
-        /// completes; Xahn's kill completes 2; the queen hears 3, her talk makes the device usable; its use completes 4: the device
-        /// off, the queen's talk object gone (also after a reload). The egg hears 5: the egg goes. Yamamoto on Ashen Desert hears 6;
+        /// talk object, Life Support System's console (fix V2: 7468, ready, not usable, named 153), the hanging device (a visual,
+        /// 10000002), egg and egg talk stand. In Information Extraction 1 completes; Xahn's kill completes 2; a use of the console
+        /// before 3 is refused; the queen hears 3, her talk makes the console usable (also after a reload, and after a reload of a
+        /// run whose journal has no visual device, as a run from before fix V2); its use completes 4: the console set, the device
+        /// at 10000003, the queen's talk object gone (also after a reload). The egg hears 5: the egg goes. Yamamoto on Ashen Desert hears 6;
         /// Jawan on Thunderhead hears 7, and takes the mission in (a full bag waits; the piece chosen once).
         /// </summary>
         [TestMethod]
@@ -1060,9 +1064,10 @@ namespace Rasa.Test.Missions.Ashen
             Assert.AreEqual(MissionObjectiveState.Incomplete, Objective(harness, Queen.MissionId, Queen.FindTheQueen), "1 open");
             for (var objective = Queen.KillTheEnslaver; objective <= Queen.ToJawan; objective++)
                 Assert.AreEqual(MissionObjectiveState.Inactive, Objective(harness, Queen.MissionId, objective), $"{objective} waits");
-            var device = SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole);
-            Assert.AreEqual((Queen.DeviceClass, (UseObjectState)AshenFixVV1.DeviceIdle, false, Queen.DeviceName, ToVector(Queen.DeviceAt)),
-                ((uint)device.EntityClassId, device.StateId, device.IsEnabled, device.NameOverrideId, device.Position), "the Life Support System, idle (fix V), not usable");
+            var console = SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole);
+            Assert.AreEqual((V2.ConsoleClass, (UseObjectState)V2.ConsoleReady, false, Queen.DeviceName, ToVector(V2.ConsoleAt)),
+                ((uint)console.EntityClassId, console.StateId, console.IsEnabled, console.NameOverrideId, console.Position), "the Life Support System's console (fix V2), ready, not usable, named 153");
+            AssertDevice(harness, copy, AshenFixVV1.DeviceActive, "spawned: the hanging device lowered (10000002), a visual only");
             Assert.AreEqual(Queen.EggClass, (uint)SceneObject(harness, copy, Queen.MissionId, Queen.EggRole).EntityClassId, "the egg");
             var queen = SceneObject(harness, copy, Queen.MissionId, Queen.QueenRole);
             Assert.IsEmpty(ObjectTopics(harness, harness.Client, queen), "the queen talks nothing before 3");
@@ -1070,22 +1075,48 @@ namespace Rasa.Test.Missions.Ashen
             ToTheQueen(harness, copy);
             Use(harness, copy, SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole), Queen.UseArgument);
             Tick(harness, copy, 250);
-            Assert.AreEqual((MissionObjectiveState.Inactive, (UseObjectState)AshenFixVV1.DeviceIdle),
-                (Objective(harness, Queen.MissionId, Queen.EndTheSuffering), SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole).StateId), "a use before it is usable: refused, 4 waits, the device idle");
+            Assert.AreEqual((MissionObjectiveState.Inactive, (UseObjectState)V2.ConsoleReady),
+                (Objective(harness, Queen.MissionId, Queen.EndTheSuffering), SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole).StateId), "a use before 3: refused, 4 waits, the console ready");
             queen = SceneObject(harness, copy, Queen.MissionId, Queen.QueenRole);
             CollectionAssert.AreEqual(new[] { (Queen.MissionId, Queen.TalkToTheQueen) }, ObjectTopics(harness, harness.Client, queen), "the queen hears 3");
             TalkToObject(harness, harness.Client, queen, Queen.MissionId, Queen.TalkToTheQueen);
             Tick(harness, copy, 250);
-            device = SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole);
-            Assert.AreEqual((MissionObjectiveState.Incomplete, true, (UseObjectState)AshenFixVV1.DeviceActive),
-                (Objective(harness, Queen.MissionId, Queen.EndTheSuffering), device.IsEnabled, device.StateId), "4 open, the device usable, active (fix V)");
+            AssertConsoleUsable(harness, copy, "3 done: 4 open, the console usable");
+            AssertDevice(harness, copy, AshenFixVV1.DeviceActive, "3 done: the device as it was");
+            ReloadAndRecover(harness, copy);
+            AssertConsoleUsable(harness, copy, "3 done, after a reload: the console usable");
+            AssertDevice(harness, copy, AshenFixVV1.DeviceActive, "3 done, after a reload: the device");
+
+            // A run that ran sequence 0 and 3's step before fix V2 (char 565 on the live server): its journal holds the device role's
+            // Ensure and SetInteraction, not the visual's Ensure. A rebuild replays the journal: the console stands usable at once.
+            using (var unit = harness.CreateChar())
+                unit.ExecuteTransaction(() =>
+                {
+                    foreach (var run in Runs(harness, Queen.MissionId))
+                        foreach (var effect in unit.CharacterMissions.Runtime.Effects(run).Where(effect => effect.OperationKey == V2.VisualCreateKey))
+                        {
+                            effect.Status = "Cancelled";
+                            effect.Version++;
+                        }
+                });
+            // and its copy made again (a restart): no hanging device in it.
+            var hanging = SceneObject(harness, copy, Queen.MissionId, V2.VisualRole);
+            CellManager.Instance.RemoveFromWorld(copy, hanging);
+            copy.DynamicObjects.Remove(hanging);
+            ReloadAndRecover(harness, copy);
+            AssertConsoleUsable(harness, copy, "a pre-fix run with 3 done, after a reload: the console usable at once");
+            Assert.IsNull(FindSceneObject(harness, copy, Queen.MissionId, V2.VisualRole), "a pre-fix run: no hanging device before 4");
+
             Use(harness, copy, SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole), Queen.UseArgument);
             Tick(harness, copy, 250);
+            Assert.AreEqual(MissionObjectiveState.Completed, Objective(harness, Queen.MissionId, Queen.EndTheSuffering), "the console's use: 4 done");
+            AssertDevice(harness, copy, AshenFixVV1.DeviceEnd, "4 done: the device made again and at its chain's end");
             ReloadAndRecover(harness, copy);
-            device = SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole);
-            Assert.AreEqual((MissionObjectiveState.Completed, MissionObjectiveState.Incomplete, (UseObjectState)AshenFixVV1.DeviceEnd, false),
-                (Objective(harness, Queen.MissionId, Queen.EndTheSuffering), Objective(harness, Queen.MissionId, Queen.SecureTheEgg), device.StateId, device.IsEnabled),
-                "4 done, 5 open, the device at its chain's end (fix V); also after a reload");
+            console = SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole);
+            Assert.AreEqual((MissionObjectiveState.Completed, MissionObjectiveState.Incomplete, (UseObjectState)V2.ConsoleSet, false),
+                (Objective(harness, Queen.MissionId, Queen.EndTheSuffering), Objective(harness, Queen.MissionId, Queen.SecureTheEgg), console.StateId, console.IsEnabled),
+                "4 done, 5 open, the console set (56), not usable; also after a reload");
+            AssertDevice(harness, copy, AshenFixVV1.DeviceEnd, "4 done, after a reload: the device at its chain's end");
             Assert.IsNull(FindSceneObject(harness, copy, Queen.MissionId, Queen.QueenRole), "the queen at rest: her talk object gone");
             var egg = SceneObject(harness, copy, Queen.MissionId, Queen.EggTalkRole);
             CollectionAssert.AreEqual(new[] { (Queen.MissionId, Queen.SecureTheEgg) }, ObjectTopics(harness, harness.Client, egg), "the egg hears 5");
@@ -1116,6 +1147,22 @@ namespace Rasa.Test.Missions.Ashen
             Assert.AreEqual(1U, Facility.Held(harness, Queen.StealPower), "the module chosen");
         }
 
+        /// <summary>1501's console (fix V2, the device role): 4 open, usable, ready (55).</summary>
+        private static void AssertConsoleUsable(WildernessRuntimeTestHarness harness, MapChannel copy, string what)
+        {
+            var console = SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole);
+            Assert.AreEqual((MissionObjectiveState.Incomplete, V2.ConsoleClass, true, (UseObjectState)V2.ConsoleReady),
+                (Objective(harness, Queen.MissionId, Queen.EndTheSuffering), (uint)console.EntityClassId, console.IsEnabled, console.StateId), what);
+        }
+
+        /// <summary>1501's hanging device (fix V2's visual role): its class and place, never usable, in <paramref name="state"/>.</summary>
+        private static void AssertDevice(WildernessRuntimeTestHarness harness, MapChannel copy, uint state, string what)
+        {
+            var device = SceneObject(harness, copy, Queen.MissionId, V2.VisualRole);
+            Assert.AreEqual((Queen.DeviceClass, (UseObjectState)state, false, ToVector(Queen.DeviceAt)),
+                ((uint)device.EntityClassId, device.StateId, device.IsEnabled, device.Position), what);
+        }
+
         /// <summary>
         /// An abandon of Save the Queen after the queen's talk: the device, the queen's talk object, the egg and its talk go. Taken
         /// again, they stand again, the device not usable, 1 open; Xahn killed again opens 3 again.
@@ -1135,7 +1182,7 @@ namespace Rasa.Test.Missions.Ashen
             harness.Drain();
             for (var tick = 0; tick < 4; tick++)
                 Tick(harness, copy, 250);
-            foreach (var role in new[] { Queen.DeviceRole, Queen.QueenRole, Queen.EggRole, Queen.EggTalkRole })
+            foreach (var role in new[] { Queen.DeviceRole, V2.VisualRole, Queen.QueenRole, Queen.EggRole, Queen.EggTalkRole })
                 Assert.IsNull(FindSceneObject(harness, copy, Queen.MissionId, role), $"{role} goes with the abandon");
             TakeByRadio(harness, harness.Client, Queen.MissionId);
             Tick(harness, copy, 250);
@@ -1305,6 +1352,7 @@ namespace Rasa.Test.Missions.Ashen
             ("the arena's marker", ToVector(Den.ArenaMarkerAt), false, 0, Clearance),
             ("Xahn's pool", V(N.XahnAt), false, 0, ExtractionClearance), ("the queen's talk", ToVector(Queen.QueenAt), true, F.NpcMiddle, ExtractionClearance),
             ("the Life Support System", ToVector(Queen.DeviceAt), true, F.ObjectMiddle, ExtractionClearance),
+            ("the Life Support System's console", ToVector(V2.ConsoleAt), true, F.ObjectMiddle, ExtractionClearance),
             ("the egg", ToVector(Queen.EggAt), true, F.ObjectMiddle, ExtractionClearance),
             ("Information Extraction's marker", ToVector(Queen.ExtractionMarkerAt), false, 0, ExtractionClearance)
         };
@@ -1395,6 +1443,11 @@ namespace Rasa.Test.Missions.Ashen
             {
                 new(6.5f, 78.11f, 157f), new(8.5f, 78.11f, 155.5f)
             },
+            // Fix V2: from the queen's talk to the stand 2 m south of the Life Support System's console.
+            ["the queen to the console"] = new Vector3[]
+            {
+                new(6.5f, 78.11f, 157f), new(8.5f, 78.11f, 158.5f)
+            },
             [ThunderheadLeg] = new Vector3[]
             {
                 new(676.5f, 339f, -523.5f), new(672f, 339f, -527f)
@@ -1417,6 +1470,9 @@ namespace Rasa.Test.Missions.Ashen
                 ("the pad to the queen's life support and the egg (1501)",
                     new[] { "the fortress' pad to Information Extraction", "round the platform's hole to the queen", "the queen to the egg" }, ExtractionPools.Append(N.XahnPool).ToArray(),
                     new Vector3(8.5f, 78.11f, 155.5f)),
+                ("the pad to the Life Support System's console (1501, fix V2)",
+                    new[] { "the fortress' pad to Information Extraction", "round the platform's hole to the queen", "the queen to the console" }, ExtractionPools.Append(N.XahnPool).ToArray(),
+                    ToVector(V2.ConsoleStand)),
                 ("Thunderhead: the base's waypoint to Jawan (1501)", new[] { ThunderheadLeg }, none, V(N.JawanAt))
             };
         }
@@ -1437,6 +1493,7 @@ namespace Rasa.Test.Missions.Ashen
             yield return ((int)Den.SwitchClass, ToVector(Den.SwitchAt), 0);
             yield return ((int)Queen.QueenClass, ToVector(Queen.QueenAt), 0);
             yield return ((int)Queen.DeviceClass, ToVector(Queen.DeviceAt), 0);
+            yield return ((int)V2.ConsoleClass, ToVector(V2.ConsoleAt), (float)V2.ConsoleOrientation);
             yield return ((int)Queen.EggClass, ToVector(Queen.EggAt), 0);
             yield return ((int)Queen.QueenClass, ToVector(Queen.EggAt), 0);
         }

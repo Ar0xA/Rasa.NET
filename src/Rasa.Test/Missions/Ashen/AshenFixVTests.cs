@@ -38,7 +38,8 @@ namespace Rasa.Test.Missions.Ashen
         public void TheLifeSupportSystemFollowsTheClientsChain()
         {
             using var harness = WildernessRuntimeTestHarness.Create();
-            Assert.AreEqual(V.QueenNow(), Scene(harness.World), "1501's scene: fix V's");
+            Assert.AreEqual(AshenFixV2V1.QueenNow(), Scene(harness.World), "1501's scene: fix V2's, on fix V's");
+            Assert.AreEqual(V.QueenNow(), AshenFixV2V1.QueenBefore(), "fix V2 guards on fix V's scene");
             Assert.AreEqual(1, Evidence(harness.World), "fix V's evidence row");
             Assert.AreEqual((10000001u, 10000002u, 10000003u), (V.DeviceIdle, V.DeviceActive, V.DeviceEnd), "usabledata 26423's chain");
             Assert.AreEqual((10000003u, 10000001u), (V.DeviceSpawnBefore, V.DeviceAtRestBefore), "set 20's states");

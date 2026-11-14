@@ -996,7 +996,9 @@ namespace Rasa.Test.Missions.Ashen
                         && !(entry.SourceUri == AshenFixTV1.Source && entry.Confidence == 0.3 && entry.SourceKind == MissionEvidenceSourceKind.Reconstruction &&
                              mission == AshenFixTV1.Blast && entry.EvidenceId == AshenFixTV1.Evidence)
                         && !(entry.SourceUri == AshenFixVV1.Source && entry.Confidence == 0.3 && entry.SourceKind == MissionEvidenceSourceKind.Reconstruction &&
-                             mission == AshenFixVV1.Queen && entry.EvidenceId == AshenFixVV1.Evidence))
+                             mission == AshenFixVV1.Queen && entry.EvidenceId == AshenFixVV1.Evidence)
+                        && !(entry.SourceUri == AshenFixV2V1.Source && entry.Confidence == 0.3 && entry.SourceKind == MissionEvidenceSourceKind.Reconstruction &&
+                             mission == AshenFixV2V1.Queen && entry.EvidenceId == AshenFixV2V1.Evidence))
                         .OrderBy(entry => entry.EvidenceId)
                         .Select(entry => (entry.SourceKind, entry.Confidence)).ToArray(), $"{mission} evidence");
         }
@@ -2832,7 +2834,8 @@ namespace Rasa.Test.Missions.Ashen
         /// their own names (the client has no 1473 name). Set 19: the charges UsableBombHumV01 (7870) and the teleporter
         /// UsableTwoStateBaneTeleporterV01 (8044) have None and send 1, their own names. Set 20: 1499's Cell Door Control
         /// (7468, AshenGothaPlantTests.SwitchNames: 140) sends 1; 1501's Life Support System UsableThreeStateAttaQueenControlDeviceV01
-        /// (26423) has None and sends 1, named 153 "Life Support System" (usablenameoverride).
+        /// (26423) has None and sends 1, named 153 "Life Support System" (usablenameoverride); fix V2: 1501's use is a console 7468
+        /// (lookup[7468] (1, 0, 0, 0, 0.0): sends 1) named 153, the device a visual with no use.
         /// </summary>
         [TestMethod]
         public void EveryUsableSceneObjectTakesTheClientsUseArgument()
@@ -2869,6 +2872,7 @@ namespace Rasa.Test.Missions.Ashen
                         : actor.TemplateId == 24995U && scene.MissionId == 1360U ? 121U
                         : actor.TemplateId == 7865U && scene.MissionId == 1395U ? 134U
                         : actor.TemplateId == 24995U && scene.MissionId == 1473U ? 0U
+                        : actor.TemplateId == 7468U && scene.MissionId == 1501U ? 153U
                         : actor.TemplateId == 7468U ? AshenGothaPlantTests.SwitchNames[actor.Role] : clientUseNames[actor.TemplateId];
                     Assert.AreEqual(name, actor.NameOverrideId, $"{scene.MissionId} {actor.Role}: the client's name");
                 }
