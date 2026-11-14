@@ -163,9 +163,9 @@ namespace Rasa.Test.World
             Assert.IsNull(rows[520053].Hue, "Mox Alpha Male, stock");
 
             // With them the Crucible rows (Crucible_creature_tints, CrucibleCreatureTintsTests) and the Ashen rows
-            // (Ashen_creature_tints, AshenCreatureTintsTests), no other: 99 + 52 + 50.
+            // (Ashen_creature_tints, AshenCreatureTintsTests), no other: 103 + 52 + 50.
             Assert.AreEqual(ValverdeCreatureTints.Rows.Count + CrucibleCreatureTintsV1.Rows.Count + AshenCreatureTintsV1.Rows.Count, rows.Count);
-            Assert.AreEqual(201, rows.Count);
+            Assert.AreEqual(205, rows.Count);
             foreach (var (id, hue) in ValverdeCreatureTints.Rows)
             {
                 Assert.AreEqual(hue, rows[id].Hue, $"creature {id} hue");
