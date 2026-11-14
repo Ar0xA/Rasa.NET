@@ -486,7 +486,10 @@ navmesh of the caverns is islands (upstream, N-row in NOTES-upstream-bugs), so t
   class 23160 at (64, 16, -328), its leaf across the 3 m tunnel at x 60-62): from (24, -345) by (32, -341), (37, -341),
   (50, -330), (52, -329), then straight east along the tunnel's middle (z -328; its mouth at x 52, south of the dark panel
   of the entrance's face at x 56): the card opens it and is taken. Walk these by hand: a walk on the server's navmesh stops
-  at the island ends (N29). Go through to the Control Room and talk to Drof (marker on him; open once 1 and 3 are
+  at the island ends (N29). Fix U: from Diren the walk to the Watch Post goes by (-41, -362), (-40, -356) (west of the rock
+  lip at (-39.4, -358)), (-36, -355), (-31, -353), (-25, -354), (-25, -353) to (-5, -351) (not by (-26, -353): a 1.1 m step
+  there); the hall's stair down to the Control Room is walked at z -203 ((21, -203), (8, -203), (3, -203)), not at z -204,
+  where the floor has gaps. Both legs pass with their start moved 0.13-0.4 m. Go through to the Control Room and talk to Drof (marker on him; open once 1 and 3 are
   done): he takes the package. Turn in at Drof: 120000 XP, 9000 credits, one of Graviton Legs 23957, Hazmat Helmet 20653,
   Reflective Gloves 35740, MotorAssist Helmet 28960. Check: the door stays shut without the card (the server refuses the
   use); in a squad each member on 1360 gets his own card at the search and his own door opens (his card taken) at the
@@ -735,7 +738,12 @@ Rule breaks (rule 2):
   for Drazen, Petrovich, the pads and the 1535 places (they keep 34 m and more outside every hostile pool's circle).
 - The walk to Drazen passes 531047 in the tunnel from the outpost to his cavern and 531061 (21.8 m outside its circle) on the
   ramp down into the cavern (the only way); the turn -> top walk passes
-  531042 over the hive tunnel's top half (Petrovich's route); Petrovich -> the turn passes the graveyard's own pools (1 has
+  531042 over the hive tunnel's top half (Petrovich's route). 531042's creatures (8 Atta, AshenSpawnReach's 1500 seeded draws)
+  stand on the tunnel floor itself, x 722.6-739.5, z -211.0..-169.9: the walk comes 0.1 m from their ground at (733, -197) and
+  stays within 20 m of it from (739, -152) to (735, -231), about 80 m (fix U, to-fix row 56: the tester died twice on this
+  way, deaths 33 and 35). A flood on the client's floor (1 m cells, 1.1 m steps) from the turn to the top finds no way that keeps even
+  1 m off that ground: the tunnel is the only way, so the leg stays; kill or run past 531042 (1535's 5). The walks from the
+  top (1536, 1537, 1581) go west and keep 84.7 m and more from it; Petrovich -> the turn passes the graveyard's own pools (1 has
   them dead first).
 - Drazen moved 50.9 m north-east of TaRapedia's place (it lies 1.4 m outside the Atta pool 531055's circle) and Petrovich to
   the graveyard's north-west shelf (fix M; TaRapedia's place is inside 531050's circle, set 17's middle on its spawn ground).

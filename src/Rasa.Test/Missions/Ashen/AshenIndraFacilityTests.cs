@@ -313,7 +313,8 @@ namespace Rasa.Test.Missions.Ashen
 
         /// <summary>
         /// The walks on the client's floor (AshenFixBTests.ClientFloorLine with a player's half width, fix G's 55-degree climb
-        /// rule), there and back by the corners Walks names (a client-floor flood's way, 2026-11-11): from the arrival to Diren,
+        /// rule), there and back by the corners Walks names (a client-floor flood's way, 2026-11-11), also with its start moved 0.13,
+        /// 0.27 and 0.4 m along its first stretch (StartShifts, as AshenConscriptionEntryTests; fix U): from the arrival to Diren,
         /// to Bendal and to before the facility door; from behind the door to Aksrah, Kuutk, Drof, before Naimi's cell and the
         /// crate. Every walk keeps HostileClearance (30 m, 2D) outside the circle of every hostile pool of the caverns but the
         /// Watch Post's two (they stand on the only way in: 1360's own fight, written down in docs/ashen-playtest.md) and, for
@@ -331,15 +332,25 @@ namespace Rasa.Test.Missions.Ashen
             var hostile = HostilePools(harness).Where(pool => pool.Id != N.WatchPostWest).ToList();
             var failures = new List<string>();
             var walked = 0;
+            var expected = 0;
             foreach (var (leg, corners) in Legs)
             {
-                var there = corners.ToList();
-                var back = Enumerable.Reverse(there).ToList();
-                foreach (var (line, direction) in new[] { (there, "there"), (back, "back") })
+                // Each leg, there and back, as given and with its start moved StartShifts along its first stretch (the way back
+                // from the last corner along the last stretch): the samples (every 0.5 m) fall elsewhere, so a step the samples
+                // happen to straddle is not missed (fix U: "Diren to the Watch Post" stepped 1.1 m and more at (-26, -353) at
+                // +0.13 to +0.4 m).
+                foreach (var (given, direction) in new[] { (corners.ToList(), "there"), (Enumerable.Reverse(corners).ToList(), "back") })
                 {
-                    walked++;
-                    if (AshenFixBTests.ClientFloorLine(geometry, line, line[^1], null, AshenFormalComplaintsTests.PlayerHalfWidth) is { } why)
-                        failures.Add($"{leg} {direction}: {why}");
+                    var first = Vector2.Distance(new(given[0].X, given[0].Z), new(given[1].X, given[1].Z));
+                    foreach (var shift in StartShifts.Where(shift => shift == 0 || first > shift + 0.05f))
+                    {
+                        expected++;
+                        walked++;
+                        var line = given.ToList();
+                        line[0] = Vector3.Lerp(given[0], given[1], shift / first);
+                        if (AshenFixBTests.ClientFloorLine(geometry, line, line[^1], null, AshenFormalComplaintsTests.PlayerHalfWidth) is { } why)
+                            failures.Add(FormattableString.Invariant($"{leg} {direction} (start +{shift} m): {why}"));
+                    }
                 }
             }
             foreach (var (label, legs, own, door) in Walks())
@@ -360,7 +371,8 @@ namespace Rasa.Test.Missions.Ashen
             foreach (var (walk, target) in ends)
                 Assert.IsLessThan(0.01f, Vector3.Distance(Line(Walks().Single(entry => entry.Label == walk).Legs)[^1], target), $"{walk} ends at its target");
             Assert.AreEqual(V(N.ArrivalAt).X, Legs["the arrival to Diren"][0].X, 0.01f, "from the arrival");
-            Assert.AreEqual(2 * Legs.Count, walked, "every leg both ways");
+            Assert.AreEqual(expected, walked, "every leg both ways, at each start shift");
+            Assert.IsGreaterThanOrEqualTo(2 * Legs.Count * 3, walked, "most legs at three shifts or more");
             Assert.HasCount(8, Walks());
             Assert.HasCount(11, Legs);
             Assert.IsEmpty(failures, $"{failures.Count}: " + string.Join("; ", failures));
@@ -1073,6 +1085,9 @@ namespace Rasa.Test.Missions.Ashen
             ("the dorm 32 door", ToVector(Vindication.Doors[2].At), false, 0, 0), ("Naimi's cell", ToVector(Vindication.CellAt), false, 0, 0)
         };
 
+        /// <summary>How far each leg's start is moved along its first stretch for the walk's recheck (as AshenConscriptionEntryTests).</summary>
+        private static readonly float[] StartShifts = { 0, 0.13f, 0.27f, 0.4f };
+
         /// <summary>
         /// The legs of the set's walks on the client's floor, each walked there and back on its own (corners: a client-floor
         /// flood's way, 2026-11-11, the climb rule's, ESTIMATE of a player's line). A walk is a run of legs.
@@ -1086,7 +1101,7 @@ namespace Rasa.Test.Missions.Ashen
             ["Diren to the Watch Post"] = new Vector3[]
             {
                 new(-53, 8.6f, -395), new(-53, 8.4f, -393), new(-52, 7.86f, -391), new(-45, 6.64f, -383), new(-41, 7.83f, -375), new(-41, 6.65f, -362),
-                new(-39, 6.3f, -357), new(-36, 6.3f, -355), new(-31, 5.93f, -353), new(-26, 8.05f, -353), new(-25, 9.05f, -353), new(-5, 10.68f, -351)
+                new(-40, 6.18f, -356), new(-36, 6.3f, -355), new(-31, 5.93f, -353), new(-25, 8.8f, -354), new(-25, 9.05f, -353), new(-5, 10.68f, -351)
             },
             // Fix I: Bendal in the pillbox, by the way to the facility door past the pillbox's south side, then in at its open
             // east side (the real client walked into the pillbox from the north on the navmesh's path, to-fix row 34).
@@ -1124,8 +1139,8 @@ namespace Rasa.Test.Missions.Ashen
             {
                 new(88, 8.5f, -280), new(75, 8.5f, -287), new(70, 8.5f, -292), new(67, 8.5f, -293), new(62, 8.5f, -290), new(60, 8.5f, -287),
                 new(59, 8.5f, -286), new(51, 8.5f, -283), new(48, 8.5f, -280), new(47, 8.5f, -260), new(45, 8.5f, -257), new(32, 8.5f, -248),
-                new(29, 8.5f, -245), new(29, 8.5f, -232), new(26, 8.5f, -224), new(26, 5.01f, -211), new(24, 4.5f, -206), new(21, 4.5f, -204),
-                new(8, 1.31f, -204), new(3, 0.5f, -204), new(-2, 0.5f, -209), new(-5, 0.58f, -221)
+                new(29, 8.5f, -245), new(29, 8.5f, -232), new(26, 8.5f, -224), new(26, 5.01f, -211), new(24, 4.5f, -206), new(21, 4.5f, -203),
+                new(8, 1.31f, -203), new(3, 0.5f, -203), new(-2, 0.5f, -209), new(-5, 0.58f, -221)
             },
             ["the hall to before Naimi's cell"] = new Vector3[]
             {
