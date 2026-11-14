@@ -2223,7 +2223,7 @@ namespace Rasa.Test.Missions.Ashen
         /// three (radius 0, 120 s respawn, automatic): two Lasher, three Beam Manta, two Granitour pools. The bosses the client's
         /// names (9359 Sally, 9360 Molly, 9361 Trudy, 9362 Wendy) on the boss classes (22627, 10331, 10317, 25620), level 44,
         /// 4900 hit points, armour 420 (the Ashen boss rows' 520002-520007), the actions of the rows they copy (520002, 770034,
-        /// 520049, 540031), each in a pool of one (radius 0, 50 s). All hostile, on Ashen Desert, the only pools that hold them.
+        /// 520049, 540031; Wendy's spit fix W's 470/1 row 790243), each in a pool of one (radius 0, 50 s). All hostile, on Ashen Desert, the only pools that hold them.
         /// </summary>
         [TestMethod]
         public void TheHideCreaturesCopyTheirWorldRows()
@@ -2262,7 +2262,9 @@ namespace Rasa.Test.Missions.Ashen
                 var row = creatures[boss];
                 var source = creatures[copy];
                 Assert.AreEqual((cls, name, 44U, 4900U, 0U), (row.ClassId, row.NameId, row.Level, row.MaxHitPoints, row.Faction), $"{boss}");
-                Assert.AreEqual((source.Action1, source.Action2, source.Action3, source.RunSpeed, source.WalkSpeed), (row.Action1, row.Action2, row.Action3, row.RunSpeed, row.WalkSpeed), $"{boss}: {copy}'s actions");
+                // Fix W (AshenFixWV1): Wendy spits with the adult Granitour's 470/1 (790243), which her model animates, not 540031's 472/1.
+                var spit = boss == Wendy ? AshenFixWV1.WendySpit : source.Action2;
+                Assert.AreEqual((source.Action1, spit, source.Action3, source.RunSpeed, source.WalkSpeed), (row.Action1, row.Action2, row.Action3, row.RunSpeed, row.WalkSpeed), $"{boss}: {copy}'s actions");
                 Assert.AreEqual((4900, 420), (stats[boss].Health, stats[boss].Armor), $"{boss} stats");
                 Assert.IsTrue(CreatureManager.Instance.LoadedCreatures.TryGetValue(boss, out var loaded) && loaded.TargetCategory == TargetCategory.Hostile, $"{boss} hostile");
                 CollectionAssert.AreEqual(new[] { pool }, world.SpawnPoolEntries.AsNoTracking().Where(entry => entry.Creature1Id == boss).Select(entry => entry.Id).ToArray(), $"{boss}'s pool");

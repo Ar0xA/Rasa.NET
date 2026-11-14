@@ -137,8 +137,9 @@ namespace Rasa.Services.Preloader.Missions.Ashen
             mission.Scenario(LedgeCounted, "The ledge's fighters killed", (uint)LedgeFighters.Length);
             mission.Scenario(SwitchUsed, "The Cell Door Control used", 1);
             mission.Scenario(SwitchReady, "The Cell Door Control usable (7 done)", 0);
-            mission.Scenario(PitSaved, "Humphries saved: the ledge's NPCs and switch go, the fighters still standing fall (3 done)", 0);
-            mission.Scenario(CellsOpen, "The cells open: Humphries goes, the fighters still standing fall (4 done)", 0);
+            // The names fit MySQL's varchar(64) (fix W renames the rows of a database that ran this with the longer ones).
+            mission.Scenario(PitSaved, "Humphries saved: ledge NPCs, switch go, the rest fall (3 done)", 0);
+            mission.Scenario(CellsOpen, "The cells open: Humphries goes, the rest fall (4 done)", 0);
 
             mission.Objective(ToTheArena, 14300, 14301, 0, MissionObjectiveState.Incomplete);
             mission.Objective(Master, 14302, 14303, 1, MissionObjectiveState.Incomplete);                               // hidden
