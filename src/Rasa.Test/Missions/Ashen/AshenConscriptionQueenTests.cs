@@ -1061,8 +1061,8 @@ namespace Rasa.Test.Missions.Ashen
             for (var objective = Queen.KillTheEnslaver; objective <= Queen.ToJawan; objective++)
                 Assert.AreEqual(MissionObjectiveState.Inactive, Objective(harness, Queen.MissionId, objective), $"{objective} waits");
             var device = SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole);
-            Assert.AreEqual((Queen.DeviceClass, (UseObjectState)Queen.DeviceOn, false, Queen.DeviceName, ToVector(Queen.DeviceAt)),
-                ((uint)device.EntityClassId, device.StateId, device.IsEnabled, device.NameOverrideId, device.Position), "the Life Support System, on, not usable");
+            Assert.AreEqual((Queen.DeviceClass, (UseObjectState)AshenFixVV1.DeviceIdle, false, Queen.DeviceName, ToVector(Queen.DeviceAt)),
+                ((uint)device.EntityClassId, device.StateId, device.IsEnabled, device.NameOverrideId, device.Position), "the Life Support System, idle (fix V), not usable");
             Assert.AreEqual(Queen.EggClass, (uint)SceneObject(harness, copy, Queen.MissionId, Queen.EggRole).EntityClassId, "the egg");
             var queen = SceneObject(harness, copy, Queen.MissionId, Queen.QueenRole);
             Assert.IsEmpty(ObjectTopics(harness, harness.Client, queen), "the queen talks nothing before 3");
@@ -1070,21 +1070,22 @@ namespace Rasa.Test.Missions.Ashen
             ToTheQueen(harness, copy);
             Use(harness, copy, SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole), Queen.UseArgument);
             Tick(harness, copy, 250);
-            Assert.AreEqual((MissionObjectiveState.Inactive, (UseObjectState)Queen.DeviceOn),
-                (Objective(harness, Queen.MissionId, Queen.EndTheSuffering), SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole).StateId), "a use before it is usable: refused, 4 waits, the device on");
+            Assert.AreEqual((MissionObjectiveState.Inactive, (UseObjectState)AshenFixVV1.DeviceIdle),
+                (Objective(harness, Queen.MissionId, Queen.EndTheSuffering), SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole).StateId), "a use before it is usable: refused, 4 waits, the device idle");
             queen = SceneObject(harness, copy, Queen.MissionId, Queen.QueenRole);
             CollectionAssert.AreEqual(new[] { (Queen.MissionId, Queen.TalkToTheQueen) }, ObjectTopics(harness, harness.Client, queen), "the queen hears 3");
             TalkToObject(harness, harness.Client, queen, Queen.MissionId, Queen.TalkToTheQueen);
             Tick(harness, copy, 250);
-            Assert.AreEqual((MissionObjectiveState.Incomplete, true),
-                (Objective(harness, Queen.MissionId, Queen.EndTheSuffering), SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole).IsEnabled), "4 open, the device usable");
+            device = SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole);
+            Assert.AreEqual((MissionObjectiveState.Incomplete, true, (UseObjectState)AshenFixVV1.DeviceActive),
+                (Objective(harness, Queen.MissionId, Queen.EndTheSuffering), device.IsEnabled, device.StateId), "4 open, the device usable, active (fix V)");
             Use(harness, copy, SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole), Queen.UseArgument);
             Tick(harness, copy, 250);
             ReloadAndRecover(harness, copy);
             device = SceneObject(harness, copy, Queen.MissionId, Queen.DeviceRole);
-            Assert.AreEqual((MissionObjectiveState.Completed, MissionObjectiveState.Incomplete, (UseObjectState)Queen.DeviceOff, false),
+            Assert.AreEqual((MissionObjectiveState.Completed, MissionObjectiveState.Incomplete, (UseObjectState)AshenFixVV1.DeviceEnd, false),
                 (Objective(harness, Queen.MissionId, Queen.EndTheSuffering), Objective(harness, Queen.MissionId, Queen.SecureTheEgg), device.StateId, device.IsEnabled),
-                "4 done, 5 open, the device off; also after a reload");
+                "4 done, 5 open, the device at its chain's end (fix V); also after a reload");
             Assert.IsNull(FindSceneObject(harness, copy, Queen.MissionId, Queen.QueenRole), "the queen at rest: her talk object gone");
             var egg = SceneObject(harness, copy, Queen.MissionId, Queen.EggTalkRole);
             CollectionAssert.AreEqual(new[] { (Queen.MissionId, Queen.SecureTheEgg) }, ObjectTopics(harness, harness.Client, egg), "the egg hears 5");
