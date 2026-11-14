@@ -236,8 +236,7 @@ knee-high rise at (21.6, -437.0) (e.g. by (18.5, -429.6) and (32.8, -438.1)).
   at Emmons: 190000 XP, 8400 credits, one of Bio Helmet 19673, Hazmat Gloves 20504, Reflective Gloves 37985, Motor Assist
   Boots 45843. Look: the copies over the public turrets (no doubled turret for the player; others see the public ones);
   do the waves reach and hurt the turrets on their platforms (navmesh islands); do the turrets shoot the waves; the client
-  crash at a turret kill (C23: kill_swap_delay is live on the server, not on this branch); a lost turret's public one comes
-  back for the player at once.
+  crash at a turret kill (upstream bug C23); a lost turret's public one comes back for the player at once.
 
 Set 10, Ida Hayner's orders (migration `20271110001000_Ashen_designer_hides`). New world rows 790360-790377: four bosses
 (Sally, Molly, Trudy, Wendy, level 44, 4900 HP, one each, 50 s respawn) and three hide creatures (Lasher 790362, Beam
@@ -468,7 +467,7 @@ in the low trench on the way in and a Ravager 531009 in pool 790566 on the Watch
 (pool respawn 120 s, never reached: in the squad's copy a cleared pool comes back 45 minutes after its last death,
 SquadInstanceConfig.RespawnMinutes; Kuutk, a public-spawn actor of 1395's scene, comes back on his own 300 s). Next free id 790567. Every walk
 below is the client's floor, checked both ways with the client's slope limit (AshenIndraFacilityTests); the server's
-navmesh of the caverns is islands (upstream, N-row in NOTES-upstream-bugs), so the walk tests use the client floor only.
+navmesh of the caverns is islands (an upstream navmesh defect), so the walk tests use the client floor only.
 
 - [ ] 1559 Indra Caverns (Ligo Ashen Desert): Surveyor Odesha (Indra Pass) offers it after Missing Scientists (1280), level
   42. The door's island has no walk-in (N23, N26; to-fix row 33): fix H's lift pad (local teleporter 913, marker 1559.1 r4)
@@ -1184,9 +1183,9 @@ Deviations (set 20):
 - 1499: the key room Humphries names (14308) and Lukaz' three men (14313) are not built; the prisoners and Humphries can not
   die (the client has no fail text for them; the other side "dies" by being shut out). 1499 and 1501 are offered by radio
   (Headquarters) and 1499 turned in by radio (TaRapedia: Headquarters).
-- 1501: the egg can not be attacked or lost (M3: scene creatures can not attack an object; NOTES-missing-mechanics.md "protect an
-  object"); the queen's body is the client map's (her talk object is the client's invisible one), the Life Support System turns
-  off, nothing dies. No egg item (the client has none): the egg's talk is an objective only.
+- 1501: the egg can not be attacked or lost (M3: scene creatures can not attack an object, and the server has no "protect an
+  object" mechanic); the queen's body is the client map's (her talk object is the client's invisible one), the Life Support
+  System turns off, nothing dies. No egg item (the client has none): the egg's talk is an objective only.
 - Thunderhead is not built: Jawan stands there for 1501 only.
 
 Tester notes (set 20):
@@ -1265,7 +1264,7 @@ All ESTIMATE (set 20):
   Soldier / Ravager on Ashen Desert.
 
 - 1278: no fail when the player leaves Stonewall Ridge (the client's body of 2): the server has no area-leave event
-  (triage M2, D17; NOTES-missing-mechanics "Fail on leaving an area").
+  (triage M2, D17).
 - 1278: the client's "Towers Lost" counter (10295) is not shown: a counter rule can only complete its objective
   (MissionRuntime.Evaluate), so the losses are counted on a hidden server-only objective 7 whose completion (the fourth)
   fails 2.
