@@ -93,8 +93,8 @@ namespace Rasa.Test.Missions.Ashen
             yield return (Lockdown.MissionId, Lockdown.Rendezvous, N.PeacockAt.X, N.PeacockAt.Z, Lockdown.NpcMarkerRadius);
             yield return (Raid.MissionId, Raid.BombTheField, Raid.ChargeAt.X, Raid.ChargeAt.Z, Raid.FieldMarkerRadius);
             yield return (Raid.MissionId, Raid.HackTheTerminal, AshenFixSV1.TerminalAt.X, AshenFixSV1.TerminalAt.Z, Raid.ObjectMarkerRadius);
-            yield return (Blast.MissionId, Blast.BioMaterials, Blast.BioPoolAt.X, Blast.BioPoolAt.Z, Blast.BioPoolRadius + Blast.PoolMarkerPadding);
-            yield return (Blast.MissionId, Blast.MechanicalParts, Blast.PartsPoolAt.X, Blast.PartsPoolAt.Z, Blast.PartsPoolRadius + Blast.PoolMarkerPadding);
+            yield return (Blast.MissionId, Blast.BioMaterials, Blast.BioPoolAt.X, Blast.BioPoolAt.Z, AshenFixTV1.BioRadius + Blast.PoolMarkerPadding);
+            yield return (Blast.MissionId, Blast.MechanicalParts, Blast.PartsPoolAt.X, Blast.PartsPoolAt.Z, AshenFixTV1.PartsRadius + Blast.PoolMarkerPadding);
             yield return (Blast.MissionId, Blast.Teleporter, AshenFixS2V1.TeleporterAt.X, AshenFixS2V1.TeleporterAt.Z, Blast.ObjectMarkerRadius);
             yield return (Blast.MissionId, Blast.GiveToSlocombe, AshenFixS2V1.SlocombeAt.X, AshenFixS2V1.SlocombeAt.Z, Blast.NpcMarkerRadius);
             yield return (Blast.MissionId, Blast.DestroyTheLab, (float)AshenFixMV1.LabChargeAt.X, (float)AshenFixMV1.LabChargeAt.Z, Blast.ObjectMarkerRadius);
