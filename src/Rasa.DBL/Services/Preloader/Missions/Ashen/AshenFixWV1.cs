@@ -39,7 +39,7 @@ namespace Rasa.Services.Preloader.Missions.Ashen
         public const uint Queen = AshenConscriptionQueenNpcsV1.Queen;       // 790664
         public const uint Xahn = AshenConscriptionQueenNpcsV1.Xahn;         // 790666
 
-        /// <summary>The new creature_action rows (the Ashen block; 790243-790245 free in creature_action, 2026-11-14).</summary>
+        /// <summary>The new creature_action rows, each insert guarded (CrucibleSql.Guard) so a second Up adds nothing (the Ashen block; 790243-790245 free in creature_action, 2026-11-14).</summary>
         public const uint WendySpit = 790243, QueenClaw = 790244, XahnWeapon = 790245;
 
         /// <summary>Wendy's actions 1-8, before and after.</summary>
@@ -75,8 +75,8 @@ namespace Rasa.Services.Preloader.Missions.Ashen
         public static IEnumerable<string> ActionSql()
         {
             foreach (var row in Actions)
-                yield return Action(row.Id, row.Description, row.Action, row.Arg, row.Min, row.Max, row.Cooldown, row.Windup,
-                    row.DamageMin, row.DamageMax, row.Type);
+                yield return Crucible.CrucibleSql.Guard(Action(row.Id, row.Description, row.Action, row.Arg, row.Min, row.Max,
+                    row.Cooldown, row.Windup, row.DamageMin, row.DamageMax, row.Type));
         }
 
         /// <summary>The guarded UPDATEs of Up: each runs again without a change.</summary>
