@@ -187,6 +187,57 @@ namespace Rasa.Test.Missions.Ashen
         }
 
         /// <summary>
+        /// The lone steep sample rule (SteepBand): on a made-up floor (flat, a 57 degree band climbed along x, flat again) the
+        /// steep stretch round one sample in a 0.8 m band is over SteepBand (a band SteepRun alone let pass, one sample in it), and
+        /// round one in a 0.3 m band (a seam's sliver) is not. The seams themselves count as their flat side (FloorNormal). A steep
+        /// skin SteepLip or less over a climbable floor is a lip (0 m), one higher a band.
+        /// </summary>
+        [TestMethod]
+        public void LoneSteepSampleIsASeamOnlyWhenItsStretchIsShort()
+        {
+            var rise = MathF.Tan(57 * MathF.PI / 180);
+            static void Quad(List<(Vector3 A, Vector3 B, Vector3 C)> list, float x0, float y0, float x1, float y1)
+            {
+                Vector3 a = new(x0, y0, -5), b = new(x1, y1, -5), c = new(x1, y1, 5), d = new(x0, y0, 5);
+                list.Add((a, b, c));
+                list.Add((a, c, d));
+            }
+            (float Length, Vector3 From, Vector3 To) Stretch(float band)
+            {
+                var floor = new List<(Vector3 A, Vector3 B, Vector3 C)>();
+                Quad(floor, -5, 0, 0, 0);
+                Quad(floor, 0, 0, band, band * rise);
+                Quad(floor, band, band * rise, 5, band * rise);
+                var here = new Vector3(band / 2, band / 2 * rise, 0);
+                Assert.IsLessThan(MinClimbNormal, FloorNormal(floor, here) ?? 1, $"{band} m band: the sample is steep");
+                return SteepStretch(floor, new Vector3(band / 2 - Spacing, 0, 0), here, new Vector3(band / 2 + Spacing, band * rise, 0));
+            }
+
+            var wide = Stretch(0.8f);
+            Assert.IsGreaterThan(SteepBand, wide.Length, $"0.8 m band: {wide}");
+            Assert.IsGreaterThan(0.65f, wide.Length, $"0.8 m band measured: {wide}");
+            var seam = Stretch(0.3f);
+            Assert.IsLessThanOrEqualTo(SteepBand, seam.Length, $"0.3 m band: {seam}");
+            Assert.IsGreaterThan(0.15f, seam.Length, $"0.3 m band measured: {seam}");
+
+            // A lip (SteepLip): a 57 degree skin walked along its contour (z) 1 m, over a level floor. 0.1 m over it the player
+            // stands on the floor under it; 0.4 m over it the skin is a band.
+            (float Length, Vector3 From, Vector3 To) Skin(float over)
+            {
+                var floor = new List<(Vector3 A, Vector3 B, Vector3 C)>();
+                Quad(floor, -5, 0, 5, 0);
+                Quad(floor, -0.1f, over - 0.1f * rise, 0.1f, over + 0.1f * rise);
+                var here = new Vector3(0, over, 0);
+                Assert.IsLessThan(MinClimbNormal, FloorNormal(floor, here) ?? 1, $"skin {over} m over the floor: the sample is steep");
+                return SteepStretch(floor, new Vector3(0, over, -Spacing), here, new Vector3(0, over, Spacing));
+            }
+            var lip = Skin(0.1f);
+            Assert.AreEqual(0f, lip.Length, $"skin 0.1 m over the floor: a lip, {lip}");
+            var high = Skin(0.4f);
+            Assert.IsGreaterThan(SteepBand, high.Length, $"skin 0.4 m over the floor: a band, {high}");
+        }
+
+        /// <summary>
         /// Ashen_fix_b rolls back: Down puts set 2's pool spot and marker back and takes out its evidence row; no other Ashen pool
         /// moves; Up again, the fix is back.
         /// </summary>
@@ -308,11 +359,18 @@ namespace Rasa.Test.Missions.Ashen
                     return FormattableString.Invariant($"climbs {refused} at ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0}): the real client does not climb it");
                 // The client's slope limit (fix G): a floor steeper than MaxClimbAngle is climbed nowhere, also not across its
                 // fall line; only a walk that goes down on it (it slides) passes. One steep sample alone (one triangle of the 1 m
-                // terrain grid) is let pass; a second within SteepRun of it is a slope the player slides off.
+                // terrain grid) is let pass; a second within SteepRun of it is a slope the player slides off. The lone sample
+                // passes only as a sampling artefact (a seam, a sliver or a triangle's corner, or a lip over a climbable floor:
+                // SteepLip): the steep floor round it, probed every SteepProbe along the line back to the sample before and on to
+                // the next, is no longer than SteepBand. A longer stretch is a steep band the samples straddle (0.5-1 m holds one
+                // sample only).
                 if (floors.Count > 0 && here.Y - floors[^1].Y > -SlideDrop && FloorNormal(Floor(i), here) is { } normal && normal < MinClimbNormal)
                 {
                     if (steep is { } last && Vector2.Distance(new(last.X, last.Z), new(here.X, here.Z)) <= SteepRun)
                         return FormattableString.Invariant($"too steep to climb at ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0}): the floor is {MathF.Acos(normal) * 180 / MathF.PI:0} degrees, over the client's {MaxClimbAngle}, from ({last.X:0.0}, {last.Z:0.0})");
+                    var (band, bandFrom, bandTo) = SteepStretch(Floor(i), floors[^1], here, i + 1 < points.Count ? points[i + 1] : here);
+                    if (band > SteepBand)
+                        return FormattableString.Invariant($"too steep to climb at ({here.X:0.0}, {here.Y:0.00}, {here.Z:0.0}): the floor is {MathF.Acos(normal) * 180 / MathF.PI:0} degrees, over the client's {MaxClimbAngle}, for {band:0.00} m from ({bandFrom.X:0.0}, {bandFrom.Y:0.00}, {bandFrom.Z:0.0}) to ({bandTo.X:0.0}, {bandTo.Y:0.00}, {bandTo.Z:0.0}) (over {SteepBand} m: a band, not a seam)");
                     steep = here;
                 }
                 // rampFoot (fix J, row 44): a step of more than TerrainEdge off the terrain onto a placed mesh is a sill the client
@@ -367,6 +425,72 @@ namespace Rasa.Test.Missions.Ashen
 
         /// <summary>Two climbing samples on a floor steeper than MaxClimbAngle this close (2D) fail a walk; one alone passes (ESTIMATE: the client steps over one steep triangle of the 1 m terrain grid).</summary>
         internal const float SteepRun = 1.001f;
+
+        /// <summary>
+        /// The longest steep stretch (2D, along the line) round a lone steep sample that still passes as a sampling artefact: the
+        /// sample spacing. A longer one is a band the 0.5 m samples straddle with one sample (a 0.5-1 m band slipped through
+        /// SteepRun alone). ESTIMATE: no real-client stop calibrates it; it closes the gap between the samples.
+        /// </summary>
+        internal const float SteepBand = Spacing;
+
+        /// <summary>The probe step of SteepStretch along the line.</summary>
+        internal const float SteepProbe = 0.05f;
+
+        /// <summary>
+        /// A steep skin no higher than this over a climbable floor (normal's y at least MinClimbNormal) right under it is a lip,
+        /// not a slope: the player stands on the floor under it and steps over it (it is under Knee, the lowest line the walk
+        /// checks for obstacles). Measured (2026-11-14): Indra Caverns' "Diren to the Watch Post" leg at (-39.4, -358.1) to
+        /// (-39.2, -357.6) runs 0.6 m along a 60 degree rock mesh face 0.06-0.13 m over 7 degree terrain. ESTIMATE: 0.25 m.
+        /// </summary>
+        internal const float SteepLip = 0.25f;
+
+        /// <summary>Whether a climbable floor (normal's y at least MinClimbNormal) lies under <paramref name="at"/> by at most SteepLip.</summary>
+        internal static bool OverClimbableFloor(List<(Vector3 A, Vector3 B, Vector3 C)> triangles, Vector3 at)
+        {
+            var from = at with { Y = at.Y - 0.01f };
+            foreach (var (a, b, c) in triangles)
+            {
+                var n = Vector3.Cross(b - a, c - a);
+                if (n.LengthSquared() < 1e-12f || MathF.Abs(Vector3.Normalize(n).Y) < MinClimbNormal)
+                    continue;
+                if (F.Hit(from, -Vector3.UnitY, a, b, c) is { } down && down <= SteepLip - 0.01f)
+                    return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// The steep floor (normal's y under MinClimbNormal) round <paramref name="here"/>, a steep sample: probed every SteepProbe
+        /// along the line back to <paramref name="before"/> (the sample before, its floor) and on to <paramref name="next"/> (the
+        /// next sample's point), each probe's floor found from the one beside it as the walk does (2.5 m down, MaxClientStep up).
+        /// A lip (OverClimbableFloor) is not steep. Returns the stretch's 2D length between its outermost steep probes, and those
+        /// probes (0 when <paramref name="here"/> is a lip).
+        /// </summary>
+        internal static (float Length, Vector3 From, Vector3 To) SteepStretch(List<(Vector3 A, Vector3 B, Vector3 C)> triangles, Vector3 before, Vector3 here, Vector3 next)
+        {
+            Vector3 Reach(Vector3 toward)
+            {
+                var end = here;
+                var length = Vector2.Distance(new(here.X, here.Z), new(toward.X, toward.Z));
+                var y = here.Y;
+                for (var along = SteepProbe; along <= length + 0.001f; along += SteepProbe)
+                {
+                    var probe = Vector3.Lerp(here, toward, MathF.Min(along / length, 1));
+                    if (F.FloorAt(triangles, probe with { Y = y }, y - 2.5f, y + MaxClientStep) is not { } floor)
+                        break;
+                    probe.Y = y = floor;
+                    if (FloorNormal(triangles, probe) is not { } normal || normal >= MinClimbNormal || OverClimbableFloor(triangles, probe))
+                        break;
+                    end = probe;
+                }
+                return end;
+            }
+            if (OverClimbableFloor(triangles, here))
+                return (0, here, here);
+            var from = Reach(before);
+            var to = Reach(next);
+            return (Vector2.Distance(new(from.X, from.Z), new(to.X, to.Z)), from, to);
+        }
 
         /// <summary>How far the floor must drop from one sample to the next for a walk to go down a steep floor (it slides).</summary>
         internal const float SlideDrop = 0.1f;

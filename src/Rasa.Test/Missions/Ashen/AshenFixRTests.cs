@@ -85,8 +85,8 @@ namespace Rasa.Test.Missions.Ashen
 
         /// <summary>
         /// The navmesh and the client floor: set 18's west ledge is a navmesh island (not joined to the bottom), its way up from
-        /// the chamber's floor climbs over MaxClimb (the real client's stop) and fails the 55-degree rule with its start moved;
-        /// fix R's place is on the bottom's navmesh region, and its walk there and back climbs under MaxClimb at every start shift.
+        /// the chamber's floor climbs over MaxClimb (the real client's stop) and fails the 55-degree rule (unshifted by the lone
+        /// sample rule, SteepBand; with its start moved by two steep samples); fix R's place is on the bottom's navmesh region, and its walk there and back climbs under MaxClimb at every start shift.
         /// </summary>
         [TestMethod]
         public void TheNewPlaceIsReachedAndTheOldOneWasNot()
@@ -105,7 +105,9 @@ namespace Rasa.Test.Missions.Ashen
             Assert.IsTrue(nav.Connected(bottom, V(R.BaneAt)) ?? false, "fix R's place: the bottom's region");
 
             var old = new List<Vector3>();
-            Assert.IsNull(B.ClientFloorLine(geometry, SlopeUp, SlopeUp[^1], null, 0.5f, old, rampFoot: true), "set 18's slope passed the 55-degree rule unshifted");
+            // Unshifted, set 18's slope has one steep sample only (it passed the 55-degree rule before SteepBand); the steep floor
+            // round it is a 0.9 m band (AshenFixBTests.SteepStretch), which the lone sample rule now refuses.
+            StringAssert.Contains(B.ClientFloorLine(geometry, SlopeUp, SlopeUp[^1], null, 0.5f, old, rampFoot: true) ?? "", "a band, not a seam", "set 18's slope unshifted: a steep band round its one steep sample");
             Assert.IsGreaterThan(MaxClimb, SteepestClimb(old), "set 18's slope climbs over MaxClimb");
             var shifted = SlopeUp.ToList();
             shifted[0] = Vector3.Lerp(SlopeUp[0], SlopeUp[1], 0.13f / Vector2.Distance(new(SlopeUp[0].X, SlopeUp[0].Z), new(SlopeUp[1].X, SlopeUp[1].Z)));
