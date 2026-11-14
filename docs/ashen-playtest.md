@@ -1140,8 +1140,8 @@ the set's objects, each leg also with its start moved 0.13, 0.27 and 0.4 m.
 - [ ] 1501 Save the Queen (Ligo Ashen Desert): offered by radio after 1499 (also on arrival), level 44. 1: take the hall's pad
   927 to the deck before Information Extraction (pad 928) and walk north into it (marker r35; walk round the platform's hole at (5-8,
   149-153)). 2: kill Enslaver Xahn (marker r10). 3: talk to the Atta queen (your own invisible talk object at (6.5, 78.11,
-  159.5)). 4: use your own Life Support System (class 26423, named "Life Support System", 153) at (6.5, 78.11, 162.5): it goes
-  off, the queen is at rest. 5: talk at the egg (11.5, 78.11, 155): the egg goes with you. 6: talk to Captain Yamamoto
+  159.5)). 4: use your own Life Support System console (class 7468, named "Life Support System", 153) at (8.5, 78.11, 160.5): the
+  hanging device (class 26423) goes off, the queen is at rest. 5: talk at the egg (11.5, 78.11, 155): the egg goes with you. 6: talk to Captain Yamamoto
   (Boneyard Outpost, Ashen Desert). 7: talk to Commander Jawan at Thunderhead Base (map 1911; marker on him). Turn in at Jawan:
   200000 XP, 12000 credits, one of Weapon Module: Debuff Ice Resist [4] 123181, Weapon Module: Steal Power [4] 123276, Armor
   Module: Resist Virulent [4] 123071, Armor Module: Power Regen Bonus [4] 123006.
